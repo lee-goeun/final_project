@@ -1,0 +1,389 @@
+/* 로그인 */
+
+.login-container-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.login-container-wrapper img {
+  width: 130px;
+  margin: 0 auto 15px auto;
+}
+
+.login-container {
+  width: fit-content;
+  height: fit-content;
+  padding: 20px;
+  margin: 0 auto;
+  border: 1px solid var(--bordercolor-default);
+  background-color: var(--bgcolor-default);
+  box-shadow: 3px 3px 10px #c4c4c4;
+}
+.login-form {
+  width: 400px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.lf3 {
+  padding: 15px 0 0 0;
+}
+.login-form > div > label {
+  text-align: left;
+  width: 350px;
+  display: block;
+  margin: 0 auto 5px auto;
+  padding-left: 5px;
+}
+#id-input,
+#pw-input {
+  width: 350px;
+  height: 40px;
+  text-align: left;
+  padding: 0 10px;
+  transition: 0.3s;
+  border: 1px solid var(--bordercolor-default);
+}
+#id-input:focus,
+#pw-input:focus {
+  outline: none;
+  border: 1px solid var(--accent-default);
+}
+
+.login-btn {
+  width: 350px;
+  padding: 5px 0;
+  font-size: 20px;
+  background-color: var(--accent-default);
+  border: none;
+  box-shadow: 0 1px 5px var(--accent-dark);
+  color: #ffffff;
+  transition: 0.3s;
+}
+.login-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 5px var(--accent-dark);
+}
+.join-find-container {
+  width: 440px;
+  height: 80px;
+  margin: 20px auto 0 auto;
+  border: 1px solid var(--bordercolor-default);
+  background-color: var(--bgcolor-default);
+  box-shadow: 3px 3px 10px var(--shadow-default);
+}
+.join-find-container p {
+  margin: 11px 0 0 0;
+}
+.join-find-container .go-join {
+  margin-left: 10px;
+  color: var(--accent-default) !important;
+}
+.join-find-container p:nth-child(2),
+.join-find-container p:last-child {
+  cursor: pointer;
+}
+.join-find-container p:first-child,
+.join-find-container p:nth-child(2) {
+  display: inline-block;
+}
+.join-find-container p:first-child,
+.join-find-container P:last-child {
+  color: var(--font-dark);
+  font-size: 14px;
+}
+
+/* 아이디 / 비번 찾기 모달창 */
+.find-id-modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  z-index: 99;
+  text-align: center;
+}
+.find-id-modal-container {
+  display: flex;
+  width: fit-content;
+  height: fit-content;
+  padding: 20px 40px 120px 40px;
+  background-color: var(--bgcolor-default);
+  box-shadow: 3px 3px 10px var(--shadow-default);
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.find-id-modal-container p {
+  margin: 20px 0 10px 0;
+}
+.find-id,
+.find-pw {
+  width: fit-content;
+  height: fit-content;
+  padding: 20px 20px;
+  margin: 0 20px;
+  background-color: var(--bgcolor-dark);
+  box-shadow: 3px 3px 10px var(--shadow-default);
+}
+.find-id > input,
+.find-pw > input {
+  display: block;
+  width: 200px;
+  height: 40px;
+  margin-bottom: 10px;
+  text-align: left;
+  padding: 0 10px;
+  transition: 0.3s;
+  border: 1px solid var(--bordercolor-default);
+  transition: 0.3s;
+}
+.find-id > input:focus,
+.find-pw > input:focus {
+  border: 1px solid var(--accent-default);
+}
+.off-modal-btn {
+  position: relative;
+  top: 320px;
+  display: block;
+  width: 150px;
+  height: 40px;
+  font-size: 20px;
+  margin: 40px auto 20px auto;
+  background-color: var(--accent-default);
+  color: white;
+  border: none;
+}
+.find-id > small,
+.find-pw > small {
+  cursor: pointer;
+  transition: 0.3s;
+}
+.find-id > small:hover,
+.find-pw > small:hover {
+  color: var(--accent-default);
+}
+
+/* 회원가입 */
+.join-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: fit-content;
+  padding: 40px 20px;
+  background-color: var(--bgcolor-default);
+  border: 1px solid var(--bordercolor-default);
+  box-shadow: 3px 3px 10px var(--shadow-default);
+  text-align: center;
+}
+.join-container > p {
+  width: 400px;
+  margin: 0 auto 5px auto;
+  text-align: left;
+  padding-left: 5px;
+}
+.join-container > label {
+  margin: 0 40px 0 5px;
+}
+.id-input {
+  width: 305px;
+  height: 40px;
+  margin-bottom: 5px;
+  padding: 0 10px;
+  transition: 0.3s;
+}
+.duplicate-check {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  height: 40px;
+  background-color: white;
+  border: 1px solid var(--accent-default);
+  color: var(--accent-default);
+  padding: 0 10px;
+  margin-left: 20px;
+  transition: 0.3s;
+}
+.duplicate-check:hover {
+  background-color: var(--accent-default);
+  color: white;
+}
+
+.pw-input,
+.pw-re-input {
+  width: 400px;
+  height: 40px;
+  margin-bottom: 5px;
+  padding: 0 10px;
+  transition: 0.3s;
+}
+
+.name-input,
+.nick-input,
+.phone-input,
+.adr-input {
+  width: 400px;
+  height: 40px;
+  margin-bottom: 10px;
+  padding: 0 10px;
+  transition: 0.3s;
+}
+.id-input:focus,
+.pw-input:focus,
+.pw-re-input:focus,
+.name-input:focus,
+.nick-input:focus,
+.phone-input:focus,
+.adr-input:focus {
+  border: 1px solid var(--accent-default);
+}
+
+.ages-select {
+  width: 400px;
+  height: 40px;
+  padding: 0 10px;
+  margin-bottom: 10px;
+  transition: 0.3s;
+}
+.ages-select:focus {
+  outline: none;
+  border: 1px solid var(--accent-default);
+}
+
+.back-btn {
+  width: 180px;
+  height: 40px;
+  background-color: var(--accent-default);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 1px 5px var(--accent-dark);
+  font-size: 20px;
+  transition: 0.3s;
+  margin: 40px 20px 0 0;
+}
+.join-btn {
+  width: 180px;
+  height: 40px;
+  background-color: var(--accent-default);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 1px 5px var(--accent-dark);
+  font-size: 20px;
+  transition: 0.3s;
+  margin: 40px 0 0 20px;
+}
+.join-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 5px var(--accent-dark);
+}
+.show-terms-of-use {
+  width: 400px;
+  height: fit-content;
+  margin: 10px auto 5px auto;
+  display: flex;
+  justify-content: space-between;
+}
+.show-terms-of-use p:last-child {
+  cursor: pointer;
+  display: inline-block;
+  border: 1px solid var(--accent-default);
+  color: var(--accent-default);
+  background-color: white;
+  padding: 0 5px;
+  transition: 0.3s;
+  margin-bottom: 5px;
+}
+.show-terms-of-use p:hover {
+  color: white;
+  background-color: var(--accent-default);
+}
+.show-terms-of-use > div > label {
+  margin-left: 5px;
+}
+
+.terms-of-use-01,
+.terms-of-use-02 {
+  width: 400px;
+  margin: 5px auto;
+  font-size: 14px;
+  text-align: left;
+}
+.terms-of-use-01 > label,
+.terms-of-use-02 > label {
+  margin: 0 5px;
+}
+
+/* 이용약관 모달창 */
+.tou-modal-wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  text-align: center;
+}
+.tou-modal-container {
+  width: 600px;
+  height: fit-content;
+  padding: 40px 20px 20px 20px;
+  background-color: var(--bgcolor-default);
+  border: 1px solid var(--bordercolor-default);
+  box-shadow: 3px 3px 10px var(--shadow-default);
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: 0.3s;
+}
+.tou-modal-container h3 {
+  margin-bottom: 5px;
+  text-align: left;
+  padding-left: 70px;
+}
+.tou-modal-container h3:nth-of-type(2) {
+  margin-top: 30px;
+}
+.tou-modal-container textarea {
+  resize: none;
+  width: 450px;
+  height: 300px;
+  background-color: white;
+  padding: 10px;
+}
+.tou-modal-container textarea:focus {
+  outline: none;
+  border: 1px solid var(--accent-default);
+}
+.tou-modal-container button {
+  width: 150px;
+  height: 40px;
+  font-size: 20px;
+  margin: 40px auto 20px auto;
+  background-color: var(--accent-default);
+  color: white;
+  border: none;
+}
+.show {
+  font-size: 12px;
+}
+
+/* 정규표현식 에러문 */
+.idRegError,
+.pwRegError,
+.pwReCheckRegError {
+  font-size: 12px;
+  color: var(--font-dark);
+  padding-bottom: 10px;
+}
