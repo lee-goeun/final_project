@@ -5,6 +5,7 @@ import Profile from './pages/Profile';
 import Mypost from './pages/MyPost';
 import Login from './components/authentication/Login';
 import Join from './components/authentication/Join';
+import { PostContainer, MiniPostContainer } from './components/Post';
 
 function App() {
   return (
@@ -12,6 +13,17 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/join" element={<Join />} />
       <Route path="/" element={<Home />} />
+      <Route
+        path="/post/"
+        element={
+          <>
+            <PostContainer />
+            <MiniPostContainer />
+            <MiniPostContainer />
+            <MiniPostContainer />
+          </>
+        }
+      />
       <Route element={<MyPageLayout />}>
         <Route path="/mypost/" element={<Mypost />} />
         <Route path="/profile/" element={<Profile />} />

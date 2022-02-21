@@ -1,8 +1,8 @@
 import './Authentication.css';
 import Footer from '../Footer';
-// import LOGO08 from '../../../public/img/logo08.png';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Header from '../Header';
 
 const Login = () => {
   const clickLoginBtn = (e) => {
@@ -23,8 +23,9 @@ const Login = () => {
 
   return (
     <>
+      <Header />
       <div className="login-container-wrapper">
-        {/* <img src={LOGO08} alt="로고" /> */}
+        <img src={process.env.PUBLIC_URL + 'img/LogoVertical.png'} />
         <div className="login-container">
           <form className="login-form">
             <div className="lf1">
