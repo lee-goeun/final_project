@@ -5,10 +5,12 @@ import ProfileNav from './components/ProfileNav';
 
 const Layout = styled.div`
   display: flex;
+  align-items: flex-start;
+  justify-content: center;
 `;
 
-const Header = styled.div``;
-const Main = styled.div``;
+const Header = styled.header``;
+const Main = styled.main``;
 
 const MyPageLayout = () => {
   const [category, setCategory] = useState('all');
