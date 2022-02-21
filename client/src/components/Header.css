@@ -11,6 +11,15 @@
   display: flex;
   justify-content: space-between;
 }
+.header-logo-container {
+  width: 100px;
+  height: 50px;
+}
+.header-logo-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 
 #header-search-icon,
 #header-home-icon,

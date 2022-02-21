@@ -21,7 +21,9 @@ const Header = () => {
   return (
     <>
       <div className="header-container">
-        <div>PAP로고</div>
+        <div className="header-logo-container">
+          <img src={process.env.PUBLIC_URL + 'img/LogoHorizon.png'} />
+        </div>
 
         <div>
           {showSearchBar ? (
@@ -41,11 +43,13 @@ const Header = () => {
               title="홈으로"
             />
           </Link>
-          <FontAwesomeIcon
-            icon={faCameraRetro}
-            id="header-post-icon"
-            title="게시물"
-          />
+          <Link to="/post">
+            <FontAwesomeIcon
+              icon={faCameraRetro}
+              id="header-post-icon"
+              title="게시물"
+            />
+          </Link>
           <FontAwesomeIcon
             icon={faUserGroup}
             id="header-mathching-icon"

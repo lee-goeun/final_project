@@ -3,7 +3,6 @@ import Footer from '../Footer';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../Header';
-// import LogoVertical from 'img/LogoVertical.png';
 
 const Login = () => {
   const clickLoginBtn = (e) => {
@@ -26,7 +25,7 @@ const Login = () => {
     <>
       <Header />
       <div className="login-container-wrapper">
-        {/* <img src={LogoVertical} alt="로고" /> */}
+        <img src={process.env.PUBLIC_URL + 'img/LogoVertical.png'} />
         <div className="login-container">
           <form className="login-form">
             <div className="lf1">
