@@ -6,6 +6,7 @@ const FooterStyle = styled.div`
   height: 100px;
   width: 100%;
   background-color: #e6e6e6;
+  color: var(--font-dark);
   text-align: center;
   line-height: 100px;
 `;
