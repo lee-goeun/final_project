@@ -6,6 +6,7 @@ import ProfileNav from './components/ProfileNav';
 const Layout = styled.div`
   display: flex;
 `;
+
 const Header = styled.div``;
 const Main = styled.div``;
 
