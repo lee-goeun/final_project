@@ -173,10 +173,7 @@
 
 /* 회원가입 */
 .join-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: 100px auto;
   width: 600px;
   height: fit-content;
   padding: 40px 20px;
@@ -200,6 +197,7 @@
   margin-bottom: 5px;
   padding: 0 10px;
   transition: 0.3s;
+  border: 1px solid var(--bordercolor-default);
 }
 .duplicate-check {
   position: relative;
@@ -225,6 +223,7 @@
   margin-bottom: 5px;
   padding: 0 10px;
   transition: 0.3s;
+  border: 1px solid var(--bordercolor-default);
 }
 
 .name-input,
@@ -236,6 +235,7 @@
   margin-bottom: 10px;
   padding: 0 10px;
   transition: 0.3s;
+  border: 1px solid var(--bordercolor-default);
 }
 .id-input:focus,
 .pw-input:focus,
@@ -253,6 +253,7 @@
   padding: 0 10px;
   margin-bottom: 10px;
   transition: 0.3s;
+  border: 1px solid var(--bordercolor-default);
 }
 .ages-select:focus {
   outline: none;

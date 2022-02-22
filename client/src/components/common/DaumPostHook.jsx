@@ -1,3 +1,4 @@
+import { height } from '@mui/system';
 import React, { useRef } from 'react';
 import ReactDaumPost from 'react-daumpost-hook';
 
@@ -18,7 +19,7 @@ const DaumPostHook = ({
   return (
     <main>
       <input
-        placeholder="우편번호를 입력하세요"
+        placeholder="도로명 주소로 찾기"
         name="zonecode"
         type="text"
         onClick={postCode}
@@ -33,7 +34,7 @@ const DaumPostHook = ({
       ></input>
       <input
         type="text"
-        placeholder="상세주소를 입력하세요."
+        placeholder="상세주소를 입력하세요"
         name="detailAddress"
         value={detailAddress}
         onChange={handleAddressInput}

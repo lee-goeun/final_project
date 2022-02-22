@@ -95,7 +95,6 @@ const Login = () => {
           </button>
         </div>
       ) : null}
-      <Footer />
     </>
   );
 };

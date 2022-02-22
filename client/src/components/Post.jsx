@@ -16,6 +16,13 @@ import {
   faEye as borderEye,
 } from '@fortawesome/free-regular-svg-icons';
 
+import {
+  createStoreHook,
+  Provider,
+  useSelector,
+  useDispatch,
+} from 'react-redux';
+
 const PostContainer = () => {
   const [isFollow, setIsFollow] = useState(false);
 
@@ -59,7 +66,6 @@ const PostContainer = () => {
                   <p>삭제하기</p>
                 </div>
               )}
-              <FontAwesomeIcon icon={faX} id="modal-off-icon" title="창닫기" />
             </div>
             <div className="pr04">본문내용</div>
             <div className="pr05">
@@ -78,14 +84,17 @@ const PostContainer = () => {
             </div>
           </div>
         </div>
+        <FontAwesomeIcon icon={faX} id="modal-off-icon" title="창닫기" />
       </div>
     </>
   );
 };
 
 const MiniPostContainer = () => {
+  const [showPostDetail, setShowPostDetail] = useState(false);
   const clickPost = (e) => {
-    alert('클릭');
+    setShowPostDetail(true);
+    alert('포스트 자세히 보기');
   };
   return (
     <>
@@ -149,9 +158,6 @@ const PostBackground = () => {
           <span>좋아요 높은순</span>
         </div>
         <div className="post-list">
-          <MiniPostContainer />
-          <MiniPostContainer />
-          <MiniPostContainer />
           <MiniPostContainer />
           <MiniPostContainer />
           <MiniPostContainer />

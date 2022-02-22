@@ -1,9 +1,11 @@
 .post-wrapper {
   position: absolute;
+  left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(5px);
+  background-color: rgba(238, 238, 238, 0.1);
+  backdrop-filter: blur(1px);
   z-index: 99;
 }
 .post-container {
@@ -16,7 +18,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: 3px 3px 10px #c4c4c4;
+  box-shadow: 3px 3px 10px #ebebeb;
 }
 .pc-left {
   background-color: rgb(30, 30, 30);
@@ -81,10 +83,11 @@
 #modal-off-icon {
   position: relative;
   font-size: 40px;
-  bottom: 50px;
-  left: 60px;
+  bottom: 590px;
+  left: 630px;
   cursor: pointer;
   transition: 0.3s;
+  color: var(--font-dark);
 }
 #modal-off-icon:hover {
   color: red;
@@ -304,9 +307,10 @@
 }
 .post-filter {
   margin: 40px auto 0 auto;
-  width: 90%;
+  max-width: 1020px;
+  min-width: 90%;
   height: 30px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--font-light);
   color: var(--font-light);
 }
 .post-filter > span {

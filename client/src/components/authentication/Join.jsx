@@ -2,8 +2,45 @@ import { useEffect, useRef, useState } from 'react';
 import './Authentication.css';
 import Footer from '../Footer';
 import { Link } from 'react-router-dom';
+import DaumPostHook from '../common/DaumPostHook';
+import styled from 'styled-components';
 
 const Join = () => {
+  const [userInfo, setUserInfo] = useState({
+    address: '',
+    zonecode: '',
+    detailAddress: '',
+  });
+  const savingAddressInput = (input) => {
+    setUserInfo((prevProfile) => ({
+      ...prevProfile,
+      zonecode: input.zonecode,
+      address: input.address,
+      detailAddress: input.detailAddress,
+    }));
+  };
+
+  const DaumPostStyle = styled.div`
+    margin: 0 auto 10px auto;
+    width: 400px;
+    height: fit-content;
+    font-size: 100px;
+    input {
+      display: block;
+      border: 1px solid var(--bordercolor-default);
+      width: 100%;
+      height: 40px;
+      padding: 0 10px;
+      margin: 2px 0;
+      transition: 0.3s;
+    }
+    input:focus {
+      border: 1px solid var(--accent-default);
+    }
+  `;
+
+  const { zonecode, address, detailAddress } = userInfo;
+
   // 아이디, 비밀번호, 비밀번호 재입력 input의 value값 저장
   const [inputId, setInputId] = useState();
   const [inputPw, setInputPw] = useState();
@@ -169,12 +206,14 @@ const Join = () => {
         />
 
         <p>주소</p>
-        <input
-          className="adr-input"
-          type="text"
-          name="user_addr"
-          placeholder="도로명 주소 찾기"
-        />
+        <DaumPostStyle>
+          <DaumPostHook
+            savingAddressInput={savingAddressInput}
+            zonecode={zonecode}
+            address={address}
+            detailAddress={detailAddress}
+          />
+        </DaumPostStyle>
 
         <p>연령대</p>
         <select className="ages-select" name="user_age">
