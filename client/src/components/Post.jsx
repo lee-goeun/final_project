@@ -28,12 +28,46 @@ const PostContainer = () => {
 
   const [showPostMenu, setShowPostMenu] = useState(false);
 
+  const [isLike, setIsLike] = useState(false);
+
+  const commentInput = useRef();
+
+  // 좋아요 버튼(하트) 클릭시
+  const clickLike = (e) => {
+    setIsLike(!isLike);
+  };
+  const clickGoToCommnet = (e) => {
+    commentInput.current.focus();
+  };
+
   return (
     <>
       <div className="post-container">
         <div className="pc-left">
           <img src={process.env.PUBLIC_URL + 'img/cat.png'} />
-          <div className="heart">200 ♥</div>
+          <div className="heart">
+            <span className="like-count">200</span>
+            {isLike ? (
+              <FontAwesomeIcon
+                icon={faHeart}
+                id="big-heart-icon"
+                title="좋아요"
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={borderHeart}
+                id="big-border-heart-icon"
+                title="좋아요"
+              />
+            )}
+
+            <span className="views-count">1300</span>
+            <FontAwesomeIcon
+              icon={borderEye}
+              id="big-border-views-icon"
+              title="조회수"
+            />
+          </div>
         </div>
 
         <div className="pc-right">
@@ -68,13 +102,37 @@ const PostContainer = () => {
           </div>
           <div className="pr04">본문내용</div>
           <div className="pr05">
+            <p>
+              {isLike ? (
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  id="heart-btn"
+                  title="좋아요 취소"
+                  onClick={clickLike}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={borderHeart}
+                  id="border-heart-btn"
+                  title="좋아요"
+                  onClick={clickLike}
+                />
+              )}
+
+              <FontAwesomeIcon
+                icon={borderComment}
+                id="border-comment-btn"
+                title="댓글 남기기"
+                onClick={clickGoToCommnet}
+              />
+            </p>
             <p>2022/02/20 14:15</p>
           </div>
           <div className="pr06">
             <CommentContainer />
           </div>
           <div className="pr07">
-            <input type="text" placeholder="댓글 남기기" />
+            <input type="text" placeholder="댓글 남기기" ref={commentInput} />
             <button>ENTER</button>
           </div>
         </div>

@@ -27,7 +27,13 @@
   height: 100%;
   object-fit: contain;
 }
-
+.like-count,
+.views-count {
+  margin: 0 10px 0 20px;
+}
+#big-heart-icon {
+  color: red;
+}
 .pc-right {
   width: 400px;
   height: 800px;
@@ -99,8 +105,31 @@
   grid-area: pr05;
   line-height: 30px;
   text-align: right;
+  display: flex;
+  justify-content: space-between;
+}
+.pr05 > p:first-child {
+  padding-left: 10px;
+}
+#border-heart-btn,
+#border-comment-btn {
+  color: black;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 24px;
+  transition: 0.3s;
+}
+#border-comment-btn:hover {
+  color: #45e6f2;
+}
+#heart-btn {
+  color: red;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 24px;
 }
 .pr05 > p {
+  display: inline-block;
   margin-right: 10px;
   color: #727272;
 }

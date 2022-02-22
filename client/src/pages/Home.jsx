@@ -32,10 +32,22 @@ const MainPageFooterStyle = styled.div`
 
   @media screen and (max-width: 2250px) {
     .left-btn-div {
-      right: 15%;
+      right: 16%;
     }
     .right-btn-div {
-      left: 15%;
+      left: 16%;
+    }
+  }
+  @media screen and (max-width: 2000px) {
+    .left-btn-div {
+      width: 150px;
+      height: 150px;
+      bottom: 590px;
+    }
+    .right-btn-div {
+      width: 150px;
+      height: 150px;
+      bottom: 590px;
     }
   }
 `;
@@ -89,15 +101,25 @@ const MoveBtnStyle = styled.div`
   }
   .left-btn:hover > img,
   .right-btn:hover > img {
-    filter: brightness(90%);
+    filter: brightness(100%);
   }
   .left-btn > img,
   .right-btn > img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: brightness(50%);
+    filter: brightness(60%);
     transition: 0.3s;
+  }
+  @media screen and (max-width: 2000px) {
+    .left-btn {
+      width: 150px;
+      height: 150px;
+    }
+    .right-btn {
+      width: 150px;
+      height: 150px;
+    }
   }
 `;
 
