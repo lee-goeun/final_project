@@ -2,17 +2,20 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './Profile.module.css';
 import DaumPostHook from '../components/common/DaumPostHook';
 import Button from '../components/common/Button';
+import UserAvatar from '../components/common/UserAvatar';
+import ProfileModalButton from '../components/ProfileModalButton';
 
 const Profile = () => {
   //유저정보 추후 리덕스에서 관리해야할것 같음
-  const [profileInfo, setProfileInfo] = useState({
-    nickname: '댕댕댕',
+  const [userInfo, setUserInfo] = useState({
+    user_id: 'asmr5586',
+    user_nick: '댕댕댕',
     introduce: '강아지를 좋아하고 산책을 주 5회정도 해요 같이산책 하실분~',
-    email: 'aaa@gmail.com',
+    user_email: 'aaa@gmail.com',
     zonecode: '13494',
     address: '경기 성남시 분당구 판교역로 235',
     detailAddress: '909호',
-    phone: '070-1234-5677',
+    user_phone: '070-1234-5677',
     password: '',
     newPassword: '',
     newPasswordConfirmation: '',
@@ -23,17 +26,18 @@ const Profile = () => {
     useState(false);
 
   const {
-    nickname,
+    user_id,
+    user_nick,
     introduce,
-    email,
-    phone,
+    user_email,
+    user_phone,
     zonecode,
     address,
     detailAddress,
     password,
     newPassword,
     newPasswordConfirmation,
-  } = profileInfo;
+  } = userInfo;
 
   useEffect(() => {
     passwordValidationCheck();
@@ -61,7 +65,7 @@ const Profile = () => {
   const register = () => {};
 
   const savingAddressInput = (AddressInput) => {
-    setProfileInfo((prevProfile) => ({
+    setUserInfo((prevProfile) => ({
       ...prevProfile,
       zonecode: AddressInput.zonecode,
       address: AddressInput.address,
@@ -70,7 +74,7 @@ const Profile = () => {
   };
 
   const handleInput = (event) => {
-    setProfileInfo((prevProfile) => ({
+    setUserInfo((prevProfile) => ({
       ...prevProfile,
       [event.target.name]: event.target.value,
     }));
@@ -78,6 +82,9 @@ const Profile = () => {
 
   return (
     <div className={styles.register}>
+      <UserAvatar sx={{ height: '80px', width: '80px' }} />
+      <p>{user_id}</p>
+      <ProfileModalButton />
       <h3>프로필</h3>
       <form onSubmit={register}>
         <div className={styles.flex}>
@@ -88,7 +95,7 @@ const Profile = () => {
                 autoFocus
                 name="nickname"
                 onChange={handleInput}
-                value={nickname}
+                value={user_nick}
               />
             </li>
             <li className={styles.item}></li>
@@ -112,7 +119,7 @@ const Profile = () => {
                 type="email"
                 onChange={handleInput}
                 name="email"
-                value={email}
+                value={user_email}
               />
             </li>
             <li className={styles.item}></li>
@@ -185,7 +192,7 @@ const Profile = () => {
                 placeholder="전화번호를 입력하세요."
                 name="phone"
                 onChange={handleInput}
-                value={phone}
+                value={user_phone}
               />
             </li>
             <li className={styles.item}></li>
@@ -207,7 +214,9 @@ const Profile = () => {
             <li className={`${styles.item} ${styles.center}`}></li>
             <li className={styles.item}></li>
             <li className={styles.item}>
-              <Button>정보수정</Button>
+              <Button name="submitChangeInfo" type="submit">
+                정보수정
+              </Button>
             </li>
           </ul>
         </div>

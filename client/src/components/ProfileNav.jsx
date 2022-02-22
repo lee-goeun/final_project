@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Avatar from '@mui/material/Avatar';
+
 import styled, { css } from 'styled-components';
+import UserAvatar from './common/UserAvatar';
 
 const categories = [
   {
@@ -31,9 +32,6 @@ const AvatarBlock = styled.div`
   align-items: center;
   padding: 16px;
 `;
-const StyledAvatar = styled(Avatar)`
-  margin: 8px;
-`;
 const CategoriesBlock = styled.div`
   display: flex;
   flex-direction: column;
@@ -56,11 +54,18 @@ const StyledLink = styled(Link)`
 `;
 
 const ProfileNav = ({ category, onSelect }) => {
+  //유저정보 추후 리덕스에서 관리
+  const [userInfo, setUserInfo] = useState({
+    user_nick: '댕댕댕',
+  });
+
+  const { user_nick } = userInfo;
+
   return (
     <Nav>
       <AvatarBlock>
-        <StyledAvatar alt="Remy Sharp" src="/img/img.jpg" />
-        <span>잭스님</span>
+        <UserAvatar />
+        <span>{user_nick}님</span>
       </AvatarBlock>
       <hr />
       <CategoriesBlock>
