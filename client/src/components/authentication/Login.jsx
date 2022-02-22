@@ -2,7 +2,6 @@ import './Authentication.css';
 import Footer from '../Footer';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../Header';
 
 const Login = () => {
   const clickLoginBtn = (e) => {
@@ -23,7 +22,6 @@ const Login = () => {
 
   return (
     <>
-      <Header />
       <div className="login-container-wrapper">
         <img src={process.env.PUBLIC_URL + 'img/LogoVertical.png'} />
         <div className="login-container">
@@ -46,9 +44,11 @@ const Login = () => {
               />
             </div>
             <div className="lf3">
-              <button onClick={clickLoginBtn} className="login-btn">
-                로그인
-              </button>
+              <Link to="/">
+                <button onClick={clickLoginBtn} className="login-btn">
+                  로그인
+                </button>
+              </Link>
             </div>
           </form>
         </div>

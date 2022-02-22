@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
 const FooterStyle = styled.div`
-  position: fixed;
-  bottom: 0;
+  margin: 100px auto 0 auto;
   height: 100px;
   width: 100%;
   background-color: #e6e6e6;

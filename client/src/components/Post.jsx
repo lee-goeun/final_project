@@ -13,6 +13,7 @@ import {
 import {
   faHeart as borderHeart,
   faComment as borderComment,
+  faEye as borderEye,
 } from '@fortawesome/free-regular-svg-icons';
 
 const PostContainer = () => {
@@ -83,21 +84,28 @@ const PostContainer = () => {
 };
 
 const MiniPostContainer = () => {
+  const clickPost = (e) => {
+    alert('클릭');
+  };
   return (
     <>
-      <div className="mini-post-container">
-        <div className="mpimg-container">사진박스</div>
+      <div className="mini-post-container" onClick={clickPost}>
+        <div className="mpimg-container">
+          <img src={process.env.PUBLIC_URL + 'img/img.jpg'} />
+        </div>
         <div className="content-container">
-          <FontAwesomeIcon icon={faHeart} id="heart-icon" />
-          113
-          <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
-          66
-          <FontAwesomeIcon icon={faComment} id="comment-icon" />
-          253
-          <FontAwesomeIcon icon={borderComment} id="border-comment-icon" />
-          98
-          <FontAwesomeIcon icon={faEye} id="views-icon" />
-          20
+          <span>
+            113
+            <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
+          </span>
+          <span>
+            2
+            <FontAwesomeIcon icon={borderComment} id="border-comment-icon" />
+          </span>
+          <span>
+            98
+            <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
+          </span>
         </div>
       </div>
     </>
@@ -132,4 +140,28 @@ const CommentContainer = () => {
   );
 };
 
-export { PostContainer, MiniPostContainer, CommentContainer };
+const PostBackground = () => {
+  return (
+    <>
+      <div className="post-background">
+        <div className="post-filter">
+          <span>최신순</span>｜<span>조회수 높은순</span>｜
+          <span>좋아요 높은순</span>
+        </div>
+        <div className="post-list">
+          <MiniPostContainer />
+          <MiniPostContainer />
+          <MiniPostContainer />
+          <MiniPostContainer />
+          <MiniPostContainer />
+          <MiniPostContainer />
+          <MiniPostContainer />
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default PostBackground;
+
+export { PostContainer, MiniPostContainer, CommentContainer, PostBackground };

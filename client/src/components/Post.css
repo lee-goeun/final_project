@@ -32,7 +32,7 @@
 .pc-right {
   width: 400px;
   height: 800px;
-  background-color: rgb(242, 242, 242);
+  background-color: rgb(250, 250, 250);
 
   display: grid;
   grid-template-columns: 70px 1fr 50px;
@@ -185,24 +185,41 @@
 /* MiniPostContainer */
 .mini-post-container {
   display: inline-block;
-  margin: 10px 20px;
-  width: 300px;
-  height: 300px;
+  margin: 15px 15px;
+  width: 320px;
+  height: 320px;
   overflow: hidden;
-  background-color: wheat;
+  background-color: rgb(30, 30, 30);
+  box-shadow: 3px 3px 10px #c4c4c4;
+
+  cursor: pointer;
 }
 .mpimg-container {
   width: 100%;
   height: 100%;
+}
+.mpimg-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .content-container {
   position: relative;
   width: 100%;
   height: 30px;
   line-height: 30px;
+  color: white;
+  text-align: right;
+  background-color: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(5px);
 }
-#heart-icon {
-  color: red;
+.content-container > span {
+  margin: 0 10px;
+}
+#border-heart-icon,
+#border-comment-icon,
+#border-views-icon {
+  margin-left: 5px;
 }
 
 #comment-icon {
@@ -276,4 +293,37 @@
 }
 #delete-icon:hover {
   color: red;
+}
+
+/* PostBackground */
+.post-background {
+  margin: 100px auto;
+  max-width: 1100px;
+  width: 95%;
+  height: fit-content;
+}
+.post-filter {
+  margin: 40px auto 0 auto;
+  width: 90%;
+  height: 30px;
+  border-bottom: 1px solid black;
+  color: var(--font-light);
+}
+.post-filter > span {
+  cursor: pointer;
+  padding: 0 5px;
+  transition: 0.3s;
+  padding-top: 50px;
+}
+.post-filter > span:hover {
+  color: black;
+}
+.post-list {
+  text-align: center;
+  margin: 0 auto;
+  padding: 10px 0;
+  max-width: 1050px;
+  width: 100%;
+  min-height: 400px;
+  max-height: fit-content;
 }

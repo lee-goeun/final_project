@@ -43,7 +43,7 @@ const Header = () => {
               title="홈으로"
             />
           </Link>
-          <Link to="/post">
+          <Link to="/postpage">
             <FontAwesomeIcon
               icon={faCameraRetro}
               id="header-post-icon"
@@ -60,11 +60,13 @@ const Header = () => {
             id="header-market-icon"
             title="중고거래"
           />
-          <FontAwesomeIcon
-            icon={faCircleUser}
-            id="header-mypage-icon"
-            title="마이페이지"
-          />
+          <Link to="/mypost">
+            <FontAwesomeIcon
+              icon={faCircleUser}
+              id="header-mypage-icon"
+              title="마이페이지"
+            />
+          </Link>
         </div>
       </div>
     </>

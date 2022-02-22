@@ -6,6 +6,7 @@ import Mypost from './pages/MyPost';
 import Login from './components/authentication/Login';
 import Join from './components/authentication/Join';
 import { PostContainer, MiniPostContainer } from './components/Post';
+import PostPage from './pages/PostPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           </>
         }
       />
+      <Route path="/postpage" element={<PostPage />} />
       <Route element={<MyPageLayout />}>
         <Route path="/mypost/" element={<Mypost />} />
         <Route path="/profile/" element={<Profile />} />
