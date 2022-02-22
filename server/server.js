@@ -1,29 +1,20 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+const express = require('express');
 const app = express();
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
-var corsOptions = {
-  origin: "http://localhost:3000"
-};
+app.use('/api', bodyParser.urlencoded({extended: false})); 
+app.use('/api', bodyParser.json());
 
-app.use(cors(corsOptions));
+app.use(cors());
 
-app.use(bodyParser.json());
+var matchRouter = require('./routes/Match');
+app.use('/match', matchRouter);
 
-app.use(bodyParser.urlencoded({ extended: true }));
+//var chatRouter = require('./routes/Chat');
+//app.use('/api/chat', chatRouter);
 
-const db = require("./models");
-
-db.sequelize.sync();
-// 개발 중에는 기존 테이블을 삭제하고 데이터베이스를 다시 동기화해야 할 수 있습니다. force: true다음 코드로 사용
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and re-sync db.");
-// });
-
-require("./routes/postRouter.js")(app);
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
+const port =process.env.PORT || 3001;
+app.listen(port, ()=>{
+    console.log(`express is running on ${port}`);
+})
