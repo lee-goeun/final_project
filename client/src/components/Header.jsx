@@ -72,9 +72,10 @@ const HeaderStyle = Styled.div`
     background-color: white;
   }
   .drop-menu{
-    position: relative;
-    bottom: 7px;
-    left: 152.5px;
+    display: inline-block;
+    top: 65px;
+    transform: translate(-77.2px);
+    position: absolute;
     width: fit-content;
     height: fit-content;
     background-color: white;
@@ -90,6 +91,10 @@ const HeaderStyle = Styled.div`
   }
   .drop-menu > p:hover{
     color: var(--accent-default);
+  }
+  .header-icons-container{
+    display: relative;
+    
   }
 `;
 
@@ -109,7 +114,7 @@ const Header = () => {
             <img src={process.env.PUBLIC_URL + 'img/LogoHorizon.png'} />
           </div>
 
-          <div>
+          <div className="header-icons-container">
             {showSearchBar ? (
               <input
                 className="main-search"

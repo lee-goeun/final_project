@@ -6,9 +6,12 @@ import { Link } from 'react-router-dom';
 const Login = () => {
   const clickLoginBtn = (e) => {
     e.preventDefault();
+    alert('로그인 성공');
   };
 
   const idInput = useRef();
+  const pwInput = useRef();
+  const loginBtn = useRef();
 
   const [showFindIdModal, setShowFindIdModal] = useState(false);
 
@@ -18,7 +21,19 @@ const Login = () => {
 
   useEffect(() => {
     idInput.current.focus();
+
+    if (idInput.current.value === '' || pwInput.current.value === '') {
+      loginBtn.current.disabled = true;
+    } else if (idInput.current.value !== '' && pwInput.current.value !== '') {
+      loginBtn.current.disabled = false;
+    }
   }, []);
+
+  const keyEnter = (e) => {
+    if (e.key === 'Enter') {
+      clickLoginBtn();
+    }
+  };
 
   return (
     <>
@@ -38,14 +53,20 @@ const Login = () => {
             <div className="lf2">
               <label htmlFor="pw-input">비밀번호</label>
               <input
+                ref={pwInput}
                 id="pw-input"
                 type="password"
                 placeholder="비밀번호를 입력하세요"
+                onKeyPress={keyEnter}
               />
             </div>
             <div className="lf3">
               <Link to="/">
-                <button onClick={clickLoginBtn} className="login-btn">
+                <button
+                  ref={loginBtn}
+                  onClick={clickLoginBtn}
+                  className="login-btn"
+                >
                   로그인
                 </button>
               </Link>

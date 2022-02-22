@@ -9,6 +9,8 @@ import {
   faPen,
   faXmark,
   faX,
+  faChevronLeft,
+  faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faHeart as borderHeart,
@@ -23,6 +25,7 @@ import {
   useDispatch,
 } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { fontGrid } from '@mui/material/styles/cssUtils';
 
 const PostContainer = () => {
   const [isFollow, setIsFollow] = useState(false);
@@ -43,100 +46,89 @@ const PostContainer = () => {
 
   return (
     <>
-      <div className="post-container">
-        <div className="pc-left">
-          <img src={process.env.PUBLIC_URL + 'img/cat.png'} />
-          <div className="heart">
-            <span className="like-count">200</span>
-            {isLike ? (
-              <FontAwesomeIcon
-                icon={faHeart}
-                id="big-heart-icon"
-                title="좋아요"
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={borderHeart}
-                id="big-border-heart-icon"
-                title="좋아요"
-              />
-            )}
+      <div className="pc-wrapper">
+        <div className="post-container">
+          <div className="pc-left">
+            <img src="https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg" />
+          </div>
 
-            <span className="views-count">1300</span>
-            <FontAwesomeIcon
-              icon={borderEye}
-              id="big-border-views-icon"
-              title="조회수"
-            />
-          </div>
-        </div>
-
-        <div className="pc-right">
-          <div className="pr01">
-            <img src={process.env.PUBLIC_URL + 'img/cam.jpg'} />
-          </div>
-          <div className="pr02">
-            <h2>ilovepet</h2>
-            <span
-              onClick={() => {
-                setIsFollow(!isFollow);
-              }}
-            >
-              {isFollow ? '팔로잉' : '팔로우'}
-            </span>
-          </div>
-          <div className="pr03">
-            <FontAwesomeIcon
-              icon={faEllipsisVertical}
-              id="dots-icon"
-              onClick={() => {
-                setShowPostMenu(!showPostMenu);
-              }}
-            />
-            {/* 수정/삭제 모달창 */}
-            {showPostMenu && (
-              <div className="menu-modal-container">
-                <p>수정하기</p>
-                <p>삭제하기</p>
-              </div>
-            )}
-          </div>
-          <div className="pr04">본문내용</div>
-          <div className="pr05">
-            <p>
-              {isLike ? (
-                <FontAwesomeIcon
-                  icon={faHeart}
-                  id="heart-btn"
-                  title="좋아요 취소"
-                  onClick={clickLike}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={borderHeart}
-                  id="border-heart-btn"
-                  title="좋아요"
-                  onClick={clickLike}
-                />
+          <div className="pc-right">
+            <div className="pr01">
+              <img src="http://image.cine21.com/resize/cine21/person/2018/0423/13_42_54__5add644ed52f5[W578-].jpg" />
+            </div>
+            <div className="pr02">
+              <h2>ilovepet</h2>
+              <span
+                onClick={() => {
+                  setIsFollow(!isFollow);
+                }}
+              >
+                {isFollow ? '팔로잉' : '팔로우'}
+              </span>
+            </div>
+            <div className="pr03">
+              <FontAwesomeIcon
+                icon={faEllipsisVertical}
+                id="dots-icon"
+                onClick={() => {
+                  setShowPostMenu(!showPostMenu);
+                }}
+              />
+              {/* 수정/삭제 모달창 */}
+              {showPostMenu && (
+                <div className="menu-modal-container">
+                  <p>수정하기</p>
+                  <p>삭제하기</p>
+                </div>
               )}
+            </div>
+            <div className="pr04">본문내용</div>
+            <div className="pr05">
+              <p>
+                {isLike ? (
+                  <FontAwesomeIcon
+                    icon={faHeart}
+                    id="heart-btn"
+                    title="좋아요 취소"
+                    onClick={clickLike}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={borderHeart}
+                    id="border-heart-btn"
+                    title="좋아요"
+                    onClick={clickLike}
+                  />
+                )}
+                <span className="counting">124</span>
 
-              <FontAwesomeIcon
-                icon={borderComment}
-                id="border-comment-btn"
-                title="댓글 남기기"
-                onClick={clickGoToCommnet}
-              />
-            </p>
-            <p>2022/02/20 14:15</p>
-          </div>
-          <div className="pr06">
-            <CommentContainer />
-          </div>
-          <div className="pr07">
-            <input type="text" placeholder="댓글 남기기" ref={commentInput} />
-            <button>ENTER</button>
+                <FontAwesomeIcon icon={borderEye} id="viewss" />
+                <span className="counting">203</span>
+
+                <FontAwesomeIcon
+                  icon={borderComment}
+                  id="border-comment-btn"
+                  title="댓글 남기기"
+                  onClick={clickGoToCommnet}
+                />
+              </p>
+              <p>2022/02/20 14:15</p>
+            </div>
+            <div className="pr06">
+              <CommentContainer />
+            </div>
+            <div className="pr07">
+              <input type="text" placeholder="댓글 남기기" ref={commentInput} />
+              <button>ENTER</button>
+            </div>
           </div>
         </div>
+        <span id="left-post-span">
+          <FontAwesomeIcon icon={faChevronLeft} id="left-post" />
+        </span>
+        <span id="right-post-span">
+          <FontAwesomeIcon icon={faChevronRight} id="right-post" />
+        </span>
       </div>
 
       {/* <FontAwesomeIcon icon={faX} id="modal-off-icon" title="창닫기" /> */}

@@ -8,6 +8,31 @@
   backdrop-filter: blur(1px);
   z-index: 99;
 } */
+.pc-wrapper {
+  width: 1500px;
+  margin: 0 auto;
+}
+#left-post-span,
+#right-post-span {
+  position: relative;
+  bottom: 560px;
+  background-color: #f7f7f7;
+  box-shadow: -2px -2px 5px #d5d5d5 inset, 2px 2px 5px #ffffff inset;
+  color: #b1b1b1;
+  font-size: 50px;
+  padding: 0 18px;
+  border-radius: 100px;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.3s;
+}
+#left-post-span:hover,
+#right-post-span:hover {
+  color: var(--accent-default);
+}
+#left-post-span {
+  margin-right: 1365px;
+}
 .post-container {
   margin: 100px auto;
   display: grid;
@@ -27,14 +52,7 @@
   height: 100%;
   object-fit: contain;
 }
-.like-count,
-.views-count {
-  margin: 0 10px 0 20px;
-  font-size: 25px;
-}
-#big-heart-icon {
-  color: red;
-}
+
 .pc-right {
   width: 400px;
   height: 800px;
@@ -113,12 +131,17 @@
   padding-left: 10px;
 }
 #border-heart-btn,
+#viewss,
 #border-comment-btn {
   color: black;
   margin: 0 5px;
   cursor: pointer;
   font-size: 24px;
   transition: 0.3s;
+}
+.counting {
+  margin-right: 10px;
+  color: black;
 }
 #border-heart-btn:hover {
   color: red;
@@ -166,16 +189,6 @@
   background-color: #45e6f2;
   color: #ffffff;
   border: none;
-}
-.heart {
-  position: relative;
-  bottom: 100px;
-  font-size: 30px;
-  text-align: right;
-  padding: 10px;
-  bottom: 64px;
-  color: white;
-  text-shadow: 0 0 2px black;
 }
 
 /* 수정/삭제 모달창 */
