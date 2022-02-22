@@ -19,9 +19,6 @@ function App() {
         path="/post/"
         element={
           <>
-            <PostContainer />
-            <MiniPostContainer />
-            <MiniPostContainer />
             <MiniPostContainer />
           </>
         }

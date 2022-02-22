@@ -22,7 +22,6 @@ const HeaderStyle = Styled.div`
   border-radius: 5px;
   margin: 20px auto 20px auto;
   padding: 0 10px;
-
   display: flex;
   justify-content: space-between;
   }
@@ -71,6 +70,26 @@ const HeaderStyle = Styled.div`
   .main-search:focus {
     border: 1px solid var(--accent-default);
     background-color: white;
+  }
+  .drop-menu{
+    position: relative;
+    bottom: 7px;
+    left: 152.5px;
+    width: fit-content;
+    height: fit-content;
+    background-color: white;
+    padding: 5px 10px ;
+    text-align: center;
+    box-shadow: 0 10px 7px #e4e4e467; 
+  }
+  .drop-menu > p{
+    line-height: 28px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .drop-menu > p:hover{
+    color: var(--accent-default);
   }
 `;
 
@@ -139,8 +158,13 @@ const Header = () => {
               }}
             />
             {showDropMenu ? (
-              <div>
-                <p>로그아웃</p>
+              <div className="drop-menu">
+                <p>
+                  <Link to="/mypost">마이페이지</Link>
+                </p>
+                <p>
+                  <Link to="/login">로그아웃</Link>
+                </p>
               </div>
             ) : null}
           </div>
