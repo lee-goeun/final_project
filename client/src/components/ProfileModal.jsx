@@ -45,13 +45,13 @@ const ModalInner = styled.div`
 
 const CloseButton = styled.button``;
 
-function ProfileModal({
+const ProfileModal = ({
   className,
   onClose,
   emptySpaceClosable,
   visible,
   children,
-}) {
+}) => {
   const onEmptySpaceClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose(e);
@@ -59,8 +59,6 @@ function ProfileModal({
   };
 
   const close = (e) => {
-    console.log(e);
-    console.log(onClose(e));
     if (onClose) {
       onClose(e);
     }
@@ -86,6 +84,6 @@ function ProfileModal({
       </ModalWrapper>
     </>
   );
-}
+};
 
 export default ProfileModal;
