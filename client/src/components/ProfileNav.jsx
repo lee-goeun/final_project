@@ -23,7 +23,8 @@ const categories = [
 ];
 
 const Nav = styled.nav`
-  border: 2px solid green;
+  border: 1px solid black;
+  margin: 0.5rem;
 `;
 const AvatarBlock = styled.div`
   display: flex;
@@ -58,7 +59,7 @@ const ProfileNav = ({ category, onSelect }) => {
   return (
     <Nav>
       <AvatarBlock>
-        <StyledAvatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        <StyledAvatar alt="Remy Sharp" src="/img/img.jpg" />
         <span>잭스님</span>
       </AvatarBlock>
       <hr />
