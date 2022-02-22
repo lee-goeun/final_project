@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ProfileImgButtons from './ProfileImgButtons';
 
 const ModalWrapper = styled.div`
   box-sizing: border-box;
@@ -40,7 +41,7 @@ const ModalInner = styled.div`
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 20px 20px;
 `;
 
 const CloseButton = styled.button``;
@@ -74,9 +75,8 @@ const ProfileModal = ({
         visible={visible}
       >
         <ModalInner tabIndex="0" className="modal-inner">
-          {children}
-          <button>사진변경</button>
-          <button>사진삭제</button>
+          <h3>{children}</h3>
+          <ProfileImgButtons></ProfileImgButtons>
           <CloseButton className="modal-close" onClick={close}>
             취소
           </CloseButton>
