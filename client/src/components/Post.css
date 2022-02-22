@@ -30,6 +30,7 @@
 .like-count,
 .views-count {
   margin: 0 10px 0 20px;
+  font-size: 25px;
 }
 #big-heart-icon {
   color: red;
@@ -118,6 +119,9 @@
   cursor: pointer;
   font-size: 24px;
   transition: 0.3s;
+}
+#border-heart-btn:hover {
+  color: red;
 }
 #border-comment-btn:hover {
   color: #45e6f2;
@@ -230,7 +234,7 @@
 .mpimg-container img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 .content-container {
   position: relative;

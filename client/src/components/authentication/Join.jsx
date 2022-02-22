@@ -6,6 +6,11 @@ import DaumPostHook from '../common/DaumPostHook';
 import styled from 'styled-components';
 
 const Join = () => {
+  const idInput = useRef();
+  useEffect(() => {
+    idInput.current.focus();
+  });
+
   const [userInfo, setUserInfo] = useState({
     address: '',
     zonecode: '',
@@ -146,6 +151,7 @@ const Join = () => {
           onChange={(e) => {
             setInputId(e.target.value);
           }}
+          ref={idInput}
         />
         <button onClick={clickDuplicateCheckBtn} className="duplicate-check">
           중복확인

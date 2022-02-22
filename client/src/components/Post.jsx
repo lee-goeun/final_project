@@ -137,6 +137,7 @@ const PostContainer = () => {
           </div>
         </div>
       </div>
+
       {/* <FontAwesomeIcon icon={faX} id="modal-off-icon" title="창닫기" /> */}
     </>
   );
@@ -148,60 +149,119 @@ const MiniPostContainer = () => {
     setShowPostDetail(true);
     alert('포스트 자세히 보기');
   };
+
+  const [miniPost, setMiniPost] = useState({
+    post: [
+      {
+        id: 0,
+        img: 'img/img.jpg',
+        like: 22,
+        comment: 2,
+        views: 765,
+      },
+      {
+        id: 1,
+        img: 'img/cat.png',
+        like: 2222,
+        comment: 132,
+        views: 3865,
+      },
+      {
+        id: 2,
+        img: 'img/sam01.jpg',
+        like: 9822,
+        comment: 2132,
+        views: 33865,
+      },
+    ],
+  });
+
   return (
     <>
-      <div className="mini-post-container" onClick={clickPost}>
-        <div className="mpimg-container">
-          <img src={process.env.PUBLIC_URL + 'img/img.jpg'} />
+      {miniPost.post.map((mPost) => (
+        <div key={mPost.id} className="mini-post-container" onClick={clickPost}>
+          <div className="mpimg-container">
+            <img
+              src={process.env.PUBLIC_URL + `${mPost.img}`}
+              alt="이미지 로딩 에러"
+            />
+          </div>
+          <div className="content-container">
+            <span>
+              {mPost.like}
+              <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
+            </span>
+            <span>
+              {mPost.comment}
+              <FontAwesomeIcon icon={borderComment} id="border-comment-icon" />
+            </span>
+            <span>
+              {mPost.views}
+              <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
+            </span>
+          </div>
         </div>
-        <div className="content-container">
-          <span>
-            113
-            <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
-          </span>
-          <span>
-            2
-            <FontAwesomeIcon icon={borderComment} id="border-comment-icon" />
-          </span>
-          <span>
-            98
-            <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
-          </span>
-        </div>
-      </div>
+      ))}
     </>
   );
 };
 
 const CommentContainer = () => {
+  const [comment, setCommnet] = useState({
+    comments: [
+      {
+        id: 0,
+        nick: '집사',
+        img: 'https://blog.kakaocdn.net/dn/btkVeS/btqFOXbMQbB/Uf5rey5lRoKKRStYNn5oVK/img.png',
+        date: '2022/02/10',
+        content: '고양이 진짜 이쁘네요 부러워용ㅠ',
+      },
+      {
+        id: 1,
+        nick: '고양이나만없어',
+        img: 'https://image.fnnews.com/resource/media/image/2021/04/21/202104211351203685_l.jpg',
+        date: '2022/02/12',
+        content: '고양이 무슨 종이에요?',
+      },
+      {
+        id: 2,
+        nick: '가나다라',
+        img: 'https://img.hankyung.com/photo/202103/20210323110008_60594ba899dab_1.jpg',
+        date: '2022/02/20',
+        content: '부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다.',
+      },
+    ],
+  });
+
   return (
     <>
-      <div className="comment-container">
-        <div className="cc01">
-          <div className="cc01-img-container">
-            <img src={process.env.PUBLIC_URL + 'img/cam.jpg'} />
+      {comment.comments.map((com) => (
+        <div key={com.id} className="comment-container">
+          <div className="cc01">
+            <div className="cc01-img-container">
+              <img src={process.env.PUBLIC_URL + `${com.img}`} />
+            </div>
+          </div>
+          <div className="cc02">
+            <h3>{com.nick}</h3>
+            <p>{com.date}</p>
+          </div>
+          <div className="cc03">
+            <FontAwesomeIcon icon={faPen} id="edit-icon" title="수정하기" />
+            <FontAwesomeIcon icon={faX} id="delete-icon" title="삭제하기" />
+          </div>
+          <div className="cc04">
+            <p>{com.content}</p>
           </div>
         </div>
-        <div className="cc02">
-          <h3>catman</h3>
-          <p>2022/02/21</p>
-        </div>
-        <div className="cc03">
-          <FontAwesomeIcon icon={faPen} id="edit-icon" title="수정하기" />
-          <FontAwesomeIcon icon={faX} id="delete-icon" title="삭제하기" />
-        </div>
-        <div className="cc04">
-          <p>
-            와 너무 이뻐요 와 너무 이뻐요 와 너무 이뻐요 와 너무 이뻐요 와 너무
-            이뻐요 와 너무 이뻐요
-          </p>
-        </div>
-      </div>
+      ))}
     </>
   );
 };
 
 const PostBackground = () => {
+  const [posts, setPosts] = useState([]);
+
   return (
     <>
       <div className="post-background">
@@ -209,10 +269,14 @@ const PostBackground = () => {
           <span>최신순</span>｜<span>조회수 높은순</span>｜
           <span>좋아요 높은순</span>
         </div>
+
+        {/* <div>
+          {posts.map((post) => (
+            <PostItem key={post.id} post={post} />
+          ))}
+        </div> */}
+
         <div className="post-list">
-          <MiniPostContainer />
-          <MiniPostContainer />
-          <MiniPostContainer />
           <MiniPostContainer />
         </div>
       </div>

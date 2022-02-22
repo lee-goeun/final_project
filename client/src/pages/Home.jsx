@@ -60,12 +60,8 @@ const Home = () => {
         <div className="main-body-div">
           <PostContainer />
           <div className="btn-wrapper">
-            <div className="left-btn-div">
-              <MoveLeftBtn />
-            </div>
-            <div className="right-btn-div">
-              <MoveRightBtn />
-            </div>
+            <div className="left-btn-div">{/* <MoveLeftBtn /> */}</div>
+            <div className="right-btn-div">{/* <MoveRightBtn /> */}</div>
           </div>
         </div>
       </MainPageFooterStyle>
@@ -91,7 +87,7 @@ const MoveBtnStyle = styled.div`
     height: 200px;
     overflow: hidden;
     box-shadow: 3px 3px 10px #7c7c7c;
-    border-radius: 20px;
+    border-radius: 10px;
     cursor: pointer;
     transition: 0.3s;
   }
