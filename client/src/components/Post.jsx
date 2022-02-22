@@ -30,62 +30,56 @@ const PostContainer = () => {
 
   return (
     <>
-      <div className="post-wrapper">
-        <div className="post-container">
-          <div className="pc-left">
-            <img src={process.env.PUBLIC_URL + 'img/cat.png'} />
-            <div className="heart">200 ♥</div>
-          </div>
+      <div className="post-container">
+        <div className="pc-left">
+          <img src={process.env.PUBLIC_URL + 'img/cat.png'} />
+          <div className="heart">200 ♥</div>
+        </div>
 
-          <div className="pc-right">
-            <div className="pr01">
-              <img src={process.env.PUBLIC_URL + 'img/cam.jpg'} />
-            </div>
-            <div className="pr02">
-              <h2>ilovepet</h2>
-              <span
-                onClick={() => {
-                  setIsFollow(!isFollow);
-                }}
-              >
-                {isFollow ? '팔로잉' : '팔로우'}
-              </span>
-            </div>
-            <div className="pr03">
-              <FontAwesomeIcon
-                icon={faEllipsisVertical}
-                id="dots-icon"
-                onClick={() => {
-                  setShowPostMenu(!showPostMenu);
-                }}
-              />
-              {/* 수정/삭제 모달창 */}
-              {showPostMenu && (
-                <div className="menu-modal-container">
-                  <p>수정하기</p>
-                  <p>삭제하기</p>
-                </div>
-              )}
-            </div>
-            <div className="pr04">본문내용</div>
-            <div className="pr05">
-              <p>2022/02/20 14:15</p>
-            </div>
-            <div className="pr06">
-              <CommentContainer />
-              <CommentContainer />
-              <CommentContainer />
-              <CommentContainer />
-              <CommentContainer />
-            </div>
-            <div className="pr07">
-              <input type="text" placeholder="댓글 남기기" />
-              <button>ENTER</button>
-            </div>
+        <div className="pc-right">
+          <div className="pr01">
+            <img src={process.env.PUBLIC_URL + 'img/cam.jpg'} />
+          </div>
+          <div className="pr02">
+            <h2>ilovepet</h2>
+            <span
+              onClick={() => {
+                setIsFollow(!isFollow);
+              }}
+            >
+              {isFollow ? '팔로잉' : '팔로우'}
+            </span>
+          </div>
+          <div className="pr03">
+            <FontAwesomeIcon
+              icon={faEllipsisVertical}
+              id="dots-icon"
+              onClick={() => {
+                setShowPostMenu(!showPostMenu);
+              }}
+            />
+            {/* 수정/삭제 모달창 */}
+            {showPostMenu && (
+              <div className="menu-modal-container">
+                <p>수정하기</p>
+                <p>삭제하기</p>
+              </div>
+            )}
+          </div>
+          <div className="pr04">본문내용</div>
+          <div className="pr05">
+            <p>2022/02/20 14:15</p>
+          </div>
+          <div className="pr06">
+            <CommentContainer />
+          </div>
+          <div className="pr07">
+            <input type="text" placeholder="댓글 남기기" />
+            <button>ENTER</button>
           </div>
         </div>
-        <FontAwesomeIcon icon={faX} id="modal-off-icon" title="창닫기" />
       </div>
+      {/* <FontAwesomeIcon icon={faX} id="modal-off-icon" title="창닫기" /> */}
     </>
   );
 };

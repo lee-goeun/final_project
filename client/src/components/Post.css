@@ -1,4 +1,4 @@
-.post-wrapper {
+/* .post-wrapper {
   position: absolute;
   left: 0;
   top: 0;
@@ -7,18 +7,15 @@
   background-color: rgba(238, 238, 238, 0.1);
   backdrop-filter: blur(1px);
   z-index: 99;
-}
+} */
 .post-container {
-  position: relative;
+  margin: 100px auto;
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-template-rows: 1fr;
   width: fit-content;
   height: fit-content;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 3px 3px 10px #ebebeb;
+  box-shadow: 3px 3px 20px #c2c2c2;
 }
 .pc-left {
   background-color: rgb(30, 30, 30);
@@ -109,7 +106,7 @@
 }
 .pr06 {
   grid-area: pr06;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   text-align: left;
   padding: 10px;
