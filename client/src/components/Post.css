@@ -227,6 +227,29 @@
 .menu-modal-container > p:hover {
   color: black;
 }
+.delete-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 300px;
+  height: 150px;
+  background-color: var(--bgcolor-default);
+  box-shadow: 3px 3px 20px #797979;
+}
+.delete-modal > p {
+  padding-top: 30px;
+}
+.delete-cancel,
+.delete-yes {
+  padding: 5px 20px;
+  font-size: 18px;
+  margin: 30px 20px 0 20px;
+  border: none;
+  background-color: var(--accent-default);
+  box-shadow: 0 1px 5px var(--accent-dark);
+}
 
 /* MiniPostContainer */
 .mini-post-container {
@@ -278,12 +301,12 @@
 /* CommentContainer */
 .comment-container {
   width: 380px;
-  min-height: 70px;
+  min-height: 60px;
   max-height: fit-content;
 
   display: grid;
   grid-template-columns: 35px 1fr 50px;
-  grid-template-rows: 35px fit-content;
+  grid-template-rows: 30px fit-content;
   grid-template-areas:
     'cc01 cc02 cc03'
     'cc04 cc04 cc04';
@@ -292,15 +315,16 @@
 }
 .cc01 {
   grid-area: cc01;
+  padding-top: 1px;
 }
 .cc02 {
   grid-area: cc02;
-  line-height: 35px;
+  padding-top: 11px;
 }
 .cc03 {
   grid-area: cc03;
-  line-height: 35px;
   font-size: 13px;
+  padding-top: 11px;
 }
 .cc04 {
   grid-area: cc04;

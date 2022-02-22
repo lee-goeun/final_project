@@ -26,6 +26,7 @@ import {
 } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fontGrid } from '@mui/material/styles/cssUtils';
+import { ShopTwoRounded } from '@material-ui/icons';
 
 const PostContainer = () => {
   const [isFollow, setIsFollow] = useState(false);
@@ -42,6 +43,18 @@ const PostContainer = () => {
   };
   const clickGoToCommnet = (e) => {
     commentInput.current.focus();
+  };
+
+  // 삭제하기 버튼 클릭시
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const clickDeletePostBtn = (e) => {
+    setShowDeleteModal(!showDeleteModal);
+    setShowPostMenu(!showPostMenu);
+  };
+
+  // 댓글 작성 ENTER 버튼 클릭시
+  const clickCommentEnter = (e) => {
+    alert('댓글이 작성되었습니다');
   };
 
   return (
@@ -77,8 +90,14 @@ const PostContainer = () => {
               {/* 수정/삭제 모달창 */}
               {showPostMenu && (
                 <div className="menu-modal-container">
-                  <p>수정하기</p>
-                  <p>삭제하기</p>
+                  <p
+                    onClick={() => {
+                      setShowPostMenu(!showPostMenu);
+                    }}
+                  >
+                    수정하기
+                  </p>
+                  <p onClick={clickDeletePostBtn}>삭제하기</p>
                 </div>
               )}
             </div>
@@ -118,8 +137,18 @@ const PostContainer = () => {
               <CommentContainer />
             </div>
             <div className="pr07">
-              <input type="text" placeholder="댓글 남기기" ref={commentInput} />
-              <button>ENTER</button>
+              <input
+                type="text"
+                placeholder="댓글 남기기"
+                ref={commentInput}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    clickCommentEnter();
+                    e.target.value = '';
+                  }
+                }}
+              />
+              <button onClick={clickCommentEnter}>ENTER</button>
             </div>
           </div>
         </div>
@@ -131,7 +160,28 @@ const PostContainer = () => {
         </span>
       </div>
 
-      {/* <FontAwesomeIcon icon={faX} id="modal-off-icon" title="창닫기" /> */}
+      {showDeleteModal ? (
+        <div className="delete-modal">
+          <p>정말 게시물을 삭제하시겠습니까?</p>
+          <button
+            className="delete-cancel"
+            onClick={() => {
+              setShowDeleteModal(!showDeleteModal);
+            }}
+          >
+            취소
+          </button>
+          <button
+            className="delete-yes"
+            onClick={() => {
+              setShowDeleteModal(!showDeleteModal);
+              alert('게시물이 삭제되었습니다.');
+            }}
+          >
+            삭제
+          </button>
+        </div>
+      ) : null}
     </>
   );
 };

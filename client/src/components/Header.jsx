@@ -62,7 +62,7 @@ const HeaderStyle = Styled.div`
     width: 200px;
     height: 30px;
     margin: 0 10px 0 0;
-    padding: 0 10px;
+    padding: 0 40px 0 10px;
     border: 1px solid white;
     background-color: var(--bgcolor-default);
     transition: 0.3s;
@@ -70,6 +70,14 @@ const HeaderStyle = Styled.div`
   .main-search:focus {
     border: 1px solid var(--accent-default);
     background-color: white;
+  }
+  .main-search-btn{
+    position: absolute;
+    transform: translate(-45px,17px);
+    font-size: 13px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    line-height: normal;
   }
   .drop-menu{
     display: inline-block;
@@ -94,7 +102,6 @@ const HeaderStyle = Styled.div`
   }
   .header-icons-container{
     display: relative;
-    
   }
 `;
 
@@ -106,6 +113,10 @@ const Header = () => {
 
   const [showDropMenu, setShowDropMenu] = useState(false);
 
+  const clickSearchBtn = (e) => {
+    alert('검색합니다');
+  };
+
   return (
     <>
       <HeaderStyle>
@@ -116,11 +127,21 @@ const Header = () => {
 
           <div className="header-icons-container">
             {showSearchBar ? (
-              <input
-                className="main-search"
-                type="text"
-                placeholder="검색하기"
-              />
+              <>
+                <input
+                  className="main-search"
+                  type="text"
+                  placeholder="검색하기..."
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      clickSearchBtn();
+                    }
+                  }}
+                />
+                <span className="main-search-btn" onClick={clickSearchBtn}>
+                  검색
+                </span>
+              </>
             ) : null}
 
             <FontAwesomeIcon
