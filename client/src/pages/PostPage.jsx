@@ -1,15 +1,15 @@
-import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import PostBackground from '../components/Post';
 
-const Home = () => {
+const PostPage = () => {
   return (
     <>
       <Header />
-      <div>Home</div>
+      <PostBackground />
       <Footer />
     </>
   );
 };
 
-export default Home;
+export default PostPage;
