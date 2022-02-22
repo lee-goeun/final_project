@@ -9,7 +9,7 @@ import {
   faPeopleCarryBox,
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const HeaderStyle = Styled.div`
@@ -80,6 +80,8 @@ const Header = () => {
     setShowSearchBar(!showSearchBar);
   };
 
+  const [showDropMenu, setShowDropMenu] = useState(false);
+
   return (
     <>
       <HeaderStyle>
@@ -127,13 +129,20 @@ const Header = () => {
               id="header-market-icon"
               title="중고거래"
             />
-            <Link to="/mypost">
-              <FontAwesomeIcon
-                icon={faCircleUser}
-                id="header-mypage-icon"
-                title="마이페이지"
-              />
-            </Link>
+
+            <FontAwesomeIcon
+              icon={faCircleUser}
+              id="header-mypage-icon"
+              title="마이페이지"
+              onClick={() => {
+                setShowDropMenu(!showDropMenu);
+              }}
+            />
+            {showDropMenu ? (
+              <div>
+                <p>로그아웃</p>
+              </div>
+            ) : null}
           </div>
         </div>
       </HeaderStyle>

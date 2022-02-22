@@ -22,6 +22,7 @@ import {
   useSelector,
   useDispatch,
 } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const PostContainer = () => {
   const [isFollow, setIsFollow] = useState(false);
@@ -144,12 +145,6 @@ const PostContainer = () => {
 };
 
 const MiniPostContainer = () => {
-  const [showPostDetail, setShowPostDetail] = useState(false);
-  const clickPost = (e) => {
-    setShowPostDetail(true);
-    alert('포스트 자세히 보기');
-  };
-
   const [miniPost, setMiniPost] = useState({
     post: [
       {
@@ -179,28 +174,33 @@ const MiniPostContainer = () => {
   return (
     <>
       {miniPost.post.map((mPost) => (
-        <div key={mPost.id} className="mini-post-container" onClick={clickPost}>
-          <div className="mpimg-container">
-            <img
-              src={process.env.PUBLIC_URL + `${mPost.img}`}
-              alt="이미지 로딩 에러"
-            />
+        <Link to="/postpage/detailPost">
+          <div key={mPost.id} className="mini-post-container">
+            <div className="mpimg-container">
+              <img
+                src={process.env.PUBLIC_URL + `${mPost.img}`}
+                alt="이미지 로딩 에러"
+              />
+            </div>
+            <div className="content-container">
+              <span>
+                {mPost.like}
+                <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
+              </span>
+              <span>
+                {mPost.comment}
+                <FontAwesomeIcon
+                  icon={borderComment}
+                  id="border-comment-icon"
+                />
+              </span>
+              <span>
+                {mPost.views}
+                <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
+              </span>
+            </div>
           </div>
-          <div className="content-container">
-            <span>
-              {mPost.like}
-              <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
-            </span>
-            <span>
-              {mPost.comment}
-              <FontAwesomeIcon icon={borderComment} id="border-comment-icon" />
-            </span>
-            <span>
-              {mPost.views}
-              <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
-            </span>
-          </div>
-        </div>
+        </Link>
       ))}
     </>
   );
@@ -228,7 +228,8 @@ const CommentContainer = () => {
         nick: '가나다라',
         img: 'https://img.hankyung.com/photo/202103/20210323110008_60594ba899dab_1.jpg',
         date: '2022/02/20',
-        content: '부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다.',
+        content:
+          '부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다.',
       },
     ],
   });
@@ -243,7 +244,7 @@ const CommentContainer = () => {
             </div>
           </div>
           <div className="cc02">
-            <h3>{com.nick}</h3>
+            <h4>{com.nick}</h4>
             <p>{com.date}</p>
           </div>
           <div className="cc03">
