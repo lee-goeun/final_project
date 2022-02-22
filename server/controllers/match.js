@@ -7,6 +7,7 @@ const upload = multer({dest:'uploads/', limits : {fileSize:5*1024*1024}});
 //리스트 조회(검색_제목, 내용, 지역)
 let listMatch = (req, res) => {
     let keyword = req.params.keyword;
+    
 
     var sql = "select * from matchTbl where matchDeleted = 0 and (matchTitle like concat('%?%' ) OR matchContent like concat('%?%' ))";
     conn.query(sql, keyword, (err, results) => {
