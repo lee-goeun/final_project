@@ -132,7 +132,8 @@
 }
 #border-heart-btn,
 #viewss,
-#border-comment-btn {
+#border-comment-btn,
+#bookmark-btn {
   color: black;
   margin: 0 5px;
   cursor: pointer;
@@ -154,6 +155,16 @@
   margin: 0 5px;
   cursor: pointer;
   font-size: 24px;
+}
+#bookmark-btn:hover {
+  color: var(--accent-default);
+}
+#fullBookmark-btn {
+  color: #45e6f2;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 24px;
+  transition: 0.3s;
 }
 .pr05 > p {
   display: inline-block;
@@ -197,7 +208,8 @@
   top: -7px;
   right: 47px;
   width: 90px;
-  height: 78px;
+  min-height: 78px;
+  max-height: fit-content;
   padding: 5px 10px;
   font-size: 15px;
   background-color: #45e6f2;
@@ -217,15 +229,41 @@
 }
 .menu-modal-container > p:first-child {
   margin-top: 20px;
-  margin-bottom: 2px;
 }
 .menu-modal-container > p {
   color: white;
   transition: 0.3s;
   cursor: pointer;
+  margin-bottom: 2px;
+}
+.menu-modal-container > p:last-child {
+  margin-bottom: 0;
 }
 .menu-modal-container > p:hover {
   color: black;
+}
+.report-post-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 300px;
+  height: 150px;
+  background-color: var(--bgcolor-default);
+  box-shadow: 3px 3px 20px #797979;
+}
+.report-post-modal > p {
+  padding-top: 30px;
+}
+.report-post-cancel,
+.report-post-yes {
+  padding: 5px 20px;
+  font-size: 18px;
+  margin: 30px 20px 0 20px;
+  border: none;
+  background-color: var(--accent-default);
+  box-shadow: 0 1px 5px var(--accent-dark);
 }
 .delete-modal {
   position: fixed;
@@ -305,7 +343,7 @@
   max-height: fit-content;
 
   display: grid;
-  grid-template-columns: 35px 1fr 50px;
+  grid-template-columns: 35px 1fr 66px;
   grid-template-rows: 30px fit-content;
   grid-template-areas:
     'cc01 cc02 cc03'
@@ -325,6 +363,7 @@
   grid-area: cc03;
   font-size: 13px;
   padding-top: 11px;
+  text-align: right;
 }
 .cc04 {
   grid-area: cc04;
@@ -353,7 +392,8 @@
   color: var(--font-dark);
 }
 #edit-icon,
-#delete-icon {
+#delete-icon,
+#report-icon {
   margin: 0 5px;
   color: var(--font-dark);
   cursor: pointer;
@@ -361,8 +401,33 @@
 #edit-icon:hover {
   color: var(--accent-default);
 }
-#delete-icon:hover {
+#delete-icon:hover,
+#report-icon:hover {
   color: red;
+}
+/* 댓글 신고 모달 */
+.report-comment-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 300px;
+  height: 150px;
+  background-color: var(--bgcolor-default);
+  box-shadow: 3px 3px 20px #797979;
+}
+.report-comment-modal > p {
+  padding-top: 30px;
+}
+.report-comment-cancel,
+.report-comment-yes {
+  padding: 5px 20px;
+  font-size: 18px;
+  margin: 30px 20px 0 20px;
+  border: none;
+  background-color: var(--accent-default);
+  box-shadow: 0 1px 5px var(--accent-dark);
 }
 
 /* PostBackground */

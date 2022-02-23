@@ -11,11 +11,14 @@ import {
   faX,
   faChevronLeft,
   faChevronRight,
+  faBullhorn,
+  faBookmark as fullBookmark,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faHeart as borderHeart,
   faComment as borderComment,
   faEye as borderEye,
+  faBookmark,
 } from '@fortawesome/free-regular-svg-icons';
 
 import {
@@ -43,6 +46,19 @@ const PostContainer = () => {
   };
   const clickGoToCommnet = (e) => {
     commentInput.current.focus();
+  };
+
+  // 관심게시물 등록 버튼 클릭시
+  const [isFavoritePost, setIsFavoritePost] = useState(false);
+  const clickFavoritePost = () => {
+    setIsFavoritePost(!isFavoritePost);
+  };
+
+  // 게시물 신고하기 버튼 클릭시
+  const [showReportPostModal, setShowReportPostModal] = useState(false);
+  const clickReportPost = () => {
+    setShowReportPostModal(!showReportPostModal);
+    setShowPostMenu(!showPostMenu);
   };
 
   // 삭제하기 버튼 클릭시
@@ -90,6 +106,7 @@ const PostContainer = () => {
               {/* 수정/삭제 모달창 */}
               {showPostMenu && (
                 <div className="menu-modal-container">
+                  <p onClick={clickReportPost}>신고하기</p>
                   <p
                     onClick={() => {
                       setShowPostMenu(!showPostMenu);
@@ -123,6 +140,22 @@ const PostContainer = () => {
 
                 <FontAwesomeIcon icon={borderEye} id="viewss" />
                 <span className="counting">203</span>
+
+                {isFavoritePost ? (
+                  <FontAwesomeIcon
+                    icon={fullBookmark}
+                    id="fullBookmark-btn"
+                    title="관심게시물 삭제하기"
+                    onClick={clickFavoritePost}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faBookmark}
+                    id="bookmark-btn"
+                    title="관심게시물 등록하기"
+                    onClick={clickFavoritePost}
+                  />
+                )}
 
                 <FontAwesomeIcon
                   icon={borderComment}
@@ -159,6 +192,29 @@ const PostContainer = () => {
           <FontAwesomeIcon icon={faChevronRight} id="right-post" />
         </span>
       </div>
+
+      {showReportPostModal ? (
+        <div className="report-post-modal">
+          <p>정말 게시물을 신고하시겠습니까?</p>
+          <button
+            className="report-post-cancel"
+            onClick={() => {
+              setShowReportPostModal(!showReportPostModal);
+            }}
+          >
+            취소
+          </button>
+          <button
+            className="report-post-yes"
+            onClick={() => {
+              alert('운영진이 검토후 처리될 예정입니다.');
+              setShowReportPostModal(!showReportPostModal);
+            }}
+          >
+            신고
+          </button>
+        </div>
+      ) : null}
 
       {showDeleteModal ? (
         <div className="delete-modal">
@@ -276,6 +332,12 @@ const CommentContainer = () => {
     ],
   });
 
+  // 댓글 신고 버튼 클릭시
+  const [showReportCommentModal, setShowReportCommentModal] = useState(false);
+  const clickReportComment = (e) => {
+    setShowReportCommentModal(true);
+  };
+
   return (
     <>
       {comment.comments.map((com) => (
@@ -292,12 +354,40 @@ const CommentContainer = () => {
           <div className="cc03">
             <FontAwesomeIcon icon={faPen} id="edit-icon" title="수정하기" />
             <FontAwesomeIcon icon={faX} id="delete-icon" title="삭제하기" />
+            <FontAwesomeIcon
+              icon={faBullhorn}
+              id="report-icon"
+              title="신고하기"
+              onClick={clickReportComment}
+            />
           </div>
           <div className="cc04">
             <p>{com.content}</p>
           </div>
         </div>
       ))}
+      {showReportCommentModal ? (
+        <div className="report-comment-modal">
+          <p>댓글을 신고하시겠습니까?</p>
+          <button
+            className="report-comment-cancel"
+            onClick={() => {
+              setShowReportCommentModal(false);
+            }}
+          >
+            취소
+          </button>
+          <button
+            className="report-comment-yes"
+            onClick={() => {
+              alert('운영진이 검토후 처리될 예정입니다.');
+              setShowReportCommentModal(false);
+            }}
+          >
+            신고
+          </button>
+        </div>
+      ) : null}
     </>
   );
 };
