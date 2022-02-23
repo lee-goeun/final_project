@@ -115,7 +115,7 @@ router.put('/mod', upload.single('matchImgName'), (req, res) => {
     var image = req.file.originalname;
     console.log("req", body, req.file);
     var sql = "UPDATE matchTbl set matchImgName=?, matchTitle=?, matchContent=?, selectPet=?, matchTime=? where matchId=?";
-    conn.query(sql, ["test01", image, body.matchTitle, body.matchContent, body.selectPet, body.matchTime, body.matchId],(err, results) => {
+    conn.query(sql, [image, body.matchTitle, body.matchContent, body.selectPet, body.matchTime, body.matchId],(err, results) => {
         if(err) return res.json({success:false, err});
         else {
                 var newdir = "matchImages/" + body.matchId + "/";

@@ -27,10 +27,26 @@ router.post('/add',(req,res) => {
     })
 });
 
-//상세
+//추가(메세지)
+router.post('/addMsg',(req,res) => {
+    console.log("req", req.body);
+    var body = req.body;
+
+    //TODO : 로그인한 정보 넣기
+    //TODO : 웹소켓 관련해서 테스트 해보기
+    var participant = "test02";
+
+    var sql = "insert into chatTbl(chatroomId, user_id, chat_message) VALUES(?, ?, ?)";
+    conn.query(sql, [body.chatroomId, body.user_id, body.chat_message],(err, results) => {
+        if(err) return res.json({success:false, err});
+        else   res.json({status:"success"});
+    })
+});
+
+//상세(메세지)
 router.get('/detail/:id', (req, res) => {
     let id = req.params.id;
-    var sql = "select * from matchTbl where matchId = ?";
+    var sql = "select * from chatTbl where chatroomId = ?";
 
     conn.query(sql, id, (err, results) => {
         if(err) return res.json({success:false, err});
@@ -38,14 +54,5 @@ router.get('/detail/:id', (req, res) => {
     })
 });
 
-//삭제
-router.put('/del/:id', (req, res) => {
-    let id = req.params.id;
-    var sql = "UPDATE matchTbl set matchDeleted=1 where matchId=?";
-    conn.query(sql, id, (err, results) => {
-            if(err) return res.json({success:false, err});
-            else res.json({status:"success"});
-    })
-});
 
 module.exports = router;
