@@ -6,6 +6,7 @@ import {
   faCameraRetro,
   faCircleUser,
   faHouse,
+  faLocationDot,
   faMagnifyingGlass,
   faMessage,
   faPeopleCarryBox,
@@ -105,9 +106,6 @@ const HeaderStyle = Styled.div`
   }
   .drop-menu > p:hover{
     color: var(--accent-default);
-  }
-  .header-icons-container{
-    display: relative;
   }
 `;
 
