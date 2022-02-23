@@ -15,6 +15,9 @@ app.use('/match', matchRouter);
 var chatRouter = require('./routes/Chat');
 app.use('/chat', chatRouter);
 
+//postRouter 추가 부분
+require("./routes/postRouter")(app);
+
 
 const port =process.env.PORT || 3001;
 app.listen(port, ()=>{
