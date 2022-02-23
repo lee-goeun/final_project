@@ -1,9 +1,9 @@
 'use stirct'
 // 회원가입 routers
 
-// const bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
 
-// const db = require('../config/mysql')
+const db = require('../config/mysql')
 
 const express = require('express')
 
@@ -11,6 +11,10 @@ const router = express.Router()
 
 router.get('/', (req, res) => {
   res.render('join')
+})
+
+router.post('/join/register', (req, res) => {
+  console.log('회원가입')
 })
 
 module.exports = router
