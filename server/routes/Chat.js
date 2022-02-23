@@ -2,13 +2,37 @@ const express = require("express");
 const conn = require("../db/index");
 const router = express.Router();
 const { json } = require("body-parser");
+const { emit } = require("process");
+
+//웹소켓관련
+const io = require('socketio').listen(3001);
+var roomName;
+
+io.on('connection', function(socket){
+  console.log('connect');
+  var instanceId = socket.id;
+
+  socket.on('joinRoom', function(data){
+    console.log(data);
+    socket.join(data.roomName);
+    roomName = data.roomName;
+  });
+
+  socket.on('reqMsg', function(data){
+    console.log(data);
+    io.sockets.in(roomName).emit('recMsg',{comment:instanceId + ":" + data.comment + "\n"});
+  })
+})
 
 //조회
 router.get('/list', (req, res) => {
     var sql = "select * from chatroomTbl where chatroom_deleted = 0";
         conn.query(sql,(err, results) => {
             if(err) return res.json({success:false, err});
-            else return res.json(results);
+            else{
+              chatList = results;
+              return res.json(results);
+            } 
         });
 })
 
@@ -20,17 +44,45 @@ router.post('/add',(req,res) => {
     //TODO : 로그인한 정보 넣기
     var participant = "test02";
 
-    var sql = "insert into chatroomTbl(matchId, user_id, participant) VALUES(?, ?, ?)";
-    conn.query(sql, [body.matchId, body.user_id, participant],(err, results) => {
+    //해당 아이디가 있는 지 확인하기
+    conn.query("select * from chatroomTbl where chatroom_deleted = 0 and participant = ? and matchId = ?;",
+      [participant, body.matchId], (err, results) => {
+        if(err) return res.json({success:false, err});
+        else{
+            if(results.length == 1){
+              res.json({status:"참여중"});
+            }else{
+                //참여하고 있지 않은 아이디만 추가
+                var sql = "insert into chatroomTbl(matchId, user_id, participant) VALUES(?, ?, ?)";
+                conn.query(sql, [body.matchId, body.user_id, participant],(err, results) => {
+                    if(err) res.json({success:false, err});
+                    else res.json({status:"success"});
+                })
+            }
+        } 
+    });
+});
+
+//추가(메세지)
+router.post('/addMsg',(req,res) => {
+    console.log("req", req.body);
+    var body = req.body;
+
+    //TODO : 로그인한 정보 넣기
+    //TODO : 웹소켓 관련해서 테스트 해보기
+    var participant = "test02";
+
+    var sql = "insert into chatTbl(chatroomId, user_id, chat_message) VALUES(?, ?, ?)";
+    conn.query(sql, [body.chatroomId, body.user_id, body.chat_message],(err, results) => {
         if(err) return res.json({success:false, err});
         else   res.json({status:"success"});
     })
 });
 
-//상세
+//상세(메세지)
 router.get('/detail/:id', (req, res) => {
     let id = req.params.id;
-    var sql = "select * from matchTbl where matchId = ?";
+    var sql = "select * from chatTbl where chatroomId = ?";
 
     conn.query(sql, id, (err, results) => {
         if(err) return res.json({success:false, err});
@@ -38,14 +90,5 @@ router.get('/detail/:id', (req, res) => {
     })
 });
 
-//삭제
-router.put('/del/:id', (req, res) => {
-    let id = req.params.id;
-    var sql = "UPDATE matchTbl set matchDeleted=1 where matchId=?";
-    conn.query(sql, id, (err, results) => {
-            if(err) return res.json({success:false, err});
-            else res.json({status:"success"});
-    })
-});
 
 module.exports = router;
