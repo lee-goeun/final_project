@@ -61,6 +61,9 @@ const PostContainer = () => {
     setShowPostMenu(!showPostMenu);
   };
 
+  // 수정하기 버튼 클릭시
+  const [showEditPost, setShowEditPost] = useState(false);
+
   // 삭제하기 버튼 클릭시
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const clickDeletePostBtn = (e) => {
@@ -110,6 +113,7 @@ const PostContainer = () => {
                   <p
                     onClick={() => {
                       setShowPostMenu(!showPostMenu);
+                      setShowEditPost(!showEditPost);
                     }}
                   >
                     수정하기
@@ -238,6 +242,28 @@ const PostContainer = () => {
           </button>
         </div>
       ) : null}
+      {showEditPost ? (
+        <div className="edit-post-modal">
+          <textarea>기존 텍스트</textarea>
+          <button
+            className="edit-post-cancel"
+            onClick={() => {
+              setShowEditPost(!showEditPost);
+            }}
+          >
+            취소
+          </button>
+          <button
+            className="edit-post-yes"
+            onClick={() => {
+              alert('게시물이 수정되었습니다.');
+              setShowEditPost(!showEditPost);
+            }}
+          >
+            수정
+          </button>
+        </div>
+      ) : null}
     </>
   );
 };
@@ -327,7 +353,7 @@ const CommentContainer = () => {
         img: 'https://img.hankyung.com/photo/202103/20210323110008_60594ba899dab_1.jpg',
         date: '2022/02/20',
         content:
-          '부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다. 부럽다.',
+          '부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.',
       },
     ],
   });
@@ -337,6 +363,9 @@ const CommentContainer = () => {
   const clickReportComment = (e) => {
     setShowReportCommentModal(true);
   };
+
+  // 댓글 좋아요 버튼 클릭시
+  const [isLikeComment, setIsLikeComment] = useState(false);
 
   return (
     <>
@@ -349,7 +378,7 @@ const CommentContainer = () => {
           </div>
           <div className="cc02">
             <h4>{com.nick}</h4>
-            <p>{com.date}</p>
+            <p></p>
           </div>
           <div className="cc03">
             <FontAwesomeIcon icon={faPen} id="edit-icon" title="수정하기" />
@@ -362,7 +391,29 @@ const CommentContainer = () => {
             />
           </div>
           <div className="cc04">
-            <p>{com.content}</p>
+            <p>
+              {com.content}
+              <br />
+              <span className="comment-date">- {com.date}</span>
+              {isLikeComment ? (
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  id="comment-like-icon"
+                  onClick={() => {
+                    setIsLikeComment(!isLikeComment);
+                  }}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={borderHeart}
+                  id="comment-border-like-icon"
+                  onClick={() => {
+                    setIsLikeComment(!isLikeComment);
+                  }}
+                />
+              )}
+              <span className="comment-like-count">22개</span>
+            </p>
           </div>
         </div>
       ))}

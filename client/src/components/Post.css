@@ -179,7 +179,6 @@
   padding: 10px;
   border-top: 1px solid #b1b1b1;
 }
-
 .pr07 {
   grid-area: pr07;
 }
@@ -208,7 +207,7 @@
   top: -7px;
   right: 47px;
   width: 90px;
-  min-height: 78px;
+  min-height: 60px;
   max-height: fit-content;
   padding: 5px 10px;
   font-size: 15px;
@@ -289,6 +288,38 @@
   box-shadow: 0 1px 5px var(--accent-dark);
 }
 
+.edit-post-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+  height: fit-content;
+  padding: 40px 60px;
+  background-color: var(--bgcolor-default);
+  box-shadow: 3px 3px 10px #c4c4c4;
+  text-align: center;
+}
+.edit-post-modal > textarea {
+  margin: 20px auto 10px;
+  padding: 10px;
+  width: 400px;
+  height: 400px;
+  display: block;
+  resize: none;
+  border: 1px solid var(--bordercolor-default);
+}
+.edit-post-cancel,
+.edit-post-yes {
+  padding: 5px 20px;
+  width: 150px;
+  font-size: 18px;
+  margin: 30px 20px 5px 20px;
+  border: none;
+  background-color: var(--accent-default);
+  box-shadow: 0 1px 5px var(--accent-dark);
+}
+
 /* MiniPostContainer */
 .mini-post-container {
   display: inline-block;
@@ -338,7 +369,7 @@
 
 /* CommentContainer */
 .comment-container {
-  width: 380px;
+  width: 370px;
   min-height: 60px;
   max-height: fit-content;
 
@@ -349,7 +380,7 @@
     'cc01 cc02 cc03'
     'cc04 cc04 cc04';
 
-  margin: 0 0 15px 0;
+  margin: 0 auto 15px auto;
 }
 .cc01 {
   grid-area: cc01;
@@ -405,6 +436,27 @@
 #report-icon:hover {
   color: red;
 }
+#comment-like-icon {
+  color: red;
+  cursor: pointer;
+}
+#comment-border-like-icon {
+  color: var(--font-light);
+  cursor: pointer;
+  transition: 0.3s;
+}
+#comment-border-like-icon:hover {
+  color: red;
+}
+.comment-date {
+  color: var(--font-light);
+  margin-right: 10px;
+}
+.comment-like-count {
+  color: var(--font-light);
+  margin-left: 5px;
+}
+
 /* 댓글 신고 모달 */
 .report-comment-modal {
   position: fixed;
