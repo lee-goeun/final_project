@@ -9,7 +9,6 @@ const fs = require('fs');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        console.log("req"+req);
       cb(null,'matchImages/temp') // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
     },
     filename: function (req, file, cb) {
@@ -55,8 +54,10 @@ router.get('/listLimit1', (req, res) => {
 //추가
 router.post('/add', upload.single('matchImgName'),(req,res) => {
     var body = req.body;
+    var filename = req.file.originalname;
+
     var sql = "INSERT INTO matchTbl(user_id, matchImgName, matchTitle, matchContent, selectPet, matchTime) VALUES(?, ?, ?, ?,?, ?);";
-    conn.query(sql, ["test01", req.file.originalname, body.matchTitle, body.matchContent, body.selectPet, body.matchTime],(err, results) => {
+    conn.query(sql, ["test01", filename, body.matchTitle, body.matchContent, body.selectPet, body.matchTime],(err, results) => {
         if(err) return res.json({success:false, err});
         else {
             conn.query("SELECT matchId FROM matchTbl ORDER BY matchCreated DESC LIMIT 1", (err, results)=>{
@@ -64,17 +65,19 @@ router.post('/add', upload.single('matchImgName'),(req,res) => {
 
                 var newdir = "matchImages/" + matchId + "/";
 
-                if(!fs.existsSync(newdir)){
-                    fs.mkdirSync(newdir);
+                if(filename != null && filename != 0){
+                    if(!fs.existsSync(newdir)){
+                        fs.mkdirSync(newdir);
+                    }
+    
+                    var oldPath = "matchImages/temp/" + filename;
+                    var newPath = newdir + filename;
+    
+                    fs.rename(oldPath, newPath, function (err) {
+                        if (err) throw err
+                        console.log('move success');
+                    })
                 }
-
-                var oldPath = "matchImages/temp/" + req.file.originalname;
-                var newPath = newdir + req.file.originalname;
-
-                fs.rename(oldPath, newPath, function (err) {
-                    if (err) throw err
-                    console.log('move success');
-                })
 
                 res.json({status:"success"});
             });
@@ -107,16 +110,34 @@ router.get('/detail/:id', (req, res) => {
 });
 
 //수정
-router.put('/mod', (req, res) => {
-
-    upload.single(req.body.imgFileName);
-    const match = new Match(req.body);
-
+router.put('/mod', upload.single('matchImgName'), (req, res) => {
+    var body = req.body;
+    var image = req.file.originalname;
+    console.log("req", body, req.file);
     var sql = "UPDATE matchTbl set matchImgName=?, matchTitle=?, matchContent=?, selectPet=?, matchTime=? where matchId=?";
-    conn.query(sql, [body.matchImgName, body.matchTitle, body.matchContent, body.selectPet, body.matchTime, body.matchId], 
-        (err, results) => {
-            if(err) return res.json({success:false, err});
-            else res.json({status:"success"});
+    conn.query(sql, ["test01", image, body.matchTitle, body.matchContent, body.selectPet, body.matchTime, body.matchId],(err, results) => {
+        if(err) return res.json({success:false, err});
+        else {
+                var newdir = "matchImages/" + body.matchId + "/";
+
+                if(!fs.existsSync(newdir)){
+                    fs.mkdirSync(newdir);
+                }
+
+                var oldPath = "matchImages/temp/" + image;
+                var newPath = newdir + image;
+
+                fs.rename(oldPath, newPath, function (err) {
+                    if (err) throw err
+                    console.log('move success');
+                });
+
+                //TODO: 이전 이미지 삭제
+
+                res.json({status:"success"});
+            
+        }
+
     })
 });
 
