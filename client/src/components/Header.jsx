@@ -135,6 +135,7 @@ const Header = () => {
                   onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                       clickSearchBtn();
+                      e.target.value = '';
                     }
                   }}
                 />
