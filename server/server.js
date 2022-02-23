@@ -3,16 +3,18 @@ const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-app.use('/api', bodyParser.urlencoded({extended: false})); 
-app.use('/api', bodyParser.json());
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true})); 
 app.use(cors());
 
+//router
 var matchRouter = require('./routes/Match');
 app.use('/match', matchRouter);
 
-//var chatRouter = require('./routes/Chat');
-//app.use('/api/chat', chatRouter);
+var chatRouter = require('./routes/Chat');
+app.use('/chat', chatRouter);
+
 
 const port =process.env.PORT || 3001;
 app.listen(port, ()=>{
