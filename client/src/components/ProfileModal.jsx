@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ProfileImgButtonsContainer from '../redux/containers/ProfileImgButtonsContainer';
 import ProfileImgButtons from './ProfileImgButtons';
 
 const ModalWrapper = styled.div`
@@ -76,7 +77,7 @@ const ProfileModal = ({
       >
         <ModalInner tabIndex="0" className="modal-inner">
           <h3>{children}</h3>
-          <ProfileImgButtons></ProfileImgButtons>
+          <ProfileImgButtonsContainer />
           <CloseButton className="modal-close" onClick={close}>
             취소
           </CloseButton>
