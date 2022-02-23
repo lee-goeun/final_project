@@ -6,6 +6,7 @@ import {
   faCircleUser,
   faHouse,
   faMagnifyingGlass,
+  faMessage,
   faPeopleCarryBox,
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
@@ -174,6 +175,12 @@ const Header = () => {
               icon={faPeopleCarryBox}
               id="header-market-icon"
               title="중고거래"
+            />
+
+            <FontAwesomeIcon
+              icon={faMessage}
+              id="header-chatting-icon"
+              title="채팅보기"
             />
 
             <FontAwesomeIcon

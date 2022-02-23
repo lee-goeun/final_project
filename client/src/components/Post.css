@@ -439,11 +439,13 @@
 #comment-like-icon {
   color: red;
   cursor: pointer;
+  font-size: 13px;
 }
 #comment-border-like-icon {
   color: var(--font-light);
   cursor: pointer;
   transition: 0.3s;
+  font-size: 13px;
 }
 #comment-border-like-icon:hover {
   color: red;
@@ -451,10 +453,12 @@
 .comment-date {
   color: var(--font-light);
   margin-right: 10px;
+  font-size: 12px;
 }
 .comment-like-count {
   color: var(--font-light);
   margin-left: 5px;
+  font-size: 12px;
 }
 
 /* 댓글 신고 모달 */

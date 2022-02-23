@@ -1,0 +1,150 @@
+.post-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr;
+  width: fit-content;
+  height: fit-content;
+  margin: 100px auto;
+  box-shadow: 3px 3px 10px #c4c4c4;
+}
+.pc-left {
+  background-color: rgb(30, 30, 30);
+  width: 800px;
+  height: 800px;
+}
+.pc-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pc-right {
+  width: 400px;
+  height: 800px;
+  background-color: rgb(242, 242, 242);
+
+  display: grid;
+  grid-template-columns: 70px 1fr 50px;
+  grid-template-rows: 70px 2fr 30px 1fr 40px;
+  grid-template-areas:
+    'pr01 pr02 pr03'
+    'pr04 pr04 pr04'
+    'pr05 pr05 pr05'
+    'pr06 pr06 pr06'
+    'pr07 pr07 pr07';
+}
+.pr01 {
+  grid-area: pr01;
+  padding: 10px;
+}
+.pr01 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 100px;
+}
+.pr02 {
+  grid-area: pr02;
+  line-height: 70px;
+  text-align: left;
+  padding: 0 10px;
+}
+.pr02 > h2 {
+  display: inline-block;
+}
+.pr02 > span {
+  margin-left: 10px;
+  cursor: pointer;
+}
+.pr03 {
+  grid-area: pr03;
+}
+.pr04 {
+  grid-area: pr04;
+  text-align: left;
+  padding: 10px;
+  border-top: 1px solid #b1b1b1;
+}
+.pr05 {
+  grid-area: pr05;
+  line-height: 30px;
+  text-align: right;
+}
+.pr05 > p {
+  margin-right: 10px;
+  color: #727272;
+}
+.pr06 {
+  grid-area: pr06;
+  text-align: left;
+  padding: 10px;
+  border-top: 1px solid #b1b1b1;
+}
+.pr07 {
+  grid-area: pr07;
+}
+.pr07 > input {
+  width: 80%;
+  height: 100%;
+  padding: 0 10px;
+  font-size: 13px;
+  border: 1px solid white;
+  transition: 0.3s;
+}
+.pr07 > input:focus {
+  border: 1px solid #45e6f2;
+}
+.pr07 > button {
+  width: 20%;
+  height: 100%;
+  background-color: #45e6f2;
+  color: #ffffff;
+  border: none;
+}
+.heart {
+  position: relative;
+  bottom: 100px;
+  font-size: 30px;
+  text-align: right;
+  padding: 10px;
+  bottom: 64px;
+  color: white;
+  text-shadow: 0 0 2px black;
+}
+
+/* 수정/삭제 모달창 */
+.menu-modal-container {
+  position: relative;
+  top: -7px;
+  right: 57px;
+  width: 90px;
+  height: 78px;
+  padding: 5px 10px;
+  font-size: 15px;
+  background-color: #45e6f2;
+  text-align: center;
+
+  clip-path: polygon(
+    0% 20%,
+    75% 20%,
+    80% 10%,
+    85% 20%,
+    100% 20%,
+    100% 100%,
+    0% 100%
+  );
+  border-right: 2px solid rgba(192, 192, 192, 0.5);
+  border-bottom: 2px solid rgba(192, 192, 192, 0.5);
+}
+.menu-modal-container > p:first-child {
+  margin-top: 19px;
+  margin-bottom: 3px;
+}
+.menu-modal-container > p {
+  color: white;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.menu-modal-container > p:hover {
+  color: black;
+}

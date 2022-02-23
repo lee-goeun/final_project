@@ -2,13 +2,24 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const port =process.env.PORT || 3001;
 
-app.use(cors());
 
 app.use(bodyParser.json());
-app.use('/api', (req, res)=> res.json({username:'bryan'}));
+app.use(bodyParser.urlencoded({extended: true})); 
+app.use(cors());
 
+//router
+var matchRouter = require('./routes/Match');
+app.use('/match', matchRouter);
+
+var chatRouter = require('./routes/Chat');
+app.use('/chat', chatRouter);
+
+//postRouter 추가 부분
+require("./routes/postRouter")(app);
+
+
+const port =process.env.PORT || 3001;
 app.listen(port, ()=>{
     console.log(`express is running on ${port}`);
 })
