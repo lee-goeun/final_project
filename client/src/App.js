@@ -8,6 +8,9 @@ import Join from './components/authentication/Join';
 import { PostContainer, MiniPostContainer } from './components/Post';
 import PostPage from './pages/PostPage';
 import DetailPost from './pages/DetailPost';
+import WalkingMate from './pages/WalkingMate';
+import Chatting from './pages/Chatting';
+import UsedTrade from './pages/UsedTrade';
 
 function App() {
   return (
@@ -24,7 +27,10 @@ function App() {
         }
       />
       <Route path="/postpage" element={<PostPage />} />
-      <Route path="/postpage/DetailPost" element={<DetailPost />} />
+      <Route path="/postpage/detailpost" element={<DetailPost />} />
+      <Route path="/walkingmate" element={<WalkingMate />} />
+      <Route path="/usedtrade" element={<UsedTrade/>} />
+      <Route path="/chatting" element={<Chatting/>} />
       <Route element={<MyPageLayout />}>
         <Route path="/mypost/" element={<Mypost />} />
         <Route path="/profile/" element={<Profile />} />

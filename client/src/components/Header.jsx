@@ -2,6 +2,7 @@ import Styled from 'styled-components';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faBoxOpen,
   faCameraRetro,
   faCircleUser,
   faHouse,
@@ -41,7 +42,9 @@ const HeaderStyle = Styled.div`
   #header-post-icon,
   #header-mathching-icon,
   #header-market-icon,
-  #header-mypage-icon {
+  #header-mypage-icon,
+  #header-chatting-icon
+   {
     font-size: 22px;
     margin: 15px 7px 0 7px;
     color: var(--font-dark);
@@ -53,7 +56,9 @@ const HeaderStyle = Styled.div`
   #header-post-icon:hover,
   #header-mathching-icon:hover,
   #header-market-icon:hover,
-  #header-mypage-icon:hover {
+  #header-mypage-icon:hover,
+  #header-chatting-icon:hover
+   {
     color: var(--accent-default);
   }
 
@@ -166,23 +171,27 @@ const Header = () => {
                 title="게시물"
               />
             </Link>
+            <Link to="/walkingmate">
             <FontAwesomeIcon
               icon={faUserGroup}
               id="header-mathching-icon"
               title="산책메이트 찾기"
             />
+            </Link>
+            <Link to="/usedtrade">
             <FontAwesomeIcon
-              icon={faPeopleCarryBox}
+              icon={faBoxOpen}
               id="header-market-icon"
               title="중고거래"
             />
-
+            </Link>
+            <Link to="/chatting">
             <FontAwesomeIcon
               icon={faMessage}
               id="header-chatting-icon"
               title="채팅보기"
             />
-
+            </Link>
             <FontAwesomeIcon
               icon={faCircleUser}
               id="header-mypage-icon"
