@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from './components/Header';
-import ProfileNav from './components/ProfileNav';
+import Header from '../components/Header';
+import ProfileNav from '../components/ProfileNav';
 
-const Layout = styled.div``;
+const MyPageLayoutWrapper = styled.div``;
 
 const ProfileHeaderBlock = styled.header``;
-const Main = styled.main``;
+const MainWrapper = styled.main``;
 const ProfileBlock = styled.div`
   display: flex;
   align-items: flex-start;
@@ -19,17 +19,17 @@ const MyPageLayout = () => {
   const onSelect = useCallback((category) => setCategory(category), []);
 
   return (
-    <Layout>
+    <MyPageLayoutWrapper>
       <Header />
       <ProfileBlock>
         <ProfileHeaderBlock>
           <ProfileNav category={category} onSelect={onSelect} />
         </ProfileHeaderBlock>
-        <Main>
+        <MainWrapper>
           <Outlet />
-        </Main>
+        </MainWrapper>
       </ProfileBlock>
-    </Layout>
+    </MyPageLayoutWrapper>
   );
 };
 
