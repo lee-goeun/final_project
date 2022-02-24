@@ -121,7 +121,7 @@ Post.like = (postID, result) => {
     
     console.log("좋아요 개수: ", boardgood[0])
     //게시글 좋아요 개수 증가
-    sql.query('UPDATE boardtbl SET boardGood=? where boardId=?', [boardgood[0], postID], (err, res) => {
+    sql.query('UPDATE boardtbl SET boardGood=? where boardId=?', [boardgood[0].boardGood + 1, postID], (err, res) => {
       if(err) {
         console.log("error:", err);
         result(err, null);
