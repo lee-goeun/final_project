@@ -1,3 +1,4 @@
+const removeUploadedFiles = require("multer/lib/remove-uploaded-files");
 const sql = require("../db/index.js");
 
 //생성자
@@ -7,10 +8,13 @@ const Post = function(post) {
     this.boardTitle = post.boardTitle;
     this.boardContent = post.boardContent;
     this.boardViews = post.boardViews;
+    this.boardImgList = post.boardImgList;
 };
 
 //Post 생성 
 Post.create = (newPost, result) => {
+
+
     sql.query("INSERT INTO boardtbl(categoryIndex, userId, boardTitle, boardContent, boardViews) VALUES (?, ?, ?, ?, ?)"
     ,[newPost.categoryIndex, newPost.userId, newPost.boardTitle, newPost.boardContent, newPost.boardViews]
     , (err, res) => {
@@ -23,6 +27,8 @@ Post.create = (newPost, result) => {
         console.log("Created post: ", { id:res.insertId, ...newPost });
         result(null, {id: res.insertId, ...newPost});
     });
+    
+
 };
 
 //Post 전체 조회
@@ -37,6 +43,7 @@ Post.getAll = result => {
         console.log("post: ", res);
         result(null, res);
     });
+
 };
 
 //Post 상세보기(id로 조회)
