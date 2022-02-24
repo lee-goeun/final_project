@@ -103,9 +103,7 @@ router.post('/add', upload.single('matchImgName'), (req, res) => {
 });
 
 //신분증확인(ocr기능)
-router.post('/confirmId', upload.single('idCard'),(req,res) => {
-  
-});
+router.post('/confirmId', upload.single('idCard'), (req, res) => {});
 
 //이미지 읽어오는 경로
 router.get('/download', (req, res) => {
@@ -131,14 +129,25 @@ router.get('/detail/:id', (req, res) => {
 
 //수정
 router.put('/mod', upload.single('matchImgName'), (req, res) => {
-    var body = req.body;
-    var image = req.file.originalname;
-    console.log("req", body, req.file);
-    var sql = "UPDATE matchTbl set matchImgName=?, matchTitle=?, matchContent=?, selectPet=?, matchTime=? where matchId=?";
-    conn.query(sql, [image, body.matchTitle, body.matchContent, body.selectPet, body.matchTime, body.matchId],(err, results) => {
-        if(err) return res.json({success:false, err});
-        else {
-                var newdir = "matchImages/" + body.matchId + "/";
+  var body = req.body;
+  var image = req.file.originalname;
+  console.log('req', body, req.file);
+  var sql =
+    'UPDATE matchTbl set matchImgName=?, matchTitle=?, matchContent=?, selectPet=?, matchTime=? where matchId=?';
+  conn.query(
+    sql,
+    [
+      image,
+      body.matchTitle,
+      body.matchContent,
+      body.selectPet,
+      body.matchTime,
+      body.matchId,
+    ],
+    (err, results) => {
+      if (err) return res.json({ success: false, err });
+      else {
+        var newdir = 'matchImages/' + body.matchId + '/';
 
         if (!fs.existsSync(newdir)) {
           fs.mkdirSync(newdir);
