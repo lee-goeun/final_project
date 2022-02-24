@@ -1,3 +1,4 @@
+const removeUploadedFiles = require("multer/lib/remove-uploaded-files");
 const sql = require("../db/index.js");
 
 //생성자
@@ -7,10 +8,13 @@ const Post = function(post) {
     this.boardTitle = post.boardTitle;
     this.boardContent = post.boardContent;
     this.boardViews = post.boardViews;
+    this.boardImgList = post.boardImgList;
 };
 
 //Post 생성 
 Post.create = (newPost, result) => {
+
+
     sql.query("INSERT INTO boardtbl(categoryIndex, userId, boardTitle, boardContent, boardViews) VALUES (?, ?, ?, ?, ?)"
     ,[newPost.categoryIndex, newPost.userId, newPost.boardTitle, newPost.boardContent, newPost.boardViews]
     , (err, res) => {
@@ -23,6 +27,8 @@ Post.create = (newPost, result) => {
         console.log("Created post: ", { id:res.insertId, ...newPost });
         result(null, {id: res.insertId, ...newPost});
     });
+    
+
 };
 
 //Post 전체 조회
@@ -37,6 +43,7 @@ Post.getAll = result => {
         console.log("post: ", res);
         result(null, res);
     });
+
 };
 
 //Post 상세보기(id로 조회)
@@ -98,6 +105,40 @@ Post.remove = (id, result) => {
         result(null, res);
     });
 };
+
+Post.like = (postID, result) => {
+  sql.query('SELECT boardGood FROM boardtbl WHERE boardId=?', postID, (err, boardgood) => {
+    if(err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    //id 결과가 없을시
+    if(boardgood.affectedRows == 0) {
+        result({kind:"not_found"}, null);
+        return;
+    }
+    
+    console.log("좋아요 개수: ", boardgood[0])
+    //게시글 좋아요 개수 증가
+    sql.query('UPDATE boardtbl SET boardGood=? where boardId=?', [boardgood[0].boardGood + 1, postID], (err, res) => {
+      if(err) {
+        console.log("error:", err);
+        result(err, null);
+        return;
+      }
+      
+      //id 결과 없을시
+      if(res.affectedRows == 0) {
+          result({kind:"not_found"}, null);
+          return;
+      }
+
+      console.log("like post: ", postID);
+      result(null, res);
+    })
+  })
+}
 
 
 module.exports = Post;

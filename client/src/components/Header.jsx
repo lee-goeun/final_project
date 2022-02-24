@@ -6,13 +6,11 @@ import {
   faCameraRetro,
   faCircleUser,
   faHouse,
-  faLocationDot,
   faMagnifyingGlass,
   faMessage,
-  faPeopleCarryBox,
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const HeaderStyle = Styled.div`

@@ -15,6 +15,9 @@ app.use('/match', matchRouter);
 var chatRouter = require('./routes/Chat');
 app.use('/chat', chatRouter);
 
+var mypageRouter = require('./routes/Mypage');
+app.use('/mypage', mypageRouter);
+
 //postRouter 추가 부분
 require("./routes/postRouter")(app);
 

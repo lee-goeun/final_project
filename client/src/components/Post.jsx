@@ -1,13 +1,10 @@
 import './Post.css';
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHeart,
-  faComment,
-  faEye,
   faEllipsisVertical,
   faPen,
-  faXmark,
   faX,
   faChevronLeft,
   faChevronRight,
@@ -26,17 +23,11 @@ import {
   faSquarePlus,
 } from '@fortawesome/free-regular-svg-icons';
 
-import {
-  createStoreHook,
-  Provider,
-  useSelector,
-  useDispatch,
-} from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fontGrid } from '@mui/material/styles/cssUtils';
-import { ShopTwoRounded } from '@material-ui/icons';
+
 
 const PostContainer = () => {
+
   const [isFollow, setIsFollow] = useState(false);
 
   const [showPostMenu, setShowPostMenu] = useState(false);
@@ -88,7 +79,6 @@ const PostContainer = () => {
           <div className="pc-left">
             <img src="https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg" />
           </div>
-
           <div className="pc-right">
             <div className="pr01">
               <img src="http://image.cine21.com/resize/cine21/person/2018/0423/13_42_54__5add644ed52f5[W578-].jpg" />
@@ -584,13 +574,17 @@ const PostBackground = () => {
 
 const PostUploadForm = () => {
 
-  const [images, setImages] = useState({
-    img: [],
-    previewURL: "",
-  });
+  const [imgUrl, setImgUrl] = useState("");
 
-  const uploadImg = (e) => {
-
+  const encodeFileToBase64 = (fileBlob) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(fileBlob);
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setImgUrl(reader.result);
+        resolve();
+      }
+    })
   }
 
   return(
@@ -598,7 +592,14 @@ const PostUploadForm = () => {
     <div className='post-upload-form-container'>
       <h2 style={{marginBottom:"30px"}}>일반 게시물 업로드 폼</h2>
       <label htmlFor='post-img-select'>이미지 업로드</label>
-      <input type="file" id='post-img-select' onChange={uploadImg} multiple/>
+      <input type="file" id='post-img-select' multiple
+      onChange={(e)=>{
+        encodeFileToBase64(e.target.files[0]);
+      }} />
+
+      <div className='img-preview-container'>
+        {imgUrl && <img src={imgUrl} alt="이미지 미리보기" />}
+      </div>
 
 
       <textarea placeholder="내용을 입력하세요..."></textarea>
