@@ -23,6 +23,7 @@ import {
   faComment as borderComment,
   faEye as borderEye,
   faBookmark,
+  faSquarePlus,
 } from '@fortawesome/free-regular-svg-icons';
 
 import {
@@ -393,11 +394,11 @@ const MatePostContainer = () => {
         </div>
         <p className='inputed-content'>이따 10시에 효산공원에서 2시간정도 산책하실분 찾습니다! 저희 강아지 엄청 순해요 채팅주세요!</p>
         <p className='tit'><FontAwesomeIcon icon={faClock} className="mate-appointment-time-icon" />산책 시간 정보</p>
-        <p className='inf'>22/02/23 ｜ 22:00 - 24:00</p>
+        <p className='inf'>22/02/23 · 22:00 - 24:00</p>
         <p className='tit'><FontAwesomeIcon icon={faUser} className="mate-writer-icon" />산책매니아 님의 정보</p>
-        <p className='inf'>20대 ｜ 남자 ｜ 강남구 논현2동</p>
+        <p className='inf'>20대 · 남자 · 강남구 논현2동</p>
         <p className='tit'><FontAwesomeIcon icon={faPaw} className="mate-writer-pet-icon" />산책매니아 님의 반려동물 정보</p>
-        <p className='inf'>코코 ｜ 3살 ｜ 수컷 ｜ 강아지 ＞ 포메라니안</p>
+        <p className='inf'>코코 · 3살 · 수컷 · 강아지 ＞ 포메라니안</p>
       </div>
       <div className='mpc06'>
          채팅으로 산책매니아 님과 약속을 잡아보세요! <FontAwesomeIcon icon={faMessage} className="mate-chatting-btn" title='채팅하기'/>
@@ -523,12 +524,34 @@ const CommentContainer = () => {
 const PostBackground = () => {
   const [posts, setPosts] = useState([]);
 
+  const uploadDiv = useRef();
+  const showText = () => {
+    uploadDiv.current.style.height = "100px";
+  }
+  const hideText = () => {
+    uploadDiv.current.style.height = "50px";
+  }
+
+  const [showUploadFormModal, setShowUploadFormModal] = useState(false);
+  const clickUploadFormModal = (e) => {
+    setShowUploadFormModal(!showUploadFormModal);
+  }
+
   return (
     <>
       <div className="post-background">
-        <div className="post-filter">
+        <div className="post-filter">          
           <span>최신순</span>｜<span>조회수 높은순</span>｜
           <span>좋아요 높은순</span>
+        </div>
+
+        <div className='upload-post-div' ref={uploadDiv}>
+          <div>
+            게시물 올리기
+          </div>
+          <div onMouseOver={showText} onMouseOut={hideText}>
+            <FontAwesomeIcon icon={faSquarePlus} className="upload-post-btn" title='게시물 올리기' onClick={clickUploadFormModal}/>
+          </div>
         </div>
 
         {/* <div>
@@ -542,6 +565,15 @@ const PostBackground = () => {
           <MiniMatePostContainer/>
         </div>
       </div>
+
+      {/* 게시물 작성폼 모달창 */}
+      {showUploadFormModal?
+      <div className='upload-modal-container'>
+        a
+        <button onClick={clickUploadFormModal}>취소</button>
+        <button>작성</button>
+      </div>
+      :null}
     </>
   );
 };

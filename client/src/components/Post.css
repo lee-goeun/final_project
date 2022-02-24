@@ -723,10 +723,61 @@
 }
 .post-list {
   text-align: center;
-  margin: 0 auto;
-  padding: 10px 0;
+  margin: 0px auto;
+  padding: 20px 0;
   max-width: 1050px;
   width: 100%;
   min-height: 400px;
   max-height: fit-content;
+  background-color: #f5f5f5;
+}
+.post-filter>div:last-child>p{
+  color: var(--font-dark);
+  font-size: 20px;
+  cursor: pointer;
+}
+.upload-post-btn{
+  margin-left: 5px;
+  color: var(--font-light);
+  transition: 0.3s;
+  cursor: pointer;
+}
+.upload-post-btn:hover{
+  color: black;
+}
+
+.upload-post-div{
+  width: 150px;
+  height: 50px;
+  margin: 20px auto;
+  text-align: center;
+  transition: 0.3s;
+}
+.upload-post-div>div{
+  width: 150px;
+  height: 50px;
+  position: relative;
+}
+.upload-post-div>div:first-child{
+  font-size: 18px;
+  padding-top: 70px;
+  z-index: -1;
+}
+.upload-post-div>div:last-child{
+  font-size: 50px;
+  line-height: 0px;
+  transition: 0.3s;
+  position: relative;
+  bottom: 50px;
+}
+
+/* 게시물 작성폼 모달창 */
+.upload-modal-container{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 500px;
+  height: 500px;
+  background-color: #45e6f2;
 }
