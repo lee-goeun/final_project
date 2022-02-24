@@ -87,6 +87,11 @@ router.post('/add', upload.single('matchImgName'),(req,res) => {
     })
 });
 
+//신분증확인(ocr기능)
+router.post('/confirmId', upload.single('idCard'),(req,res) => {
+  
+});
+
 //이미지 읽어오는 경로
 router.get('/download', (req, res) => {
     var id = req.query.matchId;
