@@ -584,13 +584,17 @@ const PostBackground = () => {
 
 const PostUploadForm = () => {
 
-  const [images, setImages] = useState({
-    img: [],
-    previewURL: "",
-  });
+  const [imgUrl, setImgUrl] = useState("");
 
-  const uploadImg = (e) => {
-
+  const encodeFileToBase64 = (fileBlob) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(fileBlob);
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setImgUrl(reader.result);
+        resolve();
+      }
+    })
   }
 
   return(
@@ -598,7 +602,14 @@ const PostUploadForm = () => {
     <div className='post-upload-form-container'>
       <h2 style={{marginBottom:"30px"}}>일반 게시물 업로드 폼</h2>
       <label htmlFor='post-img-select'>이미지 업로드</label>
-      <input type="file" id='post-img-select' onChange={uploadImg} multiple/>
+      <input type="file" id='post-img-select' multiple
+      onChange={(e)=>{
+        encodeFileToBase64(e.target.files[0]);
+      }} />
+
+      <div className='img-preview-container'>
+        {imgUrl && <img src={imgUrl} alt="이미지 미리보기" />}
+      </div>
 
 
       <textarea placeholder="내용을 입력하세요..."></textarea>
