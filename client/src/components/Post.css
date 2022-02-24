@@ -780,4 +780,6 @@
   width: 500px;
   height: 500px;
   background-color: #45e6f2;
+  box-shadow: 3px 3px 20px #c2c2c2;
+
 }
