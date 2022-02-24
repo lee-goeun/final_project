@@ -45,6 +45,7 @@ exports.create = (req, res) => {
       console.log(urlArr[i]);
     }
 
+    //이미지 boardImages/boardId 경로 아래에 저장
     conn.query("SELECT boardId FROM boardtbl ORDER BY boardCreated DESC LIMIT 1", (err, results)=>{
       if(err) return res.json({success:false, err});
       else {
@@ -112,6 +113,7 @@ exports.findOne = (req, res) => {
     });
 };
 
+//게시판 수정
 exports.update = (req, res) => {
     if(!req.body) {
         res.status(400).send({
@@ -159,4 +161,24 @@ exports.delete = (req, res) => {
             });
         }
     });
+
 };
+
+//게시글 좋아요
+exports.like = (req, res) => {
+  Post.like(req.params.postId, (err, data) => {
+    if(err) {
+      if(err.kind === "not_found") {
+          res.status(404).send({
+              messge: `Not found Post with id ${req.params.postId}.`
+          });
+      } else {
+          res.status(500).send({
+              message: "Error retrieving Post with id" + req.params.postId
+          });
+      }
+    } else {
+        res.send(data);
+    }
+  })
+}

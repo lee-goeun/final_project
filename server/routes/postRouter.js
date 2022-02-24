@@ -40,6 +40,9 @@ module.exports = app => {
     // postRouter.get('/post/edit/:postId', getEditPost);
     postRouter.post('/post/edit/:postId', posts.update);
 
+    //게시글 좋아요
+    postRouter.post('/post/:postId/like', posts.like); 
+
 
     app.use("/board", postRouter);
 };

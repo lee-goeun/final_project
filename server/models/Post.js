@@ -106,5 +106,39 @@ Post.remove = (id, result) => {
     });
 };
 
+Post.like = (postID, result) => {
+  sql.query('SELECT boardGood FROM boardtbl WHERE boardId=?', postID, (err, boardgood) => {
+    if(err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    //id 결과가 없을시
+    if(boardgood.affectedRows == 0) {
+        result({kind:"not_found"}, null);
+        return;
+    }
+    
+    console.log("좋아요 개수: ", boardgood[0])
+    //게시글 좋아요 개수 증가
+    sql.query('UPDATE boardtbl SET boardGood=? where boardId=?', [boardgood[0], postID], (err, res) => {
+      if(err) {
+        console.log("error:", err);
+        result(err, null);
+        return;
+      }
+      
+      //id 결과 없을시
+      if(res.affectedRows == 0) {
+          result({kind:"not_found"}, null);
+          return;
+      }
+
+      console.log("like post: ", postID);
+      result(null, res);
+    })
+  })
+}
+
 
 module.exports = Post;
