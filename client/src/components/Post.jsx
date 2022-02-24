@@ -53,12 +53,14 @@ const CarouselStyle = styled.div`
     }
     .slick-prev::before{
         right: 15px;
+        bottom: 15px;
     }
     .slick-next{
         right: 50px;
     }
     .slick-next::before{
         right: 15px;
+        bottom: 15px;
     }
 `;
 
@@ -244,12 +246,6 @@ const PostContainer = () => {
             </div>
           </div>
         </div>
-        <span id="left-post-span">
-          <FontAwesomeIcon icon={faChevronLeft} id="left-post" />
-        </span>
-        <span id="right-post-span">
-          <FontAwesomeIcon icon={faChevronRight} id="right-post" />
-        </span>
       </div>
 
       {showReportPostModal ? (
