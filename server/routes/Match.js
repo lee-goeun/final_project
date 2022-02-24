@@ -131,28 +131,6 @@ router.get('/detail/:id', (req, res) => {
 
 //수정
 router.put('/mod', upload.single('matchImgName'), (req, res) => {
-<<<<<<< HEAD
-  var body = req.body;
-  var image = req.file.originalname;
-  console.log('req', body, req.file);
-  var sql =
-    'UPDATE matchTbl set matchImgName=?, matchTitle=?, matchContent=?, selectPet=?, matchTime=? where matchId=?';
-  conn.query(
-    sql,
-    [
-      'test01',
-      image,
-      body.matchTitle,
-      body.matchContent,
-      body.selectPet,
-      body.matchTime,
-      body.matchId,
-    ],
-    (err, results) => {
-      if (err) return res.json({ success: false, err });
-      else {
-        var newdir = 'matchImages/' + body.matchId + '/';
-=======
     var body = req.body;
     var image = req.file.originalname;
     console.log("req", body, req.file);
@@ -161,7 +139,6 @@ router.put('/mod', upload.single('matchImgName'), (req, res) => {
         if(err) return res.json({success:false, err});
         else {
                 var newdir = "matchImages/" + body.matchId + "/";
->>>>>>> 117024b122146bb6c43c15379b3f8369afb07bea
 
         if (!fs.existsSync(newdir)) {
           fs.mkdirSync(newdir);

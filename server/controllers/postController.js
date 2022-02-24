@@ -1,5 +1,11 @@
 const Post = require("../models/Post.js");
 
+const fs = require('fs');
+const { post } = require("../routes/Match.js");
+const conn = require("../db/index.js");
+
+
+
 //새 객체 생성
 exports.create = (req, res) => {
     if(!req.body) {
@@ -13,7 +19,8 @@ exports.create = (req, res) => {
         userId : req.body.userId,
         boardTitle : req.body.boardTitle,
         boardContent : req.body.boardContent,
-        boardViews : req.body.boardViews
+        boardViews : req.body.boardViews,
+        // boardImgList : imgId + "_" + userId
     });
 
     //데이터베이스에 저장
@@ -28,8 +35,43 @@ exports.create = (req, res) => {
                 message: `Post was created successfully!`
             });
         };
-    })
+    });
+
+    console.log("파일 이름 : ", req.files);  
+
+    let urlArr = new Array();
+    for (let i = 0; i < req.files.length; i++) {
+      urlArr.push(`${req.files[i].filename}`);
+      console.log(urlArr[i]);
+    }
+
+    conn.query("SELECT boardId FROM boardtbl ORDER BY boardCreated DESC LIMIT 1", (err, results)=>{
+      if(err) return res.json({success:false, err});
+      else {
+        var boardId = results[0].boardId;
+
+        var newdir = "../boardImages/" + boardId + "/";
+
+        if(URLSearchParams.lengh != 0){
+            if(!fs.existsSync(newdir)){
+                fs.mkdirSync(newdir);
+            }
+
+            for (let i = 0; i < urlArr.length; i++) {
+              var oldPath = "../boardImages/temp/" + urlArr[i];
+              var newPath = newdir + urlArr[i];
+              urlArr[i] = newPath;
+
+              fs.rename(oldPath, newPath, function (err) {
+                  if (err) throw err
+                  console.log('move success');
+              })
+            }
+          }
+      };
+    });
 };
+
 
 //전체 조회
 exports.findAll = (req, res) => {
@@ -44,6 +86,12 @@ exports.findAll = (req, res) => {
         }
     });
 };
+
+//이미지 업로드 
+// exports.imgUpload = (req, res, next) => {
+//   upload.array('img', 5)(req, res, () => {
+    
+// }
  
 //게시판 상세보기
 exports.findOne = (req, res) => {
