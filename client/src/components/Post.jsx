@@ -1,5 +1,5 @@
 import './Post.css';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHeart,
@@ -569,7 +569,8 @@ const PostBackground = () => {
       {/* 게시물 작성폼 모달창 */}
       {showUploadFormModal?
       <div className='upload-modal-container'>
-        a
+        <PostUploadForm/>
+        
         <button onClick={clickUploadFormModal}>취소</button>
         <button>작성</button>
       </div>
@@ -578,4 +579,42 @@ const PostBackground = () => {
   );
 };
 
-export { PostContainer, MiniPostContainer, CommentContainer, PostBackground, MiniMatePostContainer, MatePostContainer };
+
+// 게시판별 게시물 작성폼
+
+const PostUploadForm = () => {
+
+  const [images, setImages] = useState({
+    img: [],
+    previewURL: "",
+  });
+
+  const uploadImg = (e) => {
+
+  }
+
+  return(
+    <>
+    <div className='post-upload-form-container'>
+      <h2 style={{marginBottom:"30px"}}>일반 게시물 업로드 폼</h2>
+      <label htmlFor='post-img-select'>이미지 업로드</label>
+      <input type="file" id='post-img-select' onChange={uploadImg} multiple/>
+
+
+      <textarea placeholder="내용을 입력하세요..."></textarea>
+
+    </div>
+    </>
+  )
+}
+
+const MatePostUploadForm = () => {
+
+  return(
+    <div>
+      메이트찾기 게시물 업로드 폼
+    </div>
+  )
+}
+
+export { PostContainer, MiniPostContainer, CommentContainer, PostBackground, MiniMatePostContainer, MatePostContainer, PostUploadForm, MatePostUploadForm };
