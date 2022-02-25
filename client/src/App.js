@@ -29,8 +29,9 @@ function App() {
           </>
         }
       />
-      <Route path="/postpage" element={<PostPage />} />
-      <Route path="/postpage/detailpost" element={<DetailPost />} />
+      <Route path="/postpage" element={<PostPage />} >
+        <Route path="detailpost" element={<DetailPost />} />
+      </Route>
       <Route path="/walkingmate" element={<WalkingMate />} />
       <Route path="/usedtrade" element={<UsedTrade />} />
       <Route path="/chatting" element={<Chatting />} />
