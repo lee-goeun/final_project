@@ -4,6 +4,30 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
+
+  const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
+  const pwRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,15}$/; // 비밀번호 정규표현식
+
+  const errorText = "올바른 형식이 아닙니다.";
+  const [isErrorId, setIsErrorId] = useState(false);
+  const [isErrorPw, setIsErrorPw] = useState(false);
+
+  const onChangeIdInput = (e) => {
+    if(idRegex.test(e.target.value) === false){
+      setIsErrorId(true);
+    } else {
+      setIsErrorId(false);
+    }
+  }
+  const onChangePwInput = (e) => {
+    if(pwRegex.test(e.target.value) === false){
+      setIsErrorPw(true);
+    } else {
+      setIsErrorPw(false);
+    }
+  }
+
   const clickLoginBtn = (e) => {
     e.preventDefault();
     alert('로그인 성공');
@@ -42,23 +66,33 @@ const Login = () => {
         <div className="login-container">
           <form className="login-form">
             <div className="lf1">
-              <label htmlFor="id-input">아이디</label>
+              <label htmlFor="id-input">아이디 
+              {isErrorId && 
+              <span className='error-text'>{errorText}</span>
+              }</label>
               <input
                 ref={idInput}
                 id="id-input"
                 type="text"
                 placeholder="아이디를 입력하세요"
+                onChange={onChangeIdInput}
               />
+              
             </div>
             <div className="lf2">
-              <label htmlFor="pw-input">비밀번호</label>
+              <label htmlFor="pw-input">비밀번호 
+              {isErrorPw && 
+              <span className='error-text'>{errorText}</span>
+              }</label>
               <input
                 ref={pwInput}
                 id="pw-input"
                 type="password"
                 placeholder="비밀번호를 입력하세요"
                 onKeyPress={keyEnter}
+                onChange={onChangePwInput}
               />
+              
             </div>
             <div className="lf3">
               <Link to="/">
