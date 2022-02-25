@@ -234,6 +234,7 @@ const PostContainer = () => {
             <div className="pr07">
               <input
                 type="text"
+                maxLength="50"
                 placeholder="댓글 남기기"
                 ref={commentInput}
                 onKeyPress={(e) => {
@@ -576,6 +577,7 @@ const CommentContainer = () => {
   );
 };
 
+
 const PostBackground = () => {
   const [posts, setPosts] = useState([]);
 
@@ -638,33 +640,68 @@ const PostBackground = () => {
 
 const PostUploadForm = () => {
 
-  const [imgUrl, setImgUrl] = useState("");
+  // const [imgUrl, setImgUrl] = useState("");
 
-  const encodeFileToBase64 = (fileBlob) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        setImgUrl(reader.result);
-        resolve();
+  // const encodeFileToBase64 = (fileBlob) => {
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(fileBlob);
+  //   return new Promise((resolve) => {
+  //     reader.onload = () => {
+  //       setImgUrl(reader.result);
+  //       resolve();
+  //     }
+  //   })
+  // }
+
+  const [imgBase64, setImgBase64] = useState([]);
+  const [imgFile, setImgFile] = useState(null);
+
+  const handleChangeFile = (e) => {
+    console.log(e.target.files);
+    setImgFile(e.target.files);
+    // fd.append("file", e.target.files)
+    setImgBase64([]);
+    for(let i = 0; i < e.target.files.length; i++){
+      let reader = new FileReader();
+      reader.readAsDataURL(e.target.files[i]);
+
+      reader.onloadend = () => {
+        // 파일 읽기가 완료되면 아래의 코드가 실행
+        const base64 = reader.result;
+        console.log(base64);
+        if(base64){
+          // images.push(base64.toString())
+          let base64Sub = base64.toString()
+
+          setImgBase64(imgBase64 => [...imgBase64, base64Sub]);
+          // setImgBase64(newObj);
+          // 파일 base64 상태 업데이트
+          // console.log(images)
+
+        }
       }
-    })
+    }
   }
-  
 
   return(
     <>
     <div className='post-upload-form-container'>
       <h2 style={{marginBottom:"30px"}}>일반 게시물 업로드 폼</h2>
       <label htmlFor='post-img-select'>이미지 업로드</label>
-      <input type="file" id='post-img-select' multiple
-      onChange={(e)=>{
-        encodeFileToBase64(e.target.files[0]);
-      }} />
+      <input 
+        type="file"
+        id='post-img-select'
+        multiple
+        onChange={handleChangeFile}
+      />
 
-      <div className='img-preview-container'>
-        {imgUrl && <img src={imgUrl} alt="이미지 미리보기" />}
-      </div>
+        {imgBase64.map((img) => {
+          return(
+            <div className='img-preview-container'>
+              <img src={img} alt="업로드할 이미지" />
+            </div>
+          ) 
+        })}
 
 
       <textarea placeholder="내용을 입력하세요..."></textarea>

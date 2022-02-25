@@ -16,7 +16,10 @@
   transform: translate(-50%,-50%);
 }
 .post-container {
-  margin: 100px auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-template-rows: 1fr;
@@ -782,11 +785,27 @@
 
 /* 게시판별 게시물 작성폼 */
 
+.upload-modal-container button{
+  padding: 5px 10px;
+  font-size: 20px;
+  width: 200px;
+  background-color: var(--accent-default);
+  box-shadow: 0 1px 5px var(--accent-dark);
+  color: white;
+  border: none;
+  margin: 30px 0 10px 0;
+}
+.upload-modal-container button:last-child{
+  margin-left: 50px;
+}
+
+
 /* PostUploadForm */
 .post-upload-form-container{
-  width: 500px;
+  width: 450px;
   min-height: 400px;
-  max-height: fit-content;
+  max-height: 800px;
+  overflow-y: auto;
 }
 .post-upload-form-container>textarea{
   width: 100%;
@@ -812,7 +831,7 @@
   width: 100%;
   margin-bottom: 30px;
   min-height: 0px;
-  max-height: 500px;
+  max-height: fit-content;
 }
 .img-preview-container>img{
   width: 100%;
