@@ -18,10 +18,10 @@ var storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-//나의 애완동물
+//나의 애완동물(조회)
 router.get('/mypetList', (req, res) => {
-  var id = req.query.user_id;
-  var sql = "select * from mypetTbl where petDeleted = 0 and user_id = ?";
+  var id = req.query.userId;
+  var sql = "select * from mypetTbl where petDeleted = 0 and userId = ?";
       conn.query(sql,id,(err, results) => {
           if(err) return res.json({success:false, err});
           else{
@@ -38,7 +38,7 @@ router.post('/mypetAdd', upload.single('petImgName'), (req, res) => {
   console.log("body", body, filename);
 
   var sql =
-    'insert into mypetTbl(user_id, petImgName, petName, petTypeDetail, petType, petBirth, petSex) values(?, ?, ?, ?,?,?,?);';
+    'insert into mypetTbl(userId, petImgName, petName, petTypeDetail, petType, petBirth, petSex) values(?, ?, ?, ?,?,?,?);';
   conn.query(
     sql,
     [

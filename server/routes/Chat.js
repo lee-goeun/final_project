@@ -26,7 +26,7 @@ const { emit } = require("process");
 
 //조회
 router.get('/list', (req, res) => {
-    var sql = "select * from chatroomTbl where chatroom_deleted = 0";
+    var sql = "select * from chatroomTbl where chatroomDeleted = 0";
         conn.query(sql,(err, results) => {
             if(err) return res.json({success:false, err});
             else{
@@ -45,7 +45,7 @@ router.post('/add',(req,res) => {
     var participant = "test02";
 
     //해당 아이디가 있는 지 확인하기
-    conn.query("select * from chatroomTbl where chatroom_deleted = 0 and participant = ? and matchId = ?;",
+    conn.query("select * from chatroomTbl where chatroomDeleted = 0 and participant = ? and matchId = ?;",
       [participant, body.matchId], (err, results) => {
         if(err) return res.json({success:false, err});
         else{
@@ -53,8 +53,8 @@ router.post('/add',(req,res) => {
               res.json({status:"참여중"});
             }else{
                 //참여하고 있지 않은 아이디만 추가
-                var sql = "insert into chatroomTbl(matchId, user_id, participant) VALUES(?, ?, ?)";
-                conn.query(sql, [body.matchId, body.user_id, participant],(err, results) => {
+                var sql = "insert into chatroomTbl(matchId, userId, participant) VALUES(?, ?, ?)";
+                conn.query(sql, [body.matchId, body.userId, participant],(err, results) => {
                     if(err) res.json({success:false, err});
                     else res.json({status:"success"});
                 })
@@ -72,8 +72,8 @@ router.post('/addMsg',(req,res) => {
     //TODO : 웹소켓 관련해서 테스트 해보기
     var participant = "test02";
 
-    var sql = "insert into chatTbl(chatroomId, user_id, chat_message) VALUES(?, ?, ?)";
-    conn.query(sql, [body.chatroomId, body.user_id, body.chat_message],(err, results) => {
+    var sql = "insert into chatTbl(chatroomId, userId, chatMessage) VALUES(?, ?, ?)";
+    conn.query(sql, [body.chatroomId, body.userId, body.chatMessage],(err, results) => {
         if(err) return res.json({success:false, err});
         else   res.json({status:"success"});
     })
