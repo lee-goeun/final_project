@@ -1,15 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import './Authentication.css';
 import Footer from '../Footer';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import DaumPostHook from '../common/DaumPostHook';
 import styled from 'styled-components';
+import axios from "axios";
 
 const Join = () => {
+
+  const navigate = useNavigate();
+
   const idInput = useRef();
-  useEffect(() => {
-    idInput.current.focus();
-  });
+  
 
   const [userInfo, setUserInfo] = useState({
     address: '',
@@ -50,6 +52,9 @@ const Join = () => {
   const [inputId, setInputId] = useState();
   const [inputPw, setInputPw] = useState();
   const [reInputPw, setReInputPw] = useState();
+  const [inputName, setInputName] = useState();
+  const [inputNick, setInputNick] = useState();
+  const [inputPhone, setInputPhone] = useState();
 
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
   const pwRegex =
@@ -133,9 +138,39 @@ const Join = () => {
     alert('아이디 중복확인');
   };
 
-  const clickSubmitBtn = (e) => {
-    alert('회원가입이 완료되었습니다.');
-  };
+  const clickSubmitBtn = useCallback(()=>{
+    const userJoinData = {
+      userId: inputId,
+      userPw: inputPw,
+      userName: inputName,
+      userNick: inputNick,
+      userPhone: inputPhone,
+      zonecode: userInfo.zonecode,
+      address: userInfo.address,
+      detailAddress: userInfo.detailAddress,
+      extraAddress: "200호",
+    }
+    axios.post('/join', userJoinData)
+    .then(response => {
+      if(response.userJoinData) {
+        navigate('/login');
+      } else {
+          alert("회원가입에 실패했습니다.");
+      }
+    })
+    .catch(err => {
+      if(err.response){
+        alert(err.response.userJoinData);
+        console.log(err.response.userJoinData);
+      } else if (err.request){
+        alert("서버가 응답하지 않습니다.");
+      } else {
+        alert("잘못된 요청입니다.");
+      }
+    });
+
+  }, [inputId, inputPw, inputName, inputNick, inputPhone, userInfo])
+
 
   const touModal = useRef();
 
@@ -146,7 +181,7 @@ const Join = () => {
         <input
           className="id-input"
           type="text"
-          name="user_id"
+          name="userId"
           placeholder="아이디를 입력하세요"
           onChange={(e) => {
             setInputId(e.target.value);
@@ -164,7 +199,7 @@ const Join = () => {
         <input
           className="pw-input"
           type="password"
-          name="user_pw"
+          name="userPw"
           placeholder="비밀번호를 입력하세요"
           onChange={(e) => {
             setInputPw(e.target.value);
@@ -191,24 +226,27 @@ const Join = () => {
         <input
           className="name-input"
           type="text"
-          name="user_name"
+          name="userName"
           placeholder="이름을 입력하세요"
+          onChange={(e)=>{setInputName(e.target.value)}}
         />
 
         <p>닉네임</p>
         <input
           className="nick-input"
           type="text"
-          name="user_nick"
+          name="userNick"
           placeholder="닉네임을 입력하세요"
+          onChange={(e)=>{setInputNick(e.target.value)}}
         />
 
         <p>휴대폰 번호</p>
         <input
           className="phone-input"
           type="text"
-          name="user_phone"
+          name="userPhone"
           placeholder="휴대폰 번호를 입력하세요"
+          onChange={(e)=>{setInputPhone(e.target.value)}}
         />
 
         <p>주소</p>

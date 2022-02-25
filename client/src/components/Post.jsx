@@ -26,7 +26,55 @@ import {
 import { Link } from 'react-router-dom';
 
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import styled from "styled-components";
+
+const CarouselStyle = styled.div`
+    .carousel-img-container{
+        width: 800px;
+        height: 800px;
+        margin: 0px auto;
+        background-color: rgb(30,30,30);
+    }
+    .carousel-img-container div{
+        width: 800px;
+        height: 800px;
+    }
+    .carousel-img-container div img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    .slick-prev{
+        left: 50px;
+        z-index: 1;
+    }
+    .slick-prev::before{
+        right: 15px;
+        bottom: 15px;
+    }
+    .slick-next{
+        right: 50px;
+    }
+    .slick-next::before{
+        right: 15px;
+        bottom: 15px;
+    }
+`;
+
 const PostContainer = () => {
+
+  const settings = {
+    slide: 'div',
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+  };
 
   const [isFollow, setIsFollow] = useState(false);
 
@@ -77,7 +125,21 @@ const PostContainer = () => {
       <div className="pc-wrapper">
         <div className="post-container">
           <div className="pc-left">
-            <img src="https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg" />
+          <CarouselStyle>
+            <div className="carousel-img-container">
+            <Slider {...settings}>
+                <div>
+                    <img src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201901/20/28017477-0365-4a43-b546-008b603da621.jpg" alt="이미지" />
+                </div>
+                <div>
+                    <img src="https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg" alt="이미지" /> 
+                </div>
+                <div>
+                    <img src="https://cdn.newspenguin.com/news/photo/202101/3899_12249_529.jpg" alt="이미지" />
+                </div>
+            </Slider>
+            </div>
+          </CarouselStyle>
           </div>
           <div className="pc-right">
             <div className="pr01">
@@ -184,12 +246,6 @@ const PostContainer = () => {
             </div>
           </div>
         </div>
-        <span id="left-post-span">
-          <FontAwesomeIcon icon={faChevronLeft} id="left-post" />
-        </span>
-        <span id="right-post-span">
-          <FontAwesomeIcon icon={faChevronRight} id="right-post" />
-        </span>
       </div>
 
       {showReportPostModal ? (
@@ -586,6 +642,7 @@ const PostUploadForm = () => {
       }
     })
   }
+  
 
   return(
     <>

@@ -9,29 +9,11 @@
   z-index: 99;
 } */
 .pc-wrapper {
-  width: 1500px;
-  margin: 0 auto;
-}
-#left-post-span,
-#right-post-span {
-  position: relative;
-  bottom: 560px;
-  background-color: #f7f7f7;
-  box-shadow: -2px -2px 5px #d5d5d5 inset, 2px 2px 5px #ffffff inset;
-  color: #b1b1b1;
-  font-size: 50px;
-  padding: 0 18px;
-  border-radius: 100px;
-  cursor: pointer;
-  text-align: center;
-  transition: 0.3s;
-}
-#left-post-span:hover,
-#right-post-span:hover {
-  color: var(--accent-default);
-}
-#left-post-span {
-  margin-right: 1365px;
+  width: fit-content;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
 .post-container {
   margin: 100px auto;

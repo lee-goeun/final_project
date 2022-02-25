@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import ProfileImgButtonsContainer from '../redux/containers/ProfileImgButtonsContainer';
 import ProfileImgButtons from './ProfileImgButtons';
+import AImageUploader from '../components/AImageUploaderButtons';
 
 const ModalWrapper = styled.div`
   box-sizing: border-box;
@@ -77,7 +78,10 @@ const ProfileModal = ({
       >
         <ModalInner tabIndex="0" className="modal-inner">
           <h3>{children}</h3>
-          <ProfileImgButtonsContainer />
+          <AImageUploader
+            firstButton={'사진 변경'}
+            secondButton={'사진 삭제'}
+          />
           <CloseButton className="modal-close" onClick={close}>
             취소
           </CloseButton>

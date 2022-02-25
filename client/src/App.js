@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import MyPageLayout from './MyPageLayout';
+import MyPageLayout from './layout/MyPageLayout';
 import Profile from './pages/Profile';
 import Mypost from './pages/MyPost';
 import Login from './components/authentication/Login';
@@ -11,6 +11,9 @@ import DetailPost from './pages/DetailPost';
 import WalkingMate from './pages/WalkingMate';
 import Chatting from './pages/Chatting';
 import UsedTrade from './pages/UsedTrade';
+import MatchingPageLayout from './layout/MatchingPageLayout';
+import MatchingLists from './pages/matchingLists/MatchingLists';
+import WriteMatchingPost from './pages/matchingLists/WriteMatchingPost';
 
 function App() {
   return (
@@ -26,11 +29,18 @@ function App() {
           </>
         }
       />
-      <Route path="/postpage" element={<PostPage />} />
-      <Route path="/postpage/detailpost" element={<DetailPost />} />
+      <Route path="/postpage" element={<PostPage />} >
+        <Route path="detailpost" element={<DetailPost />} />
+      </Route>
       <Route path="/walkingmate" element={<WalkingMate />} />
-      <Route path="/usedtrade" element={<UsedTrade/>} />
-      <Route path="/chatting" element={<Chatting/>} />
+      <Route path="/usedtrade" element={<UsedTrade />} />
+      <Route path="/chatting" element={<Chatting />} />
+
+      <Route path="match" element={<MatchingPageLayout />}>
+        <Route path="list" element={<MatchingLists />} />
+        <Route path="add" element={<WriteMatchingPost />} />
+      </Route>
+
       <Route element={<MyPageLayout />}>
         <Route path="/mypost/" element={<Mypost />} />
         <Route path="/profile/" element={<Profile />} />
