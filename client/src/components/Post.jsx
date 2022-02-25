@@ -21,6 +21,7 @@ import {
   faEye as borderEye,
   faBookmark,
   faSquarePlus,
+  faClone,
 } from '@fortawesome/free-regular-svg-icons';
 
 import { Link } from 'react-router-dom';
@@ -325,6 +326,7 @@ const MiniPostContainer = () => {
       {
         id: 0,
         img: 'img/img.jpg',
+        multipleImg: true,
         like: 22,
         comment: 2,
         views: 765,
@@ -332,6 +334,7 @@ const MiniPostContainer = () => {
       {
         id: 1,
         img: 'img/cat.png',
+        multipleImg: false,
         like: 2222,
         comment: 132,
         views: 3865,
@@ -339,6 +342,7 @@ const MiniPostContainer = () => {
       {
         id: 2,
         img: 'img/sam01.jpg',
+        multipleImg: true,
         like: 9822,
         comment: 2132,
         views: 33865,
@@ -349,7 +353,7 @@ const MiniPostContainer = () => {
   return (
     <>
       {miniPost.post.map((mPost) => (
-        <Link to="/postpage/detailPost">
+        <Link to="/detailpost">
           <div key={mPost.id} className="mini-post-container">
             <div className="mpimg-container">
               <img
@@ -374,6 +378,11 @@ const MiniPostContainer = () => {
                 <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
               </span>
             </div>
+            {mPost.multipleImg && 
+            <div className='imgs-info'>
+              <FontAwesomeIcon icon={faClone} id="multiple-img-icon" />
+            </div>
+            }
           </div>
         </Link>
       ))}
@@ -608,7 +617,6 @@ const PostBackground = () => {
 
         <div className="post-list">
           <MiniPostContainer/>
-          <MiniMatePostContainer/>
         </div>
       </div>
 
