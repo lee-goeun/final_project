@@ -118,7 +118,7 @@ router.post('/add', matchUpload.single('matchImgName'), (req, res) => {
 });
 
 //신분확인(ocr기능)
-router.post('/confirmId', ocrUpload.single('idCard'), (req,res) => {
+router.get('/confirmId', ocrUpload.single('idCard'), (req,res) => {
   console.log('req',req.file);
   //이미지 인코딩
   let readFile = fs.readFileSync(req.file.path);
