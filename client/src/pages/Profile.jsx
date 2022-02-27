@@ -3,7 +3,7 @@ import styles from './Profile.module.css';
 import DaumPostHook from '../components/common/DaumPostHook';
 import Button from '../components/common/Button';
 import UserAvatar from '../components/common/UserAvatar';
-import ProfileModalButton from '../components/ProfileModalButton';
+import ProfileModalButton from '../components/profile/ProfileModalButton';
 
 const Profile = () => {
   //유저정보 추후 리덕스에서 관리해야할것 같음
@@ -82,6 +82,8 @@ const Profile = () => {
 
   return (
     <div className={styles.register}>
+      {/* <ProfileImgHandler sx={{ height: '80px', width: '80px' }} /> */}
+      {/* <UserAvatar sx={{ height: '80px', width: '80px' }} /> */}
       <UserAvatar sx={{ height: '80px', width: '80px' }} />
       <p>{user_id}</p>
       <ProfileModalButton />
