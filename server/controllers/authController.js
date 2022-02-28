@@ -88,14 +88,12 @@ exports.login = async (req, res) => {
         var token = jwt.sign({ userId }, process.env.JWT_SECRET, {
           expiresIn: process.env.JWT_EXPIRES_IN,
         });
-
-            req.session.userId = results[0].userId;                           
-            req.session.userNick = results[0].userNick;
+            req.session.userInfo = results[0];
             req.session.isLogined = true;
             //세션 스토어가 이루어진 후 redirect를 해야함.
-            req.session.save(function(){                               
+            //req.session.save(function(){                               
               //res.redirect('/');
-            });
+            //});
 
         console.log('The Token is : ' + token);
         var cookieOptions = {
