@@ -3,11 +3,11 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  port: '3306',
-  password: '1234',
-  database: 'papdb',
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  port: process.env.DATABASE_PORT,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE,
 });
 
 exports.join = (req, res) => {
@@ -24,23 +24,12 @@ exports.join = (req, res) => {
     userName,
     userEmail,
     userPw,
-    passwordConfirm,
   } = req.body;
   // 사용자 아이디가 존재하는지 확인
   const query = 'SELECT userId FROM usertbl WHERE userId = ?;';
   db.query(query, [userId], async (err, results) => {
     if (err) {
       console.log(err);
-    }
-
-    if (results.length > 0) {
-      return res.render('join', {
-        message: '해당 이메일은 이미 사용중입니다.',
-      });
-    } else if (userPw !== passwordConfirm) {
-      return res.render('join', {
-        message: '비밀번호가 일치하지 않습니다.',
-      });
     }
 
     // 비밀번호 값 암호화
