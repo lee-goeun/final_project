@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import styled, { css } from 'styled-components';
-import UserAvatar from './common/UserAvatar';
+import UserAvatar from '../common/UserAvatar';
 
 const categories = [
   {

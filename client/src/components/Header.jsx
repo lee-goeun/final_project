@@ -110,7 +110,7 @@ const HeaderStyle = Styled.div`
     transition: 0.3s;
   }
   .drop-menu > p:hover{
-    color: var(--accent-default);
+    color: var(--accent-default) !important;
   }
 `;
 

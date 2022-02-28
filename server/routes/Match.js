@@ -118,33 +118,54 @@ router.post('/add', matchUpload.single('matchImgName'), (req, res) => {
 });
 
 //신분확인(ocr기능)
-router.post('/confirmId', ocrUpload.single('idCard'),(req,res) => {
+router.get('/confirmId', ocrUpload.single('idCard'), (req,res) => {
   console.log('req',req.file);
+  //이미지 인코딩
+  let readFile = fs.readFileSync(req.file.path);
+  let encode = Buffer.from(readFile).toString('base64');
+
   const apiURL = "https://yc2zdolfbc.apigw.ntruss.com/custom/v1/14471/4d0fecd9abbb9baf72dc48c4317fdff307aec28cc83e268e49b6cc94c1cd13de/infer";
-  //const secretKey = ;
-
-
-  const boundary = '----' + crypto.randomUUID().toString().replaceAll('-','');
-  axios.post(apiURL,{
+  
+  axios({
+    method : "post",
+    url : apiURL,
     headers : {
-      "Content-Type" : "multipart/form-data; boundary=" + boundary,
+      "Content-Type" : "application/json",
       "X-OCR-SECRET" : "aURGRmpuSlJSdFZaanNsU3NmbHBhSmlWTWVOaFNXb3Q="
     },
     data: {
-      "version" : "V2",
-      "requestId" : crypto.randomUUID(),
-      "timestamp" : 0,
-      "lang" : "ko",
-      "images": [{
-        "format":"jpg",
-        "url" : req.file.path,
-        "name" : req.file.fieldname
-      }]
+      "version": "V1",
+      "requestId": "string",
+      "timestamp": 0,
+      "lang":"ko",
+      "images": [
+        {
+          "format": "jpg",
+          "name": req.file.fieldname,
+          "data": encode,
+          "templateIds":[13997]
+        }
+      ]
     }
-  }).then(res => {
-    console.log(res.data);
-  }).catch(res => {
-    console.log(res);
+  }).then(ocrRes => {
+    const idNumber = ocrRes.data.images[0].fields[1].inferText;
+    const idNumArr = idNumber.split('-');
+
+    console.log(idNumArr[1].substring(0,1));
+    //유효성검사영역 : title, 주민번호 길이, 주민번호 앞자리 뒷자리 길이, 성별(0 || 1) 
+    if(ocrRes.data.images[0].title.name == '주민등록증' && idNumber.length == 14 && idNumArr[0].length == 6 && idNumArr[1].length == 7 && (idNumArr[1].substring(0,1) == 1 || idNumArr[1].substring(0,1) == 2)){
+      return res.json({
+        status:"valid",
+        name : ocrRes.data.images[0].fields[0].inferText.substring(0,3),
+        birth : idNumArr[0],
+        sex : idNumArr[1].substring(0,1),
+        address : ocrRes.data.images[0].fields[2].inferText
+      })
+    }else{
+      return res.json({status:"invalid"});
+    }
+  }).catch(ocrRes => {
+    console.log('err');
   })
 });
 
@@ -171,7 +192,7 @@ router.get('/detail/:id', (req, res) => {
 });
 
 //수정
-router.put('/mod', upload.single('matchImgName'), (req, res) => {
+router.put('/mod', matchUpload.single('matchImgName'), (req, res) => {
   var body = req.body;
   var image = req.file.originalname;
   console.log('req', body, req.file);

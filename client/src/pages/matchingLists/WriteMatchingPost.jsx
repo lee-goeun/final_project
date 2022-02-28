@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import AImageUploaderButtons from '../../components/AImageUploaderButtons';
 
 const WriteMatchingPost = () => {
   const [post, setPost] = useState({
@@ -41,10 +40,8 @@ const WriteMatchingPost = () => {
           placeholder="matchContent"
         />
         <h4>이미지 미리보기뷰어 추가</h4>
-        <AImageUploaderButtons
-          firstButton={'산책메이트 사진올리기'}
-          secondButton={'삭제'}
-        />
+        {/* <AImageUploaderButton buttonName={'사진 올리기'} />
+        <AImageDeleteButton buttonName={'사진 삭제'} /> */}
       </form>
     </>
   );

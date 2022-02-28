@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
 import styled, { css } from 'styled-components';
 
@@ -7,21 +8,24 @@ const StyledAvatar = styled(Avatar)`
   /* background: ${(props) => props.color || 'blue'} */
 `;
 
-//user사진 추후 리덕스에서 관리해야할듯
-
 const UserAvatar = (props) => {
-  const [user_img, setUser_img] = useState(
-    'https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2598&q=80',
-  );
-
+  console.log(props.user_img, 'useravaterURL');
   return (
-    <StyledAvatar
-      {...props}
-      src={user_img}
-      alt="profile pic"
-      variant="circular"
-    />
+    <>
+      <StyledAvatar
+        sx={props.sx}
+        src={props.user_url_img}
+        alt="profile pic"
+        variant="circular"
+      />
+    </>
   );
 };
 
-export default UserAvatar;
+const mapStateToProps = (props) => {
+  return {
+    user_url_img: props.profileImgHandler.user_img,
+  };
+};
+
+export default connect(mapStateToProps)(UserAvatar);

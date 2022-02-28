@@ -20,6 +20,8 @@ app.use('/mypage', mypageRouter);
 
 //postRouter 추가 부분
 require("./routes/postRouter")(app);
+//commentRouter 추가
+require("./routes/comment")(app);
 
 
 const port =process.env.PORT || 3001;

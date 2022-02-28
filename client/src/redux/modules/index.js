@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import profileImgButtons from './profileImgButtons';
+import profileImgHandler from './profileImgHandler';
 
 const rootReducer = combineReducers({
-  profileImgButtons,
+  profileImgHandler,
 });
 
 export default rootReducer;
