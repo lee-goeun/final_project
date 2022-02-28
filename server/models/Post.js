@@ -1,5 +1,8 @@
+const { fstat } = require("fs");
 const removeUploadedFiles = require("multer/lib/remove-uploaded-files");
 const sql = require("../db/index.js");
+var fs = require('fs');
+const { json } = require("body-parser");
 
 //생성자
 const Post = function(post) {
@@ -34,13 +37,18 @@ Post.create = (newPost, result) => {
 //Post 전체 조회
 Post.getAll = result => {
     sql.query("SELECT * FROM boardtbl", (err, res) => {
-        if(err) {
+      if(err) {
             console.log("error: ", err);
             result(err, null);
             return;
         }
 
-        console.log("post: ", res);
+      for (let i = 0; i < res.length; i++) {
+        var temp = res[i].boardImgList;
+        var templist = temp.split(' ');
+        res[i].boardImgList = templist;
+        console.log("resi", res[i]);
+      }        
         result(null, res);
     });
 
@@ -57,7 +65,15 @@ Post.findOne = (postID, result) => {
 
         if(res.length) {
             console.log("found post: ", res[0]);
-            result(null, res[0]);
+            var imgPath = "boardImages/" + res[0].boardId + "/";
+            fs.readdir(imgPath, (err, temp) => {
+              var imgList = [];
+              for(var img in temp) {
+                imgList.push(imgPath + temp[img]);
+              }
+              res[0].boardImgList = imgList;
+              result(null, res[0]);
+            });
             return;
         }
 

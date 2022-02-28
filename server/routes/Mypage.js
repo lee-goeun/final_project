@@ -21,7 +21,20 @@ const upload = multer({ storage: storage });
 //나의 애완동물(조회)
 router.get('/mypetList', (req, res) => {
   var id = req.query.userId;
-  var sql = "select * from mypetTbl where petDeleted = 0 and userId = ?";
+  var selectPet = req.query.selectPet;
+  if(selectPet){
+    //선택한 pet이 있으면
+    var sql = "select * from mypetTbl where petDeleted = 0 and petId in(?)";
+      conn.query(sql,selectPet,(err, results) => {
+          if(err) return res.json({success:false, err});
+          else{
+            chatList = results;
+            return res.json(results);
+          } 
+      });
+  }else{
+    //id별 모두 조회
+    var sql = "select * from mypetTbl where petDeleted = 0 and userId = ?";
       conn.query(sql,id,(err, results) => {
           if(err) return res.json({success:false, err});
           else{
@@ -29,6 +42,8 @@ router.get('/mypetList', (req, res) => {
             return res.json(results);
           } 
       });
+  }
+  
 })
 
 //나의 애완동물(추가)
@@ -36,13 +51,14 @@ router.post('/mypetAdd', upload.single('petImgName'), (req, res) => {
   var body = req.body;
   var filename = req.file.originalname;
   console.log("body", body, filename);
+  var userId = req.session.userInfo.userId;
 
   var sql =
     'insert into mypetTbl(userId, petImgName, petName, petTypeDetail, petType, petBirth, petSex) values(?, ?, ?, ?,?,?,?);';
   conn.query(
     sql,
     [
-      'test01',
+      userId,
       filename,
       body.petName,
       body.petTypeDetail,

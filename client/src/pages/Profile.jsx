@@ -82,11 +82,9 @@ const Profile = () => {
 
   return (
     <div className={styles.register}>
-      {/* <ProfileImgHandler sx={{ height: '80px', width: '80px' }} /> */}
-      {/* <UserAvatar sx={{ height: '80px', width: '80px' }} /> */}
       <UserAvatar sx={{ height: '80px', width: '80px' }} />
       <p>{user_id}</p>
-      <ProfileModalButton />
+      <ProfileModalButton buttonName={'프로필 사진 바꾸기'} />
       <h3>프로필</h3>
       <form onSubmit={register}>
         <div className={styles.flex}>

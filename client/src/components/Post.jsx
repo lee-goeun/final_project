@@ -1,5 +1,5 @@
 import './Post.css';
-import { useRef, useState } from 'react';
+import { useRef, useState, useMemo, useCallback, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHeart,
@@ -24,7 +24,7 @@ import {
   faClone,
 } from '@fortawesome/free-regular-svg-icons';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -55,13 +55,15 @@ const CarouselStyle = styled.div`
   .slick-prev::before {
     right: 15px;
     bottom: 15px;
+    font-size: 40px;
   }
   .slick-next {
     right: 50px;
   }
   .slick-next::before {
-    right: 15px;
+    right: 25px;
     bottom: 15px;
+    font-size: 40px;
   }
 `;
 
@@ -76,10 +78,6 @@ const PostContainer = () => {
     arrows: true,
   };
 
-  axios.post('http://localhost:3001/board/').then((response) => {
-    console.log(response);
-  });
-
   const [isFollow, setIsFollow] = useState(false);
 
   const [showPostMenu, setShowPostMenu] = useState(false);
@@ -91,6 +89,7 @@ const PostContainer = () => {
   // 좋아요 버튼(하트) 클릭시
   const clickLike = (e) => {
     setIsLike(!isLike);
+    // axios.post(`http://localhost:3001/board/post/=?/like`);
   };
   const clickGoToCommnet = (e) => {
     commentInput.current.focus();
@@ -159,7 +158,7 @@ const PostContainer = () => {
               <img src="http://image.cine21.com/resize/cine21/person/2018/0423/13_42_54__5add644ed52f5[W578-].jpg" />
             </div>
             <div className="pr02">
-              <h2>ilovepet</h2>
+              <h2>유저닉네임</h2>
               <span
                 onClick={() => {
                   setIsFollow(!isFollow);
@@ -192,7 +191,7 @@ const PostContainer = () => {
                 </div>
               )}
             </div>
-            <div className="pr04">본문내용</div>
+            <div className="pr04">작성된 글 내용</div>
             <div className="pr05">
               <p>
                 {isLike ? (
@@ -210,10 +209,10 @@ const PostContainer = () => {
                     onClick={clickLike}
                   />
                 )}
-                <span className="counting">124</span>
+                <span className="counting">좋아요 숫자</span>
 
                 <FontAwesomeIcon icon={borderEye} id="viewss" />
-                <span className="counting">203</span>
+                <span className="counting">조회 숫자</span>
 
                 {isFavoritePost ? (
                   <FontAwesomeIcon
@@ -238,7 +237,7 @@ const PostContainer = () => {
                   onClick={clickGoToCommnet}
                 />
               </p>
-              <p>2022/02/20 14:15</p>
+              <p>작성날짜</p>
             </div>
             <div className="pr06">
               <CommentContainer />
@@ -363,41 +362,46 @@ const MiniPostContainer = () => {
     ],
   });
 
+  const navigate = useNavigate();
+
+  const moreAboutPost = useCallback(() => {
+    // navigate(`/postpage?=${포스트아이디}`);
+  });
+
   return (
     <>
       {miniPost.post.map((mPost) => (
-        <Link to="/detailpost">
-          <div key={mPost.id} className="mini-post-container">
-            <div className="mpimg-container">
-              <img
-                src={process.env.PUBLIC_URL + `${mPost.img}`}
-                alt="이미지 로딩 에러"
-              />
-            </div>
-            <div className="content-container">
-              <span>
-                {mPost.like}
-                <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
-              </span>
-              <span>
-                {mPost.comment}
-                <FontAwesomeIcon
-                  icon={borderComment}
-                  id="border-comment-icon"
-                />
-              </span>
-              <span>
-                {mPost.views}
-                <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
-              </span>
-            </div>
-            {mPost.multipleImg && (
-              <div className="imgs-info">
-                <FontAwesomeIcon icon={faClone} id="multiple-img-icon" />
-              </div>
-            )}
+        <div
+          key={mPost.views}
+          className="mini-post-container"
+          onClick={moreAboutPost}
+        >
+          <div className="mpimg-container">
+            <img
+              src={process.env.PUBLIC_URL + `${mPost.img}`}
+              alt="이미지 로딩 에러"
+            />
           </div>
-        </Link>
+          <div className="content-container">
+            <span>
+              {mPost.like}
+              <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
+            </span>
+            <span>
+              {mPost.comment}
+              <FontAwesomeIcon icon={borderComment} id="border-comment-icon" />
+            </span>
+            <span>
+              {mPost.views}
+              <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
+            </span>
+          </div>
+          {mPost.multipleImg && (
+            <div className="imgs-info">
+              <FontAwesomeIcon icon={faClone} id="multiple-img-icon" />
+            </div>
+          )}
+        </div>
       ))}
     </>
   );
@@ -512,6 +516,7 @@ const CommentContainer = () => {
         img: 'https://blog.kakaocdn.net/dn/btkVeS/btqFOXbMQbB/Uf5rey5lRoKKRStYNn5oVK/img.png',
         date: '2022/02/10',
         content: '고양이 진짜 이쁘네요 부러워용ㅠ',
+        key: 2125325,
       },
       {
         id: 1,
@@ -519,6 +524,7 @@ const CommentContainer = () => {
         img: 'https://image.fnnews.com/resource/media/image/2021/04/21/202104211351203685_l.jpg',
         date: '2022/02/12',
         content: '고양이 무슨 종이에요?',
+        key: 21253212125,
       },
       {
         id: 2,
@@ -527,9 +533,16 @@ const CommentContainer = () => {
         date: '2022/02/20',
         content:
           '부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.',
+        key: 21253258998989,
       },
     ],
   });
+
+  const [showmodifyCommentModal, setShowModifyCommentModal] = useState(false);
+
+  const clickModifyComment = (e) => {
+    setShowModifyCommentModal(!showmodifyCommentModal);
+  };
 
   // 댓글 신고 버튼 클릭시
   const [showReportCommentModal, setShowReportCommentModal] = useState(false);
@@ -543,7 +556,7 @@ const CommentContainer = () => {
   return (
     <>
       {comment.comments.map((com) => (
-        <div key={com.id} className="comment-container">
+        <div key={com.key} className="comment-container">
           <div className="cc01">
             <div className="cc01-img-container">
               <img src={process.env.PUBLIC_URL + `${com.img}`} />
@@ -554,7 +567,12 @@ const CommentContainer = () => {
             <p></p>
           </div>
           <div className="cc03">
-            <FontAwesomeIcon icon={faPen} id="edit-icon" title="수정하기" />
+            <FontAwesomeIcon
+              icon={faPen}
+              id="edit-icon"
+              title="수정하기"
+              onClick={clickModifyComment}
+            />
             <FontAwesomeIcon icon={faX} id="delete-icon" title="삭제하기" />
             <FontAwesomeIcon
               icon={faBullhorn}
@@ -612,6 +630,22 @@ const CommentContainer = () => {
           </button>
         </div>
       ) : null}
+      {showmodifyCommentModal && (
+        <div className="comment-modal--modify">
+          <textarea>기존 텍스트</textarea>
+          <div>
+            <button
+              className="modify-comment-cancel"
+              onClick={() => {
+                setShowModifyCommentModal(!showmodifyCommentModal);
+              }}
+            >
+              취소
+            </button>
+            <button className="modify-comment-yes">수정</button>
+          </div>
+        </div>
+      )}
     </>
   );
 };

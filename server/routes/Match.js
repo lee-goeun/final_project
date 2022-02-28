@@ -69,21 +69,28 @@ router.get('/listLimit1', (req, res) => {
 //추가
 router.post('/add', matchUpload.single('matchImgName'), (req, res) => {
   console.log('req', req.file);
-  console.log('req', req.session);
+  console.log('req', req.session.userInfo);
   var body = req.body;
   var filename = req.file.originalname;
+  var userId = req.session.userInfo.userId;  
+  var region1 = req.session.userInfo.region1;
+  var region2 = req.session.userInfo.region2;
+  var region3 = req.session.userInfo.region3;
 
   var sql =
-    'INSERT INTO matchTbl(userId, matchImgName, matchTitle, matchContent, selectPet, matchTime) VALUES(?, ?, ?, ?,?, ?);';
+    'INSERT INTO matchTbl(userId, matchImgName, matchTitle, matchContent, selectPet, matchTime, region1, region2, region3) VALUES(?, ?, ?, ?,?,?,?,?,?);';
   conn.query(
     sql,
     [
-      'test01',
+      userId,
       filename,
       body.matchTitle,
       body.matchContent,
       body.selectPet,
       body.matchTime,
+      region1,
+      region2,
+      region3
     ],
     (err, results) => {
       if (err) return res.json({ success: false, err });
