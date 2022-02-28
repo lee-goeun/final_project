@@ -89,6 +89,14 @@ exports.login = async (req, res) => {
           expiresIn: process.env.JWT_EXPIRES_IN,
         });
 
+            req.session.userId = results[0].userId;                           
+            req.session.userNick = results[0].userNick;
+            req.session.isLogined = true;
+            //세션 스토어가 이루어진 후 redirect를 해야함.
+            req.session.save(function(){                               
+              //res.redirect('/');
+            });
+
         console.log('The Token is : ' + token);
         var cookieOptions = {
           expires: new Date(

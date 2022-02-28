@@ -9,17 +9,31 @@ const mysql = require('mysql');
 
 dotenv.config({ path: './.env' });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
-
-const db = mysql.createConnection({
+var session = require('express-session');                     
+var MySQLStore = require('express-mysql-session')(session);   
+var options ={
   host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USER,
   port: process.env.DATABASE_PORT,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE,
-});
+};
+
+// session
+var sessionStore = new MySQLStore(options);                  
+
+app.use(session({                                              
+  secret:"asdfasffdas",
+  resave:false,
+  saveUninitialized:true,
+  store: sessionStore                                          
+}))
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+
+const db = mysql.createConnection(options);
 
 //router
 var matchRouter = require('./routes/Match');
