@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
+import Button from './Button';
 
 const StyledInput = styled.input`
   padding: 1rem;
@@ -14,14 +15,12 @@ const AImageFIleInput = (props) => {
 
   //이미지 서버 or 백엔드 이미지 처리 라우터로 사진전송/비동기처리
   const onChange = async (event) => {
-    console.log(event);
-    //요청코드 await뒤에 삽입 or 리덕스로 관리
     const uploaded = await event.target.files[0];
     //URL 리턴이 올 예정이므로 하단에 URL변경코드 삽입/백엔드 연결시 제거
-    const imageUrl = URL.createObjectURL(uploaded);
-    console.log(uploaded);
-    console.log(imageUrl);
-    props.savingUrl(imageUrl);
+    if (uploaded) {
+      const imageUrl = URL.createObjectURL(uploaded);
+      props.previewUrl(imageUrl);
+    }
   };
 
   return (
@@ -33,9 +32,9 @@ const AImageFIleInput = (props) => {
         ref={inputRef}
         onChange={onChange}
       />
-      <button type="button" onClick={changeProfileImg}>
+      <Button type="button" onClick={changeProfileImg}>
         {props.buttonName}
-      </button>
+      </Button>
     </>
   );
 };

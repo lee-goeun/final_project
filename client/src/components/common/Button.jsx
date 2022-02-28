@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledButton = styled.button`
-  width: 90px;
   border-radius: 5px;
   border: solid 1px #e9ecef;
   box-sizing: border-box;
@@ -13,7 +12,7 @@ const StyledButton = styled.button`
   text-align: center;
   padding: 7px;
   height: 38px;
-  margin: 0px 5px;
+  margin: 0.2rem 0;
   background-color: #ffffff;
   color: #333333;
 
