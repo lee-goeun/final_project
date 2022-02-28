@@ -1,0 +1,59 @@
+.chat-user-list-container {
+  width: 300px;
+  height: 80px;
+
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  grid-template-rows: 40px 40px;
+  grid-template-areas:
+    'culc01 culc02'
+    'culc01 culc03';
+  background-color: var(--bgcolor-default);
+  border: 1px solid var(--bordercolor-default);
+  border-left: none;
+  border-right: none;
+}
+.chat-user-list-container:hover {
+  background-color: white;
+}
+.culc01 {
+  grid-area: culc01;
+}
+.culc02 {
+  grid-area: culc02;
+  padding-top: 14px;
+}
+.culc03 {
+  grid-area: culc03;
+  padding-top: 5px;
+  color: var(--font-light);
+}
+.culc01-img-container {
+  width: 70px;
+  height: 70px;
+  overflow: hidden;
+  border-radius: 70px;
+  margin: 5px auto;
+}
+.culc01-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.culc03 p small {
+  margin-left: 10px;
+}
+.b-message-icon {
+  font-size: 140px;
+  color: var(--accent-default);
+  margin-bottom: 20px;
+  transition: 0.5s;
+}
+.b-message-icon:hover {
+  transform: translateY(-10px);
+}
+.cl-icon-box {
+  position: relative;
+  top: 50%;
+  transform: translateY(-60%);
+}

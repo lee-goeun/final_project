@@ -1,5 +1,5 @@
 import './Post.css';
-import { useRef, useState, useMemo, useCallback } from 'react';
+import { useRef, useState, useMemo, useCallback, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHeart,
@@ -55,13 +55,15 @@ const CarouselStyle = styled.div`
   .slick-prev::before {
     right: 15px;
     bottom: 15px;
+    font-size: 40px;
   }
   .slick-next {
     right: 50px;
   }
   .slick-next::before {
-    right: 15px;
+    right: 25px;
     bottom: 15px;
+    font-size: 40px;
   }
 `;
 
@@ -75,16 +77,6 @@ const PostContainer = () => {
     slidesToScroll: 1,
     arrows: true,
   };
-
-  const [posts, setPosts] = useState([]);
-
-  useMemo(() => {
-    axios.get('http://localhost:3001/board/').then((response) => {
-      setPosts(response.data);
-    });
-  }, []);
-
-  console.log(posts);
 
   const [isFollow, setIsFollow] = useState(false);
 
@@ -133,143 +125,141 @@ const PostContainer = () => {
 
   return (
     <>
-      {posts.map((po) => (
-        <div className="pc-wrapper">
-          <div className="post-container">
-            <div className="pc-left">
-              <CarouselStyle>
-                <div className="carousel-img-container">
-                  <Slider {...settings}>
-                    <div>
-                      <img
-                        src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201901/20/28017477-0365-4a43-b546-008b603da621.jpg"
-                        alt="이미지"
-                      />
-                    </div>
-                    <div>
-                      <img
-                        src="https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg"
-                        alt="이미지"
-                      />
-                    </div>
-                    <div>
-                      <img
-                        src="https://cdn.newspenguin.com/news/photo/202101/3899_12249_529.jpg"
-                        alt="이미지"
-                      />
-                    </div>
-                  </Slider>
-                </div>
-              </CarouselStyle>
-            </div>
-            <div className="pc-right">
-              <div className="pr01">
-                <img src="http://image.cine21.com/resize/cine21/person/2018/0423/13_42_54__5add644ed52f5[W578-].jpg" />
-              </div>
-              <div className="pr02">
-                <h2>{po.userId}</h2>
-                <span
-                  onClick={() => {
-                    setIsFollow(!isFollow);
-                  }}
-                >
-                  {isFollow ? '팔로잉' : '팔로우'}
-                </span>
-              </div>
-              <div className="pr03">
-                <FontAwesomeIcon
-                  icon={faEllipsisVertical}
-                  id="dots-icon"
-                  onClick={() => {
-                    setShowPostMenu(!showPostMenu);
-                  }}
-                />
-                {/* 수정/삭제 모달창 */}
-                {showPostMenu && (
-                  <div className="menu-modal-container">
-                    <p onClick={clickReportPost}>신고하기</p>
-                    <p
-                      onClick={() => {
-                        setShowPostMenu(!showPostMenu);
-                        setShowEditPost(!showEditPost);
-                      }}
-                    >
-                      수정하기
-                    </p>
-                    <p onClick={clickDeletePostBtn}>삭제하기</p>
+      <div className="pc-wrapper">
+        <div className="post-container">
+          <div className="pc-left">
+            <CarouselStyle>
+              <div className="carousel-img-container">
+                <Slider {...settings}>
+                  <div>
+                    <img
+                      src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201901/20/28017477-0365-4a43-b546-008b603da621.jpg"
+                      alt="이미지"
+                    />
                   </div>
-                )}
+                  <div>
+                    <img
+                      src="https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg"
+                      alt="이미지"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      src="https://cdn.newspenguin.com/news/photo/202101/3899_12249_529.jpg"
+                      alt="이미지"
+                    />
+                  </div>
+                </Slider>
               </div>
-              <div className="pr04">{po.boardContent}</div>
-              <div className="pr05">
-                <p>
-                  {isLike ? (
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      id="heart-btn"
-                      title="좋아요 취소"
-                      onClick={clickLike}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={borderHeart}
-                      id="border-heart-btn"
-                      title="좋아요"
-                      onClick={clickLike}
-                    />
-                  )}
-                  <span className="counting">{po.boardGood}</span>
-
-                  <FontAwesomeIcon icon={borderEye} id="viewss" />
-                  <span className="counting">{po.boardViews}</span>
-
-                  {isFavoritePost ? (
-                    <FontAwesomeIcon
-                      icon={fullBookmark}
-                      id="fullBookmark-btn"
-                      title="관심게시물 삭제하기"
-                      onClick={clickFavoritePost}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faBookmark}
-                      id="bookmark-btn"
-                      title="관심게시물 등록하기"
-                      onClick={clickFavoritePost}
-                    />
-                  )}
-
+            </CarouselStyle>
+          </div>
+          <div className="pc-right">
+            <div className="pr01">
+              <img src="http://image.cine21.com/resize/cine21/person/2018/0423/13_42_54__5add644ed52f5[W578-].jpg" />
+            </div>
+            <div className="pr02">
+              <h2>유저닉네임</h2>
+              <span
+                onClick={() => {
+                  setIsFollow(!isFollow);
+                }}
+              >
+                {isFollow ? '팔로잉' : '팔로우'}
+              </span>
+            </div>
+            <div className="pr03">
+              <FontAwesomeIcon
+                icon={faEllipsisVertical}
+                id="dots-icon"
+                onClick={() => {
+                  setShowPostMenu(!showPostMenu);
+                }}
+              />
+              {/* 수정/삭제 모달창 */}
+              {showPostMenu && (
+                <div className="menu-modal-container">
+                  <p onClick={clickReportPost}>신고하기</p>
+                  <p
+                    onClick={() => {
+                      setShowPostMenu(!showPostMenu);
+                      setShowEditPost(!showEditPost);
+                    }}
+                  >
+                    수정하기
+                  </p>
+                  <p onClick={clickDeletePostBtn}>삭제하기</p>
+                </div>
+              )}
+            </div>
+            <div className="pr04">작성된 글 내용</div>
+            <div className="pr05">
+              <p>
+                {isLike ? (
                   <FontAwesomeIcon
-                    icon={borderComment}
-                    id="border-comment-btn"
-                    title="댓글 남기기"
-                    onClick={clickGoToCommnet}
+                    icon={faHeart}
+                    id="heart-btn"
+                    title="좋아요 취소"
+                    onClick={clickLike}
                   />
-                </p>
-                <p>{po.boardCreated.substr(0, 10)}</p>
-              </div>
-              <div className="pr06">
-                <CommentContainer />
-              </div>
-              <div className="pr07">
-                <input
-                  type="text"
-                  maxLength="50"
-                  placeholder="댓글 남기기"
-                  ref={commentInput}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      clickCommentEnter();
-                      e.target.value = '';
-                    }
-                  }}
+                ) : (
+                  <FontAwesomeIcon
+                    icon={borderHeart}
+                    id="border-heart-btn"
+                    title="좋아요"
+                    onClick={clickLike}
+                  />
+                )}
+                <span className="counting">좋아요 숫자</span>
+
+                <FontAwesomeIcon icon={borderEye} id="viewss" />
+                <span className="counting">조회 숫자</span>
+
+                {isFavoritePost ? (
+                  <FontAwesomeIcon
+                    icon={fullBookmark}
+                    id="fullBookmark-btn"
+                    title="관심게시물 삭제하기"
+                    onClick={clickFavoritePost}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faBookmark}
+                    id="bookmark-btn"
+                    title="관심게시물 등록하기"
+                    onClick={clickFavoritePost}
+                  />
+                )}
+
+                <FontAwesomeIcon
+                  icon={borderComment}
+                  id="border-comment-btn"
+                  title="댓글 남기기"
+                  onClick={clickGoToCommnet}
                 />
-                <button onClick={clickCommentEnter}>ENTER</button>
-              </div>
+              </p>
+              <p>작성날짜</p>
+            </div>
+            <div className="pr06">
+              <CommentContainer />
+            </div>
+            <div className="pr07">
+              <input
+                type="text"
+                maxLength="50"
+                placeholder="댓글 남기기"
+                ref={commentInput}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    clickCommentEnter();
+                    e.target.value = '';
+                  }
+                }}
+              />
+              <button onClick={clickCommentEnter}>ENTER</button>
             </div>
           </div>
         </div>
-      ))}
+      </div>
 
       {showReportPostModal ? (
         <div className="report-post-modal">
@@ -375,14 +365,14 @@ const MiniPostContainer = () => {
   const navigate = useNavigate();
 
   const moreAboutPost = useCallback(() => {
-    navigate(`/postpage?=${포스트아이디}`);
+    // navigate(`/postpage?=${포스트아이디}`);
   });
 
   return (
     <>
       {miniPost.post.map((mPost) => (
         <div
-          key={mPost.id}
+          key={mPost.views}
           className="mini-post-container"
           onClick={moreAboutPost}
         >
@@ -526,6 +516,7 @@ const CommentContainer = () => {
         img: 'https://blog.kakaocdn.net/dn/btkVeS/btqFOXbMQbB/Uf5rey5lRoKKRStYNn5oVK/img.png',
         date: '2022/02/10',
         content: '고양이 진짜 이쁘네요 부러워용ㅠ',
+        key: 2125325,
       },
       {
         id: 1,
@@ -533,6 +524,7 @@ const CommentContainer = () => {
         img: 'https://image.fnnews.com/resource/media/image/2021/04/21/202104211351203685_l.jpg',
         date: '2022/02/12',
         content: '고양이 무슨 종이에요?',
+        key: 21253212125,
       },
       {
         id: 2,
@@ -541,6 +533,7 @@ const CommentContainer = () => {
         date: '2022/02/20',
         content:
           '부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.',
+        key: 21253258998989,
       },
     ],
   });
@@ -548,7 +541,6 @@ const CommentContainer = () => {
   const [showmodifyCommentModal, setShowModifyCommentModal] = useState(false);
 
   const clickModifyComment = (e) => {
-    alert('댓글수정');
     setShowModifyCommentModal(!showmodifyCommentModal);
   };
 
@@ -564,7 +556,7 @@ const CommentContainer = () => {
   return (
     <>
       {comment.comments.map((com) => (
-        <div key={com.id} className="comment-container">
+        <div key={com.key} className="comment-container">
           <div className="cc01">
             <div className="cc01-img-container">
               <img src={process.env.PUBLIC_URL + `${com.img}`} />
@@ -640,9 +632,18 @@ const CommentContainer = () => {
       ) : null}
       {showmodifyCommentModal && (
         <div className="comment-modal--modify">
-          <textarea value={com.content}></textarea>
-          <button>취소</button>
-          <button>수정</button>
+          <textarea>기존 텍스트</textarea>
+          <div>
+            <button
+              className="modify-comment-cancel"
+              onClick={() => {
+                setShowModifyCommentModal(!showmodifyCommentModal);
+              }}
+            >
+              취소
+            </button>
+            <button className="modify-comment-yes">수정</button>
+          </div>
         </div>
       )}
     </>

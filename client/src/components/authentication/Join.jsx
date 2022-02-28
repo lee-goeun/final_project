@@ -52,6 +52,7 @@ const Join = () => {
   const [reInputPw, setReInputPw] = useState();
   const [inputName, setInputName] = useState();
   const [inputNick, setInputNick] = useState();
+  const [inputEmail, setInputEmail] = useState();
   const [inputPhone, setInputPhone] = useState();
 
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
@@ -142,6 +143,7 @@ const Join = () => {
       userPw: inputPw,
       userName: inputName,
       userNick: inputNick,
+      userEmail: inputEmail,
       userPhone: inputPhone,
       zonecode: userInfo.zonecode,
       address: userInfo.address,
@@ -241,6 +243,17 @@ const Join = () => {
           placeholder="닉네임을 입력하세요"
           onChange={(e) => {
             setInputNick(e.target.value);
+          }}
+        />
+
+        <p>이메일</p>
+        <input
+          className="email-input"
+          type="email"
+          name="userEmail"
+          placeholder="이메일을 입력하세요"
+          onChange={(e) => {
+            setInputEmail(e.target.value);
           }}
         />
 
