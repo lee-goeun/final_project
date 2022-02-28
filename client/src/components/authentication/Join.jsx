@@ -4,14 +4,12 @@ import Footer from '../Footer';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import DaumPostHook from '../common/DaumPostHook';
 import styled from 'styled-components';
-import axios from "axios";
+import axios from 'axios';
 
 const Join = () => {
-
   const navigate = useNavigate();
 
   const idInput = useRef();
-  
 
   const [userInfo, setUserInfo] = useState({
     address: '',
@@ -138,7 +136,7 @@ const Join = () => {
     alert('아이디 중복확인');
   };
 
-  const clickSubmitBtn = useCallback(()=>{
+  const clickSubmitBtn = useCallback(() => {
     const userJoinData = {
       userId: inputId,
       userPw: inputPw,
@@ -148,29 +146,31 @@ const Join = () => {
       zonecode: userInfo.zonecode,
       address: userInfo.address,
       detailAddress: userInfo.detailAddress,
-      extraAddress: "200호",
-    }
-    axios.post('/join', userJoinData)
-    .then(response => {
-      if(response.userJoinData) {
-        navigate('/login');
-      } else {
-          alert("회원가입에 실패했습니다.");
-      }
-    })
-    .catch(err => {
-      if(err.response){
-        alert(err.response.userJoinData);
-        console.log(err.response.userJoinData);
-      } else if (err.request){
-        alert("서버가 응답하지 않습니다.");
-      } else {
-        alert("잘못된 요청입니다.");
-      }
-    });
+      // extraAddress: '200호',
+    };
 
-  }, [inputId, inputPw, inputName, inputNick, inputPhone, userInfo])
-
+    console.log(userJoinData);
+    axios
+      .post('http://localhost:3001/join', userJoinData)
+      .then((response) => {
+        console.log(response);
+        if (response.userJoinData) {
+          navigate('/login');
+        } else {
+          alert('회원가입에 실패했습니다.');
+        }
+      })
+      .catch((err) => {
+        if (err.response) {
+          alert(err.response.userJoinData);
+          console.log(err.response.userJoinData);
+        } else if (err.request) {
+          alert('서버가 응답하지 않습니다.');
+        } else {
+          alert('잘못된 요청입니다.');
+        }
+      });
+  }, [inputId, inputPw, inputName, inputNick, inputPhone, userInfo]);
 
   const touModal = useRef();
 
@@ -228,7 +228,9 @@ const Join = () => {
           type="text"
           name="userName"
           placeholder="이름을 입력하세요"
-          onChange={(e)=>{setInputName(e.target.value)}}
+          onChange={(e) => {
+            setInputName(e.target.value);
+          }}
         />
 
         <p>닉네임</p>
@@ -237,7 +239,9 @@ const Join = () => {
           type="text"
           name="userNick"
           placeholder="닉네임을 입력하세요"
-          onChange={(e)=>{setInputNick(e.target.value)}}
+          onChange={(e) => {
+            setInputNick(e.target.value);
+          }}
         />
 
         <p>휴대폰 번호</p>
@@ -246,7 +250,9 @@ const Join = () => {
           type="text"
           name="userPhone"
           placeholder="휴대폰 번호를 입력하세요"
-          onChange={(e)=>{setInputPhone(e.target.value)}}
+          onChange={(e) => {
+            setInputPhone(e.target.value);
+          }}
         />
 
         <p>주소</p>
@@ -260,7 +266,7 @@ const Join = () => {
         </DaumPostStyle>
 
         <p>연령대</p>
-        <select className="ages-select" name="user_age">
+        <select className="ages-select" name="userAge">
           <option value="0">연령대를 선택하세요</option>
           <option value="10">10대</option>
           <option value="20">20대</option>
@@ -272,9 +278,9 @@ const Join = () => {
         <br />
 
         <p>성별</p>
-        <input type="radio" name="user_sex" id="male" value="male" />
+        <input type="radio" name="userSex" id="male" value="male" />
         <label htmlFor="male">남자</label>
-        <input type="radio" name="user_sex" id="female" value="female" />
+        <input type="radio" name="userSex" id="female" value="female" />
         <label htmlFor="female">여자</label>
 
         <br />
