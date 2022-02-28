@@ -58,7 +58,8 @@ exports.join = (req, res) => {
         } else {
           // 성공적으로 등록
           console.log(results);
-          res.redirect('/');
+        //  res.redirect('/');
+          res.json({status:'success'});
         }
       }
     );
@@ -98,7 +99,9 @@ exports.login = async (req, res) => {
         };
 
         res.cookie('jwt', token, cookieOptions);
-        res.status(200).redirect('/');
+        res.json({status:'success'});
+       // res.status(200).redirect('/');
+        
       }
     });
   } catch (error) {
