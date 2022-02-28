@@ -13,6 +13,7 @@
     "@material-ui/icons": "^4.11.2",
     "@mui/material": "^5.4.2",
     "axios": "^0.26.0",
+    "http": "^0.0.1-security",
     "react": "^17.0.2",
     "react-daumpost-hook": "^1.1.4",
     "react-dom": "^17.0.2",
@@ -22,7 +23,8 @@
     "react-slick": "^0.28.1",
     "redux-devtools-extension": "^2.13.9",
     "slick-carousel": "^1.8.1",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.3",
+    "util": "^0.12.4"
   },
   "scripts": {
     "start": "react-scripts start",

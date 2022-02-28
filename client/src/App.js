@@ -29,7 +29,7 @@ function App() {
           </>
         }
       />
-      <Route path="/postpage" element={<PostPage />} >
+      <Route path="/postpage" element={<PostPage />}>
         <Route path="detailpost" element={<DetailPost />} />
       </Route>
       <Route path="/walkingmate" element={<WalkingMate />} />

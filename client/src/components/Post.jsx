@@ -1,5 +1,5 @@
 import './Post.css';
-import { useRef, useState } from 'react';
+import { useRef, useState, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHeart,
@@ -76,9 +76,12 @@ const PostContainer = () => {
     arrows: true,
   };
 
-  axios.post('http://localhost:3001/board/').then((response) => {
-    console.log(response);
-  });
+  const [posts, setPosts] = useState([]);
+  useMemo(() => {
+    axios.get('http://localhost:3001/board/').then((response) => {
+      setPosts(response.data);
+    });
+  }, []);
 
   const [isFollow, setIsFollow] = useState(false);
 
