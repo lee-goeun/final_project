@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import MatchingListItem from '../../components/MatchingListItem';
-import TimeoutListItem from '../../components/TimeoutListItem';
+import MatchingListItem from '../../components/findingMates/MatchingItem';
+import TimeoutListItem from '../../components/findingMates/TimeoutItem';
 
 const TimeoutListWrapper = styled.div`
   display: grid;

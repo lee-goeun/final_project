@@ -11,9 +11,10 @@
     "@fortawesome/free-solid-svg-icons": "^6.0.0",
     "@fortawesome/react-fontawesome": "^0.1.17",
     "@material-ui/icons": "^4.11.2",
+    "@mui/lab": "^5.0.0-alpha.70",
     "@mui/material": "^5.4.2",
     "axios": "^0.26.0",
-    "http": "^0.0.1-security",
+    "date-fns": "^2.28.0",
     "react": "^17.0.2",
     "react-daumpost-hook": "^1.1.4",
     "react-dom": "^17.0.2",
@@ -21,10 +22,13 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "react-slick": "^0.28.1",
+    "redux": "^4.1.2",
+    "redux-action": "^1.2.2",
     "redux-devtools-extension": "^2.13.9",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.4.1",
     "slick-carousel": "^1.8.1",
-    "styled-components": "^5.3.3",
-    "util": "^0.12.4"
+    "styled-components": "^5.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
