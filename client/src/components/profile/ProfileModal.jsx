@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import AImageUploadButton from './AImageUploaderButton';
 import AImageDeleteButton from './AImageDeleteButton';
+import Button from '../common/Button';
 
 const ModalWrapper = styled.div`
   box-sizing: border-box;
@@ -45,8 +46,6 @@ const ModalInner = styled.div`
   padding: 20px 20px;
 `;
 
-const CloseButton = styled.button``;
-
 const ProfileModal = ({
   className,
   onClose,
@@ -79,9 +78,9 @@ const ProfileModal = ({
           <h3>{children}</h3>
           <AImageUploadButton buttonName={'사진 변경'} />
           <AImageDeleteButton buttonName={'사진 삭제'} />
-          <CloseButton className="modal-close" onClick={close}>
+          <Button className="modal-close" onClick={close}>
             취소
-          </CloseButton>
+          </Button>
         </ModalInner>
       </ModalWrapper>
     </>

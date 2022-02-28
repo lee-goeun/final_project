@@ -11,9 +11,9 @@ import DetailPost from './pages/DetailPost';
 import WalkingMate from './pages/WalkingMate';
 import Chatting from './pages/Chatting';
 import UsedTrade from './pages/UsedTrade';
-import MatchingPageLayout from './layout/MatchingPageLayout';
-import MatchingLists from './pages/matchingLists/MatchingLists';
-import WriteMatchingPost from './pages/matchingLists/WriteMatchingPost';
+import MatchingPageLayout from './layout/FindingMatesLayout';
+import MatchingLists from './pages/findingMates/MatchingLists';
+import WriteMatchingPost from './pages/findingMates/MatchingRegisterForm';
 
 function App() {
   return (

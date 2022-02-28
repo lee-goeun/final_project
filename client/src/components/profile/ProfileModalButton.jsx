@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import Button from '../common/Button';
 import ProfileModal from './ProfileModal';
 
-const ProfileModalButton = () => {
+const ProfileModalButton = ({ buttonName }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const openModal = () => {
@@ -13,14 +14,18 @@ const ProfileModalButton = () => {
 
   return (
     <>
-      <button onClick={openModal}>프로필 사진 바꾸기</button>
+      <Button type="button" onClick={openModal}>
+        {' '}
+        {buttonName}
+      </Button>
+
       {modalVisible && (
         <ProfileModal
           visible={modalVisible}
           emptySpaceClosable={true}
           onClose={closeModal}
         >
-          프로필 사진 바꾸기
+          {buttonName}
         </ProfileModal>
       )}
     </>
