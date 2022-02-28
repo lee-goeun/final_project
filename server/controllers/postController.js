@@ -51,7 +51,7 @@ exports.create = (req, res) => {
       else {
         var boardId = results[0].boardId;
 
-        var newdir = "../boardImages/" + boardId + "/";
+        var newdir = "boardImages/" + boardId + "/";
 
         if(URLSearchParams.lengh != 0){
             if(!fs.existsSync(newdir)){
@@ -59,7 +59,7 @@ exports.create = (req, res) => {
             }
 
             for (let i = 0; i < urlArr.length; i++) {
-              var oldPath = "../boardImages/temp/" + urlArr[i];
+              var oldPath = "boardImages/temp/" + urlArr[i];
               var newPath = newdir + urlArr[i];
               urlArr[i] = newPath;
 
