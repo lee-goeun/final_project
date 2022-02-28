@@ -1,7 +1,8 @@
 import React from 'react';
+import Button from '../common/Button';
 
 const AImageDeleteButton = ({ buttonName }) => {
-  return <button>{buttonName}</button>;
+  return <Button>{buttonName}</Button>;
 };
 
 export default AImageDeleteButton;
