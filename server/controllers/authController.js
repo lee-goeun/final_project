@@ -19,6 +19,9 @@ exports.join = (req, res) => {
     userPhone,
     zonecode,
     address,
+    region1,
+    region2,
+    region3,
     detailAddress,
     extraAddress,
     userName,
@@ -37,7 +40,7 @@ exports.join = (req, res) => {
     console.log(hashedPasword);
     // const create = Now(); , regDate:create
 
-    // 아이디, 닉네임, 핸드폰 번호, 우편번호, 주소, 상세주소, 추가주소, 이름, 이메일, 암호화 비밀번호[기존 비밀번호랑 대조]
+    // 아이디, 닉네임, 핸드폰 번호, 우편번호, 주소, 지역(시도), 지역(구), 지역(동), 상세주소, 추가주소, 이름, 이메일, 암호화 비밀번호[기존 비밀번호랑 대조]
     db.query(
       'INSERT INTO usertbl set ?',
       {
@@ -46,6 +49,9 @@ exports.join = (req, res) => {
         userPhone: userPhone,
         zonecode: zonecode,
         address: address,
+        region1:region1,
+        region2:region2,
+        region3:region3,
         detailAddress: detailAddress,
         extraAddress: extraAddress,
         userName: userName,
@@ -88,6 +94,12 @@ exports.login = async (req, res) => {
         var token = jwt.sign({ userId }, process.env.JWT_SECRET, {
           expiresIn: process.env.JWT_EXPIRES_IN,
         });
+            req.session.userInfo = results[0];
+            req.session.isLogined = true;
+            //세션 스토어가 이루어진 후 redirect를 해야함.
+            //req.session.save(function(){                               
+              //res.redirect('/');
+            //});
 
         console.log('The Token is : ' + token);
         var cookieOptions = {

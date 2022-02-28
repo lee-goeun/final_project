@@ -58,10 +58,19 @@ exports.create = (req, res) => {
                 fs.mkdirSync(newdir);
             }
 
+            var imgList = "";
+
             for (let i = 0; i < urlArr.length; i++) {
               var oldPath = "boardImages/temp/" + urlArr[i];
               var newPath = newdir + urlArr[i];
               urlArr[i] = newPath;
+
+              //이미지 리스트에 String 변수로 저장
+              if(i == urlArr.length-1) {
+                imgList += newPath;
+              } else {
+                imgList += newPath + " ";
+              }
 
               fs.rename(oldPath, newPath, function (err) {
                   if (err) throw err
@@ -70,6 +79,24 @@ exports.create = (req, res) => {
             }
           }
       };
+
+      conn.query("UPDATE boardtbl SET boardImgList=? WHERE boardId=?",
+      [imgList, boardId], (err, res) => {
+        if(err) {
+          console.log("error:", err);
+          // result(err, null);
+          return;
+          }
+          
+          //id 결과 없을시
+          if(res.affectedRows == 0) {
+              // result({kind:"not_found"}, null);
+              return;
+          }
+
+          // console.log("update post: ", {id:id, ...post});
+          // result(null, {id:id, ...post});
+      });
     });
 };
 
