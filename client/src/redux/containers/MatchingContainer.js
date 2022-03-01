@@ -12,9 +12,17 @@ const MatchingContainer = ({
   loadingItem,
 }) => {
   useEffect(() => {
-    getMatchList();
-    getMatchItem(1);
-    //나중에 1대신 matchId넣어야함
+    //useEffect안에서 async 사용을 위해 fn생성
+    const fn = async () => {
+      try {
+        await getMatchList(1);
+        await getMatchItem(1);
+        //나중에 1대신 matchId넣어야함
+      } catch (e) {
+        console.log(e); //showing error on console
+      }
+    };
+    fn();
   }, [getMatchList, getMatchItem]);
 
   return (
@@ -28,11 +36,11 @@ const MatchingContainer = ({
 };
 
 export default connect(
-  ({ matching }) => ({
+  ({ matching, loading }) => ({
     list: matching.list,
     item: matching.item,
-    loadingList: matching.loading.GET_LIST,
-    loadingItem: matching.loading.GET_ITEM,
+    loadingList: loading['matching/GET_LIST'],
+    loadingItem: loading['matching/GET_ITEM'],
   }),
   {
     getMatchList,

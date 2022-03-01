@@ -44,7 +44,10 @@ button:focus {
 }
 a {
   text-decoration: none;
-  color: inherit;
+  color: var(--font-dark);
+}
+a:hover{
+  color: var(--accent-default);
 }
 textarea:focus {
   outline: none;

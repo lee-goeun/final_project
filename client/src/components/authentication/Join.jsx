@@ -4,45 +4,43 @@ import Footer from '../Footer';
 import { Link } from 'react-router-dom';
 import DaumPostHook from '../common/DaumPostHook';
 import styled from 'styled-components';
+import axios from 'axios';
+
+const DaumPostStyle = styled.div`
+  margin: 0 auto 10px auto;
+  width: 400px;
+  height: fit-content;
+  font-size: 100px;
+  input {
+    display: block;
+    border: 1px solid var(--bordercolor-default);
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    margin: 2px 0;
+    transition: 0.3s;
+  }
+  input:focus {
+    border: 1px solid var(--accent-default);
+  }
+`;
 
 const Join = () => {
   const idInput = useRef();
-  useEffect(() => {
-    idInput.current.focus();
-  });
 
   const [userInfo, setUserInfo] = useState({
     address: '',
     zonecode: '',
     detailAddress: '',
   });
+
   const savingAddressInput = (input) => {
-    setUserInfo((prevProfile) => ({
-      ...prevProfile,
+    setUserInfo(() => ({
       zonecode: input.zonecode,
       address: input.address,
       detailAddress: input.detailAddress,
     }));
   };
-
-  const DaumPostStyle = styled.div`
-    margin: 0 auto 10px auto;
-    width: 400px;
-    height: fit-content;
-    font-size: 100px;
-    input {
-      display: block;
-      border: 1px solid var(--bordercolor-default);
-      width: 100%;
-      height: 40px;
-      padding: 0 10px;
-      margin: 2px 0;
-      transition: 0.3s;
-    }
-    input:focus {
-      border: 1px solid var(--accent-default);
-    }
-  `;
 
   const { zonecode, address, detailAddress } = userInfo;
 
@@ -50,6 +48,12 @@ const Join = () => {
   const [inputId, setInputId] = useState();
   const [inputPw, setInputPw] = useState();
   const [reInputPw, setReInputPw] = useState();
+  const [inputName, setInputName] = useState();
+  const [inputNick, setInputNick] = useState();
+  const [inputEmail, setInputEmail] = useState();
+  const [inputPhone, setInputPhone] = useState();
+  const [inputAge, setInputAge] = useState();
+  const [inputSex, setInputSex] = useState();
 
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
   const pwRegex =
@@ -133,8 +137,25 @@ const Join = () => {
     alert('아이디 중복확인');
   };
 
+  // 회원가입 동작
   const clickSubmitBtn = (e) => {
-    alert('회원가입이 완료되었습니다.');
+    axios
+      .post('http://localhost:3001/auth/join', {
+        userId: inputId,
+        userEmail: inputEmail,
+        userPhone: inputPhone,
+        userPw: inputPw,
+        userName: inputName,
+        userNick: inputNick,
+        zonecode: userInfo.zonecode,
+        address: userInfo.address,
+        detailAddress: userInfo.detailAddress,
+        userAge: inputAge,
+        userSex: inputSex,
+        location_agree: tou1.current.checked,
+        service_agree: tou2.current.checked,
+      })
+      .then((response) => console.log(response));
   };
 
   const touModal = useRef();
@@ -146,7 +167,7 @@ const Join = () => {
         <input
           className="id-input"
           type="text"
-          name="user_id"
+          name="userId"
           placeholder="아이디를 입력하세요"
           onChange={(e) => {
             setInputId(e.target.value);
@@ -164,7 +185,7 @@ const Join = () => {
         <input
           className="pw-input"
           type="password"
-          name="user_pw"
+          name="userPw"
           placeholder="비밀번호를 입력하세요"
           onChange={(e) => {
             setInputPw(e.target.value);
@@ -191,24 +212,44 @@ const Join = () => {
         <input
           className="name-input"
           type="text"
-          name="user_name"
+          name="userName"
           placeholder="이름을 입력하세요"
+          onChange={(e) => {
+            setInputName(e.target.value);
+          }}
         />
 
         <p>닉네임</p>
         <input
           className="nick-input"
           type="text"
-          name="user_nick"
+          name="userNick"
           placeholder="닉네임을 입력하세요"
+          onChange={(e) => {
+            setInputNick(e.target.value);
+          }}
+        />
+
+        <p>이메일</p>
+        <input
+          className="email-input"
+          type="email"
+          name="userEmail"
+          placeholder="이메일을 입력하세요"
+          onChange={(e) => {
+            setInputEmail(e.target.value);
+          }}
         />
 
         <p>휴대폰 번호</p>
         <input
           className="phone-input"
           type="text"
-          name="user_phone"
+          name="userPhone"
           placeholder="휴대폰 번호를 입력하세요"
+          onChange={(e) => {
+            setInputPhone(e.target.value);
+          }}
         />
 
         <p>주소</p>
@@ -222,7 +263,13 @@ const Join = () => {
         </DaumPostStyle>
 
         <p>연령대</p>
-        <select className="ages-select" name="user_age">
+        <select
+          className="ages-select"
+          name="userAge"
+          onChange={(e) => {
+            setInputAge(e.target.selected);
+          }}
+        >
           <option value="0">연령대를 선택하세요</option>
           <option value="10">10대</option>
           <option value="20">20대</option>
@@ -234,9 +281,9 @@ const Join = () => {
         <br />
 
         <p>성별</p>
-        <input type="radio" name="user_sex" id="male" value="male" />
+        <input type="radio" name="userSex" id="male" value="male" />
         <label htmlFor="male">남자</label>
-        <input type="radio" name="user_sex" id="female" value="female" />
+        <input type="radio" name="userSex" id="female" value="female" />
         <label htmlFor="female">여자</label>
 
         <br />

@@ -10,8 +10,8 @@ import {
   faMessage,
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 
 const HeaderStyle = Styled.div`
   .header-container {
@@ -35,7 +35,10 @@ const HeaderStyle = Styled.div`
     height: 100%;
     object-fit: contain;
   }
-
+  #header-search-icon,
+  #header-mypage-icon{
+    color: var(--font-dark);
+  }
   #header-search-icon,
   #header-home-icon,
   #header-post-icon,
@@ -46,7 +49,7 @@ const HeaderStyle = Styled.div`
    {
     font-size: 22px;
     margin: 15px 7px 0 7px;
-    color: var(--font-dark);
+    /* color: var(--font-dark); */
     cursor: pointer;
     transition: 0.3s;
   }
@@ -60,7 +63,11 @@ const HeaderStyle = Styled.div`
    {
     color: var(--accent-default);
   }
-
+  a {
+    &.active{
+      color: var(--accent-default);
+    }
+  }
   .main-search {
     position: relative;
     bottom: 3px;
@@ -103,21 +110,12 @@ const HeaderStyle = Styled.div`
     transition: 0.3s;
   }
   .drop-menu > p:hover{
-    color: var(--accent-default);
+    color: var(--accent-default) !important;
   }
 `;
 
 const Header = () => {
-  const [showSearchBar, setShowSearchBar] = useState(false);
-  const clickSearch = (e) => {
-    setShowSearchBar(!showSearchBar);
-  };
-
   const [showDropMenu, setShowDropMenu] = useState(false);
-
-  const clickSearchBtn = (e) => {
-    alert('검색합니다');
-  };
 
   return (
     <>
@@ -128,66 +126,41 @@ const Header = () => {
           </div>
 
           <div className="header-icons-container">
-            {showSearchBar ? (
-              <>
-                <input
-                  className="main-search"
-                  type="text"
-                  placeholder="검색하기..."
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      clickSearchBtn();
-                      e.target.value = '';
-                    }
-                  }}
-                />
-                <span className="main-search-btn" onClick={clickSearchBtn}>
-                  검색
-                </span>
-              </>
-            ) : null}
-
-            <FontAwesomeIcon
-              icon={faMagnifyingGlass}
-              id="header-search-icon"
-              title="검색"
-              onClick={clickSearch}
-            />
-            <Link to="/">
+            <NavLink to="/">
               <FontAwesomeIcon
                 icon={faHouse}
                 id="header-home-icon"
                 title="홈으로"
               />
-            </Link>
-            <Link to="/postpage">
+            </NavLink>
+            <NavLink to="/postpage">
               <FontAwesomeIcon
                 icon={faCameraRetro}
                 id="header-post-icon"
                 title="게시물"
               />
-            </Link>
-            <Link to="/walkingmate">
-            <FontAwesomeIcon
-              icon={faUserGroup}
-              id="header-mathching-icon"
-              title="산책메이트 찾기"
-            />
-            </Link>
-            <Link to="/usedtrade">
-            <FontAwesomeIcon
-              icon={faBoxOpen}
-              id="header-market-icon"
-              title="중고거래"
-            />
-            </Link>
-            <Link to="/chatting">
-            <FontAwesomeIcon
-              icon={faMessage}
-              id="header-chatting-icon"
-              title="채팅보기"
-            />
-            </Link>
+            </NavLink>
+            <NavLink to="/walkingmate">
+              <FontAwesomeIcon
+                icon={faUserGroup}
+                id="header-mathching-icon"
+                title="산책메이트 찾기"
+              />
+            </NavLink>
+            <NavLink to="/usedtrade">
+              <FontAwesomeIcon
+                icon={faBoxOpen}
+                id="header-market-icon"
+                title="중고거래"
+              />
+            </NavLink>
+            <NavLink to="/chatting">
+              <FontAwesomeIcon
+                icon={faMessage}
+                id="header-chatting-icon"
+                title="채팅보기"
+              />
+            </NavLink>
             <FontAwesomeIcon
               icon={faCircleUser}
               id="header-mypage-icon"

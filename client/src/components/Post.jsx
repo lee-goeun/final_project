@@ -1,5 +1,5 @@
 import './Post.css';
-import { useRef, useState } from 'react';
+import { useRef, useState, useMemo, useCallback, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHeart,
@@ -21,51 +21,126 @@ import {
   faEye as borderEye,
   faBookmark,
   faSquarePlus,
+  faClone,
 } from '@fortawesome/free-regular-svg-icons';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
-import styled from "styled-components";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import Slider from 'react-slick';
+import styled from 'styled-components';
+import axios from 'axios';
 
 const CarouselStyle = styled.div`
-    .carousel-img-container{
-        width: 800px;
-        height: 800px;
-        margin: 0px auto;
-        background-color: rgb(30,30,30);
+  .carousel-img-container {
+    width: 800px;
+    height: 800px;
+    margin: 0px auto;
+    background-color: rgb(30, 30, 30);
+  }
+  .carousel-img-container div {
+    width: 800px;
+    height: 800px;
+  }
+  .carousel-img-container div img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .slick-prev {
+    left: 30px;
+    z-index: 1;
+    transform: translateY(-25px);
+  }
+  .slick-prev::before {
+    right: 15px;
+    bottom: 15px;
+    font-size: 40px;
+  }
+  .slick-next {
+    right: 50px;
+    transform: translateY(-25px);
+  }
+  .slick-next::before {
+    right: 25px;
+    bottom: 15px;
+    font-size: 40px;
+  }
+  .slick-prev:before,
+  .slick-next:before {
+    color: #e8e8e8ce;
+  }
+  .slick-dots {
+    position: absolute;
+    bottom: 20px;
+    list-style: none;
+    display: block;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    li {
+      position: relative;
+      display: inline-block;
+      height: 20px;
+      width: 20px;
+      margin: 0 5px;
+      padding: 0;
+      cursor: pointer;
+      button {
+        border: 0;
+        background: transparent;
+        display: block;
+        height: 20px;
+        width: 20px;
+        outline: none;
+        line-height: 0px;
+        font-size: 0px;
+        color: transparent;
+        padding: 5px;
+        cursor: pointer;
+        &:hover,
+        &:focus {
+          outline: none;
+          &:before {
+            opacity: $slick-opacity-on-hover;
+          }
+        }
+        &:before {
+          position: absolute;
+          top: 0;
+          left: 0;
+          content: $slick-dot-character;
+          width: 20px;
+          height: 20px;
+          font-family: $slick-font-family;
+          font-size: $slick-dot-size;
+          line-height: 20px;
+          text-align: center;
+          color: $slick-dot-color;
+          opacity: $slick-opacity-not-active;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+      }
+      &.slick-active button:before {
+        color: var(--accent-default);
+        opacity: $slick-opacity-default;
+      }
     }
-    .carousel-img-container div{
-        width: 800px;
-        height: 800px;
-    }
-    .carousel-img-container div img{
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-    .slick-prev{
-        left: 50px;
-        z-index: 1;
-    }
-    .slick-prev::before{
-        right: 15px;
-        bottom: 15px;
-    }
-    .slick-next{
-        right: 50px;
-    }
-    .slick-next::before{
-        right: 15px;
-        bottom: 15px;
-    }
+  }
 `;
 
-const PostContainer = () => {
-
+const PostContainer = ({
+  imgs = '',
+  userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
+  userNick = 'loading...',
+  content,
+  likeCount = '0',
+  viewsCount = '0',
+  date = '22/03/01',
+}) => {
   const settings = {
     slide: 'div',
     dots: true,
@@ -87,6 +162,7 @@ const PostContainer = () => {
   // 좋아요 버튼(하트) 클릭시
   const clickLike = (e) => {
     setIsLike(!isLike);
+    // axios.post(`http://localhost:3001/board/post/=?/like`);
   };
   const clickGoToCommnet = (e) => {
     commentInput.current.focus();
@@ -122,128 +198,130 @@ const PostContainer = () => {
 
   return (
     <>
-      <div className="pc-wrapper">
-        <div className="post-container">
-          <div className="pc-left">
+      <div className="post-container">
+        <div className="pc-left">
           <CarouselStyle>
             <div className="carousel-img-container">
-            <Slider {...settings}>
+              <Slider {...settings}>
                 <div>
-                    <img src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201901/20/28017477-0365-4a43-b546-008b603da621.jpg" alt="이미지" />
+                  <img
+                    src="https://news.imaeil.com/photos/2017/07/22/2017072200472647573_l.jpg"
+                    alt="이미지"
+                  />
                 </div>
                 <div>
-                    <img src="https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg" alt="이미지" /> 
+                  <img
+                    src="https://img2.quasarzone.co.kr/img/data/img/editor/1810/1810___2128580865.gif"
+                    alt="이미지"
+                  />
                 </div>
-                <div>
-                    <img src="https://cdn.newspenguin.com/news/photo/202101/3899_12249_529.jpg" alt="이미지" />
-                </div>
-            </Slider>
+              </Slider>
             </div>
           </CarouselStyle>
+        </div>
+        <div className="pc-right">
+          <div className="pr01">
+            <img src={userImg} alt="유저이미지" />
           </div>
-          <div className="pc-right">
-            <div className="pr01">
-              <img src="http://image.cine21.com/resize/cine21/person/2018/0423/13_42_54__5add644ed52f5[W578-].jpg" />
-            </div>
-            <div className="pr02">
-              <h2>ilovepet</h2>
-              <span
-                onClick={() => {
-                  setIsFollow(!isFollow);
-                }}
-              >
-                {isFollow ? '팔로잉' : '팔로우'}
-              </span>
-            </div>
-            <div className="pr03">
-              <FontAwesomeIcon
-                icon={faEllipsisVertical}
-                id="dots-icon"
-                onClick={() => {
-                  setShowPostMenu(!showPostMenu);
-                }}
-              />
-              {/* 수정/삭제 모달창 */}
-              {showPostMenu && (
-                <div className="menu-modal-container">
-                  <p onClick={clickReportPost}>신고하기</p>
-                  <p
-                    onClick={() => {
-                      setShowPostMenu(!showPostMenu);
-                      setShowEditPost(!showEditPost);
-                    }}
-                  >
-                    수정하기
-                  </p>
-                  <p onClick={clickDeletePostBtn}>삭제하기</p>
-                </div>
-              )}
-            </div>
-            <div className="pr04">본문내용</div>
-            <div className="pr05">
-              <p>
-                {isLike ? (
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    id="heart-btn"
-                    title="좋아요 취소"
-                    onClick={clickLike}
-                  />
-                ) : (
-                  <FontAwesomeIcon
-                    icon={borderHeart}
-                    id="border-heart-btn"
-                    title="좋아요"
-                    onClick={clickLike}
-                  />
-                )}
-                <span className="counting">124</span>
-
-                <FontAwesomeIcon icon={borderEye} id="viewss" />
-                <span className="counting">203</span>
-
-                {isFavoritePost ? (
-                  <FontAwesomeIcon
-                    icon={fullBookmark}
-                    id="fullBookmark-btn"
-                    title="관심게시물 삭제하기"
-                    onClick={clickFavoritePost}
-                  />
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faBookmark}
-                    id="bookmark-btn"
-                    title="관심게시물 등록하기"
-                    onClick={clickFavoritePost}
-                  />
-                )}
-
+          <div className="pr02">
+            <h2>{userNick}</h2>
+            <span
+              onClick={() => {
+                setIsFollow(!isFollow);
+              }}
+            >
+              {isFollow ? '팔로잉' : '팔로우'}
+            </span>
+          </div>
+          <div className="pr03">
+            <FontAwesomeIcon
+              icon={faEllipsisVertical}
+              id="dots-icon"
+              onClick={() => {
+                setShowPostMenu(!showPostMenu);
+              }}
+            />
+            {/* 수정/삭제 모달창 */}
+            {showPostMenu && (
+              <div className="menu-modal-container">
+                <p onClick={clickReportPost}>신고하기</p>
+                <p
+                  onClick={() => {
+                    setShowPostMenu(!showPostMenu);
+                    setShowEditPost(!showEditPost);
+                  }}
+                >
+                  수정하기
+                </p>
+                <p onClick={clickDeletePostBtn}>삭제하기</p>
+              </div>
+            )}
+          </div>
+          <div className="pr04">{content}</div>
+          <div className="pr05">
+            <p>
+              {isLike ? (
                 <FontAwesomeIcon
-                  icon={borderComment}
-                  id="border-comment-btn"
-                  title="댓글 남기기"
-                  onClick={clickGoToCommnet}
+                  icon={faHeart}
+                  id="heart-btn"
+                  title="좋아요 취소"
+                  onClick={clickLike}
                 />
-              </p>
-              <p>2022/02/20 14:15</p>
-            </div>
-            <div className="pr06">
-              <CommentContainer />
-            </div>
-            <div className="pr07">
-              <input
-                type="text"
-                placeholder="댓글 남기기"
-                ref={commentInput}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    clickCommentEnter();
-                    e.target.value = '';
-                  }
-                }}
+              ) : (
+                <FontAwesomeIcon
+                  icon={borderHeart}
+                  id="border-heart-btn"
+                  title="좋아요"
+                  onClick={clickLike}
+                />
+              )}
+              <span className="counting">{likeCount}</span>
+
+              <FontAwesomeIcon icon={borderEye} id="viewss" />
+              <span className="counting">{viewsCount}</span>
+
+              {isFavoritePost ? (
+                <FontAwesomeIcon
+                  icon={fullBookmark}
+                  id="fullBookmark-btn"
+                  title="관심게시물 삭제하기"
+                  onClick={clickFavoritePost}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faBookmark}
+                  id="bookmark-btn"
+                  title="관심게시물 등록하기"
+                  onClick={clickFavoritePost}
+                />
+              )}
+
+              <FontAwesomeIcon
+                icon={borderComment}
+                id="border-comment-btn"
+                title="댓글 남기기"
+                onClick={clickGoToCommnet}
               />
-              <button onClick={clickCommentEnter}>ENTER</button>
-            </div>
+            </p>
+            <p>{date}</p>
+          </div>
+          <div className="pr06">
+            <CommentContainer />
+          </div>
+          <div className="pr07">
+            <input
+              type="text"
+              maxLength="50"
+              placeholder="댓글 남기기"
+              ref={commentInput}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  clickCommentEnter();
+                  e.target.value = '';
+                }
+              }}
+            />
+            <button onClick={clickCommentEnter}>ENTER</button>
           </div>
         </div>
       </div>
@@ -325,6 +403,7 @@ const MiniPostContainer = () => {
       {
         id: 0,
         img: 'img/img.jpg',
+        multipleImg: true,
         like: 22,
         comment: 2,
         views: 765,
@@ -332,6 +411,7 @@ const MiniPostContainer = () => {
       {
         id: 1,
         img: 'img/cat.png',
+        multipleImg: false,
         like: 2222,
         comment: 132,
         views: 3865,
@@ -339,6 +419,7 @@ const MiniPostContainer = () => {
       {
         id: 2,
         img: 'img/sam01.jpg',
+        multipleImg: true,
         like: 9822,
         comment: 2132,
         views: 33865,
@@ -346,54 +427,64 @@ const MiniPostContainer = () => {
     ],
   });
 
+  const navigate = useNavigate();
+
+  const moreAboutPost = useCallback(() => {
+    // navigate(`/postpage?=${포스트아이디}`);
+  });
+
   return (
     <>
       {miniPost.post.map((mPost) => (
-        <Link to="/postpage/detailPost">
-          <div key={mPost.id} className="mini-post-container">
-            <div className="mpimg-container">
-              <img
-                src={process.env.PUBLIC_URL + `${mPost.img}`}
-                alt="이미지 로딩 에러"
-              />
-            </div>
-            <div className="content-container">
-              <span>
-                {mPost.like}
-                <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
-              </span>
-              <span>
-                {mPost.comment}
-                <FontAwesomeIcon
-                  icon={borderComment}
-                  id="border-comment-icon"
-                />
-              </span>
-              <span>
-                {mPost.views}
-                <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
-              </span>
-            </div>
+        <div
+          key={mPost.views}
+          className="mini-post-container"
+          onClick={moreAboutPost}
+        >
+          <div className="mpimg-container">
+            <img
+              src={process.env.PUBLIC_URL + `${mPost.img}`}
+              alt="이미지 로딩 에러"
+            />
           </div>
-        </Link>
+          <div className="content-container">
+            <span>
+              {mPost.like}
+              <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
+            </span>
+            <span>
+              {mPost.comment}
+              <FontAwesomeIcon icon={borderComment} id="border-comment-icon" />
+            </span>
+            <span>
+              {mPost.views}
+              <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
+            </span>
+          </div>
+          {mPost.multipleImg && (
+            <div className="imgs-info">
+              <FontAwesomeIcon icon={faClone} id="multiple-img-icon" />
+            </div>
+          )}
+        </div>
       ))}
     </>
   );
 };
 
-
 const MiniMatePostContainer = () => {
-
   // 산책메이트 찾기 매칭 여부
-  const [isMatching,setIsMatching] = useState(false);
-  
-  return(
-    <div className='mini-content-post-container'>
-      {isMatching? 
-      <div className='matching-completed'><h2>매칭완료</h2></div>
-      :null}
-      
-        {/* <div className='mcpc01'>
+  const [isMatching, setIsMatching] = useState(false);
+
+  return (
+    <div className="mini-content-post-container">
+      {isMatching ? (
+        <div className="matching-completed">
+          <h2>매칭완료</h2>
+        </div>
+      ) : null}
+
+      {/* <div className='mcpc01'>
           <div className='mcpc01-img-container'>
             <img src="https://entertainimg.kbsmedia.co.kr/cms/uploads/PERSON_20211021110626_f6de28501aed1ac97c517654f25aa432.jpg" alt='작성자이미지' />
           </div>
@@ -402,57 +493,84 @@ const MiniMatePostContainer = () => {
         <div className='mcpc02'>
           <p>22/02/23</p><p> 15:05</p>
         </div> */}
-        <div className='mcpc03'>
-          <img src='https://post-phinf.pstatic.net/MjAxNzAyMjhfOTMg/MDAxNDg4MjYxODA4ODYz.8HZ-zLSPF_nIzsSyYi8x7aSd29aLo6AJmIoaHL1GHBog.DIz1kZtGy-8Tj_hVyTTGCoHtuA58PKzB7zAYqK4slVcg.JPEG/3.jpg?type=w1200' alt='게시물이미지' />
-        </div>
-        <div className='mcpc04'>
-          <p>산책시간　 22/02/25 19:00 ~ 20:30</p>
-        </div>
-        <div className='mcpc05'>
-          <p>강남구 논현2동</p>
-        </div>
+      <div className="mcpc03">
+        <img
+          src="https://post-phinf.pstatic.net/MjAxNzAyMjhfOTMg/MDAxNDg4MjYxODA4ODYz.8HZ-zLSPF_nIzsSyYi8x7aSd29aLo6AJmIoaHL1GHBog.DIz1kZtGy-8Tj_hVyTTGCoHtuA58PKzB7zAYqK4slVcg.JPEG/3.jpg?type=w1200"
+          alt="게시물이미지"
+        />
+      </div>
+      <div className="mcpc04">
+        <p>산책시간　 22/02/25 19:00 ~ 20:30</p>
+      </div>
+      <div className="mcpc05">
+        <p>강남구 논현2동</p>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 const MatePostContainer = () => {
-
-  return(
-    <div className='mate-post-container'>
-      <div className='mpc01'>
-        <div className='mpc01-img-container'>
-          <img src='http://www.newsfreezone.co.kr/news/photo/202008/254439_252946_1912.jpg' alt="작성자이미지" />
+  return (
+    <div className="mate-post-container">
+      <div className="mpc01">
+        <div className="mpc01-img-container">
+          <img
+            src="http://www.newsfreezone.co.kr/news/photo/202008/254439_252946_1912.jpg"
+            alt="작성자이미지"
+          />
         </div>
       </div>
-      <div className='mpc02'>
-        <h2>산책매니아</h2><p>팔로우</p>
+      <div className="mpc02">
+        <h2>산책매니아</h2>
+        <p>팔로우</p>
       </div>
-      <div className='mpc03'>
-        <FontAwesomeIcon icon={faEllipsisVertical} className="mate-post-menu"/>
+      <div className="mpc03">
+        <FontAwesomeIcon icon={faEllipsisVertical} className="mate-post-menu" />
       </div>
-      <div className='mpc04'>
-        
+      <div className="mpc04">
         <p>저희 코코랑 산책하실분 찾아요~~</p>
       </div>
-      <div className='mpc05'>
-        <div className='mpc05-img-container'>
-        <img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBYWFRgWFhYZGRgaGhoaHRkaGBgaGhgeGBoaGhoaGBgcIS4lHB4sIRoYJjgmKy8xNTU1GiQ7QDs0Py40NTEBDAwMEA8QHxISHzQrJSs0NjQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NP/AABEIALcBEwMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAAEAAECAwUGBwj/xAA5EAABAwIEBAQFAwMEAgMAAAABAAIRAyEEEjFBBVFhcSKBkfAGEzKhscHR4RRCUhVigvGishZykv/EABgBAAMBAQAAAAAAAAAAAAAAAAABAwIE/8QAJBEAAgICAgIDAAMBAAAAAAAAAAECEQMhEjEiQQQyURNCYZH/2gAMAwEAAhEDEQA/ANsUYUizoryE4auI0Ctvsm8IMQjAxMKAlAA5oA7Kt+BadloimFMMTsKMOrw1pGiTOGNjRbpphUYkhjS7I50XLW/URvA35xrZPk0Cj6MY8GZyCqfwFnJGYbjWHf8AQ+L76+mvW0op+JDRJuDuLpfy/wCm/wCGX4Y54GxVP4DyW/SxLHWEk720VVfiDRZsIfyEl2OPx5N7Rzzvhi86K2nwQf5LTdWnUyrBJEtaftftzU38mXosvjR9mTV4AT9LtkBU4PUaY1uuhbVc03a4GdxCNw7w4X1Th8qSfkE/jRrxOOdw942XL8QpmrXbTFy52X/iyS78OXqPGKopUKjyILGOI6nQR5kLjvgDh5qV6lV9xTY1g0u593H0b/5LsjktcjjcXF0xf0r5+lKpSeP7V37sC3kqzw9vJCzIXE4EZt2lSY2+hXet4M0/2/ZX/wDx5trD3zWozsTicC6oLKNdwhd2/wCG28hry9FTW+HgRonyFxOE+YIUWVZsuud8PsvIVX+gMGyz/Ig4nKVKkFM3ELpqvAGnZDP+GhsnzQ6MUVeqX9Qea1XfD/UqqpwBw3KfJBRmOxR5qArO5og8HfMQiWcGeAhSTCmZT8S4bqX9S7mjKnB3qh3C6g2TsKK/6p3T0SVv+nP5JIsVHppYEgwKLXp8i4So8KDgmcITgIAkGFTZKkx6fOgCMFVuaVY6ooF6bA5X4p+Hi5pr0W+MSXsH943IH+Wvfvrx2A4tWkNZmuQ3L9Q5b+wvXQ9cfxLA06dd9ZtgR9IBjO76jGnL1KxLiltF8MpXSY/zsjDeCbuPMjXKDtcod2Ji+5uOaycZinPcQfPrB/G0IStjTe867eSgoNs7XKkb/wDqQDQTqTlA6nuua41xN/zHkPcQ1xAAcQAG2EDtCoe90GO87gibhZb2PBOYF2a+5lXx4knsjlm2tG7wz4weCGvOZvJ17f7TqD2XX0OKfS9t2OMSYsbG503EG0yvK6uGk5g3KAu2+H8cAz5bmktgZp3JkCOwBPeEZsUUriZxZJN1I7oltemR0hVfDHDW4ek5guXPe9xOtyA2f+LW/dY3w3xAE5RJgkTbsusbRtI15LOKTpoM8EXsutChhBuhcE0e4harDZdWOKe2cTJspAKcBVGoqn1wrWkKrLyAoOYEC/HAbqVLGg7rPNWa4shjMOIJWfAWw92ZpWNVZBhTyL2hJ+iLwIUKTOaTimL1Kx2TLGqPygoSSpgosCDsM2UvlBSzJAhFjIOww5Kt2FHJE/MCqrVbWTtiop/pByTKhz3pI5sOJqlplXBtk4apoCisslL5UKZCiaZKAGLQk5ikKRUXtIQFESxJrVNrCmNNAESwLi+MgHMZuLxOx0J+67ljFx/xJQFN+YA+NoBM2BaZFuocfRZlG42VwupUcl8ovdlbufT34vsq6+DDSfFm6DT03210utfh1MMac9vC4k8lyuN41kqSwS28kkgOPQDbRLHFyui2SfFqzYoU2uEQZ06/9/t2RGEwTTY+/cIfB0sRXZ875bWMkBsl0vFpLQRcQdVoYNj2vIcCCNdf46rMouPZuM1LojX4MIMNkRf+ELheHPYZBkDR267DDXFwOsi6vdwxhOaL6++ay+VDUo3swOCYF7HCe677AfSAf4QDMK2AtHDEALcI07ZLJPkFUm5SRor8yHe+0oN/EWCQXieU+5XQpJaOdxb2g6tiQBdYXEeKhu6C4rxMXh3RcZxXiD45jpZRnkcnSLwxUrZscQ+Isu/vmgsD8XAvDZ3ElcJxHEufEDw+fvn91XgmlpBWljqNtj5Jukj6B4XxRrhE7J+ITmkLzPgHEXlzRO/PYL0vDVs7A47pLI34snlw8doFDjuoOKNq00zKQKRGgH5qYPlHCg1OaLUBQAxIyjHUwoGmCU6AGAUXtRRohQexFAC5UkTlHJJIDThRM8kmyLKZa5AxpPJTbKiGO3TgkLQUO56YEFTamcOSAoaE5YnATVazWgucQABJJMAAaknYIAZ7IErk/iF/zHjKJDbdCf2lH8V+IKZZlY8GbyOSp4WzO3MRDToTB8wJ/K1PHJxqqKYpRi+RzmJ4a99jMHWB4b/ldFhvhekxoLKTJjVzQT3utINYIEfk/fZFVqhBtp536QnixOPsM2ZS9GcOH5XZnHN15dOgTYnAZnBzY/3dRcBaVTFNDTJAEcjbmsg44DSdbGbevoqOMVogpN7Lv6cA7Dt15K9jvT0QTaxd7/HVJ2IAjtp/ClJJFYybDqtXSB76KTKnOyzTiAY2+6s+aTZZbNGwypLTvb18iuJ4lU8Z8Ma8vWy6vDv8Bv77rleNUofOzuf6KGbpHV8ZbYCcp7qJpsPhcJm36KVOn+4VhpdOvsrnSZ1NoqdhqbhGRvkNLpqvAWEeEaff3dWvpkXWjhTmAvtp5+/VUi5E20jnaXDnMeC3nr2XoHBKksiZjrfzWS5jY/VFfD7SHPb5g81qL8iWZ8os33EKtoUXhO2V0nAJyZ7bJ6oTQYWQIF1kwYkXwouqhArE9qryqTqlkzalroCxZUkvnhJAWaDal1L5ig5iorvDGlxunY+wvMSovKoZiZaCEnEm6GwLKdRSLih6beiJySNUICDnFZnHsA7EYerR0zsIBOztWk9MwC0nSFWKhnSyd0B4BTqVWP8AlvLgWuyua6ZaQYIXrnAKoFBjRMQJm0yBqed9p0UviT4Zo4kPeGAVssNfLhcAZcwaRmFovzXB4PFY7Du+WaGhjxZo75gb/wALqjlTWyUl+HpoptLw5sWOoLhEgRInxbXMEWsgcTx5nzm0mmXEmb2A18R0k2jz5rnKdTGPY75j2MB/tZreZlxJi3TzVHCuGhjjDpdmzAnXSJ7fujkkwps7rH1GuaAddSJWYbmyBZLT4nEnrZFiqMszFtesKblyNJUSdUAHT2EG55J7KFeq51m+sW93T4ak7cKEm5OkWjpWEtrQP1/ZFYJpJJmypoYAm5WiQGN5cj/Kai0rkHJN0hhiokTBB9Y3HNPx2gx1MPA1g2PPb7rMD9x/H3Wtg35qOUi4MQNdVFPk2mdNcaaMDD08w/SPtO5UMSCOQB6W9StathspvA6fqeX8qmtSD2xPn+ym406LKV7MlhmbzFrb++iqp1sp9/jdDVMSWnLe0j2ULisTHf1QkaOhw2JLjH5WngqpYZHONrrlMDi7Am61sLipkJ9GGrOwa/MJ2KZkyhOF1JZHL8IwAq6las4Jx4yoVRpURPNWqL3NCdmKKXqBCJMFQ+XKLCgQBVPftCKeyFVA3WQaKUlfnanWrAOJMWKYtBFxKa4smJcErGWsYBaICdxCoOJcR9Kg3FEzLUOSEwpjwFIFCUKt4IV7XiUJjHdUCh85uik7KkAzldFMLEciRpMd9TQe4B/Kk2kJUIhOgGfTY1phoHQAD7LjccMrzka0CTYAXnkuwxj/AALlcYzdDNpaA2Yho1ae0yOvkovxT3Wazy2H7oxlIEA80SymG39jutKL/SdoBwlKsTqB5fhbGGwpN3GVbhmCBvCLkRO9lWMV2ZkxsmUW293QGNfmMAR0stGsQBb3/CzywyTEHbQ9FjNL0VwqtlPygBp7/VW8GeQXgDdSa2dv+1DDHK938fdcy1JHVdxaDMSNZkx6fwsptTotbEMtOUHzhZFV9zNufl0RkRqD0c58QUsr52dfzWRVq7Hsul48wFgMaRFvwuWxOGMSlGmbb0G0KgiIR9Kuf435LGwb7TujcPW8YnWU5IUWdr8PuMyZG110L2EwQuV4PiyXXXT0qpv2Ti0QzRskR0UBli6qGJdpCm242WzlYjVZdR+eIsk5jdYVbWtItsiw2MRKQaCeyT3AWSa9sJWhkDTHJJQNcc0k7QB7X/8Aak8whMxjt6p3VpvOmyBbCQ2IEqIAkyUG+o4nwlWuZ4UOgsLLmmyrY2xhD4bDgE5iZ2VzWRoUDERzGig0dVc5pjNKfO0jkUULRAVC1oKQrFw0UHVoOikH3giJQBHFSWrIxOHkX/7XRGmMvRB1aU9hsrLHasOdaOfY3xAQiSBBBUsV4TI2UGunzRVKhXbsKwzTaPcompsI3H59+izTicgmRbb+fMLWw7g9oJsdVqL1QNbsrew97Kt9MwtIUt/VRr0ZCzKDZqMqMZuuvvsnptJM7+SfFjKJUcE+SevVczW6OqL0EVqjQNffoseu4F+wB7LQxTrfqgGs1MIn+BB1srxWHzgN19bKp/DBlAIWhReAb84RFRw0lbhi8bZOeZ3SODxWE+W86CeWinhNfey2+N4aW5tPeoWPh2EHseV/c/lYkq0dEJWrN/h2tt9j0XS8OqeKOa5vAHcE9j77rYw1UB4n8JR0ZlsOxNN822VbcO/Xmi8S45gRoQqw58xNlQ42tg/iB6KOYs2V5qBu1pUX4mdlmhIoa8uuR5JBoPdXh28apy8DQJjK/lDkkrPnFJa0BYag1IVdSo0gkCT0SeDBHP7JCgWiwlIREVARZveym6i5wsYUaNQSbEKBqy0yYvZCoLRb/TvP1EW0UaYeDc2umZiid73sVNhJEG8o16FaJuqHLJuISw9RrrlD0LHLchM2nIMDRABVRoMnboosp3LpPJU03GbaCx6KDqrr231Ts0aJqQ0CUNiXgCNVUyteDdU13yV0xlcSUlsGxMEdShw8kASAI2jNy02CbH4kR7ntZAVcaBfym3affNTlJWUSCX0ZGWYI7X8p/C2sCXBog/osHD1M3Kwte/lf3IWvgqoy6A/x0TjRmRt4WrIiR6z90QXW0WVSxUOvp75LRNUK62jHRjcYZvpzuFmYV5BsL2E8/wB1p8Wqi8RP7rMwpAufXZcU150dkH4WF1XA9duSExFQMBOwEylUxIaJOg9+a53H4x1R0N+n3/KGrZlSpBrKhe8juPuBK2amGeGNcex8hr75oTgWBi53XWPY3IWkSCFZdWyL2zkcU7M0e9ViuYQZkT/u/HvougfSLHZXaTY9FHH8ND2Zm66qUoOW0Xx5VHTAeGV9iffJbVBxcRGo81ymCeWmOsEedh75LpsFUEg/hSLs6Cs7wsPkqa9TWNeSm4yy2qELDBjlqts5JqmOKgOoUGYhvikRyVjacRckkKuuzwxEkoZkYVjAJ9QkKgdfkqHggBsKBa/LcICw+AEyzM9RJZsORoMqAWMyQicMx0G58950Wc85Mv8AdOnQe4ROGdUynLBGt9uy0qMl1KlvAIvYap2AEgAQOqpZiXWLWxfTupVHuDozeW3bujQWM6mQT4ZjfTVO5paJaL7yoVHuAmZIBnzuFFuJztEyJF+hCV1oCzI7lJOsdFB7nC8wD+U+FBy2JnUz7vKjUY55jndMCQLZlpMmxV5pkAiZbr1lCMeZILZgi+itfiZs2dCi0AKx0Ob3O3NKrU1/hNiHEU+ZaQb68o7JVCSBYE7zPoIVsb9DktJmTjmlzSLk8h+6xcOcpc14Os+z70XQYilyB056dlPh+EBnO2cwuI7EeaU1TCMtGC17doBWtgKnhv8AZ0InHcBpuuw5Px5hD08O5kAxH+VzPksRkuVDbs0mVdOnb9VoOxHhmTpz9I+yx6RJEge+anj6kNEa6+hv9ldy4xszGPJ0C4qsXO1GvqP5VVStYgSIOvvVPg6GZ0uEAddSfcqzirIMDRc0VybZeclGooxsVWLzGwsrcHhrhVfKg+a1+FUvFHVWjEjKRu4ajlYFLEZg2B3uVPEvIIaBsFW9/wDlrHopzltoXIrqsBGUjX7FC0KhY7I712IRPzA9wEH3snxdHOAABOoO4hKEqYVfZn8U4OHAvYId03WVg8UWEh4gj7+/0XS4DEWyHUWvzWfxXh5JzAQtZYa5ROjFk/rIP4bjc4gxyhGjuI/C5PB1HMe0Hbfp+q6T5wzgGFGLHnjVUNmJsTvsptGt5P4UMVTDXtLT9Wo5d1NhEkafjuFqjmqiwUxlhw8SpfTMSNB9k5e6C2QY96oWo9wmL3FhoUwsk1nT7pJqeLsPAUlkdBFRhmYEacoHmrcOSBljTUczz81fVqgiC7z1npHoqMNlOhMgeYMJrurB0iJMkAODXb++aso4cHU9jpfsqcxyhxhxIEu78z6JPrkRlaSI3SuuwtF2EotzGxnv6qDaOUkuMg/meSg3ElxkeE77iQNPNSeXvMAHKBPr7CFK0D6KTRJlwMC8SrSx8iDMbdxdUinIAnoZmx2siaNDK4ETEQeR690lsyrRXVa7pFvLqU8xfwuO8a+agWPAmMwk3Gp2CcU4HiGusag8k9jsqxLIaBpJ6zHsqdJludvv0VeMMkAiReNdohFUvpHT1V8S2al9UZeJOsC9vOVpBmUAmwG/2Qj2S4Abu/VFuw+oc4kRa86XBhPKYiMXGdA7cKnEUA8OAIkXAVbGwSBsM2puOSnhqgcXuEDxRFpiNlGL2MFwrIbJsg8S3M4DbsfU7LSwAsUM9sGd/wBZ1VcvSKYewnD4cNbfpfl6oTjdM+EjSN/stbCmW94Ec53uk8/MYWuHhHhtsRoZU46FPcmciHc1tcHpy5veFlVsOWPLXC/PmNitrhTfA6BcDMPK66YbJM0cQ7M4i9yftyVGZ8w2Lc9+hVuJaHQ9n9wnL9jlPfZQbhQWA58skgnrsuad8mNAr2OaSQ3S/wC6d+OmwG0dQOcoxtOJJeHCIFoIPUckO2m3MZBNotaJvKz10My8RUDTnbMGzuh5rRo4vO3urHUmnwQJIAtz0mFjV8O6i/LPhP0n3uqwl6BBNWh4h37bK/Egg5thH4hQY7MR5I3EtM6WEO6mLEfqpzjT0WlLlBABDyHXmIIO/aEsMCGiSXHcFFNcTI8xa3OEmNa4mxEAC9t0rJWV1qxzkQCDYweiqrYrKIi0XCvzC4IgnlqAOaHr5ZDXGJvJ0BjTzTTEW/1IOjR6pIb5beY9UkWhaNStVEZiLDRwExffqpYTFDMRmuARoIduY5oQvzDLba2gEnX1VzoaAxzHSBeALxve2qxewGp1BLQ2Q2YJ0tNvCVe6q4DKbyQPLcg9lS3EhrgHgNJ1G/8Aib8hqk2iMpGYmDIg63JA0ty8kk/9GNQxTgS7LDWugl3TrsimYwQS2SR4onUDWfVZ9Wo6XgaamAIsRqOwHopguaQ4QZsbCIJgOHO5PqmvxMA3DVpMjxEyTNjB0gaHkq/muDWt620nq09OqHqvfTB8QMyGwBaQYn/dmnyVpxRaGBwAJmQdRexmdJWgQQ3Fktd4baQCJmYj1Cjiqv8AiRsHDf18kDTzAuLDOafD/cDmI87hWUsS1ri17BBb9d97+SVgSxoHggm8zvFxZFgw3yQVV+ZwOWOkjmRfrb7rQY3wldGEcvqgJtzPmp03gugGBz5RoeyT4EXiSAO4vH2VLA2CQdzJOgnqp5peVGYovqsEkf3S24i41URGe7Q2RfWJGh8xKrD8oktzEANJ5QDvuDqqsRUZnzaSfK9j9p9VJutjJ4Twlw5E/ZB4t5Dt+XT12RmGYWucENiHeKNuff8AldGT6o3i7CmAnIBveAYKsD3AOaRz033nuLKp4MNuBprtbY+asosf4iTJMgX5xH6qD7MSu9AeLoF7JIu3Q7nuquE4gsqDNoRHdGspEuzE7EEg2F7AiO6ycTRMyNRsujA9CNd4cx72EHJ4XMcP90jXnYz5J8z3NLYGhdEaGbR16qLXvLKdtiTfr91OvUg2nxaDtH6fgqOV+TQ3tCwrg3UEEGd4IPTdF0aPgc6fqkxqQs+o8gt+qQb256WGyrZjHzIM2sIAnxXi91PkvZm6DK1SHAhsk2mRoFTiqOdj88XPgjUG9x5j8qT6ZAkEEgzHL2Co0cwyscJEm9u/pcppuwvYBwsknKfqFj79PVadeoQ5wcPAW6/4vFjPQtyn/iVlYiqRXY8Wa5oEg8tPstbiDwSy0ioMp5aGPNXl5QspB9r9GOJDWtpyCTd5I/8AEeShkDWlxPhMm9jbQod1AFu+sNPI6Sfune0kZZkgmAJIgQL8hMqCbZNPdMZ9R0mHC39wF+cHySxD88ZhMCNIk2urDQIBytkBw3i+9jyU3GB4gDFj39/hPfsFZlf6dNyT/wDpJXVGOkwXAbeEpItfhmkFvwzi43DgTAbtYkGDYj6h+miso5/EySHZpzEzq2YN+RHomSTpG60ReC9sECxqAkHXK4tkDaQCrCwsaAJNg0l0ESTGUga23SSWa7B9jVREuY+HQ8kEGDlEQdiqC0FrRMOEXuADrsNCZskkkxsZpJJzRBA0JnTW9riOxV73EnLGb6rn/aZISSQu/wDgkKu5rDTIEZhmI1mQHTOxGZVU8VLnA6hrr8hTLW6d06S1/Y2LDVQbNBEWvGov+oWjTdY9EklfF2gf1KK1Xk3N/dMxA9hRwjxlIcImIA/xgwDbVJJTyfdmF6KqLx44Enadogj7EqOHaTJe0QfEADO1j0MyUkllJUMvpEife10K5mYz7lJJVl0imMtxNJxeNC0CSIGmkDrO6HxNUEjKXAgCT3FiOuiSShPslIuo1M9UC4LnXvYhn1EDQSFHHU7+qSS6cHTBl9OqYa0WAHpA29Va1ziIIEAuJcNQA6B31Pokkoy+zNllQNzC2sj0k37wPRU4gNNiSDqIAgTFoNkklhg1sajRLSxxiII/+29wp1ntcXB2rXERtM695SSQIzuJsaWuIsWkFvaRP/sUdg5dSvt6pJK+L6sF2RLS4lrTA8II/Me9lLEEMbmLRMagn+6QZSSURe2L5wLbchOtzzt0JQlVsOgOsXZdLzYn8fdJJD6MkhSd05anaySSSOKNUj//2Q==' alt='게시물 이미지' />
+      <div className="mpc05">
+        <div className="mpc05-img-container">
+          <img
+            src="data:image/jpeg;base64,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"
+            alt="게시물 이미지"
+          />
         </div>
-        <p className='inputed-content'>이따 10시에 효산공원에서 2시간정도 산책하실분 찾습니다! 저희 강아지 엄청 순해요 채팅주세요!</p>
-        <p className='tit'><FontAwesomeIcon icon={faClock} className="mate-appointment-time-icon" />산책 시간 정보</p>
-        <p className='inf'>22/02/23 · 22:00 - 24:00</p>
-        <p className='tit'><FontAwesomeIcon icon={faUser} className="mate-writer-icon" />산책매니아 님의 정보</p>
-        <p className='inf'>20대 · 남자 · 강남구 논현2동</p>
-        <p className='tit'><FontAwesomeIcon icon={faPaw} className="mate-writer-pet-icon" />산책매니아 님의 반려동물 정보</p>
-        <p className='inf'>코코 · 3살 · 수컷 · 강아지 ＞ 포메라니안</p>
+        <p className="inputed-content">
+          이따 10시에 효산공원에서 2시간정도 산책하실분 찾습니다! 저희 강아지
+          엄청 순해요 채팅주세요!
+        </p>
+        <p className="tit">
+          <FontAwesomeIcon
+            icon={faClock}
+            className="mate-appointment-time-icon"
+          />
+          산책 시간 정보
+        </p>
+        <p className="inf">22/02/23 · 22:00 - 24:00</p>
+        <p className="tit">
+          <FontAwesomeIcon icon={faUser} className="mate-writer-icon" />
+          산책매니아 님의 정보
+        </p>
+        <p className="inf">20대 · 남자 · 강남구 논현2동</p>
+        <p className="tit">
+          <FontAwesomeIcon icon={faPaw} className="mate-writer-pet-icon" />
+          산책매니아 님의 반려동물 정보
+        </p>
+        <p className="inf">코코 · 3살 · 수컷 · 강아지 ＞ 포메라니안</p>
       </div>
-      <div className='mpc06'>
-         채팅으로 산책매니아 님과 약속을 잡아보세요! <FontAwesomeIcon icon={faMessage} className="mate-chatting-btn" title='채팅하기'/>
+      <div className="mpc06">
+        채팅으로 산책매니아 님과 약속을 잡아보세요!{' '}
+        <FontAwesomeIcon
+          icon={faMessage}
+          className="mate-chatting-btn"
+          title="채팅하기"
+        />
       </div>
     </div>
-  )
-}
-
+  );
+};
 
 const CommentContainer = () => {
   const [comment, setCommnet] = useState({
@@ -463,6 +581,7 @@ const CommentContainer = () => {
         img: 'https://blog.kakaocdn.net/dn/btkVeS/btqFOXbMQbB/Uf5rey5lRoKKRStYNn5oVK/img.png',
         date: '2022/02/10',
         content: '고양이 진짜 이쁘네요 부러워용ㅠ',
+        key: 2125325,
       },
       {
         id: 1,
@@ -470,6 +589,7 @@ const CommentContainer = () => {
         img: 'https://image.fnnews.com/resource/media/image/2021/04/21/202104211351203685_l.jpg',
         date: '2022/02/12',
         content: '고양이 무슨 종이에요?',
+        key: 21253212125,
       },
       {
         id: 2,
@@ -478,9 +598,16 @@ const CommentContainer = () => {
         date: '2022/02/20',
         content:
           '부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.',
+        key: 21253258998989,
       },
     ],
   });
+
+  const [showmodifyCommentModal, setShowModifyCommentModal] = useState(false);
+
+  const clickModifyComment = (e) => {
+    setShowModifyCommentModal(!showmodifyCommentModal);
+  };
 
   // 댓글 신고 버튼 클릭시
   const [showReportCommentModal, setShowReportCommentModal] = useState(false);
@@ -494,7 +621,7 @@ const CommentContainer = () => {
   return (
     <>
       {comment.comments.map((com) => (
-        <div key={com.id} className="comment-container">
+        <div key={com.key} className="comment-container">
           <div className="cc01">
             <div className="cc01-img-container">
               <img src={process.env.PUBLIC_URL + `${com.img}`} />
@@ -505,7 +632,12 @@ const CommentContainer = () => {
             <p></p>
           </div>
           <div className="cc03">
-            <FontAwesomeIcon icon={faPen} id="edit-icon" title="수정하기" />
+            <FontAwesomeIcon
+              icon={faPen}
+              id="edit-icon"
+              title="수정하기"
+              onClick={clickModifyComment}
+            />
             <FontAwesomeIcon icon={faX} id="delete-icon" title="삭제하기" />
             <FontAwesomeIcon
               icon={faBullhorn}
@@ -563,6 +695,22 @@ const CommentContainer = () => {
           </button>
         </div>
       ) : null}
+      {showmodifyCommentModal && (
+        <div className="comment-modal--modify">
+          <textarea>기존 텍스트</textarea>
+          <div>
+            <button
+              className="modify-comment-cancel"
+              onClick={() => {
+                setShowModifyCommentModal(!showmodifyCommentModal);
+              }}
+            >
+              취소
+            </button>
+            <button className="modify-comment-yes">수정</button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
@@ -572,31 +720,34 @@ const PostBackground = () => {
 
   const uploadDiv = useRef();
   const showText = () => {
-    uploadDiv.current.style.height = "100px";
-  }
+    uploadDiv.current.style.height = '100px';
+  };
   const hideText = () => {
-    uploadDiv.current.style.height = "50px";
-  }
+    uploadDiv.current.style.height = '50px';
+  };
 
   const [showUploadFormModal, setShowUploadFormModal] = useState(false);
   const clickUploadFormModal = (e) => {
     setShowUploadFormModal(!showUploadFormModal);
-  }
+  };
 
   return (
     <>
       <div className="post-background">
-        <div className="post-filter">          
+        <div className="post-filter">
           <span>최신순</span>｜<span>조회수 높은순</span>｜
           <span>좋아요 높은순</span>
         </div>
 
-        <div className='upload-post-div' ref={uploadDiv}>
-          <div>
-            게시물 올리기
-          </div>
+        <div className="upload-post-div" ref={uploadDiv}>
+          <div>게시물 올리기</div>
           <div onMouseOver={showText} onMouseOut={hideText}>
-            <FontAwesomeIcon icon={faSquarePlus} className="upload-post-btn" title='게시물 올리기' onClick={clickUploadFormModal}/>
+            <FontAwesomeIcon
+              icon={faSquarePlus}
+              className="upload-post-btn"
+              title="게시물 올리기"
+              onClick={clickUploadFormModal}
+            />
           </div>
         </div>
 
@@ -607,71 +758,105 @@ const PostBackground = () => {
         </div> */}
 
         <div className="post-list">
-          <MiniPostContainer/>
-          <MiniMatePostContainer/>
+          <MiniPostContainer />
         </div>
       </div>
 
       {/* 게시물 작성폼 모달창 */}
-      {showUploadFormModal?
-      <div className='upload-modal-container'>
-        <PostUploadForm/>
-        
-        <button onClick={clickUploadFormModal}>취소</button>
-        <button>작성</button>
-      </div>
-      :null}
+      {showUploadFormModal ? (
+        <div className="upload-modal-container">
+          <PostUploadForm />
+
+          <button onClick={clickUploadFormModal}>취소</button>
+          <button>작성</button>
+        </div>
+      ) : null}
     </>
   );
 };
 
-
 // 게시판별 게시물 작성폼
 
 const PostUploadForm = () => {
+  // const [imgUrl, setImgUrl] = useState("");
 
-  const [imgUrl, setImgUrl] = useState("");
+  // const encodeFileToBase64 = (fileBlob) => {
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(fileBlob);
+  //   return new Promise((resolve) => {
+  //     reader.onload = () => {
+  //       setImgUrl(reader.result);
+  //       resolve();
+  //     }
+  //   })
+  // }
 
-  const encodeFileToBase64 = (fileBlob) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        setImgUrl(reader.result);
-        resolve();
-      }
-    })
-  }
+  const [imgBase64, setImgBase64] = useState([]);
+  const [imgFile, setImgFile] = useState(null);
 
-  return(
+  const handleChangeFile = (e) => {
+    console.log(e.target.files);
+    setImgFile(e.target.files);
+    // fd.append("file", e.target.files)
+    setImgBase64([]);
+    for (let i = 0; i < e.target.files.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(e.target.files[i]);
+
+      reader.onloadend = () => {
+        // 파일 읽기가 완료되면 아래의 코드가 실행
+        const base64 = reader.result;
+        console.log(base64);
+        if (base64) {
+          // images.push(base64.toString())
+          let base64Sub = base64.toString();
+
+          setImgBase64((imgBase64) => [...imgBase64, base64Sub]);
+          // setImgBase64(newObj);
+          // 파일 base64 상태 업데이트
+          // console.log(images)
+        }
+      };
+    }
+  };
+
+  return (
     <>
-    <div className='post-upload-form-container'>
-      <h2 style={{marginBottom:"30px"}}>일반 게시물 업로드 폼</h2>
-      <label htmlFor='post-img-select'>이미지 업로드</label>
-      <input type="file" id='post-img-select' multiple
-      onChange={(e)=>{
-        encodeFileToBase64(e.target.files[0]);
-      }} />
+      <div className="post-upload-form-container">
+        <h2 style={{ marginBottom: '30px' }}>일반 게시물 업로드 폼</h2>
+        <label htmlFor="post-img-select">이미지 업로드</label>
+        <input
+          type="file"
+          id="post-img-select"
+          multiple
+          onChange={handleChangeFile}
+        />
 
-      <div className='img-preview-container'>
-        {imgUrl && <img src={imgUrl} alt="이미지 미리보기" />}
+        {imgBase64.map((img) => {
+          return (
+            <div className="img-preview-container">
+              <img src={img} alt="업로드할 이미지" />
+            </div>
+          );
+        })}
+
+        <textarea placeholder="내용을 입력하세요..."></textarea>
       </div>
-
-
-      <textarea placeholder="내용을 입력하세요..."></textarea>
-
-    </div>
     </>
-  )
-}
+  );
+};
 
 const MatePostUploadForm = () => {
+  return <div>메이트찾기 게시물 업로드 폼</div>;
+};
 
-  return(
-    <div>
-      메이트찾기 게시물 업로드 폼
-    </div>
-  )
-}
-
-export { PostContainer, MiniPostContainer, CommentContainer, PostBackground, MiniMatePostContainer, MatePostContainer, PostUploadForm, MatePostUploadForm };
+export {
+  PostContainer,
+  MiniPostContainer,
+  CommentContainer,
+  PostBackground,
+  MiniMatePostContainer,
+  MatePostContainer,
+  PostUploadForm,
+  MatePostUploadForm,
+};

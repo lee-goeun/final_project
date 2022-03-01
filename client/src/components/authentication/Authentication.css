@@ -16,7 +16,7 @@
 .login-container {
   width: fit-content;
   height: fit-content;
-  padding: 20px;
+  padding: 30px 20px;
   margin: 0 auto;
   border: 1px solid var(--bordercolor-default);
   background-color: var(--bgcolor-default);
@@ -170,6 +170,13 @@
 .find-pw > small:hover {
   color: var(--accent-default);
 }
+.error-text {
+  font-size: 12px;
+  margin-top: 5px;
+  margin-left: 10px;
+  text-align: left;
+  color: red;
+}
 
 /* 회원가입 */
 .join-container {
@@ -228,6 +235,7 @@
 
 .name-input,
 .nick-input,
+.email-input,
 .phone-input,
 .adr-input {
   width: 400px;
@@ -241,6 +249,7 @@
 .pw-input:focus,
 .pw-re-input:focus,
 .name-input:focus,
+.email-input:focus,
 .nick-input:focus,
 .phone-input:focus,
 .adr-input:focus {
