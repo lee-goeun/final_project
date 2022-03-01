@@ -49,7 +49,7 @@ const CarouselStyle = styled.div`
     object-fit: contain;
   }
   .slick-prev {
-    left: 50px;
+    left: 30px;
     z-index: 1;
   }
   .slick-prev::before {
@@ -64,6 +64,65 @@ const CarouselStyle = styled.div`
     right: 25px;
     bottom: 15px;
     font-size: 40px;
+  }
+  .slick-dots {
+    position: absolute;
+    bottom: 20px;
+    list-style: none;
+    display: block;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    li {
+      position: relative;
+      display: inline-block;
+      height: 20px;
+      width: 20px;
+      margin: 0 5px;
+      padding: 0;
+      cursor: pointer;
+      button {
+        border: 0;
+        background: transparent;
+        display: block;
+        height: 20px;
+        width: 20px;
+        outline: none;
+        line-height: 0px;
+        font-size: 0px;
+        color: transparent;
+        padding: 5px;
+        cursor: pointer;
+        &:hover,
+        &:focus {
+          outline: none;
+          &:before {
+            opacity: $slick-opacity-on-hover;
+          }
+        }
+        &:before {
+          position: absolute;
+          top: 0;
+          left: 0;
+          content: $slick-dot-character;
+          width: 20px;
+          height: 20px;
+          font-family: $slick-font-family;
+          font-size: $slick-dot-size;
+          line-height: 20px;
+          text-align: center;
+          color: $slick-dot-color;
+          opacity: $slick-opacity-not-active;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+      }
+      &.slick-active button:before {
+        color: var(--accent-default);
+        opacity: $slick-opacity-default;
+      }
+    }
   }
 `;
 
