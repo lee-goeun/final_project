@@ -1,21 +1,27 @@
-import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import MatchingListItem from '../../components/findingMates/MatchingItem';
-import TimeoutListItem from '../../components/findingMates/TimeoutItem';
 
-const TimeoutListWrapper = styled.div`
+const Post = ({ post }) => {
+  return (
+    <section>
+      <Link to={'/match/detail/' + post.matchId}>
+        제목:{post.matchTitle} 내용:{post.matchContent}
+        이미지url로 와야함. 이미지url렌더링장소 이미지 클릭시 상세페이지로 이동
+      </Link>
+    </section>
+  );
+};
+
+const TimeoutListWrapper = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 `;
-const MatchingListWrapper = styled.div`
+const MatchingListWrapper = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
 `;
 
-const MatchingLists = ({ loadingList, loadingItem, list, item }) => {
-  console.log(item, '88888888888');
-
+const MatchingLists = ({ loadingList, list }) => {
   // 레이아웃체크용
   // const [timeoutMatchingList, setTimeoutMatchingList] = useState([
   //   'https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGV0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60',
@@ -35,41 +41,29 @@ const MatchingLists = ({ loadingList, loadingItem, list, item }) => {
   return (
     <>
       <section>
-        <h1>ITEM</h1>
-        {loadingItem && 'loading...'}
+        <h1>TIME OUT</h1>
+        <h6>추후 구현</h6>
+        {/* {loadingItem && 'loading...'}
         {!loadingItem && item && (
-          <div>
-            <h3>{item[0].matchTitle}</h3>
-            <h3>{item[0].matchContent}</h3>
-          </div>
-        )}
+          <TimeoutListWrapper>
+            {timeoutList.map((timeoutPost)=>(<Post key={timeoutPost.matchId} post={timeoutPost}>))}
+          </TimeoutListWrapper>
+        )} */}
       </section>
       <hr />
-      <section>
-        <h1>LIST</h1>
-        {loadingList && 'loading...'}
-        {!loadingList && list && (
-          <ul>
-            {list.map((item) => (
-              <li key={item.matchId}>{item.matchContent}</li>
-            ))}
-          </ul>
-        )}
-      </section>
-      {/* <TimeoutListWrapper>
-        {timeoutMatchingList.map((post) => (
-          <TimeoutListItem post={post} />
-        ))}
-      </TimeoutListWrapper>
-      <hr></hr>
-      <h3>검색창:</h3>
+
+      <span>필터////</span>
+      <span>검색////</span>
       <Link to="/match/add">글쓰기</Link>
-      <hr></hr>
-      <MatchingListWrapper>
-        {matchingList.map((post) => (
-          <MatchingListItem post={post} />
-        ))}
-      </MatchingListWrapper> */}
+      <hr />
+      {loadingList && 'loading...'}
+      {!loadingList && list && (
+        <MatchingListWrapper>
+          {list.map((post) => (
+            <Post key={post.matchId} post={post} />
+          ))}
+        </MatchingListWrapper>
+      )}
     </>
   );
 };
