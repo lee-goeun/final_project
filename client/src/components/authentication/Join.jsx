@@ -1,14 +1,31 @@
 import { useEffect, useRef, useState } from 'react';
 import './Authentication.css';
 import Footer from '../Footer';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import DaumPostHook from '../common/DaumPostHook';
 import styled from 'styled-components';
 import axios from 'axios';
 
-const Join = () => {
-  const navigate = useNavigate();
+const DaumPostStyle = styled.div`
+  margin: 0 auto 10px auto;
+  width: 400px;
+  height: fit-content;
+  font-size: 100px;
+  input {
+    display: block;
+    border: 1px solid var(--bordercolor-default);
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    margin: 2px 0;
+    transition: 0.3s;
+  }
+  input:focus {
+    border: 1px solid var(--accent-default);
+  }
+`;
 
+const Join = () => {
   const idInput = useRef();
 
   const [userInfo, setUserInfo] = useState({
@@ -16,33 +33,14 @@ const Join = () => {
     zonecode: '',
     detailAddress: '',
   });
+
   const savingAddressInput = (input) => {
-    setUserInfo((prevProfile) => ({
-      ...prevProfile,
+    setUserInfo(() => ({
       zonecode: input.zonecode,
       address: input.address,
       detailAddress: input.detailAddress,
     }));
   };
-
-  const DaumPostStyle = styled.div`
-    margin: 0 auto 10px auto;
-    width: 400px;
-    height: fit-content;
-    font-size: 100px;
-    input {
-      display: block;
-      border: 1px solid var(--bordercolor-default);
-      width: 100%;
-      height: 40px;
-      padding: 0 10px;
-      margin: 2px 0;
-      transition: 0.3s;
-    }
-    input:focus {
-      border: 1px solid var(--accent-default);
-    }
-  `;
 
   const { zonecode, address, detailAddress } = userInfo;
 
@@ -152,10 +150,10 @@ const Join = () => {
         zonecode: userInfo.zonecode,
         address: userInfo.address,
         detailAddress: userInfo.detailAddress,
-        // userAge: inputAge,
-        // userSex: inputSex,
-        // location_agree: tou1.current.checked,
-        // service_agree: tou2.current.checked,
+        userAge: inputAge,
+        userSex: inputSex,
+        location_agree: tou1.current.checked,
+        service_agree: tou2.current.checked,
       })
       .then((response) => console.log(response));
   };
