@@ -65,6 +65,10 @@ const CarouselStyle = styled.div`
     bottom: 15px;
     font-size: 40px;
   }
+  .slick-prev:before,
+  .slick-next:before {
+    color: #e8e8e8ce;
+  }
   .slick-dots {
     position: absolute;
     bottom: 20px;
@@ -126,7 +130,15 @@ const CarouselStyle = styled.div`
   }
 `;
 
-const PostContainer = () => {
+const PostContainer = ({
+  imgs = '',
+  userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
+  userNick = 'loading...',
+  content,
+  likeCount = '0',
+  viewsCount = '0',
+  date = '22/03/01',
+}) => {
   const settings = {
     slide: 'div',
     dots: true,
@@ -184,138 +196,130 @@ const PostContainer = () => {
 
   return (
     <>
-      <div className="pc-wrapper">
-        <div className="post-container">
-          <div className="pc-left">
-            <CarouselStyle>
-              <div className="carousel-img-container">
-                <Slider {...settings}>
-                  <div>
-                    <img
-                      src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201901/20/28017477-0365-4a43-b546-008b603da621.jpg"
-                      alt="이미지"
-                    />
-                  </div>
-                  <div>
-                    <img
-                      src="https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg"
-                      alt="이미지"
-                    />
-                  </div>
-                  <div>
-                    <img
-                      src="https://cdn.newspenguin.com/news/photo/202101/3899_12249_529.jpg"
-                      alt="이미지"
-                    />
-                  </div>
-                </Slider>
-              </div>
-            </CarouselStyle>
-          </div>
-          <div className="pc-right">
-            <div className="pr01">
-              <img src="http://image.cine21.com/resize/cine21/person/2018/0423/13_42_54__5add644ed52f5[W578-].jpg" />
-            </div>
-            <div className="pr02">
-              <h2>유저닉네임</h2>
-              <span
-                onClick={() => {
-                  setIsFollow(!isFollow);
-                }}
-              >
-                {isFollow ? '팔로잉' : '팔로우'}
-              </span>
-            </div>
-            <div className="pr03">
-              <FontAwesomeIcon
-                icon={faEllipsisVertical}
-                id="dots-icon"
-                onClick={() => {
-                  setShowPostMenu(!showPostMenu);
-                }}
-              />
-              {/* 수정/삭제 모달창 */}
-              {showPostMenu && (
-                <div className="menu-modal-container">
-                  <p onClick={clickReportPost}>신고하기</p>
-                  <p
-                    onClick={() => {
-                      setShowPostMenu(!showPostMenu);
-                      setShowEditPost(!showEditPost);
-                    }}
-                  >
-                    수정하기
-                  </p>
-                  <p onClick={clickDeletePostBtn}>삭제하기</p>
+      <div className="post-container">
+        <div className="pc-left">
+          <CarouselStyle>
+            <div className="carousel-img-container">
+              <Slider {...settings}>
+                <div>
+                  <img
+                    src="https://news.imaeil.com/photos/2017/07/22/2017072200472647573_l.jpg"
+                    alt="이미지"
+                  />
                 </div>
-              )}
+                <div>
+                  <img
+                    src="https://img2.quasarzone.co.kr/img/data/img/editor/1810/1810___2128580865.gif"
+                    alt="이미지"
+                  />
+                </div>
+              </Slider>
             </div>
-            <div className="pr04">작성된 글 내용</div>
-            <div className="pr05">
-              <p>
-                {isLike ? (
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    id="heart-btn"
-                    title="좋아요 취소"
-                    onClick={clickLike}
-                  />
-                ) : (
-                  <FontAwesomeIcon
-                    icon={borderHeart}
-                    id="border-heart-btn"
-                    title="좋아요"
-                    onClick={clickLike}
-                  />
-                )}
-                <span className="counting">좋아요 숫자</span>
-
-                <FontAwesomeIcon icon={borderEye} id="viewss" />
-                <span className="counting">조회 숫자</span>
-
-                {isFavoritePost ? (
-                  <FontAwesomeIcon
-                    icon={fullBookmark}
-                    id="fullBookmark-btn"
-                    title="관심게시물 삭제하기"
-                    onClick={clickFavoritePost}
-                  />
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faBookmark}
-                    id="bookmark-btn"
-                    title="관심게시물 등록하기"
-                    onClick={clickFavoritePost}
-                  />
-                )}
-
+          </CarouselStyle>
+        </div>
+        <div className="pc-right">
+          <div className="pr01">
+            <img src={userImg} alt="유저이미지" />
+          </div>
+          <div className="pr02">
+            <h2>{userNick}</h2>
+            <span
+              onClick={() => {
+                setIsFollow(!isFollow);
+              }}
+            >
+              {isFollow ? '팔로잉' : '팔로우'}
+            </span>
+          </div>
+          <div className="pr03">
+            <FontAwesomeIcon
+              icon={faEllipsisVertical}
+              id="dots-icon"
+              onClick={() => {
+                setShowPostMenu(!showPostMenu);
+              }}
+            />
+            {/* 수정/삭제 모달창 */}
+            {showPostMenu && (
+              <div className="menu-modal-container">
+                <p onClick={clickReportPost}>신고하기</p>
+                <p
+                  onClick={() => {
+                    setShowPostMenu(!showPostMenu);
+                    setShowEditPost(!showEditPost);
+                  }}
+                >
+                  수정하기
+                </p>
+                <p onClick={clickDeletePostBtn}>삭제하기</p>
+              </div>
+            )}
+          </div>
+          <div className="pr04">{content}</div>
+          <div className="pr05">
+            <p>
+              {isLike ? (
                 <FontAwesomeIcon
-                  icon={borderComment}
-                  id="border-comment-btn"
-                  title="댓글 남기기"
-                  onClick={clickGoToCommnet}
+                  icon={faHeart}
+                  id="heart-btn"
+                  title="좋아요 취소"
+                  onClick={clickLike}
                 />
-              </p>
-              <p>작성날짜</p>
-            </div>
-            <div className="pr06">
-              <CommentContainer />
-            </div>
-            <div className="pr07">
-              <input
-                type="text"
-                maxLength="50"
-                placeholder="댓글 남기기"
-                ref={commentInput}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    clickCommentEnter();
-                    e.target.value = '';
-                  }
-                }}
+              ) : (
+                <FontAwesomeIcon
+                  icon={borderHeart}
+                  id="border-heart-btn"
+                  title="좋아요"
+                  onClick={clickLike}
+                />
+              )}
+              <span className="counting">{likeCount}</span>
+
+              <FontAwesomeIcon icon={borderEye} id="viewss" />
+              <span className="counting">{viewsCount}</span>
+
+              {isFavoritePost ? (
+                <FontAwesomeIcon
+                  icon={fullBookmark}
+                  id="fullBookmark-btn"
+                  title="관심게시물 삭제하기"
+                  onClick={clickFavoritePost}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faBookmark}
+                  id="bookmark-btn"
+                  title="관심게시물 등록하기"
+                  onClick={clickFavoritePost}
+                />
+              )}
+
+              <FontAwesomeIcon
+                icon={borderComment}
+                id="border-comment-btn"
+                title="댓글 남기기"
+                onClick={clickGoToCommnet}
               />
-              <button onClick={clickCommentEnter}>ENTER</button>
-            </div>
+            </p>
+            <p>{date}</p>
+          </div>
+          <div className="pr06">
+            <CommentContainer />
+          </div>
+          <div className="pr07">
+            <input
+              type="text"
+              maxLength="50"
+              placeholder="댓글 남기기"
+              ref={commentInput}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  clickCommentEnter();
+                  e.target.value = '';
+                }
+              }}
+            />
+            <button onClick={clickCommentEnter}>ENTER</button>
           </div>
         </div>
       </div>

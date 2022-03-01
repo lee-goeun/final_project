@@ -8,18 +8,15 @@
   backdrop-filter: blur(1px);
   z-index: 99;
 } */
-.pc-wrapper {
+/* .pc-wrapper {
   width: fit-content;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
+} */
 .post-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: 100px auto;
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-template-rows: 1fr;
@@ -67,7 +64,7 @@
   grid-area: pr02;
   line-height: 70px;
   text-align: left;
-  padding: 0 10px;
+  padding: 0 10px 0 0;
 }
 .pr02 > h2 {
   display: inline-block;
