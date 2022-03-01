@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './Authentication.css';
 import Footer from '../Footer';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DaumPostHook from '../common/DaumPostHook';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -54,6 +54,8 @@ const Join = () => {
   const [inputNick, setInputNick] = useState();
   const [inputEmail, setInputEmail] = useState();
   const [inputPhone, setInputPhone] = useState();
+  const [inputAge, setInputAge] = useState();
+  const [inputSex, setInputSex] = useState();
 
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
   const pwRegex =
@@ -137,42 +139,26 @@ const Join = () => {
     alert('아이디 중복확인');
   };
 
-  const clickSubmitBtn = useCallback(() => {
-    const userJoinData = {
-      userId: inputId,
-      userPw: inputPw,
-      userName: inputName,
-      userNick: inputNick,
-      userEmail: inputEmail,
-      userPhone: inputPhone,
-      zonecode: userInfo.zonecode,
-      address: userInfo.address,
-      detailAddress: userInfo.detailAddress,
-      // extraAddress: '200호',
-    };
-
-    console.log(userJoinData);
+  // 회원가입 동작
+  const clickSubmitBtn = (e) => {
     axios
-      .post('http://localhost:3001/join', userJoinData)
-      .then((response) => {
-        console.log(response);
-        if (response.userJoinData) {
-          navigate('/login');
-        } else {
-          alert('회원가입에 실패했습니다.');
-        }
+      .post('http://localhost:3001/auth/join', {
+        userId: inputId,
+        userEmail: inputEmail,
+        userPhone: inputPhone,
+        userPw: inputPw,
+        userName: inputName,
+        userNick: inputNick,
+        zonecode: userInfo.zonecode,
+        address: userInfo.address,
+        detailAddress: userInfo.detailAddress,
+        // userAge: inputAge,
+        // userSex: inputSex,
+        // location_agree: tou1.current.checked,
+        // service_agree: tou2.current.checked,
       })
-      .catch((err) => {
-        if (err.response) {
-          alert(err.response.userJoinData);
-          console.log(err.response.userJoinData);
-        } else if (err.request) {
-          alert('서버가 응답하지 않습니다.');
-        } else {
-          alert('잘못된 요청입니다.');
-        }
-      });
-  }, [inputId, inputPw, inputName, inputNick, inputPhone, userInfo]);
+      .then((response) => console.log(response));
+  };
 
   const touModal = useRef();
 
@@ -279,7 +265,13 @@ const Join = () => {
         </DaumPostStyle>
 
         <p>연령대</p>
-        <select className="ages-select" name="userAge">
+        <select
+          className="ages-select"
+          name="userAge"
+          onChange={(e) => {
+            setInputAge(e.target.selected);
+          }}
+        >
           <option value="0">연령대를 선택하세요</option>
           <option value="10">10대</option>
           <option value="20">20대</option>

@@ -34,7 +34,18 @@ const ChattingUserContainers = () => {
 const ChattingRoom = () => {
   return (
     <>
-      <div>채팅방</div>
+      <div className="chat-room">
+        <div className="croom01"></div>
+        <div className="croom02">
+          <form>
+            <input
+              type="text"
+              placeholder="메세지를 입력하세요"
+              maxLength="100"
+            />
+          </form>
+        </div>
+      </div>
     </>
   );
 };

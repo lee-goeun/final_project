@@ -1,16 +1,19 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
-import { ChattingUserContainers } from '../components/Chatting/ChattingContainers';
+import {
+  ChattingRoom,
+  ChattingUserContainers,
+} from '../components/Chatting/ChattingContainers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTelegram } from '@fortawesome/free-brands-svg-icons';
 
 const ChattingPageStyle = styled.div`
   .chat-layout {
-    margin: 50px auto;
+    margin: 100px auto;
     width: 1100px;
-    /* height: 79vh; */
-    height: 1050px;
+    /* height: 60vh; */
+    height: 945px;
     display: flex;
     box-shadow: 0 0 1px black;
   }
@@ -46,6 +49,7 @@ const Chatting = () => {
               <FontAwesomeIcon icon={faTelegram} className="b-message-icon" />
               <p>친구들과 채팅을 시작해 보세요!</p>
             </div>
+            {/* <ChattingRoom /> */}
           </div>
         </div>
       </ChattingPageStyle>

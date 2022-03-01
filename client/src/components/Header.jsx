@@ -115,17 +115,7 @@ const HeaderStyle = Styled.div`
 `;
 
 const Header = () => {
-  const [showSearchBar, setShowSearchBar] = useState(false);
-
-  const clickSearch = (e) => {
-    setShowSearchBar(!showSearchBar);
-  };
-
   const [showDropMenu, setShowDropMenu] = useState(false);
-
-  const clickSearchBtn = (e) => {
-    alert('검색합니다');
-  };
 
   return (
     <>
@@ -136,31 +126,6 @@ const Header = () => {
           </div>
 
           <div className="header-icons-container">
-            {showSearchBar ? (
-              <>
-                <input
-                  className="main-search"
-                  type="text"
-                  placeholder="검색하기..."
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      clickSearchBtn();
-                      e.target.value = '';
-                    }
-                  }}
-                />
-                <span className="main-search-btn" onClick={clickSearchBtn}>
-                  검색
-                </span>
-              </>
-            ) : null}
-
-            <FontAwesomeIcon
-              icon={faMagnifyingGlass}
-              id="header-search-icon"
-              title="검색"
-              onClick={clickSearch}
-            />
             <NavLink to="/">
               <FontAwesomeIcon
                 icon={faHouse}
@@ -176,25 +141,25 @@ const Header = () => {
               />
             </NavLink>
             <NavLink to="/walkingmate">
-            <FontAwesomeIcon
-              icon={faUserGroup}
-              id="header-mathching-icon"
-              title="산책메이트 찾기"
-            />
+              <FontAwesomeIcon
+                icon={faUserGroup}
+                id="header-mathching-icon"
+                title="산책메이트 찾기"
+              />
             </NavLink>
             <NavLink to="/usedtrade">
-            <FontAwesomeIcon
-              icon={faBoxOpen}
-              id="header-market-icon"
-              title="중고거래"
-            />
+              <FontAwesomeIcon
+                icon={faBoxOpen}
+                id="header-market-icon"
+                title="중고거래"
+              />
             </NavLink>
             <NavLink to="/chatting">
-            <FontAwesomeIcon
-              icon={faMessage}
-              id="header-chatting-icon"
-              title="채팅보기"
-            />
+              <FontAwesomeIcon
+                icon={faMessage}
+                id="header-chatting-icon"
+                title="채팅보기"
+              />
             </NavLink>
             <FontAwesomeIcon
               icon={faCircleUser}
