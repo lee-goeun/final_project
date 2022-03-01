@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
+import axios from 'axios';
 
 const FormWrapper = styled.form`
   display: flex;
@@ -37,7 +38,7 @@ const BottomWrapper = styled.div`
 
 const MatchingRegisterForm = () => {
   const [imageUrl, setImageUrl] = useState('');
-
+  const contents = useSelector((state) => state.matching.write);
   const dispatch = useDispatch();
 
   // form 초기화 정보 가져오기(update시)
@@ -69,8 +70,27 @@ const MatchingRegisterForm = () => {
     setImageUrl('');
   };
 
-  const submitPost = (e) => {
+  const formData = new FormData();
+  const appendingFormData = (receivedFormData) => {
+    receivedFormData.append('json', JSON.stringify({ contents }));
+    //formData객체확인
+    for (var pair of formData.entries()) {
+      console.log(`key:${pair[0]}, value:${pair[1]}`);
+    }
+  };
+
+  const submitPost = async (e) => {
     e.preventDefault();
+    //이미지 업후 내용수정시 반영안되는 버그수정필요
+
+    const res = await axios({
+      method: 'post',
+      url: 'http://localhost:3001/match/add',
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   };
 
   return (
@@ -113,10 +133,13 @@ const MatchingRegisterForm = () => {
             <AImageFIleInput
               buttonName={'이미지 첨부'}
               previewUrl={previewUrl}
+              appendingFormData={appendingFormData}
+              formData={formData}
             />
             <Button type="button" onClick={deleteUrl}>
               이미지삭제
             </Button>
+            <Button type="submit">산책메이트 글올리기</Button>
           </BottomLeftWrapper>
           <AImageViewer image={imageUrl} />
         </BottomWrapper>

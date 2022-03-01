@@ -22,7 +22,6 @@ const MatchingPost = ({ item, loadingItem }) => {
       {loadingItem && 'loading...'}
       {!loadingItem && item && (
         <div>
-          {'ㄴㅁㅇㄹㄴㅇㄹ'}
           <h4>작성자:{item[0].user_id}</h4>
           <h2>제목:{item[0].matchTitle}</h2>
           <h4>내용:{item[0].matchContent}</h4>
