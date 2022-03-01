@@ -13,7 +13,9 @@ const MatchingListWrapper = styled.div`
   grid-template-columns: 1fr 1fr;
 `;
 
-const MatchingLists = () => {
+const MatchingLists = ({ loadingList, loadingItem, list, item }) => {
+  console.log(item, '88888888888');
+
   // 레이아웃체크용
   // const [timeoutMatchingList, setTimeoutMatchingList] = useState([
   //   'https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGV0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60',
@@ -30,12 +32,31 @@ const MatchingLists = () => {
   //   'https://media.istockphoto.com/photos/dog-napping-with-baby-picture-id1287317675?k=20&m=1287317675&s=612x612&w=0&h=8JrDNntBc5iYZ_RY9dOfvoVNaGVozW1sRMt-ZoTQh7U=',
   // ]);
 
-  const [timeoutMatchingList, setTimeoutMatchingList] = useState([]);
-  const [matchingList, setMatchingList] = useState([]);
-
   return (
     <>
-      <TimeoutListWrapper>
+      <section>
+        <h1>ITEM</h1>
+        {loadingItem && 'loading...'}
+        {!loadingItem && item && (
+          <div>
+            <h3>{item[0].matchTitle}</h3>
+            <h3>{item[0].matchContent}</h3>
+          </div>
+        )}
+      </section>
+      <hr />
+      <section>
+        <h1>LIST</h1>
+        {loadingList && 'loading...'}
+        {!loadingList && list && (
+          <ul>
+            {list.map((item) => (
+              <li key={item.matchId}>{item.matchContent}</li>
+            ))}
+          </ul>
+        )}
+      </section>
+      {/* <TimeoutListWrapper>
         {timeoutMatchingList.map((post) => (
           <TimeoutListItem post={post} />
         ))}
@@ -48,7 +69,7 @@ const MatchingLists = () => {
         {matchingList.map((post) => (
           <MatchingListItem post={post} />
         ))}
-      </MatchingListWrapper>
+      </MatchingListWrapper> */}
     </>
   );
 };

@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { upload } from '../../redux/modules/profileImgHandler';
-import AImageFIleInput from '../common/AImageFileInput';
+import AProfileFileInput from './AProfileFileInput';
 
 const AImageUploaderButton = () => {
   const dispatch = useDispatch();
@@ -18,11 +18,14 @@ const AImageUploaderButton = () => {
   //   console.log(imageUrl);
   // };
 
-  const savingUrl = (imageUrl) => dispatch(upload(imageUrl));
+  const savingUrl = useCallback(
+    (imageUrl) => dispatch(upload(imageUrl)),
+    [dispatch],
+  );
 
   return (
     <>
-      <AImageFIleInput buttonName={'사진 변경'} savingUrl={savingUrl} />
+      <AProfileFileInput buttonName={'사진 변경'} savingUrl={savingUrl} />
       {/* <input
         type="text"
         onChange={(e) => setNumber(e.target.value)}

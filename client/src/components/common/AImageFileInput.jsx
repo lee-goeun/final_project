@@ -1,4 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
+import { useSelect, useDispatch } from 'react-redux';
+import { changeInputImage } from '../../redux/modules/matching';
 import styled from 'styled-components';
 import Button from './Button';
 
@@ -8,26 +10,51 @@ const StyledInput = styled.input`
 `;
 
 const AImageFIleInput = (props) => {
+  // const [img, setImg] = useState({});
+
+  const dispatch = useDispatch();
   const inputRef = useRef();
+
   const changeProfileImg = () => {
     inputRef.current.click();
   };
 
-  //이미지 서버 or 백엔드 이미지 처리 라우터로 사진전송/비동기처리
   const onChange = async (event) => {
-    const uploaded = await event.target.files[0];
-    //URL 리턴이 올 예정이므로 하단에 URL변경코드 삽입/백엔드 연결시 제거
+    const uploaded = event.target.files[0];
+    const formData = new FormData();
+    formData.append('matchImgName', uploaded);
+    //setImt(formData)
+    //formData인스턴스 state안에 객체로 삽입 불가능 = dispatch해도 {}
+    dispatch(changeInputImage({ form: 'write', formData }), [dispatch]);
+
     if (uploaded) {
       const imageUrl = URL.createObjectURL(uploaded);
       props.previewUrl(imageUrl);
     }
   };
 
+  // const onChange = async (event) => {
+  //   const uploaded = event.target.files[0];
+  //   const formData = new FormData();
+  //   formData.append('matchImgName', uploaded);
+  //   formData.append('matchTitle');
+  //   formData.append('matchContent');
+  //   formData.append('matchTime');
+  //   formData.append('selectPet');
+  //   const res = await setImg(formData);
+  //   console.log(res, 'formData state');
+  //   dispatch(changeInputImage({ form: 'write', formData }), [dispatch]);
+  //   if (uploaded) {
+  //     const imageUrl = URL.createObjectURL(uploaded);
+  //     props.previewUrl(imageUrl);
+  //   }
+  // };
+
   return (
     <>
       <StyledInput
         type="file"
-        name="userImg"
+        name="aImgFile"
         accept="image/*"
         ref={inputRef}
         onChange={onChange}
