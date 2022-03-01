@@ -26,8 +26,8 @@
 }
 .culc03 {
   grid-area: culc03;
-  padding-top: 5px;
   color: var(--font-light);
+  display: flex;
 }
 .culc01-img-container {
   width: 70px;
@@ -41,9 +41,23 @@
   height: 100%;
   object-fit: cover;
 }
-.culc03 p small {
-  margin-left: 10px;
+.culc03-left {
+  width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 8px;
+  font-size: 14px;
 }
+.culc03-right {
+  width: 50px;
+  text-align: center;
+  padding-top: 5px;
+}
+.culc03-right small {
+  font-size: 12px;
+}
+
 .b-message-icon {
   font-size: 140px;
   color: var(--accent-default);
