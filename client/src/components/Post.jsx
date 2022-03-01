@@ -51,6 +51,7 @@ const CarouselStyle = styled.div`
   .slick-prev {
     left: 30px;
     z-index: 1;
+    transform: translateY(-25px);
   }
   .slick-prev::before {
     right: 15px;
@@ -59,6 +60,7 @@ const CarouselStyle = styled.div`
   }
   .slick-next {
     right: 50px;
+    transform: translateY(-25px);
   }
   .slick-next::before {
     right: 25px;

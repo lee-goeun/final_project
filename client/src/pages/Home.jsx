@@ -57,10 +57,9 @@ const MainPageFooterStyle = styled.div`
     padding: 38px 0;
     margin: 0 auto;
   }
-  .center-carousel {
-  }
-  .slick-prev {
-    left: 30px;
+  .slick-slider.center.slick-initialized > .slick-prev {
+    left: 40px;
+    transform: translateY(-40px);
     z-index: 1;
   }
   .slick-slider.center.slick-initialized > .slick-prev::before {
@@ -68,8 +67,9 @@ const MainPageFooterStyle = styled.div`
     bottom: 15px;
     font-size: 80px;
   }
-  .slick-next {
-    right: 50px;
+  .slick-slider.center.slick-initialized > .slick-next {
+    right: 95px;
+    transform: translateY(-40px);
   }
   .slick-slider.center.slick-initialized > .slick-next::before {
     right: 25px;
