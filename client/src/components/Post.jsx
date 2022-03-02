@@ -764,14 +764,16 @@ const PostBackground = () => {
     alert('게시물 작성');
 
     const formData = new FormData();
-    formData.set('boardImgList', imgFile);
-    formData.set('boardTitle', '안녕하세요');
-    formData.set('boardContent', boardContent);
-    formData.set('categoryIndex', 2);
-    formData.set('token', localStorage.getItem('token'));
+    formData.append('boardImgList', imgFile);
+    formData.append('boardTitle', '안녕하세요');
+    formData.append('boardContent', boardContent);
+    formData.append('categoryIndex', 2);
+    formData.append('token', localStorage.getItem('token'));
     axios
       .post('http://localhost:3001/board/post', formData)
       .then((res) => console.log(res));
+
+    setShowUploadFormModal(!showUploadFormModal);
   };
 
   const [showUploadFormModal, setShowUploadFormModal] = useState(false);
