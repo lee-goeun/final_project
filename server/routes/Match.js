@@ -78,6 +78,7 @@ router.post('/add', matchUpload.single('matchImgName'), (req, res) => {
   var region1 = "";
   var region2 = "";
   var region3 = "";
+  
   jwt.verify(req.body.token, process.env.JWT_SECRET, function(err,decode){
     console.log('ssss',decode);
     userId = decode.userId;

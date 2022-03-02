@@ -13,7 +13,7 @@ import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
@@ -37,6 +37,7 @@ const BottomWrapper = styled.div`
 `;
 
 const MatchingRegisterForm = () => {
+  const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState('');
   const [content, setContent] = useState('');
   const contents = useSelector((state) => state.matching.write);
@@ -92,6 +93,10 @@ const MatchingRegisterForm = () => {
       url: 'http://localhost:3001/match/add',
       data: formData,
     }).then((data) => {
+      if(data.status == 200){
+        alert('게시글이 업로드되었습니다.');
+        navigate('/match/list');
+      }
       console.log('data', data);
     });
   };
