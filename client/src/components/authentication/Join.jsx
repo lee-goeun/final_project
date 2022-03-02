@@ -150,6 +150,16 @@ const Join = () => {
 
   // 회원가입 동작
   const clickSubmitBtn = (e) => {
+    if (
+      inputId === undefined ||
+      inputPw === undefined ||
+      inputName === undefined ||
+      inputNick === undefined ||
+      inputEmail === undefined ||
+      inputPhone === undefined
+    ) {
+      alert('양식을 빠짐없이 입력해주세요.');
+    }
     axios
       .post('http://localhost:3001/auth/join', {
         userId: inputId,

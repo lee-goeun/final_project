@@ -43,14 +43,14 @@ const Login = () => {
           userPw,
         })
         .then((res) => {
-          console.log(res);
+          console.log(res.config.data.typeof(userId));
+          // sessionStorage.setItem('userID', res.config.data.userId);
           if (res.status === 200) {
             alert('로그인 되었습니다.');
             navigate('/');
-          } else {
-            alert('다시 시도해 주세요.');
           }
-        });
+        })
+        .catch(() => alert('아이디나 비밀번호가 맞지 않습니다.'));
     },
     [userId, userPw],
   );

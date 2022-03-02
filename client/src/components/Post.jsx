@@ -732,6 +732,49 @@ const PostBackground = () => {
     setShowUploadFormModal(!showUploadFormModal);
   };
 
+  // 게시물 작성시
+  const clickPostWrite = (e) => {
+    alert('게시물 작성');
+
+    const formData = new FormData();
+    formData.set('img', imgFile);
+    formData.set('boardContent', boardContent);
+    formData.set('categoryIndex', 2);
+    axios
+      .post('http://localhost:3001/board/post', formData, {})
+      .then((res) => console.log(res));
+  };
+
+  const [imgBase64, setImgBase64] = useState([]);
+  const [imgFile, setImgFile] = useState(null);
+  const [boardContent, setBoardContent] = useState('');
+
+  const handleChangeFile = (e) => {
+    console.log(e.target.files);
+    setImgFile(e.target.files);
+    // fd.append("file", e.target.files)
+    setImgBase64([]);
+    for (let i = 0; i < e.target.files.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(e.target.files[i]);
+
+      reader.onloadend = () => {
+        // 파일 읽기가 완료되면 아래의 코드가 실행
+        const base64 = reader.result;
+        console.log(base64);
+        if (base64) {
+          // images.push(base64.toString())
+          let base64Sub = base64.toString();
+
+          setImgBase64((imgBase64) => [...imgBase64, base64Sub]);
+          // setImgBase64(newObj);
+          // 파일 base64 상태 업데이트
+          // console.log(images)
+        }
+      };
+    }
+  };
+
   return (
     <>
       <div className="post-background">
@@ -774,83 +817,35 @@ const PostBackground = () => {
       {/* 게시물 작성폼 모달창 */}
       {showUploadFormModal ? (
         <div className="upload-modal-container">
-          <PostUploadForm />
+          <div className="post-upload-form-container">
+            <label htmlFor="post-img-select">이미지 업로드</label>
+            <input
+              type="file"
+              id="post-img-select"
+              multiple
+              onChange={handleChangeFile}
+            />
+
+            {imgBase64.map((img) => {
+              return (
+                <div className="img-preview-container">
+                  <img src={img} alt="업로드할 이미지" />
+                </div>
+              );
+            })}
+
+            <textarea
+              placeholder="내용을 입력하세요..."
+              onChange={(e) => {
+                setBoardContent(e.target.value);
+              }}
+            ></textarea>
+          </div>
 
           <button onClick={clickUploadFormModal}>취소</button>
-          <button>작성</button>
+          <button onClick={clickPostWrite}>작성</button>
         </div>
       ) : null}
-    </>
-  );
-};
-
-// 게시판별 게시물 작성폼
-
-const PostUploadForm = () => {
-  // const [imgUrl, setImgUrl] = useState("");
-
-  // const encodeFileToBase64 = (fileBlob) => {
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(fileBlob);
-  //   return new Promise((resolve) => {
-  //     reader.onload = () => {
-  //       setImgUrl(reader.result);
-  //       resolve();
-  //     }
-  //   })
-  // }
-
-  const [imgBase64, setImgBase64] = useState([]);
-  const [imgFile, setImgFile] = useState(null);
-
-  const handleChangeFile = (e) => {
-    console.log(e.target.files);
-    setImgFile(e.target.files);
-    // fd.append("file", e.target.files)
-    setImgBase64([]);
-    for (let i = 0; i < e.target.files.length; i++) {
-      let reader = new FileReader();
-      reader.readAsDataURL(e.target.files[i]);
-
-      reader.onloadend = () => {
-        // 파일 읽기가 완료되면 아래의 코드가 실행
-        const base64 = reader.result;
-        console.log(base64);
-        if (base64) {
-          // images.push(base64.toString())
-          let base64Sub = base64.toString();
-
-          setImgBase64((imgBase64) => [...imgBase64, base64Sub]);
-          // setImgBase64(newObj);
-          // 파일 base64 상태 업데이트
-          // console.log(images)
-        }
-      };
-    }
-  };
-
-  return (
-    <>
-      <div className="post-upload-form-container">
-        <h2 style={{ marginBottom: '30px' }}>일반 게시물 업로드 폼</h2>
-        <label htmlFor="post-img-select">이미지 업로드</label>
-        <input
-          type="file"
-          id="post-img-select"
-          multiple
-          onChange={handleChangeFile}
-        />
-
-        {imgBase64.map((img) => {
-          return (
-            <div className="img-preview-container">
-              <img src={img} alt="업로드할 이미지" />
-            </div>
-          );
-        })}
-
-        <textarea placeholder="내용을 입력하세요..."></textarea>
-      </div>
     </>
   );
 };
@@ -866,6 +861,5 @@ export {
   PostBackground,
   MiniMatePostContainer,
   MatePostContainer,
-  PostUploadForm,
   MatePostUploadForm,
 };
