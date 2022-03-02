@@ -21,11 +21,12 @@ const AImageFIleInput = (props) => {
   };
 
   const onChange = (event) => {
+    console.log("$$$$$$$$",props);
     //상위로 스테이트 끌어올려서 전송누르면 'json'append해서 보내야함//안그럴시 이미지 업로드후 수정 반영x
     const uploaded = event.target.files[0];
 
-    props.formData.append('ImgFile', uploaded);
-    props.appendingFormData(props.formData);
+   // props.formData.append('matchImgName', uploaded);
+    props.appendingFormData(uploaded);
 
     // formData.append('json', JSON.stringify({ contents }));
     // formData.append(

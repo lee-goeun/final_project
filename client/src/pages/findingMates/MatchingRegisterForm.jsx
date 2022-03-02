@@ -38,6 +38,7 @@ const BottomWrapper = styled.div`
 
 const MatchingRegisterForm = () => {
   const [imageUrl, setImageUrl] = useState('');
+  const [content, setContent] = useState('');
   const contents = useSelector((state) => state.matching.write);
   const dispatch = useDispatch();
 
@@ -70,27 +71,28 @@ const MatchingRegisterForm = () => {
     setImageUrl('');
   };
 
-  const formData = new FormData();
   const appendingFormData = (receivedFormData) => {
-    receivedFormData.append('json', JSON.stringify({ contents }));
+    setContent(receivedFormData);
+    //receivedFormData.append('json', JSON.stringify({ contents }));
     //formData객체확인
-    for (var pair of formData.entries()) {
-      console.log(`key:${pair[0]}, value:${pair[1]}`);
-    }
+    // for (var pair of formData.entries()) {
+    //   console.log(`key:${pair[0]}, value:${pair[1]}`);
+    // }
   };
 
   const submitPost = async (e) => {
+    const formData = new FormData();
+    formData.append('matchImgName', content);
     e.preventDefault();
     //이미지 업후 내용수정시 반영안되는 버그수정필요
 
-    const res = await axios({
+    axios({
       method: 'post',
       url: 'http://localhost:3001/match/add',
       data: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    }).then(data => {
+      console.log('data',data);
+    })
   };
 
   return (
@@ -134,7 +136,6 @@ const MatchingRegisterForm = () => {
               buttonName={'이미지 첨부'}
               previewUrl={previewUrl}
               appendingFormData={appendingFormData}
-              formData={formData}
             />
             <Button type="button" onClick={deleteUrl}>
               이미지삭제
