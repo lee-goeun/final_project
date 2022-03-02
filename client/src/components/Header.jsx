@@ -140,7 +140,7 @@ const Header = () => {
                 title="게시물"
               />
             </NavLink>
-            <NavLink to="/walkingmate">
+            <NavLink to="/match/list">
               <FontAwesomeIcon
                 icon={faUserGroup}
                 id="header-mathching-icon"

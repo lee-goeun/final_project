@@ -90,9 +90,9 @@ const MatchingRegisterForm = () => {
       method: 'post',
       url: 'http://localhost:3001/match/add',
       data: formData,
-    }).then(data => {
-      console.log('data',data);
-    })
+    }).then((data) => {
+      console.log('data', data);
+    });
   };
 
   return (
@@ -121,7 +121,7 @@ const MatchingRegisterForm = () => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  label="Age"
+                  label="selectPet"
                   name="selectPet"
                   onChange={handleChange}
                   value={useSelector((state) => state.matching.write.selectPet)}
