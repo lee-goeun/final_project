@@ -402,7 +402,7 @@ const MiniPostContainer = () => {
   const [miniPost, setMiniPost] = useState({
     post: [
       {
-        id: 0,
+        id: 330123,
         img: 'img/img.jpg',
         multipleImg: true,
         like: 22,
@@ -410,7 +410,7 @@ const MiniPostContainer = () => {
         views: 765,
       },
       {
-        id: 1,
+        id: 12511,
         img: 'img/cat.png',
         multipleImg: false,
         like: 2222,
@@ -418,7 +418,7 @@ const MiniPostContainer = () => {
         views: 3865,
       },
       {
-        id: 2,
+        id: 3425622,
         img: 'img/sam01.jpg',
         multipleImg: true,
         like: 9822,
@@ -577,7 +577,7 @@ const CommentContainer = () => {
   const [comment, setCommnet] = useState({
     comments: [
       {
-        id: 0,
+        id: 44134,
         nick: '집사',
         img: 'https://blog.kakaocdn.net/dn/btkVeS/btqFOXbMQbB/Uf5rey5lRoKKRStYNn5oVK/img.png',
         date: '2022/02/10',
@@ -585,7 +585,7 @@ const CommentContainer = () => {
         key: 2125325,
       },
       {
-        id: 1,
+        id: 3451,
         nick: '고양이나만없어',
         img: 'https://image.fnnews.com/resource/media/image/2021/04/21/202104211351203685_l.jpg',
         date: '2022/02/12',
@@ -593,7 +593,7 @@ const CommentContainer = () => {
         key: 21253212125,
       },
       {
-        id: 2,
+        id: 125122,
         nick: '가나다라',
         img: 'https://img.hankyung.com/photo/202103/20210323110008_60594ba899dab_1.jpg',
         date: '2022/02/20',

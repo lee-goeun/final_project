@@ -38,17 +38,18 @@ const Join = () => {
     region2: '',
     region3: '',
     extraAddress: '',
+    buildingName: '',
   });
 
   const savingAddressInput = (input) => {
     setUserInfo(() => ({
       zonecode: input.zonecode,
-      address: input.address,
+      address: input.address + ` ${input.buildingName}`,
       detailAddress: input.detailAddress,
       region1: input.sido,
       region2: input.sigungu,
       region3: input.bname,
-      extraAddress: input.buildingName,
+      extraAddress: input.jibunAddress,
     }));
     console.log(input);
   };
@@ -177,8 +178,8 @@ const Join = () => {
         extraAddress: userInfo.extraAddress,
         userAge: inputAge,
         userSex: inputSex,
-        location_agree: tou1.current.checked,
-        service_agree: tou2.current.checked,
+        location_agree: true,
+        service_agree: true,
       })
       .then((res) => {
         console.log(res);
