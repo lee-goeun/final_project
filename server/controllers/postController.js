@@ -13,10 +13,10 @@ exports.create = (req, res) => {
             messsage: "Content can not be empty!"
         });
     };
-
+    console.log(req.session.userInfo.userId);
     const post = new Post({
         categoryIndex : req.body.categoryIndex,
-        userId : req.body.userId,
+        userId : req.session.userInfo.userId,
         boardTitle : req.body.boardTitle,
         boardContent : req.body.boardContent,
         boardViews : req.body.boardViews,
