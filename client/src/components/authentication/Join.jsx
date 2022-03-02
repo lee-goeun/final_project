@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import './Authentication.css';
 import Footer from '../Footer';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DaumPostHook from '../common/DaumPostHook';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -26,12 +26,18 @@ const DaumPostStyle = styled.div`
 `;
 
 const Join = () => {
+  const navigate = useNavigate();
+
   const idInput = useRef();
 
   const [userInfo, setUserInfo] = useState({
     address: '',
     zonecode: '',
     detailAddress: '',
+    region1: '',
+    region2: '',
+    region3: '',
+    extraAddress: '',
   });
 
   const savingAddressInput = (input) => {
@@ -39,7 +45,12 @@ const Join = () => {
       zonecode: input.zonecode,
       address: input.address,
       detailAddress: input.detailAddress,
+      region1: input.sido,
+      region2: input.sigungu,
+      region3: input.bname,
+      extraAddress: input.buildingName,
     }));
+    console.log(input);
   };
 
   const { zonecode, address, detailAddress } = userInfo;
@@ -150,12 +161,24 @@ const Join = () => {
         zonecode: userInfo.zonecode,
         address: userInfo.address,
         detailAddress: userInfo.detailAddress,
+        region1: userInfo.region1,
+        region2: userInfo.region2,
+        region3: userInfo.region3,
+        extraAddress: userInfo.extraAddress,
         userAge: inputAge,
         userSex: inputSex,
         location_agree: tou1.current.checked,
         service_agree: tou2.current.checked,
       })
-      .then((response) => console.log(response));
+      .then((res) => {
+        console.log(res);
+        if (res.data.status === 'success') {
+          alert('회원가입이 완료되었습니다.');
+          navigate('/login');
+        } else {
+          alert('다시 시도해 주세요.');
+        }
+      });
   };
 
   const touModal = useRef();
@@ -267,7 +290,7 @@ const Join = () => {
           className="ages-select"
           name="userAge"
           onChange={(e) => {
-            setInputAge(e.target.selected);
+            setInputAge(e.target.value);
           }}
         >
           <option value="0">연령대를 선택하세요</option>
@@ -281,9 +304,25 @@ const Join = () => {
         <br />
 
         <p>성별</p>
-        <input type="radio" name="userSex" id="male" value="male" />
+        <input
+          type="radio"
+          name="userSex"
+          id="male"
+          value="male"
+          onChange={(e) => {
+            setInputSex(e.target.value);
+          }}
+        />
         <label htmlFor="male">남자</label>
-        <input type="radio" name="userSex" id="female" value="female" />
+        <input
+          type="radio"
+          name="userSex"
+          id="female"
+          value="female"
+          onChange={(e) => {
+            setInputSex(e.target.value);
+          }}
+        />
         <label htmlFor="female">여자</label>
 
         <br />

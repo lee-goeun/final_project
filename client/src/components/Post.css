@@ -733,8 +733,10 @@
   height: 30px;
   border-bottom: 1px solid var(--font-light);
   color: var(--font-light);
+  display: flex;
+  justify-content: space-between;
 }
-.post-filter > span {
+.post-filter > div > span {
   cursor: pointer;
   padding: 0 5px;
   transition: 0.3s;
@@ -757,6 +759,16 @@
   color: var(--font-dark);
   font-size: 20px;
   cursor: pointer;
+}
+.post-search-icon {
+  color: var(--font-dark);
+  margin-left: 10px;
+  margin-right: 5px;
+}
+.post-filter > div > form > input {
+  width: 200px;
+  border: 1px solid var(--bordercolor-default);
+  padding: 0 10px;
 }
 .upload-post-btn {
   margin-left: 5px;

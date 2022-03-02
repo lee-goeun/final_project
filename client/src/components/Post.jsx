@@ -14,6 +14,7 @@ import {
   faUser,
   faPaw,
   faClock,
+  faSearch,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faHeart as borderHeart,
@@ -735,8 +736,16 @@ const PostBackground = () => {
     <>
       <div className="post-background">
         <div className="post-filter">
-          <span>최신순</span>｜<span>조회수 높은순</span>｜
-          <span>좋아요 높은순</span>
+          <div>
+            <span>최신순</span>｜<span>조회수 높은순</span>｜
+            <span>좋아요 높은순</span>
+          </div>
+          <div>
+            <form>
+              <input type="text" placeholder="검색하기.." />
+              <FontAwesomeIcon icon={faSearch} className="post-search-icon" />
+            </form>
+          </div>
         </div>
 
         <div className="upload-post-div" ref={uploadDiv}>
