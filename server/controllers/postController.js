@@ -3,6 +3,7 @@ const Post = require("../models/Post.js");
 const fs = require('fs');
 // const { post } = require("../routes/Match.js");
 const conn = require("../db/index.js");
+const jwt = require('jsonwebtoken');
 
 
 
@@ -13,13 +14,19 @@ exports.create = (req, res) => {
             messsage: "Content can not be empty!"
         });
     };
-    console.log(req.session.userInfo.userId);
+
+    var userId = "";  
+    jwt.verify(req.body.token, process.env.JWT_SECRET, function(err,decode){
+      console.log('ssss',decode);
+      userId = decode.userId;
+    });
+
     const post = new Post({
         categoryIndex : req.body.categoryIndex,
-        userId : req.session.userInfo.userId,
+        userId : userId,
         boardTitle : req.body.boardTitle,
         boardContent : req.body.boardContent,
-        boardViews : req.body.boardViews,
+        boardViews : 0,
         // boardImgList : imgId + "_" + userId
     });
 
