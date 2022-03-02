@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import Carousel from '../../components/common/Carousel';
 
 const Post = ({ post }) => {
   return (
@@ -41,8 +43,9 @@ const MatchingLists = ({ loadingList, list }) => {
   return (
     <>
       <section>
-        <h1>TIME OUT</h1>
-        <h6>추후 구현</h6>
+        <span>시간이 얼마 안남았어요!</span>
+        <span>1시간 이내 남은 게시물 노출</span>
+        <Carousel />
         {/* {loadingItem && 'loading...'}
         {!loadingItem && item && (
           <TimeoutListWrapper>
