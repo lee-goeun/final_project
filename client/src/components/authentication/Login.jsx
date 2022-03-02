@@ -45,6 +45,7 @@ const Login = () => {
         .then((res) => {
           console.log(res);
           if (res.status === 200) {
+            localStorage.setItem("token", res.data.token);
             alert('로그인 되었습니다.');
             navigate('/');
           }
