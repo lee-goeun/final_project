@@ -431,7 +431,7 @@ const MiniPostContainer = () => {
   const navigate = useNavigate();
 
   const moreAboutPost = useCallback(() => {
-    // navigate(`/postpage?=${포스트아이디}`);
+    navigate('/detailpost');
   });
 
   return (
@@ -717,8 +717,6 @@ const CommentContainer = () => {
 };
 
 const PostBackground = () => {
-  const [posts, setPosts] = useState([]);
-
   const uploadDiv = useRef();
   const showText = () => {
     uploadDiv.current.style.height = '100px';
@@ -727,28 +725,14 @@ const PostBackground = () => {
     uploadDiv.current.style.height = '50px';
   };
 
-  const [showUploadFormModal, setShowUploadFormModal] = useState(false);
-  const clickUploadFormModal = (e) => {
-    setShowUploadFormModal(!showUploadFormModal);
-  };
-
-  // 게시물 작성시
-  const clickPostWrite = (e) => {
-    alert('게시물 작성');
-
-    const formData = new FormData();
-    formData.set('img', imgFile);
-    formData.set('boardContent', boardContent);
-    formData.set('categoryIndex', 2);
-    axios
-      .post('http://localhost:3001/board/post', formData, {})
-      .then((res) => console.log(res));
-  };
-
   const [imgBase64, setImgBase64] = useState([]);
   const [imgFile, setImgFile] = useState(null);
   const [boardContent, setBoardContent] = useState('');
 
+  useEffect(() => {
+    console.log('베이스64 : ' + imgBase64);
+    console.log('이미지파일 : ' + imgFile);
+  }, [imgBase64, imgFile]);
   const handleChangeFile = (e) => {
     console.log(e.target.files);
     setImgFile(e.target.files);
@@ -773,6 +757,30 @@ const PostBackground = () => {
         }
       };
     }
+  };
+
+  // 게시물 작성시
+  const clickPostWrite = (e) => {
+    alert('게시물 작성');
+
+    const formData = new FormData();
+    formData.set('boardImgList', imgFile);
+    formData.set('boardTitle', '안녕하세요');
+    formData.set('boardContent', boardContent);
+    formData.set('categoryIndex', 2);
+    formData.set('token', localStorage.getItem('token'));
+    axios
+      .post('http://localhost:3001/board/post', formData)
+      .then((res) => console.log(res));
+  };
+
+  const [showUploadFormModal, setShowUploadFormModal] = useState(false);
+
+  // 작성 취소시
+  const clickUploadFormModal = () => {
+    setImgBase64([]);
+    setImgFile(null);
+    setShowUploadFormModal(!showUploadFormModal);
   };
 
   return (

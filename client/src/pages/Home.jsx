@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { PostContainer } from '../components/Post';
@@ -83,6 +83,9 @@ const MainPageFooterStyle = styled.div`
 `;
 
 const Home = () => {
+  useEffect(() => {
+    console.log(localStorage.getItem('token'));
+  });
   const centerModeSettings = {
     className: 'center',
     centerMode: true,

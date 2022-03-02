@@ -110,6 +110,7 @@ const StyledSlider = styled(Slider)`
   .slick-list {
     width: 1000px;
     margin: 0 auto;
+    height: 250px;
   }
   .slick-slide {
     outline: none;
@@ -119,6 +120,9 @@ const StyledSlider = styled(Slider)`
   }
   .slick-arrow .slick-next ::before {
     right: 30px;
+  }
+  .slick-track {
+    height: 200px;
   }
 `;
 
