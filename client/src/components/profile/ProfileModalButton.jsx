@@ -15,7 +15,6 @@ const ProfileModalButton = ({ buttonName }) => {
   return (
     <>
       <Button type="button" onClick={openModal}>
-        {' '}
         {buttonName}
       </Button>
 
