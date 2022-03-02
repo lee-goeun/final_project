@@ -399,34 +399,16 @@ const PostContainer = ({
 };
 
 const MiniPostContainer = () => {
-  const [miniPost, setMiniPost] = useState({
-    post: [
-      {
-        id: 330123,
-        img: 'img/img.jpg',
-        multipleImg: true,
-        like: 22,
-        comment: 2,
-        views: 765,
-      },
-      {
-        id: 12511,
-        img: 'img/cat.png',
-        multipleImg: false,
-        like: 2222,
-        comment: 132,
-        views: 3865,
-      },
-      {
-        id: 3425622,
-        img: 'img/sam01.jpg',
-        multipleImg: true,
-        like: 9822,
-        comment: 2132,
-        views: 33865,
-      },
-    ],
-  });
+  const [gPostList, setGPostList] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/board/').then((res) => {
+      // console.log(res.data);
+      setGPostList(res.data);
+    });
+  }, []);
+
+  console.log(gPostList);
 
   const navigate = useNavigate();
 
@@ -436,38 +418,40 @@ const MiniPostContainer = () => {
 
   return (
     <>
-      {miniPost.post.map((mPost) => (
-        <div
-          key={mPost.views}
-          className="mini-post-container"
-          onClick={moreAboutPost}
-        >
-          <div className="mpimg-container">
-            <img
-              src={process.env.PUBLIC_URL + `${mPost.img}`}
-              alt="이미지 로딩 에러"
-            />
-          </div>
-          <div className="content-container">
-            <span>
-              {mPost.like}
-              <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
-            </span>
-            <span>
-              {mPost.comment}
-              <FontAwesomeIcon icon={borderComment} id="border-comment-icon" />
-            </span>
-            <span>
-              {mPost.views}
-              <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
-            </span>
-          </div>
-          {mPost.multipleImg && (
-            <div className="imgs-info">
-              <FontAwesomeIcon icon={faClone} id="multiple-img-icon" />
+      {gPostList.map((p) => (
+        <>
+          <div
+            key={p.boardId}
+            className="mini-post-container"
+            onClick={moreAboutPost}
+          >
+            <div className="mpimg-container">
+              <img src={p.boardImgList} alt="이미지 로딩 에러" />
             </div>
-          )}
-        </div>
+            <div className="content-container">
+              <span>
+                {p.boardGood}
+                <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
+              </span>
+              <span>
+                {p.boardTitle}
+                <FontAwesomeIcon
+                  icon={borderComment}
+                  id="border-comment-icon"
+                />
+              </span>
+              <span>
+                {p.boardViews}
+                <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
+              </span>
+            </div>
+            {p.multipleImg && (
+              <div className="imgs-info">
+                <FontAwesomeIcon icon={faClone} id="multiple-img-icon" />
+              </div>
+            )}
+          </div>
+        </>
       ))}
     </>
   );
@@ -736,7 +720,7 @@ const PostBackground = () => {
   const handleChangeFile = (e) => {
     console.log(e.target.files);
     setImgFile(e.target.files);
-    
+
     // fd.append("file", e.target.files)
     setImgBase64([]);
     for (let i = 0; i < e.target.files.length; i++) {
@@ -746,7 +730,7 @@ const PostBackground = () => {
       reader.onloadend = () => {
         // 파일 읽기가 완료되면 아래의 코드가 실행
         const base64 = reader.result;
-      //  console.log(base64);
+        //  console.log(base64);
         if (base64) {
           // images.push(base64.toString())
           let base64Sub = base64.toString();
@@ -762,23 +746,20 @@ const PostBackground = () => {
 
   // 게시물 작성시
   const clickPostWrite = (e) => {
-    alert('게시물 작성');
     const formData = new FormData();
-    for(let i=0; i<imgFile.length; i++){
-      formData.append("img",imgFile[i]);
+    for (let i = 0; i < imgFile.length; i++) {
+      formData.append('img', imgFile[i]);
     }
-   // formData.append('img', imgFile);
+    // formData.append('img', imgFile);
     formData.append('boardTitle', '안녕하세요');
     formData.append('boardContent', boardContent);
     formData.append('categoryIndex', 2);
     formData.append('token', localStorage.getItem('token'));
-    axios
-      .post('http://localhost:3001/board/post', formData)
-      .then(res => {
-        if(res.status == 200){
-          alert('게시글이 업로드되었습니다.');
-        }
-      });
+    axios.post('http://localhost:3001/board/post', formData).then((res) => {
+      if (res.status == 200) {
+        alert('게시글이 업로드 되었습니다.');
+      }
+    });
 
     setShowUploadFormModal(!showUploadFormModal);
   };
