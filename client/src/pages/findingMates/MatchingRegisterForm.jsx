@@ -83,6 +83,7 @@ const MatchingRegisterForm = () => {
   const submitPost = async (e) => {
     const formData = new FormData();
     formData.append('matchImgName', content);
+    formData.append("token", localStorage.getItem("token"));
     e.preventDefault();
     //이미지 업후 내용수정시 반영안되는 버그수정필요
 
