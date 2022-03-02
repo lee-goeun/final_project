@@ -1,19 +1,27 @@
-import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import MatchingListItem from '../../components/findingMates/MatchingItem';
-import TimeoutListItem from '../../components/findingMates/TimeoutItem';
 
-const TimeoutListWrapper = styled.div`
+const Post = ({ post }) => {
+  return (
+    <section>
+      <Link to={'/match/detail/' + post.matchId}>
+        제목:{post.matchTitle} 내용:{post.matchContent}
+        이미지url로 와야함. 이미지url렌더링장소 이미지 클릭시 상세페이지로 이동
+      </Link>
+    </section>
+  );
+};
+
+const TimeoutListWrapper = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 `;
-const MatchingListWrapper = styled.div`
+const MatchingListWrapper = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
 `;
 
-const MatchingLists = () => {
+const MatchingLists = ({ loadingList, list }) => {
   // 레이아웃체크용
   // const [timeoutMatchingList, setTimeoutMatchingList] = useState([
   //   'https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGV0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60',
@@ -30,25 +38,32 @@ const MatchingLists = () => {
   //   'https://media.istockphoto.com/photos/dog-napping-with-baby-picture-id1287317675?k=20&m=1287317675&s=612x612&w=0&h=8JrDNntBc5iYZ_RY9dOfvoVNaGVozW1sRMt-ZoTQh7U=',
   // ]);
 
-  const [timeoutMatchingList, setTimeoutMatchingList] = useState([]);
-  const [matchingList, setMatchingList] = useState([]);
-
   return (
     <>
-      <TimeoutListWrapper>
-        {timeoutMatchingList.map((post) => (
-          <TimeoutListItem post={post} />
-        ))}
-      </TimeoutListWrapper>
-      <hr></hr>
-      <h3>검색창:</h3>
+      <section>
+        <h1>TIME OUT</h1>
+        <h6>추후 구현</h6>
+        {/* {loadingItem && 'loading...'}
+        {!loadingItem && item && (
+          <TimeoutListWrapper>
+            {timeoutList.map((timeoutPost)=>(<Post key={timeoutPost.matchId} post={timeoutPost}>))}
+          </TimeoutListWrapper>
+        )} */}
+      </section>
+      <hr />
+
+      <span>필터////</span>
+      <span>검색////</span>
       <Link to="/match/add">글쓰기</Link>
-      <hr></hr>
-      <MatchingListWrapper>
-        {matchingList.map((post) => (
-          <MatchingListItem post={post} />
-        ))}
-      </MatchingListWrapper>
+      <hr />
+      {loadingList && 'loading...'}
+      {!loadingList && list && (
+        <MatchingListWrapper>
+          {list.map((post) => (
+            <Post key={post.matchId} post={post} />
+          ))}
+        </MatchingListWrapper>
+      )}
     </>
   );
 };

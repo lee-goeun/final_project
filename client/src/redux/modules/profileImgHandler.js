@@ -1,6 +1,6 @@
 //action type
-const UPLOAD = 'profileImgButtons/UPLOAD';
-const REMOVE = 'profileImgButtons/REMOVE';
+const UPLOAD = 'profileImgHandler/UPLOAD';
+const REMOVE = 'profileImgHandler/REMOVE';
 
 //action creator
 // export const upload = (input) => ({ type: UPLOAD, input });

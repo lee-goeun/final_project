@@ -13,7 +13,11 @@ import Chatting from './pages/Chatting';
 import UsedTrade from './pages/UsedTrade';
 import MatchingPageLayout from './layout/FindingMatesLayout';
 import MatchingLists from './pages/findingMates/MatchingLists';
+import MatchingListsContainer from './redux/containers/MatchingListsContainer';
 import WriteMatchingPost from './pages/findingMates/MatchingRegisterForm';
+
+import MatchingPost from './pages/findingMates/MatchingPost';
+import MatchingPostContainer from './redux/containers/MatchingPostContainer';
 
 function App() {
   return (
@@ -36,7 +40,8 @@ function App() {
       <Route path="/chatting" element={<Chatting />} />
 
       <Route path="match" element={<MatchingPageLayout />}>
-        <Route path="list" element={<MatchingLists />} />
+        <Route path="list" element={<MatchingListsContainer />} />
+        <Route path="detail/:matchId" element={<MatchingPostContainer />} />
         <Route path="add" element={<WriteMatchingPost />} />
       </Route>
 
