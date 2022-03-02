@@ -726,7 +726,7 @@ const PostBackground = () => {
   };
 
   const [imgBase64, setImgBase64] = useState([]);
-  const [imgFile, setImgFile] = useState(null);
+  const [imgFile, setImgFile] = useState([]);
   const [boardContent, setBoardContent] = useState('');
 
   useEffect(() => {
@@ -736,6 +736,7 @@ const PostBackground = () => {
   const handleChangeFile = (e) => {
     console.log(e.target.files);
     setImgFile(e.target.files);
+    
     // fd.append("file", e.target.files)
     setImgBase64([]);
     for (let i = 0; i < e.target.files.length; i++) {
@@ -745,7 +746,7 @@ const PostBackground = () => {
       reader.onloadend = () => {
         // 파일 읽기가 완료되면 아래의 코드가 실행
         const base64 = reader.result;
-        console.log(base64);
+      //  console.log(base64);
         if (base64) {
           // images.push(base64.toString())
           let base64Sub = base64.toString();
@@ -762,16 +763,22 @@ const PostBackground = () => {
   // 게시물 작성시
   const clickPostWrite = (e) => {
     alert('게시물 작성');
-
     const formData = new FormData();
-    formData.append('boardImgList', imgFile);
+    for(let i=0; i<imgFile.length; i++){
+      formData.append("img",imgFile[i]);
+    }
+   // formData.append('img', imgFile);
     formData.append('boardTitle', '안녕하세요');
     formData.append('boardContent', boardContent);
     formData.append('categoryIndex', 2);
     formData.append('token', localStorage.getItem('token'));
     axios
       .post('http://localhost:3001/board/post', formData)
-      .then((res) => console.log(res));
+      .then(res => {
+        if(res.status == 200){
+          alert('게시글이 업로드되었습니다.');
+        }
+      });
 
     setShowUploadFormModal(!showUploadFormModal);
   };
