@@ -91,7 +91,7 @@ exports.login = async (req, res) => {
       } else {
         var userId = results[0].userId;
         // 로그인 유지 토큰 값 지정
-        var token = jwt.sign({ userId : userId }, process.env.JWT_SECRET, {
+        var token = jwt.sign({ userId : userId, region1:results[0].region1, region2:results[0].region2,region3:results[0].region3 }, process.env.JWT_SECRET, {
           expiresIn: process.env.JWT_EXPIRES_IN,
         });
             req.session.userInfo = results[0];
