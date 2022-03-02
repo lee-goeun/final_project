@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Carousel from '../../components/common/Carousel';
+import { getMatchList } from '../../lib/api';
+import axios from 'axios';
 
 // const Post = ({ post }) => {
 //   return (
@@ -33,31 +35,23 @@ const MatchingListWrapper = styled.section`
   grid-template-columns: 1fr 1fr;
 `;
 
-const MatchingLists = ({ loadingList, list }) => {
-  console.log('list', list);
-  // 레이아웃체크용
-  // const [timeoutMatchingList, setTimeoutMatchingList] = useState([
-  //   'https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGV0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60',
-  //   'https://media.istockphoto.com/photos/young-female-holding-cute-little-pembroke-welsh-corgi-puppy-taking-picture-id1317237255?k=20&m=1317237255&s=612x612&w=0&h=Gs4TZ5Sta3jyf_AB8Fdg0nV7elYdJowS3S8AxGVq234=',
-  //   'https://media.istockphoto.com/photos/dog-napping-with-baby-picture-id1287317675?k=20&m=1287317675&s=612x612&w=0&h=8JrDNntBc5iYZ_RY9dOfvoVNaGVozW1sRMt-ZoTQh7U=',
-  //   'https://images.unsplash.com/photo-1591946614720-90a587da4a36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGV0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60',
-  //   'https://media.istockphoto.com/photos/funny-friends-cute-cat-and-corgi-dog-are-lying-on-a-white-bed-picture-id1347494018?k=20&m=1347494018&s=612x612&w=0&h=ztjdI3c9A9DUAxZ7b_qgkPF7HN6FxKifCrUuQF7zz3M=',
-  // ]);
-  const [matchingList, setMatchingList] = useState(
-    // 'https://media.istockphoto.com/photos/funny-friends-cute-cat-and-corgi-dog-are-lying-on-a-white-bed-picture-id1347494018?k=20&m=1347494018&s=612x612&w=0&h=ztjdI3c9A9DUAxZ7b_qgkPF7HN6FxKifCrUuQF7zz3M=',
-    // 'https://media.istockphoto.com/photos/chihuahua-dog-sleep-on-bed-picture-id958839274?k=20&m=958839274&s=612x612&w=0&h=9ZlWCfYGdVSf7PhaqyeqC79vznWXSDb9LJAWv7rxHQU=',
-    // 'https://media.istockphoto.com/photos/pretty-chihuahua-puppy-dog-wearing-red-warm-sweater-in-scandinavian-picture-id1179029286?k=20&m=1179029286&s=612x612&w=0&h=-67AzuS9PC2OeN4oTFoqYP2BvSQtebhR65BRBXgj9DM=',
-    // 'https://media.istockphoto.com/photos/young-female-holding-cute-little-pembroke-welsh-corgi-puppy-taking-picture-id1317237255?k=20&m=1317237255&s=612x612&w=0&h=Gs4TZ5Sta3jyf_AB8Fdg0nV7elYdJowS3S8AxGVq234=',
-    // 'https://media.istockphoto.com/photos/dog-napping-with-baby-picture-id1287317675?k=20&m=1287317675&s=612x612&w=0&h=8JrDNntBc5iYZ_RY9dOfvoVNaGVozW1sRMt-ZoTQh7U=',
-    list
-  );
-    //  list.forEach((item) => {
-    //    setMatchingList('http://localhost:3001/match/download?matchId=' + item.matchId +'&matchImgName=' + item.matchImgName);
-    //  })
-   console.log('matching', matchingList);
+ const MatchingLists = () => {
+  const [matchingList, setMatchingList] = useState([]);
+  
+  React.useEffect(() => {
+    getMatchingList();
+  },[]);
+
+  const getMatchingList = async () => {
+    let res = await axios.get('http://localhost:3001/match/list');
+    console.log('res',res);
+    setMatchingList(res.data);
+  }
+  
+  
   return (
     <>
-      <section>
+     <section>
         <span>시간이 얼마 안남았어요!</span>
         <span>1시간 이내 남은 게시물 노출</span>
         <Carousel />
@@ -75,9 +69,13 @@ const MatchingLists = ({ loadingList, list }) => {
       <Link to="/match/add">글쓰기</Link>
       <hr />
       <MatchingListWrapper>
-        {matchingList.map((item) => (
-          <Post item={'http://localhost:3001/match/download?matchId=' + item.matchId +'&matchImgName=' + item.matchImgName} />
-        ))}
+      {matchingList.map(match => (
+        <section>
+          <Link to={'/match/detail/'}>
+          <img src={"http://localhost:3001/match/download?matchId=" + match.matchId +"&matchImgName=" + match.matchImgName}/>
+          </Link>
+        </section>
+      ))}
       </MatchingListWrapper>
       {/* {loadingList && 'loading...'}
       {!loadingList && list && (
@@ -90,5 +88,4 @@ const MatchingLists = ({ loadingList, list }) => {
     </>
   );
 };
-
 export default MatchingLists;
