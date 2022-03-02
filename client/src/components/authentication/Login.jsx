@@ -43,8 +43,7 @@ const Login = () => {
           userPw,
         })
         .then((res) => {
-          console.log(res.config.data.typeof(userId));
-          // sessionStorage.setItem('userID', res.config.data.userId);
+          console.log(res);
           if (res.status === 200) {
             alert('로그인 되었습니다.');
             navigate('/');
