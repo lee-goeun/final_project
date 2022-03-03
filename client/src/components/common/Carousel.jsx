@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -153,17 +153,17 @@ const Image = styled.img`
 // `;
 
 const Carousel = () => {
-  const [timeoutList, setTimeoutList]  =useState([]);
-
+  const [timeoutList, setTimeoutList] = useState([]);
+  console.log(timeoutList);
   React.useEffect(() => {
     getTimeoutList();
-  },[]);
+  }, []);
 
   const getTimeoutList = async () => {
     let res = await axios.get('http://localhost:3001/match/listLimit1');
-    console.log('res',res);
+    console.log('res', res);
     setTimeoutList(res.data);
-  }
+  };
   const settings = {
     dots: false,
     infinite: true,
@@ -178,16 +178,28 @@ const Carousel = () => {
 
   return (
     <StyledSlider {...settings}>
-      {timeoutList.map(timeout => (
+      {timeoutList.map(
+        (timeout) => {
+          console.log(timeout);
+          return (
             <ImageContainer>
-              {/* {timeout.id} */}
-              <Image src={"http://localhost:3001/match/download?matchId=" + timeout.matchId +"&matchImgName=" + timeout.matchImgName} />
+              {timeout.id}
+              <Image
+                src={
+                  'http://localhost:3001/match/download?matchId=' +
+                  timeout.matchId +
+                  '&matchImgName=' +
+                  timeout.matchImgName
+                }
+              />
+
               {'남은시간'}
             </ImageContainer>
-        
-          // <Post key={timeout.matchId} post={timeout}></Post>
-        ))}
-      {/* {items.map((item) => {
+          );
+        },
+        // <Post key={timeout.matchId} post={timeout}></Post>
+      )}
+      {/* { {items.map((item) => {
         return (
           <ImageContainer>
             {item.id}
