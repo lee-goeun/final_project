@@ -399,75 +399,59 @@ const PostContainer = ({
 };
 
 const MiniPostContainer = () => {
-  const [miniPost, setMiniPost] = useState({
-    post: [
-      {
-        id: 0,
-        img: 'img/img.jpg',
-        multipleImg: true,
-        like: 22,
-        comment: 2,
-        views: 765,
-      },
-      {
-        id: 1,
-        img: 'img/cat.png',
-        multipleImg: false,
-        like: 2222,
-        comment: 132,
-        views: 3865,
-      },
-      {
-        id: 2,
-        img: 'img/sam01.jpg',
-        multipleImg: true,
-        like: 9822,
-        comment: 2132,
-        views: 33865,
-      },
-    ],
-  });
+  const [gPostList, setGPostList] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/board/').then((res) => {
+      // console.log(res.data);
+      setGPostList(res.data);
+    });
+  }, []);
+
+  console.log(gPostList);
 
   const navigate = useNavigate();
 
   const moreAboutPost = useCallback(() => {
-    // navigate(`/postpage?=${포스트아이디}`);
+    navigate('/detailpost');
   });
 
   return (
     <>
-      {miniPost.post.map((mPost) => (
-        <div
-          key={mPost.views}
-          className="mini-post-container"
-          onClick={moreAboutPost}
-        >
-          <div className="mpimg-container">
-            <img
-              src={process.env.PUBLIC_URL + `${mPost.img}`}
-              alt="이미지 로딩 에러"
-            />
-          </div>
-          <div className="content-container">
-            <span>
-              {mPost.like}
-              <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
-            </span>
-            <span>
-              {mPost.comment}
-              <FontAwesomeIcon icon={borderComment} id="border-comment-icon" />
-            </span>
-            <span>
-              {mPost.views}
-              <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
-            </span>
-          </div>
-          {mPost.multipleImg && (
-            <div className="imgs-info">
-              <FontAwesomeIcon icon={faClone} id="multiple-img-icon" />
+      {gPostList.map((p) => (
+        <>
+          <div
+            key={p.boardId}
+            className="mini-post-container"
+            onClick={moreAboutPost}
+          >
+            <div className="mpimg-container">
+              <img src={p.boardImgList} alt="이미지 로딩 에러" />
             </div>
-          )}
-        </div>
+            <div className="content-container">
+              <span>
+                {p.boardGood}
+                <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
+              </span>
+              {/* <span>
+                {p.boardTitle}
+                <FontAwesomeIcon
+                  icon={borderComment}
+                  id="border-comment-icon"
+                />
+              </span> */}
+              <span>
+                {p.boardViews}
+                <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
+              </span>
+            </div>
+            {p.multipleImg && (
+              <div className="imgs-info">
+                <FontAwesomeIcon icon={faClone} id="multiple-img-icon" />
+              </div>
+            )}
+          </div>
+        </>
       ))}
     </>
   );
@@ -577,7 +561,7 @@ const CommentContainer = () => {
   const [comment, setCommnet] = useState({
     comments: [
       {
-        id: 0,
+        id: 44134,
         nick: '집사',
         img: 'https://blog.kakaocdn.net/dn/btkVeS/btqFOXbMQbB/Uf5rey5lRoKKRStYNn5oVK/img.png',
         date: '2022/02/10',
@@ -585,7 +569,7 @@ const CommentContainer = () => {
         key: 2125325,
       },
       {
-        id: 1,
+        id: 3451,
         nick: '고양이나만없어',
         img: 'https://image.fnnews.com/resource/media/image/2021/04/21/202104211351203685_l.jpg',
         date: '2022/02/12',
@@ -593,7 +577,7 @@ const CommentContainer = () => {
         key: 21253212125,
       },
       {
-        id: 2,
+        id: 125122,
         nick: '가나다라',
         img: 'https://img.hankyung.com/photo/202103/20210323110008_60594ba899dab_1.jpg',
         date: '2022/02/20',
@@ -717,8 +701,6 @@ const CommentContainer = () => {
 };
 
 const PostBackground = () => {
-  const [posts, setPosts] = useState([]);
-
   const uploadDiv = useRef();
   const showText = () => {
     uploadDiv.current.style.height = '100px';
@@ -727,8 +709,68 @@ const PostBackground = () => {
     uploadDiv.current.style.height = '50px';
   };
 
+  const [imgBase64, setImgBase64] = useState([]);
+  const [imgFile, setImgFile] = useState([]);
+  const [boardTitle, setBoardTitle] = useState('');
+  const [boardContent, setBoardContent] = useState('');
+
+  useEffect(() => {
+    console.log('베이스64 : ' + imgBase64);
+    console.log('이미지파일 : ' + imgFile);
+  }, [imgBase64, imgFile]);
+  const handleChangeFile = (e) => {
+    console.log(e.target.files);
+    setImgFile(e.target.files);
+
+    // fd.append("file", e.target.files)
+    setImgBase64([]);
+    for (let i = 0; i < e.target.files.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(e.target.files[i]);
+
+      reader.onloadend = () => {
+        // 파일 읽기가 완료되면 아래의 코드가 실행
+        const base64 = reader.result;
+        //  console.log(base64);
+        if (base64) {
+          // images.push(base64.toString())
+          let base64Sub = base64.toString();
+
+          setImgBase64([...imgBase64, base64Sub]);
+          // setImgBase64(newObj);
+          // 파일 base64 상태 업데이트
+          // console.log(images)
+        }
+      };
+    }
+  };
+
+  // 게시물 작성시
+  const clickPostWrite = (e) => {
+    const formData = new FormData();
+    for (let i = 0; i < imgFile.length; i++) {
+      formData.append('img', imgFile[i]);
+    }
+    // formData.append('img', imgFile);
+    formData.append('boardTitle', boardTitle);
+    formData.append('boardContent', boardContent);
+    formData.append('categoryIndex', 2);
+    formData.append('token', localStorage.getItem('token'));
+    axios.post('http://localhost:3001/board/post', formData).then((res) => {
+      if (res.status == 200) {
+        alert('게시글이 업로드 되었습니다.');
+      }
+    });
+
+    setShowUploadFormModal(!showUploadFormModal);
+  };
+
   const [showUploadFormModal, setShowUploadFormModal] = useState(false);
-  const clickUploadFormModal = (e) => {
+
+  // 작성 취소시
+  const clickUploadFormModal = () => {
+    setImgBase64([]);
+    setImgFile(null);
     setShowUploadFormModal(!showUploadFormModal);
   };
 
@@ -774,83 +816,42 @@ const PostBackground = () => {
       {/* 게시물 작성폼 모달창 */}
       {showUploadFormModal ? (
         <div className="upload-modal-container">
-          <PostUploadForm />
+          <div className="post-upload-form-container">
+            <label htmlFor="post-img-select">이미지 업로드</label>
+            <input
+              type="file"
+              id="post-img-select"
+              multiple
+              onChange={handleChangeFile}
+            />
+
+            {imgBase64.map((img) => {
+              return (
+                <div className="img-preview-container">
+                  <img src={img} alt="업로드할 이미지" />
+                </div>
+              );
+            })}
+            <input
+              className="post-title-input"
+              type="text"
+              placeholder="제목"
+              onChange={(e) => {
+                setBoardTitle(e.target.value);
+              }}
+            />
+            <textarea
+              placeholder="내용"
+              onChange={(e) => {
+                setBoardContent(e.target.value);
+              }}
+            ></textarea>
+          </div>
 
           <button onClick={clickUploadFormModal}>취소</button>
-          <button>작성</button>
+          <button onClick={clickPostWrite}>작성</button>
         </div>
       ) : null}
-    </>
-  );
-};
-
-// 게시판별 게시물 작성폼
-
-const PostUploadForm = () => {
-  // const [imgUrl, setImgUrl] = useState("");
-
-  // const encodeFileToBase64 = (fileBlob) => {
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(fileBlob);
-  //   return new Promise((resolve) => {
-  //     reader.onload = () => {
-  //       setImgUrl(reader.result);
-  //       resolve();
-  //     }
-  //   })
-  // }
-
-  const [imgBase64, setImgBase64] = useState([]);
-  const [imgFile, setImgFile] = useState(null);
-
-  const handleChangeFile = (e) => {
-    console.log(e.target.files);
-    setImgFile(e.target.files);
-    // fd.append("file", e.target.files)
-    setImgBase64([]);
-    for (let i = 0; i < e.target.files.length; i++) {
-      let reader = new FileReader();
-      reader.readAsDataURL(e.target.files[i]);
-
-      reader.onloadend = () => {
-        // 파일 읽기가 완료되면 아래의 코드가 실행
-        const base64 = reader.result;
-        console.log(base64);
-        if (base64) {
-          // images.push(base64.toString())
-          let base64Sub = base64.toString();
-
-          setImgBase64((imgBase64) => [...imgBase64, base64Sub]);
-          // setImgBase64(newObj);
-          // 파일 base64 상태 업데이트
-          // console.log(images)
-        }
-      };
-    }
-  };
-
-  return (
-    <>
-      <div className="post-upload-form-container">
-        <h2 style={{ marginBottom: '30px' }}>일반 게시물 업로드 폼</h2>
-        <label htmlFor="post-img-select">이미지 업로드</label>
-        <input
-          type="file"
-          id="post-img-select"
-          multiple
-          onChange={handleChangeFile}
-        />
-
-        {imgBase64.map((img) => {
-          return (
-            <div className="img-preview-container">
-              <img src={img} alt="업로드할 이미지" />
-            </div>
-          );
-        })}
-
-        <textarea placeholder="내용을 입력하세요..."></textarea>
-      </div>
     </>
   );
 };
@@ -866,6 +867,5 @@ export {
   PostBackground,
   MiniMatePostContainer,
   MatePostContainer,
-  PostUploadForm,
   MatePostUploadForm,
 };

@@ -9,6 +9,8 @@ const crypto = require('crypto');
 const multer = require('multer');
 const fs = require('fs');
 const axios  = require('axios');
+const jwt = require('jsonwebtoken');
+
 
 var matchStorage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -69,13 +71,25 @@ router.get('/listLimit1', (req, res) => {
 //추가
 router.post('/add', matchUpload.single('matchImgName'), (req, res) => {
   console.log('req', req.file);
-  console.log('req', req.session.userInfo);
+  console.log('req', req.headers);
+  console.log('req', req.body);
+  //const token = req.cookies.jwt;
+  var userId = "";  
+  var region1 = "";
+  var region2 = "";
+  var region3 = "";
+  
+  jwt.verify(req.body.token, process.env.JWT_SECRET, function(err,decode){
+    console.log('ssss',decode);
+    userId = decode.userId;
+    region1 = decode.region1;
+    region2 = decode.region2;
+    region3 = decode.region3;
+  });
+  
+  //console.log('tokenResult', tokenResult);
   var body = req.body;
   var filename = req.file.originalname;
-  var userId = req.session.userInfo.userId;  
-  var region1 = req.session.userInfo.region1;
-  var region2 = req.session.userInfo.region2;
-  var region3 = req.session.userInfo.region3;
 
   var sql =
     'INSERT INTO matchTbl(userId, matchImgName, matchTitle, matchContent, selectPet, matchTime, region1, region2, region3) VALUES(?, ?, ?, ?,?,?,?,?,?);';

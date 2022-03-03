@@ -18,6 +18,23 @@ module.exports = (app) => {
     },
   });
 
+  //이미지 읽어오는 경로
+  postRouter.get('/download', (req, res) => {
+    // var id = req.query.boardId;
+    var img = req.query.boardImgName;
+
+    // fs.readFile('boardImages/' + id + '/' + img, function (err, results) {
+    //   res.writeHead(200, { 'Content-Type': 'text/html' });
+    //   res.end(results);
+    // });
+
+    fs.readFile(img, function (err, results) {
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(results);
+    });
+  });
+
+
   const upload = multer({ storage: storage });
   //모든 게시글 조회
   postRouter.get('/', posts.findAll);

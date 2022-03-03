@@ -45,12 +45,12 @@ const Login = () => {
         .then((res) => {
           console.log(res);
           if (res.status === 200) {
+            localStorage.setItem('token', res.data.token);
             alert('로그인 되었습니다.');
             navigate('/');
-          } else {
-            alert('다시 시도해 주세요.');
           }
-        });
+        })
+        .catch(() => alert('아이디나 비밀번호가 맞지 않습니다.'));
     },
     [userId, userPw],
   );
