@@ -77,16 +77,6 @@ const MatchingRegisterForm = () => {
 
   const appendingFormData = (receivedFormData) => {
     setContent(receivedFormData);
-    console.log(contents);
-
-    // for (var pair of formData.entries()) {
-    //   console.log(`key:${pair[0]}, value:${pair[1]}`);
-    // }
-
-    //formData객체확인
-    // for (var pair of formData.entries()) {
-    //   console.log(`key:${pair[0]}, value:${pair[1]}`);
-    // }
   };
 
   const submitPost = async (e) => {

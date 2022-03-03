@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import Button from './Button';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteMatchItem } from '../../redux/modules/matching';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const ModalWrapper = styled.div`
   box-sizing: border-box;
@@ -56,6 +60,11 @@ const MatchingModal = ({
       onClose(e);
     }
   };
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+  const post = useSelector((state) => state.matching.item);
+  console.log(post[0]);
 
   const close = (e) => {
     if (onClose) {
@@ -63,6 +72,12 @@ const MatchingModal = ({
     }
   };
 
+  const onDelete = () => {
+    // dispatch(deleteMatchItem(post[0].matchId), [dispatch]);
+    axios.delete(`http://localhost:3001/match/del/${post[0].matchId}`);
+    navigate('/match/list');
+  };
+  ///리다이렉트해야함
   return (
     <>
       <ModalOverlay visible={visible} />
@@ -77,7 +92,7 @@ const MatchingModal = ({
           <Button className="matching-modal-update" onClick={close}>
             수정
           </Button>
-          <Button className="matching-modal-delete" onClick={close}>
+          <Button className="matching-modal-delete" onClick={onDelete}>
             삭제
           </Button>
           <Button className="modal-close" onClick={close}>
