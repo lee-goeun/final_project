@@ -1,59 +1,114 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Carousel from '../../components/common/Carousel';
-import { getMatchList } from '../../lib/api';
-import axios from 'axios';
+import SearchIcon from '@mui/icons-material/Search';
+import CreateIcon from '@mui/icons-material/Create';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
-// const Post = ({ post }) => {
-//   return (
-//     <section>
-//       <Link to={'/match/detail/' + post.matchId}>
-//         제목:{post.matchTitle} 내용:{post.matchContent}
-//         이미지url로 와야함. 이미지url렌더링장소 이미지 클릭시 상세페이지로 이동
-//       </Link>
-//     </section>
-//   );
-// };
+const Post = ({ post }) => {
+  // 모달형식으로 링크작업 추후
+  // const [modalVisible, setModalVisible] = useState(false);
+  // const openModal = () => {
+  //   setModalVisible(true);
+  // };
+  // const closeModal = () => {
+  //   setModalVisible(false);
+  // };
 
-const Post = ({ img }) => {
   return (
-    <section>
-      <Link to={'/match/detail/'}>
-        <img src={`${img}`} />
-      </Link>
-    </section>
+    <StyledLink to={'/match/detail/' + post.matchId}>
+      <DisplayWrapper>
+        <ImgInner
+          src={
+            'http://localhost:3001/match/download?matchId=' +
+            post.matchId +
+            '&matchImgName=' +
+            post.matchImgName
+          }
+          // onClick={openModal}
+        />
+        <h6>
+          산책시간:{post.matchTime}제목:{post.matchTitle}
+        </h6>
+        <h6>위치:'null'</h6>
+      </DisplayWrapper>
+    </StyledLink>
   );
 };
+
+const StyledLink = styled(Link)`
+  width: 500px;
+  height: 300px;
+  margin: 20px auto;
+`;
+const DisplayWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ImgInner = styled.img`
+  width: 500px;
+  height: 300px;
+`;
+
+const SectionWrapper = styled.section`
+  width: 500px;
+  height: 300px;
+  margin: 20px auto;
+`;
 
 const TimeoutListWrapper = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 `;
+
+const MiddleSectionWrapper = styled.section`
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 20px;
+`;
+
+const SearchWrapper = styled.div`
+  display: flex;
+  position: relative;
+`;
+
+const MiddleInnerSearch = styled.input.attrs({
+  type: 'text',
+  placeholder: '제목, 내용, 동네 검색하기',
+})`
+  cursor: pointer;
+  border-radius: 30px;
+  width: 100%;
+  height: 35px;
+  padding: 10px 30px;
+  opacity: 0.5;
+`;
+
 const MatchingListWrapper = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
 `;
 
- const MatchingLists = () => {
+const MatchingLists = ({ loadingList, list }) => {
   const [matchingList, setMatchingList] = useState([]);
-  
-  React.useEffect(() => {
-    getMatchingList();
-  },[]);
 
-  const getMatchingList = async () => {
-    let res = await axios.get('http://localhost:3001/match/list');
-    console.log('res',res);
-    setMatchingList(res.data);
-  }
-  
-  
+  const style1 = {
+    display: 'inline-block',
+    marginLeft: 50,
+  };
+  const style2 = {
+    display: 'inline-block',
+    marginLeft: 30,
+    color: 'red',
+  };
   return (
     <>
-     <section>
-        <span>시간이 얼마 안남았어요!</span>
-        <span>1시간 이내 남은 게시물 노출</span>
+      <section>
+        <h4 style={style1}>시간이 얼마 안남았어요!</h4>
+        <h6 style={style2}>1시간 이내 남은 게시물 노출</h6>
         <Carousel />
         {/* {loadingItem && 'loading...'}
         {!loadingItem && item && (
@@ -63,29 +118,31 @@ const MatchingListWrapper = styled.section`
         )} */}
       </section>
       <hr />
-
-      <span>필터////</span>
-      <span>검색////</span>
-      <Link to="/match/add">글쓰기</Link>
+      <MiddleSectionWrapper>
+        <div>
+          {'검색필터'}
+          <FilterAltIcon sx={{ position: 'relative', top: '15%', mx: 1 }} />
+        </div>
+        <SearchWrapper>
+          <SearchIcon sx={{ position: 'absolute', left: '2%', top: '18%' }} />
+          <MiddleInnerSearch />
+        </SearchWrapper>
+        <Link to="/match/add">
+          {'게시글 올리기'}
+          <CreateIcon sx={{ position: 'relative', top: '11%', mx: 2 }} />
+        </Link>
+      </MiddleSectionWrapper>
       <hr />
-      <MatchingListWrapper>
-      {matchingList.map(match => (
-        <section>
-          <Link to={'/match/detail/'}>
-          <img src={"http://localhost:3001/match/download?matchId=" + match.matchId +"&matchImgName=" + match.matchImgName}/>
-          </Link>
-        </section>
-      ))}
-      </MatchingListWrapper>
-      {/* {loadingList && 'loading...'}
+      {loadingList && 'loading...'}
       {!loadingList && list && (
         <MatchingListWrapper>
           {list.map((post) => (
             <Post key={post.matchId} post={post} />
           ))}
         </MatchingListWrapper>
-      )} */}
+      )}
     </>
   );
 };
+
 export default MatchingLists;
