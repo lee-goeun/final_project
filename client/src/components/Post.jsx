@@ -410,9 +410,10 @@ const MiniPostContainer = () => {
   console.log(gPostList);
   const navigate = useNavigate();
 
-  const moreAboutPost = useCallback(() => {
-    navigate('/detailpost');
-  });
+  // const moreAboutPost = useCallback((e) => {
+  //   navigate('/detailpost');
+  //   console.log(p.boardId);
+  // });
 
   return (
     <>
@@ -421,10 +422,18 @@ const MiniPostContainer = () => {
           <div
             key={p.boardId}
             className="mini-post-container"
-            onClick={moreAboutPost}
-          > 
+            onClick={() => {
+              // console.log(p.boardId);
+              navigate(`post/?postId=${p.boardId}`);
+            }}
+          >
             <div className="mpimg-container">
-              <img src={"http://localhost:3001/board/download?boardImgName=" + p.boardImgList[0]}/>
+              <img
+                src={
+                  'http://localhost:3001/board/download?boardImgName=' +
+                  p.boardImgList[0]
+                }
+              />
             </div>
             <div className="content-container">
               <span>

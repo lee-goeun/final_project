@@ -140,7 +140,7 @@ const Header = () => {
                 title="홈으로"
               />
             </NavLink>
-            <NavLink to="/postpage">
+            <NavLink to="/board">
               <FontAwesomeIcon
                 icon={faCameraRetro}
                 id="header-post-icon"
