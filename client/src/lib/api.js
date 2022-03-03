@@ -5,6 +5,8 @@ export const getMatchList = (matchId) =>
 export const getMatchItem = (matchId) =>
   axios.get(`http://localhost:3001/match/detail/${matchId}`);
 export const deleteMatchItem = (matchId) =>
-  axios.delete(`http://localhost:3001/match/detail/${matchId}`);
+  axios.put(`http://localhost:3001/match/del/${matchId}`);
 export const postMatchItem = () =>
   axios.post('http://localhost:3001/match/add');
+export const updateMatchItem = () =>
+  axios.put('http://localhost:3001/match/mod');

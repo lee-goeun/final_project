@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { getMatchItem } from '../../redux/modules/matching';
 import styled from 'styled-components';
 import UserAvatar from '../../components/common/UserAvatar';
 import MatchingModalButton from '../../components/common/MatchingModalButton';
 
 const MatchingPost = ({ item, loadingItem }) => {
+  console.log(item, '@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
   const { matchId } = useParams();
-
   // console.log(matchId);
   // const dispatch = useDispatch();
 
@@ -60,7 +58,9 @@ const MatchingPost = ({ item, loadingItem }) => {
             </ButtonWrapper>
           </TopWrapper>
           <h4>(제목){item[0].matchContent}</h4>
-          <ImgWrapper src="https://media.istockphoto.com/photos/funny-friends-cute-cat-and-corgi-dog-are-lying-on-a-white-bed-picture-id1347494018?k=20&m=1347494018&s=612x612&w=0&h=ztjdI3c9A9DUAxZ7b_qgkPF7HN6FxKifCrUuQF7zz3M=" />
+          <ImgWrapper
+            src={`http://localhost:3001/match/download?matchId=${item[0].matchId}&matchImgName=${item[0].matchImgName}`}
+          />
           <h4>(내용):{item[0].matchContent}</h4>
           <h4>(산책시간정보):{item[0].matchTime}</h4>
           <h4>(유저정보)</h4>

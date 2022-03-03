@@ -15,6 +15,12 @@ const GET_LIST_SUCCESS = 'matching/GET_LIST_SUCCESS';
 const GET_ITEM = 'matching/GET_ITEM';
 const GET_ITEM_SUCCESS = 'matching/GET_ITEM_SUCCESS';
 
+const DELETE_ITEM = 'matching/DELETE_ITEM';
+const DELETE_ITEM_SUCCESS = 'matching/DELETE_ITEM_SUCCESS';
+
+const UPDATE_ITEM = 'matching/UPDATE_ITEM';
+const UPDATE_ITEM_SUCCESS = 'matching/UPDATE_ITEM_SUCCESS';
+
 //action creator
 export const changeInput = createAction(
   CHANGE_INPUT,
@@ -33,15 +39,23 @@ export const changeInputImage = createAction(
   ({ form, uploaded }) => ({ form, uploaded }),
 );
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
-
 export const getMatchList = createRequestThunk(GET_LIST, api.getMatchList);
 export const getMatchItem = createRequestThunk(GET_ITEM, api.getMatchItem);
+export const deleteMatchItem = createRequestThunk(
+  DELETE_ITEM,
+  api.deleteMatchItem,
+);
+export const updateMatchItem = createRequestThunk(
+  UPDATE_ITEM,
+  api.updateMatchItem,
+);
 
 //init state
 const initialState = {
   loading: {
     GET_LIST: false,
     GET_ITEM: false,
+    DELETE_ITEM: false,
   },
 
   list: null,
@@ -98,6 +112,14 @@ const matching = handleActions(
       loading: {
         ...state.loading,
         GET_ITEM: false,
+      },
+      item: action.payload,
+    }),
+    [DELETE_ITEM_SUCCESS]: (state, action) => ({
+      ...state,
+      loading: {
+        ...state.loading,
+        DELETE_ITEM: false,
       },
       item: action.payload,
     }),
