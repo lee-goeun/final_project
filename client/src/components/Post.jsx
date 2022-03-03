@@ -433,13 +433,13 @@ const MiniPostContainer = () => {
                 {p.boardGood}
                 <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
               </span>
-              <span>
+              {/* <span>
                 {p.boardTitle}
                 <FontAwesomeIcon
                   icon={borderComment}
                   id="border-comment-icon"
                 />
-              </span>
+              </span> */}
               <span>
                 {p.boardViews}
                 <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
@@ -711,6 +711,7 @@ const PostBackground = () => {
 
   const [imgBase64, setImgBase64] = useState([]);
   const [imgFile, setImgFile] = useState([]);
+  const [boardTitle, setBoardTitle] = useState('');
   const [boardContent, setBoardContent] = useState('');
 
   useEffect(() => {
@@ -751,7 +752,7 @@ const PostBackground = () => {
       formData.append('img', imgFile[i]);
     }
     // formData.append('img', imgFile);
-    formData.append('boardTitle', '안녕하세요');
+    formData.append('boardTitle', boardTitle);
     formData.append('boardContent', boardContent);
     formData.append('categoryIndex', 2);
     formData.append('token', localStorage.getItem('token'));
@@ -831,9 +832,16 @@ const PostBackground = () => {
                 </div>
               );
             })}
-
+            <input
+              className="post-title-input"
+              type="text"
+              placeholder="제목"
+              onChange={(e) => {
+                setBoardTitle(e.target.value);
+              }}
+            />
             <textarea
-              placeholder="내용을 입력하세요..."
+              placeholder="내용"
               onChange={(e) => {
                 setBoardContent(e.target.value);
               }}
