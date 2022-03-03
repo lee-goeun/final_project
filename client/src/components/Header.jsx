@@ -11,7 +11,7 @@ import {
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
 import { useCallback, useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 const HeaderStyle = Styled.div`
   .header-container {
@@ -115,7 +115,14 @@ const HeaderStyle = Styled.div`
 `;
 
 const Header = () => {
+  const navigate = useNavigate();
   const [showDropMenu, setShowDropMenu] = useState(false);
+
+  const clickLogout = (e) => {
+    localStorage.removeItem('token');
+    alert('로그아웃 되었습니다.');
+    navigate('/login');
+  };
 
   return (
     <>
@@ -175,7 +182,9 @@ const Header = () => {
                   <Link to="/mypost">마이페이지</Link>
                 </p>
                 <p>
-                  <Link to="/login">로그아웃</Link>
+                  <Link to="/login" onClick={clickLogout}>
+                    로그아웃
+                  </Link>
                 </p>
               </div>
             ) : null}

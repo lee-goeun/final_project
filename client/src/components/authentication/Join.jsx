@@ -38,17 +38,18 @@ const Join = () => {
     region2: '',
     region3: '',
     extraAddress: '',
+    buildingName: '',
   });
 
   const savingAddressInput = (input) => {
     setUserInfo(() => ({
       zonecode: input.zonecode,
-      address: input.address,
+      address: input.address + ` ${input.buildingName}`,
       detailAddress: input.detailAddress,
       region1: input.sido,
       region2: input.sigungu,
       region3: input.bname,
-      extraAddress: input.buildingName,
+      extraAddress: input.jibunAddress,
     }));
     console.log(input);
   };
@@ -150,6 +151,16 @@ const Join = () => {
 
   // 회원가입 동작
   const clickSubmitBtn = (e) => {
+    if (
+      inputId === undefined ||
+      inputPw === undefined ||
+      inputName === undefined ||
+      inputNick === undefined ||
+      inputEmail === undefined ||
+      inputPhone === undefined
+    ) {
+      alert('양식을 빠짐없이 입력해주세요.');
+    }
     axios
       .post('http://localhost:3001/auth/join', {
         userId: inputId,
@@ -167,8 +178,8 @@ const Join = () => {
         extraAddress: userInfo.extraAddress,
         userAge: inputAge,
         userSex: inputSex,
-        location_agree: tou1.current.checked,
-        service_agree: tou2.current.checked,
+        location_agree: true,
+        service_agree: true,
       })
       .then((res) => {
         console.log(res);
