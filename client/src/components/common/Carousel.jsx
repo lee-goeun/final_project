@@ -178,7 +178,7 @@ const Carousel = () => {
 
   return (
     <StyledSlider {...settings}>
-      {timeoutList.map(
+      {/* {timeoutList.map(
         (timeout) => {
           console.log(timeout);
           return (
@@ -192,14 +192,12 @@ const Carousel = () => {
                   timeout.matchImgName
                 }
               />
-
-              {'남은시간'}
             </ImageContainer>
           );
         },
         // <Post key={timeout.matchId} post={timeout}></Post>
-      )}
-      {/* { {items.map((item) => {
+      )} */}
+      {items.map((item) => {
         return (
           <ImageContainer>
             {item.id}
@@ -207,7 +205,7 @@ const Carousel = () => {
             {'남은시간'}
           </ImageContainer>
         );
-      })} */}
+      })}
     </StyledSlider>
   );
 };
