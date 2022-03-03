@@ -77,7 +77,12 @@ const MatchingRegisterForm = () => {
 
   const appendingFormData = (receivedFormData) => {
     setContent(receivedFormData);
-    receivedFormData.append('json', JSON.stringify({ contents }));
+    console.log(contents);
+
+    // for (var pair of formData.entries()) {
+    //   console.log(`key:${pair[0]}, value:${pair[1]}`);
+    // }
+
     //formData객체확인
     // for (var pair of formData.entries()) {
     //   console.log(`key:${pair[0]}, value:${pair[1]}`);
@@ -88,8 +93,12 @@ const MatchingRegisterForm = () => {
     e.preventDefault();
     formData.append('matchImgName', content);
     formData.append('token', localStorage.getItem('token'));
+    formData.append('json', JSON.stringify({ contents }));
     //이미지 업후 내용수정시 반영안되는 버그수정필요
 
+    for (var pair of formData.entries()) {
+      console.log(`key:${pair[0]}, value:${pair[1]}`);
+    }
     axios({
       method: 'post',
       url: 'http://localhost:3001/match/add',
