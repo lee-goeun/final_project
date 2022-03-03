@@ -6,7 +6,6 @@ const conn = require("../db/index.js");
 const jwt = require('jsonwebtoken');
 
 
-
 //새 객체 생성
 exports.create = (req, res) => {
     if(!req.body) {
