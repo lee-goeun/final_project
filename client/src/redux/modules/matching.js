@@ -18,6 +18,9 @@ const GET_ITEM_SUCCESS = 'matching/GET_ITEM_SUCCESS';
 const DELETE_ITEM = 'matching/DELETE_ITEM';
 const DELETE_ITEM_SUCCESS = 'matching/DELETE_ITEM_SUCCESS';
 
+const UPDATE_ITEM = 'matching/UPDATE_ITEM';
+const UPDATE_ITEM_SUCCESS = 'matching/UPDATE_ITEM_SUCCESS';
+
 //action creator
 export const changeInput = createAction(
   CHANGE_INPUT,
@@ -41,6 +44,10 @@ export const getMatchItem = createRequestThunk(GET_ITEM, api.getMatchItem);
 export const deleteMatchItem = createRequestThunk(
   DELETE_ITEM,
   api.deleteMatchItem,
+);
+export const updateMatchItem = createRequestThunk(
+  UPDATE_ITEM,
+  api.updateMatchItem,
 );
 
 //init state

@@ -4,7 +4,6 @@ import Button from './Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteMatchItem } from '../../redux/modules/matching';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 const ModalWrapper = styled.div`
   box-sizing: border-box;
@@ -73,11 +72,9 @@ const MatchingModal = ({
   };
 
   const onDelete = () => {
-    // dispatch(deleteMatchItem(post[0].matchId), [dispatch]);
-    axios.delete(`http://localhost:3001/match/del/${post[0].matchId}`);
+    dispatch(deleteMatchItem(post[0].matchId), [dispatch]);
     navigate('/match/list');
   };
-  ///리다이렉트해야함
   return (
     <>
       <ModalOverlay visible={visible} />

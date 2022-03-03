@@ -14,7 +14,6 @@ import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { isContinueStatement } from 'typescript';
 
 const FormWrapper = styled.form`
   display: flex;
@@ -78,12 +77,6 @@ const MatchingRegisterForm = () => {
 
   const appendingFormData = (receivedFormData) => {
     setContent(receivedFormData);
-    console.log(contents);
-    /// contents.matchImgName = receivedFormData;
-    // for (var pair of formData.entries()) {
-    //   console.log(`key:${pair[0]}, value:${pair[1]}`);
-    // }
-
     //formData객체확인
     // for (var pair of formData.entries()) {
     //   console.log(`key:${pair[0]}, value:${pair[1]}`);

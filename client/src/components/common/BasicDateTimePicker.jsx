@@ -7,6 +7,8 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 
+const moment = require('moment');
+
 const StyledTextField = styled(TextField)`
   && {
     margin: 0.5rem 0;
@@ -28,10 +30,12 @@ const BasicDateTimePicker = () => {
         label="산책할 시간을 골라주세요"
         value={time}
         onChange={(newValue) => {
+          console.log('newValue',newValue);
           setTime(
-            `${newValue.toISOString().substring(0, 10)} ${newValue
-              .toISOString()
-              .substring(11, 13)}${newValue.toISOString().substring(13, 19)}`,
+            // `${newValue.toISOString().substring(0, 10)} ${newValue
+            //   .toISOString()
+            //   .substring(11, 13)}${newValue.toISOString().substring(13, 19)}`,
+            moment(newValue).format('YYYY-MM-DD HH:mm')
           );
         }}
       />

@@ -154,7 +154,7 @@ const Image = styled.img`
 
 const Carousel = () => {
   const [timeoutList, setTimeoutList] = useState([]);
-
+  console.log(timeoutList);
   React.useEffect(() => {
     getTimeoutList();
   }, []);
@@ -178,22 +178,27 @@ const Carousel = () => {
 
   return (
     <StyledSlider {...settings}>
-      {timeoutList.map((timeout) => (
-        <ImageContainer>
-          {timeout.id}
-          <Image
-            src={
-              'http://localhost:3001/match/download?matchId=' +
-              timeout.matchId +
-              '&matchImgName=' +
-              timeout.matchImgName
-            }
-          />
-          {'남은시간'}
-        </ImageContainer>
+      {timeoutList.map(
+        (timeout) => {
+          console.log(timeout);
+          return (
+            <ImageContainer>
+              {timeout.id}
+              <Image
+                src={
+                  'http://localhost:3001/match/download?matchId=' +
+                  timeout.matchId +
+                  '&matchImgName=' +
+                  timeout.matchImgName
+                }
+              />
 
+              {'남은시간'}
+            </ImageContainer>
+          );
+        },
         // <Post key={timeout.matchId} post={timeout}></Post>
-      ))}
+      )}
       {/* { {items.map((item) => {
         return (
           <ImageContainer>
