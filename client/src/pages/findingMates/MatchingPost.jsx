@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import UserAvatar from '../../components/common/UserAvatar';
 import MatchingModalButton from '../../components/common/MatchingModalButton';
+import ChatIcon from '@mui/icons-material/Chat';
 
 const MatchingPost = ({ item, loadingItem }) => {
   console.log(item, '@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
@@ -43,6 +44,14 @@ const MatchingPost = ({ item, loadingItem }) => {
     width: 700px;
   `;
 
+  const StyledButton = styled.button`
+    background-color: transparent;
+    border: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  `;
+
   return (
     <MatchingPostWrapper>
       {loadingItem && 'loading...'}
@@ -67,6 +76,10 @@ const MatchingPost = ({ item, loadingItem }) => {
           <h4>20대 | 남자 | 성남시 분당구 </h4>
           <h4>(펫정보)):{item[0].selectPet}</h4>
           <h4>코코 | 3살 | 강아지 | 포메라니안</h4>
+          <StyledButton>
+            채팅하기
+            <ChatIcon sx={{ top: 100 }} />
+          </StyledButton>
         </div>
       )}
     </MatchingPostWrapper>
