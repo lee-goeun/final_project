@@ -400,7 +400,6 @@ const PostContainer = ({
 
 const MiniPostContainer = () => {
   const [gPostList, setGPostList] = useState([]);
-
   useEffect(() => {
     axios.get('http://localhost:3001/board/').then((res) => {
       // console.log(res.data);
@@ -409,7 +408,6 @@ const MiniPostContainer = () => {
   }, []);
 
   console.log(gPostList);
-
   const navigate = useNavigate();
 
   const moreAboutPost = useCallback(() => {
@@ -424,9 +422,9 @@ const MiniPostContainer = () => {
             key={p.boardId}
             className="mini-post-container"
             onClick={moreAboutPost}
-          >
+          > 
             <div className="mpimg-container">
-              <img src={p.boardImgList} alt="이미지 로딩 에러" />
+              <img src={"http://localhost:3001/board/download?boardImgName=" + p.boardImgList[0]}/>
             </div>
             <div className="content-container">
               <span>
