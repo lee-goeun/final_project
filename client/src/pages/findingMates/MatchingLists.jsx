@@ -7,23 +7,26 @@ import CreateIcon from '@mui/icons-material/Create';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 const Post = ({ post }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const openModal = () => {
-    setModalVisible(true);
-  };
-  const closeModal = () => {
-    setModalVisible(false);
-  };
+  // 모달형식으로 링크작업 추후
+  // const [modalVisible, setModalVisible] = useState(false);
+  // const openModal = () => {
+  //   setModalVisible(true);
+  // };
+  // const closeModal = () => {
+  //   setModalVisible(false);
+  // };
 
   return (
     <StyledLink to={'/match/detail/' + post.matchId}>
       <DisplayWrapper>
         <ImgInner
           src={
-            'https://media.istockphoto.com/photos/funny-friends-cute-cat-and-corgi-dog-are-lying-on-a-white-bed-picture-id1347494018?k=20&m=1347494018&s=612x612&w=0&h=ztjdI3c9A9DUAxZ7b_qgkPF7HN6FxKifCrUuQF7zz3M='
+            'http://localhost:3001/match/download?matchId=' +
+            post.matchId +
+            '&matchImgName=' +
+            post.matchImgName
           }
-          onClick={openModal}
+          // onClick={openModal}
         />
         <h6>
           산책시간:{post.matchTime}제목:{post.matchTitle}
@@ -90,23 +93,7 @@ const MatchingListWrapper = styled.section`
 `;
 
 const MatchingLists = ({ loadingList, list }) => {
-  // 레이아웃체크용
-  // const [timeoutMatchingList, setTimeoutMatchingList] = useState([
-  //   'https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGV0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60',
-  //   'https://media.istockphoto.com/photos/young-female-holding-cute-little-pembroke-welsh-corgi-puppy-taking-picture-id1317237255?k=20&m=1317237255&s=612x612&w=0&h=Gs4TZ5Sta3jyf_AB8Fdg0nV7elYdJowS3S8AxGVq234=',
-  //   'https://media.istockphoto.com/photos/dog-napping-with-baby-picture-id1287317675?k=20&m=1287317675&s=612x612&w=0&h=8JrDNntBc5iYZ_RY9dOfvoVNaGVozW1sRMt-ZoTQh7U=',
-  //   'https://images.unsplash.com/photo-1591946614720-90a587da4a36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGV0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60',
-  //   'https://media.istockphoto.com/photos/funny-friends-cute-cat-and-corgi-dog-are-lying-on-a-white-bed-picture-id1347494018?k=20&m=1347494018&s=612x612&w=0&h=ztjdI3c9A9DUAxZ7b_qgkPF7HN6FxKifCrUuQF7zz3M=',
-  // ]);
-
   const [matchingList, setMatchingList] = useState([]);
-
-  console.log(list[0].matchImgName);
-  console.log(list[1].matchImgName);
-  console.log(list[2].matchImgName);
-
-  // list.map((item) => setMatchingList(`${item}+kkk`));
-  list.map((item) => console.log(item));
 
   const style1 = {
     display: 'inline-block',

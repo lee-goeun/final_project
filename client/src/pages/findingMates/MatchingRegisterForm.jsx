@@ -13,6 +13,7 @@ import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const FormWrapper = styled.form`
   display: flex;
@@ -40,7 +41,10 @@ const MatchingRegisterForm = () => {
   const [imageUrl, setImageUrl] = useState('');
   const [content, setContent] = useState('');
   const contents = useSelector((state) => state.matching.write);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const formData = new FormData();
 
   // form 초기화 정보 가져오기(update시)
   // const { form } = useSelector(({ matching }) => ({
@@ -73,7 +77,7 @@ const MatchingRegisterForm = () => {
 
   const appendingFormData = (receivedFormData) => {
     setContent(receivedFormData);
-    //receivedFormData.append('json', JSON.stringify({ contents }));
+    receivedFormData.append('json', JSON.stringify({ contents }));
     //formData객체확인
     // for (var pair of formData.entries()) {
     //   console.log(`key:${pair[0]}, value:${pair[1]}`);
@@ -81,9 +85,9 @@ const MatchingRegisterForm = () => {
   };
 
   const submitPost = async (e) => {
-    const formData = new FormData();
-    formData.append('matchImgName', content);
     e.preventDefault();
+    formData.append('matchImgName', content);
+    formData.append('token', localStorage.getItem('token'));
     //이미지 업후 내용수정시 반영안되는 버그수정필요
 
     axios({
@@ -91,6 +95,10 @@ const MatchingRegisterForm = () => {
       url: 'http://localhost:3001/match/add',
       data: formData,
     }).then((data) => {
+      if (data.status == 200) {
+        alert('게시글이 업로드되었습니다.');
+        navigate('/match/list');
+      }
       console.log('data', data);
     });
   };
