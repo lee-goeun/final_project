@@ -523,7 +523,7 @@ const CommentContainer = () => {
   return (
     <>
       {comment.comments.map((com) => (
-        <div key={com.key} className="comment-container">
+        <div key={com.id} className="comment-container">
           <div className="cc01">
             <div className="cc01-img-container">
               <img src={process.env.PUBLIC_URL + `${com.img}`} />
