@@ -4,6 +4,7 @@ var router = express.Router();
 
 router.post('/join', authController.join);
 router.post('/login', authController.login);
+router.get('/auth', authController.auth);
 
 // front에서 page연동
 router.get('/', (req, res) => {
@@ -14,6 +15,10 @@ router.get('/join', (req, res) => {
 });
 router.get('/login', (req, res) => {
   res.render('login');
+});
+
+router.get('/auth', (req, res) => {
+  res.render('auth');
 });
 
 module.exports = router;

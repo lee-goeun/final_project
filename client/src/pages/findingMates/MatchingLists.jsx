@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Carousel from '../../components/common/Carousel';
@@ -7,7 +6,9 @@ import CreateIcon from '@mui/icons-material/Create';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import moment from 'moment';
 
+
 const Post = ({ post }) => {
+  const dispatch = useDispatch(); 
   // 모달형식으로 링크작업 추후
   // const [modalVisible, setModalVisible] = useState(false);
   // const openModal = () => {
@@ -16,7 +17,7 @@ const Post = ({ post }) => {
   // const closeModal = () => {
   //   setModalVisible(false);
   // };
-
+  
   const korTime = new Date(post.matchTime);
   return (
     <StyledLink to={'/match/detail/' + post.matchId}>

@@ -10,7 +10,7 @@ import {
   faMessage,
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 const HeaderStyle = Styled.div`

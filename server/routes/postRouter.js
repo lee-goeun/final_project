@@ -20,13 +20,7 @@ module.exports = (app) => {
 
   //이미지 읽어오는 경로
   postRouter.get('/download', (req, res) => {
-    // var id = req.query.boardId;
     var img = req.query.boardImgName;
-
-    // fs.readFile('boardImages/' + id + '/' + img, function (err, results) {
-    //   res.writeHead(200, { 'Content-Type': 'text/html' });
-    //   res.end(results);
-    // });
 
     fs.readFile(img, function (err, results) {
       res.writeHead(200, { 'Content-Type': 'text/html' });
