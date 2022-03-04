@@ -102,6 +102,9 @@
   padding: 10px;
   border-top: 1px solid #b1b1b1;
 }
+.pr04 h3 {
+  margin-bottom: 10px;
+}
 .pr05 {
   grid-area: pr05;
   line-height: 30px;

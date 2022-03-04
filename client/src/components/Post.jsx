@@ -134,13 +134,17 @@ const CarouselStyle = styled.div`
 `;
 
 const PostContainer = ({
-  imgs = '',
+  boardId,
+  categoryIndex,
+  boardImgList = '',
   userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
-  userNick = 'loading...',
-  content,
-  likeCount = '0',
-  viewsCount = '0',
-  date = '22/03/01',
+  userId = 'loading...',
+  boardTitle,
+  boardContent,
+  boardStatus,
+  boardGood = '0',
+  boardViews = '0',
+  boardCreated = '',
 }) => {
   const settings = {
     slide: 'div',
@@ -227,7 +231,7 @@ const PostContainer = ({
             <img src={userImg} alt="유저이미지" />
           </div>
           <div className="pr02">
-            <h2>{userNick}</h2>
+            <h2>{userId}</h2>
             <span
               onClick={() => {
                 setIsFollow(!isFollow);
@@ -260,7 +264,10 @@ const PostContainer = ({
               </div>
             )}
           </div>
-          <div className="pr04">{content}</div>
+          <div className="pr04">
+            <h3>{boardTitle}</h3>
+            {boardContent}
+          </div>
           <div className="pr05">
             <p>
               {isLike ? (
@@ -278,10 +285,10 @@ const PostContainer = ({
                   onClick={clickLike}
                 />
               )}
-              <span className="counting">{likeCount}</span>
+              <span className="counting">{boardGood}</span>
 
               <FontAwesomeIcon icon={borderEye} id="viewss" />
-              <span className="counting">{viewsCount}</span>
+              <span className="counting">{boardViews}</span>
 
               {isFavoritePost ? (
                 <FontAwesomeIcon
@@ -306,7 +313,7 @@ const PostContainer = ({
                 onClick={clickGoToCommnet}
               />
             </p>
-            <p>{date}</p>
+            <p>{boardCreated}</p>
           </div>
           <div className="pr06">
             <CommentContainer />
@@ -409,13 +416,7 @@ const MiniPostContainer = () => {
     });
   }, []);
 
-  console.log(gPostList);
   const navigate = useNavigate();
-
-  // const moreAboutPost = useCallback((e) => {
-  //   navigate('/detailpost');
-  //   console.log(p.boardId);
-  // });
 
   return (
     <>

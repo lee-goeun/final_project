@@ -25,18 +25,8 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/join" element={<Join />} />
       <Route path="/" element={<Home />} />
-      <Route
-        path="/post/"
-        element={
-          <>
-            <MiniPostContainer />
-          </>
-        }
-      />
-      <Route path="board" element={<PostPage />}>
-        <Route path="post/:postId" element={<DetailPost />} />
-      </Route>
-      <Route path="/walkingmate" element={<WalkingMate />} />
+      <Route path="board" element={<PostPage />} />
+      <Route path="board/post/:boardId" element={<DetailPost />} />
       <Route path="/usedtrade" element={<UsedTrade />} />
       <Route path="/chatting" element={<Chatting />} />
 

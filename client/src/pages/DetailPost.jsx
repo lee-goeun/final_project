@@ -2,8 +2,13 @@ import { PostContainer } from '../components/Post';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import {
+  createSearchParams,
+  Link,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const DetailStyle = styled.div`
@@ -34,14 +39,15 @@ const DetailStyle = styled.div`
 `;
 
 const DetailPost = () => {
-  // useEffect(() => {
-  //   const postId = searchParam.get('postId');
-  //   console.log(postId);
+  const { boardId } = useParams();
+  const [getBoard, setGetBoard] = useState();
 
-  //   axios
-  //     .get(`http://localhost:3001/board/post/${postId}`)
-  //     .then((res) => console.log(res));
-  // }, []);
+  useEffect(() => {
+    console.log('상세보기 렌더링');
+    axios
+      .get('http://localhost:3001/board/post/' + boardId)
+      .then((res) => setGetBoard(res.data));
+  }, []);
 
   return (
     <div>
