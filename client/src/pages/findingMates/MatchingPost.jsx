@@ -4,70 +4,56 @@ import UserAvatar from '../../components/common/UserAvatar';
 import MatchingModalButton from '../../components/common/MatchingModalButton';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
+const MatchingPostWrapper = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px;
+`;
+
+const TopWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const UserWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+`;
+
+const ImgWrapper = styled.img`
+  height: 450px;
+  width: 700px;
+`;
+
+const StyledButton = styled.button`
+  background-color: transparent;
+  border: none;
+  height: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+const StyledLink = styled(Link)`
+  display: flex;
+`;
+
+const marginStyle1 = {
+  marginTop: 20,
+  marginBottom: 20,
+};
+
+const marginStyle2 = {
+  marginTop: 5,
+  marginBottom: 5,
+};
 
 const MatchingPost = ({ item, loadingItem }) => {
-  console.log(item, '@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-
-  // console.log(matchId);
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(getMatchItem(1));
-  // }, [dispatch]);
-
-  // const item = useSelector((state) => state.matching.item);
-  // const loadingItem = useSelector((state) => state.matching.loading);
-
-  const MatchingPostWrapper = styled.section`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 50px;
-  `;
-
-  const TopWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-  `;
-
-  const UserWrapper = styled.div`
-    display: flex;
-    align-items: center;
-  `;
-
-  const ButtonWrapper = styled.div`
-    display: flex;
-  `;
-
-  const ImgWrapper = styled.img`
-    height: 450px;
-    width: 700px;
-  `;
-
-  const StyledButton = styled.button`
-    background-color: transparent;
-    border: none;
-    height: 100%;
-    display: flex;
-    align-items: center;
-  `;
-
-  const StyledLink = styled(Link)`
-    display: flex;
-  `;
-
-  console.log(item, '@@@@@@@@@@@@@@@@@@@@@@');
-
-  const marginStyle1 = {
-    marginTop: 20,
-    marginBottom: 20,
-  };
-
-  const marginStyle2 = {
-    marginTop: 5,
-    marginBottom: 5,
-  };
-
   return (
     <MatchingPostWrapper>
       {loadingItem && 'loading...'}
@@ -88,13 +74,13 @@ const MatchingPost = ({ item, loadingItem }) => {
           />
           <h4 style={marginStyle1}>{item[0].matchContent}</h4>
           <h6 style={marginStyle2}>
-            {`산책 예정 시간: ${item[0].matchTime.substring(
-              0,
-              10,
-            )} ${item[0].matchTime.substring(
-              11,
-              13,
-            )}시${item[0].matchTime.substring(14, 16)}분`}
+            {`산책 예정 시간: ${moment(new Date(item[0].matchTime))
+              .format('YYYY-MM-DD HH:mm')
+              .substring(0, 10)} ${moment(new Date(item[0].matchTime))
+              .format('YYYY-MM-DD HH:mm')
+              .substring(11, 13)}시${moment(new Date(item[0].matchTime))
+              .format('YYYY-MM-DD HH:mm')
+              .substring(14, 16)}분`}
           </h6>
           <h6 style={marginStyle2}>
             20대 | 남자 |

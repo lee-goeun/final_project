@@ -61,17 +61,6 @@ const ImgInner = styled.img`
   height: 300px;
 `;
 
-const SectionWrapper = styled.section`
-  width: 500px;
-  height: 300px;
-  margin: 20px auto;
-`;
-
-const TimeoutListWrapper = styled.section`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-`;
-
 const MiddleSectionWrapper = styled.section`
   display: flex;
   justify-content: space-between;
@@ -116,12 +105,6 @@ const MatchingLists = ({ loadingList, list }) => {
         <h4 style={style1}>시간이 얼마 안남았어요!</h4>
         <h6 style={style2}>1시간 이내 남은 게시물 노출</h6>
         <Carousel />
-        {/* {loadingItem && 'loading...'}
-        {!loadingItem && item && (
-          <TimeoutListWrapper>
-            {timeoutList.map((timeoutPost)=>(<Post key={timeoutPost.matchId} post={timeoutPost}>))}
-          </TimeoutListWrapper>
-        )} */}
       </section>
       <hr />
       <MiddleSectionWrapper>
