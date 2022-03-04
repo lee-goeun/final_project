@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Carousel from '../../components/common/Carousel';
 import SearchIcon from '@mui/icons-material/Search';
 import CreateIcon from '@mui/icons-material/Create';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { useDispatch } from 'react-redux'; 
+import moment from 'moment';
+
 
 const Post = ({ post }) => {
   const dispatch = useDispatch(); 
@@ -17,14 +17,8 @@ const Post = ({ post }) => {
   // const closeModal = () => {
   //   setModalVisible(false);
   // };
-
-  React.useEffect(() => {
-    console.log('test');
-    dispatch().then(res => {
-      console.log('resSSSSSSSs', res);
-    })
-  })
-
+  
+  const korTime = new Date(post.matchTime);
   return (
     <StyledLink to={'/match/detail/' + post.matchId}>
       <DisplayWrapper>
@@ -37,10 +31,16 @@ const Post = ({ post }) => {
           }
           // onClick={openModal}
         />
-        <h6>
-          산책시간:{post.matchTime}제목:{post.matchTitle}
-        </h6>
-        <h6>위치:'null'</h6>
+        <h5>
+          {`산책 예정 시간: ${moment(korTime)
+            .format('YYYY-MM-DD HH:mm')
+            .substring(0, 10)} ${moment(korTime)
+            .format('YYYY-MM-DD HH:mm')
+            .substring(11, 13)}시${moment(korTime)
+            .format('YYYY-MM-DD HH:mm')
+            .substring(14, 16)}분`}
+        </h5>
+        <h6>{`${post.region1} ${post.region2} ${post.region3}`}</h6>
       </DisplayWrapper>
     </StyledLink>
   );
@@ -60,17 +60,6 @@ const DisplayWrapper = styled.section`
 const ImgInner = styled.img`
   width: 500px;
   height: 300px;
-`;
-
-const SectionWrapper = styled.section`
-  width: 500px;
-  height: 300px;
-  margin: 20px auto;
-`;
-
-const TimeoutListWrapper = styled.section`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
 `;
 
 const MiddleSectionWrapper = styled.section`
@@ -102,8 +91,6 @@ const MatchingListWrapper = styled.section`
 `;
 
 const MatchingLists = ({ loadingList, list }) => {
-  const [matchingList, setMatchingList] = useState([]);
-
   const style1 = {
     display: 'inline-block',
     marginLeft: 50,
@@ -119,12 +106,6 @@ const MatchingLists = ({ loadingList, list }) => {
         <h4 style={style1}>시간이 얼마 안남았어요!</h4>
         <h6 style={style2}>1시간 이내 남은 게시물 노출</h6>
         <Carousel />
-        {/* {loadingItem && 'loading...'}
-        {!loadingItem && item && (
-          <TimeoutListWrapper>
-            {timeoutList.map((timeoutPost)=>(<Post key={timeoutPost.matchId} post={timeoutPost}>))}
-          </TimeoutListWrapper>
-        )} */}
       </section>
       <hr />
       <MiddleSectionWrapper>
