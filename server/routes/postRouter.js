@@ -34,18 +34,14 @@ module.exports = (app) => {
   postRouter.get('/', posts.findAll);
 
   //게시글 작성 GET / POST
-  // postRouter.get('/post', getWrite);
   postRouter.post('/post', upload.array('img', 5), posts.create);
 
-  //이미지 업로드
-  // postRouter.post('/post/upload', upload.array('img', 5), posts.upload);
 
   // //특정 게시글 GET / DELETE
   postRouter.get('/post/:postId', posts.findOne);
   postRouter.delete('/post/:postId', posts.delete);
 
   // //게시글 수정 GET / POST
-  // postRouter.get('/post/edit/:postId', getEditPost);
   postRouter.post('/post/edit/:postId', posts.update);
 
   //게시글 좋아요
