@@ -51,14 +51,14 @@ router.post('/mypetAdd', upload.single('petImgName'), (req, res) => {
   var body = req.body;
   var filename = req.file.originalname;
   console.log("body", body, filename);
-  var userId = req.session.userInfo.userId;
+ //var userId = req.session.userInfo.userId;
 
   var sql =
     'insert into mypetTbl(userId, petImgName, petName, petTypeDetail, petType, petBirth, petSex) values(?, ?, ?, ?,?,?,?);';
   conn.query(
     sql,
     [
-      userId,
+      body.userId,
       filename,
       body.petName,
       body.petTypeDetail,

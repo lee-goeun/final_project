@@ -6,21 +6,21 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 export default function BasicSelect() {
-  const [animal, setAnimal] = useState('');
+  const [filter, setFilter] = useState('');
 
   const handleChange = (event) => {
-    setAnimal(event.target.value);
+    setFilter(event.target.value);
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box sx={{ minWidth: 100, maxHeight: 1 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">동물</InputLabel>
+        <InputLabel id="demo-simple-select-label">검색 필터</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={animal}
-          label="Age"
+          labelId="filter-selector"
+          id="filter-selector"
+          value={filter}
+          label="filter"
           onChange={handleChange}
         >
           <MenuItem value={1}>강아지</MenuItem>

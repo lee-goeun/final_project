@@ -1,14 +1,17 @@
 const Comment = require("../models/Comment.js");
 
 const conn = require("../db/index.js");
-const Post = require("../models/Post.js");
-const { resourceLimits } = require("worker_threads");
+// const Post = require("../models/Post.js");
+// const { resourceLimits } = require("worker_threads");
+const jwt = require('jsonwebtoken');
 
 //새 댓글 생성
 exports.create = (req, res) => {
 
   var postId = req.params.postId;
+  console.log("postId", postId);
   var post = null;
+  console.log("commentContent", req.body);
 
   conn.query("SELECT * FROM boardtbl WHERE boardId=?", postId, (err, result) => {
     if(err) {
@@ -24,12 +27,20 @@ exports.create = (req, res) => {
     };
 
     console.log("board result: ", result[0])
+
+    
+
+    var userId = "";  
+    jwt.verify(req.body.token, process.env.JWT_SECRET, function(err,decode){
+      console.log('ssss',decode);
+      userId = decode.userId;
+    });
   
     const comment = new Comment({
       categoryIndex : result[0].categoryIndex,
       boardId : result[0].boardId,
       commentContent : req.body.commentContent,
-      userId : req.body.userId
+      userId : userId
     });
   
     //데이터베이스에 저장

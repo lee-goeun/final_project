@@ -10,8 +10,8 @@ import {
   faMessage,
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
-import { useCallback, useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 const HeaderStyle = Styled.div`
   .header-container {
@@ -115,16 +115,13 @@ const HeaderStyle = Styled.div`
 `;
 
 const Header = () => {
-  const [showSearchBar, setShowSearchBar] = useState(false);
-
-  const clickSearch = (e) => {
-    setShowSearchBar(!showSearchBar);
-  };
-
+  const navigate = useNavigate();
   const [showDropMenu, setShowDropMenu] = useState(false);
 
-  const clickSearchBtn = (e) => {
-    alert('검색합니다');
+  const clickLogout = (e) => {
+    localStorage.removeItem('token');
+    alert('로그아웃 되었습니다.');
+    navigate('/login');
   };
 
   return (
@@ -136,31 +133,6 @@ const Header = () => {
           </div>
 
           <div className="header-icons-container">
-            {showSearchBar ? (
-              <>
-                <input
-                  className="main-search"
-                  type="text"
-                  placeholder="검색하기..."
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      clickSearchBtn();
-                      e.target.value = '';
-                    }
-                  }}
-                />
-                <span className="main-search-btn" onClick={clickSearchBtn}>
-                  검색
-                </span>
-              </>
-            ) : null}
-
-            <FontAwesomeIcon
-              icon={faMagnifyingGlass}
-              id="header-search-icon"
-              title="검색"
-              onClick={clickSearch}
-            />
             <NavLink to="/">
               <FontAwesomeIcon
                 icon={faHouse}
@@ -168,33 +140,33 @@ const Header = () => {
                 title="홈으로"
               />
             </NavLink>
-            <NavLink to="/postpage">
+            <NavLink to="/board">
               <FontAwesomeIcon
                 icon={faCameraRetro}
                 id="header-post-icon"
                 title="게시물"
               />
             </NavLink>
-            <NavLink to="/walkingmate">
-            <FontAwesomeIcon
-              icon={faUserGroup}
-              id="header-mathching-icon"
-              title="산책메이트 찾기"
-            />
+            <NavLink to="/match/list">
+              <FontAwesomeIcon
+                icon={faUserGroup}
+                id="header-mathching-icon"
+                title="산책메이트 찾기"
+              />
             </NavLink>
             <NavLink to="/usedtrade">
-            <FontAwesomeIcon
-              icon={faBoxOpen}
-              id="header-market-icon"
-              title="중고거래"
-            />
+              <FontAwesomeIcon
+                icon={faBoxOpen}
+                id="header-market-icon"
+                title="중고거래"
+              />
             </NavLink>
             <NavLink to="/chatting">
-            <FontAwesomeIcon
-              icon={faMessage}
-              id="header-chatting-icon"
-              title="채팅보기"
-            />
+              <FontAwesomeIcon
+                icon={faMessage}
+                id="header-chatting-icon"
+                title="채팅보기"
+              />
             </NavLink>
             <FontAwesomeIcon
               icon={faCircleUser}
@@ -210,7 +182,9 @@ const Header = () => {
                   <Link to="/mypost">마이페이지</Link>
                 </p>
                 <p>
-                  <Link to="/login">로그아웃</Link>
+                  <Link to="/login" onClick={clickLogout}>
+                    로그아웃
+                  </Link>
                 </p>
               </div>
             ) : null}

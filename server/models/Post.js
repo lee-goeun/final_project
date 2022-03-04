@@ -12,13 +12,14 @@ const Post = function(post) {
     this.boardContent = post.boardContent;
     this.boardViews = post.boardViews;
     this.boardImgList = post.boardImgList;
+    this.userNick = post.userNick;
 };
 
 //Post 생성 
 Post.create = (newPost, result) => {
 
 
-    sql.query("INSERT INTO boardtbl(categoryIndex, userId, boardTitle, boardContent, boardViews) VALUES (?, ?, ?, ?, ?)"
+    sql.query("INSERT INTO boardTbl(categoryIndex, userId, boardTitle, boardContent, boardViews) VALUES (?, ?, ?, ?, ?)"
     ,[newPost.categoryIndex, newPost.userId, newPost.boardTitle, newPost.boardContent, newPost.boardViews]
     , (err, res) => {
         if(err) {
@@ -36,13 +37,14 @@ Post.create = (newPost, result) => {
 
 //Post 전체 조회
 Post.getAll = result => {
-    sql.query("SELECT * FROM boardtbl", (err, res) => {
+    sql.query("SELECT boardId, categoryIndex, boardTbl.userId, boardTitle, boardContent, boardStatus, boardGood, boardCreated, boardMod, boardViews, boardDeleted, boardReport, boardSearch, boardImgList, userNick FROM userTbl JOIN boardTbl ON userTbl.userId=boardTbl.userId", 
+    (err, res) => {
       if(err) {
             console.log("error: ", err);
             result(err, null);
             return;
         }
-
+      
       for (let i = 0; i < res.length; i++) {
         var temp = res[i].boardImgList;
         var templist = temp.split(' ');
@@ -56,7 +58,7 @@ Post.getAll = result => {
 
 //Post 상세보기(id로 조회)
 Post.findOne = (postID, result) => {
-    sql.query('SELECT * FROM boardtbl WHERE boardId = ?', postID, (err, res) => {
+    sql.query('SELECT * FROM boardTbl WHERE boardId = ?', postID, (err, res) => {
         if(err) {
             console.log("error: ", err);
             result(err, null);
@@ -66,14 +68,18 @@ Post.findOne = (postID, result) => {
         if(res.length) {
             console.log("found post: ", res[0]);
             var imgPath = "boardImages/" + res[0].boardId + "/";
-            fs.readdir(imgPath, (err, temp) => {
-              var imgList = [];
-              for(var img in temp) {
-                imgList.push(imgPath + temp[img]);
-              }
-              res[0].boardImgList = imgList;
-              result(null, res[0]);
+            sql.query('SELECT userNick FROM userTbl WHERE userId=?', res[0].userId, (err, userNick) => {
+              fs.readdir(imgPath, (err, temp) => {
+                var imgList = [];
+                for(var img in temp) {
+                  imgList.push(imgPath + temp[img]);
+                }
+                res[0].boardImgList = imgList;
+                res[0].userNick = userNick[0].userNick;
+                result(null, res[0]);
+              });
             });
+            
             return;
         }
 
@@ -84,7 +90,7 @@ Post.findOne = (postID, result) => {
 
 //게시글 수정
 Post.updateById = (id, post, result) => {
-    sql.query("UPDATE boardtbl SET categoryIndex=?, boardTitle =?, boardContent=? WHERE boardId=?",
+    sql.query("UPDATE boardTbl SET categoryIndex=?, boardTitle =?, boardContent=? WHERE boardId=?",
     [post.categoryIndex, post.boardTitle, post.boardContent, id], (err, res) => {
         if(err) {
             console.log("error:", err);
@@ -105,7 +111,7 @@ Post.updateById = (id, post, result) => {
 
 //게시물 삭제
 Post.remove = (id, result) => {
-    sql.query('DELETE FROM boardtbl WHERE boardId=?', id, (err, res) => {
+    sql.query('DELETE FROM boardTbl WHERE boardId=?', id, (err, res) => {
         if(err) {
             console.log("error: ", err);
             result(err, null);
@@ -123,7 +129,7 @@ Post.remove = (id, result) => {
 };
 
 Post.like = (postID, result) => {
-  sql.query('SELECT boardGood FROM boardtbl WHERE boardId=?', postID, (err, boardgood) => {
+  sql.query('SELECT boardGood FROM boardTbl WHERE boardId=?', postID, (err, boardgood) => {
     if(err) {
       console.log("error: ", err);
       result(err, null);
@@ -137,7 +143,7 @@ Post.like = (postID, result) => {
     
     console.log("좋아요 개수: ", boardgood[0])
     //게시글 좋아요 개수 증가
-    sql.query('UPDATE boardtbl SET boardGood=? where boardId=?', [boardgood[0].boardGood + 1, postID], (err, res) => {
+    sql.query('UPDATE boardTbl SET boardGood=? where boardId=?', [boardgood[0].boardGood + 1, postID], (err, res) => {
       if(err) {
         console.log("error:", err);
         result(err, null);

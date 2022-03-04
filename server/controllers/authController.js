@@ -72,6 +72,31 @@ exports.join = (req, res) => {
   });
 };
 
+exports.auth = async (req, res) => {
+  const query = "select * from userTbl where userId = ?"
+  
+  //get token in client's cookie
+ 
+  console.log('req', req.query);
+  let token = req.query.token;
+  jwt.verify(token, process.env.JWT_SECRET, function(err, decoded){
+    if(err) throw err;
+    if(!decoded) return res.json({isAuth:false, err:true});
+    else{
+      //decode token and find user
+      db.query(query, decoded.userId, async(err, results) => {
+        if(err) throw err;
+        else{
+          results[0].isAuth = true;
+          delete results[0].userPw;
+          console.log('results', results);
+          res.status(200).json(results[0]);
+        };
+      })
+    }
+  })
+}
+
 exports.login = async (req, res) => {
   try {
     const { userId, userPw } = req.body;
@@ -91,15 +116,9 @@ exports.login = async (req, res) => {
       } else {
         var userId = results[0].userId;
         // 로그인 유지 토큰 값 지정
-        var token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+        var token = jwt.sign({ userId : userId, region1:results[0].region1, region2:results[0].region2,region3:results[0].region3 }, process.env.JWT_SECRET, {
           expiresIn: process.env.JWT_EXPIRES_IN,
         });
-            req.session.userInfo = results[0];
-            req.session.isLogined = true;
-            //세션 스토어가 이루어진 후 redirect를 해야함.
-            //req.session.save(function(){                               
-              //res.redirect('/');
-            //});
 
         console.log('The Token is : ' + token);
         var cookieOptions = {
@@ -110,8 +129,12 @@ exports.login = async (req, res) => {
           httpOnly: true,
         };
 
-        res.cookie('jwt', token, cookieOptions);
-        res.json({status:'success'});
+        res.cookie('jwt', token, cookieOptions).status(200).json({
+          success:true,
+          userId:userId,
+          token:token
+        });
+       // res.json({status:'success', token : token});
        // res.status(200).redirect('/');
         
       }

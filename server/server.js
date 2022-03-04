@@ -28,7 +28,7 @@ app.use(session({
   saveUninitialized:true,
   store: sessionStore                                          
 }))
-
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
@@ -41,6 +41,9 @@ app.use('/match', matchRouter);
 
 var chatRouter = require('./routes/Chat');
 app.use('/chat', chatRouter);
+
+var marketRouter = require('./routes/Market');
+app.use('/market', marketRouter);
 
 var mypageRouter = require('./routes/Mypage');
 app.use('/mypage', mypageRouter);

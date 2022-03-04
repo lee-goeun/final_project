@@ -1,3 +1,4 @@
+/* ChattingUserContainers */
 .chat-user-list-container {
   width: 300px;
   height: 80px;
@@ -25,8 +26,8 @@
 }
 .culc03 {
   grid-area: culc03;
-  padding-top: 5px;
   color: var(--font-light);
+  display: flex;
 }
 .culc01-img-container {
   width: 70px;
@@ -40,9 +41,23 @@
   height: 100%;
   object-fit: cover;
 }
-.culc03 p small {
-  margin-left: 10px;
+.culc03-left {
+  width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 8px;
+  font-size: 14px;
 }
+.culc03-right {
+  width: 50px;
+  text-align: center;
+  padding-top: 5px;
+}
+.culc03-right small {
+  font-size: 12px;
+}
+
 .b-message-icon {
   font-size: 140px;
   color: var(--accent-default);
@@ -56,4 +71,29 @@
   position: relative;
   top: 50%;
   transform: translateY(-60%);
+}
+
+/* ChattingRoom */
+.chat-room {
+  width: 100%;
+  height: 100%;
+  background-color: tomato;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.croom01 {
+  width: 100%;
+  height: 910px;
+  background-color: rgb(127, 201, 209);
+}
+.croom02 {
+  width: 100%;
+  height: fit-content;
+}
+.croom02 > form > input {
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  border: 1px solid var(--bordercolor-default);
 }

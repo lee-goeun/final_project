@@ -1,10 +1,29 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import './Authentication.css';
 import Footer from '../Footer';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DaumPostHook from '../common/DaumPostHook';
 import styled from 'styled-components';
 import axios from 'axios';
+
+const DaumPostStyle = styled.div`
+  margin: 0 auto 10px auto;
+  width: 400px;
+  height: fit-content;
+  font-size: 100px;
+  input {
+    display: block;
+    border: 1px solid var(--bordercolor-default);
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    margin: 2px 0;
+    transition: 0.3s;
+  }
+  input:focus {
+    border: 1px solid var(--accent-default);
+  }
+`;
 
 const Join = () => {
   const navigate = useNavigate();
@@ -15,34 +34,25 @@ const Join = () => {
     address: '',
     zonecode: '',
     detailAddress: '',
+    region1: '',
+    region2: '',
+    region3: '',
+    extraAddress: '',
+    buildingName: '',
   });
-  const savingAddressInput = (input) => {
-    setUserInfo((prevProfile) => ({
-      ...prevProfile,
-      zonecode: input.zonecode,
-      address: input.address,
-      detailAddress: input.detailAddress,
-    }));
-  };
 
-  const DaumPostStyle = styled.div`
-    margin: 0 auto 10px auto;
-    width: 400px;
-    height: fit-content;
-    font-size: 100px;
-    input {
-      display: block;
-      border: 1px solid var(--bordercolor-default);
-      width: 100%;
-      height: 40px;
-      padding: 0 10px;
-      margin: 2px 0;
-      transition: 0.3s;
-    }
-    input:focus {
-      border: 1px solid var(--accent-default);
-    }
-  `;
+  const savingAddressInput = (input) => {
+    setUserInfo(() => ({
+      zonecode: input.zonecode,
+      address: input.address + ` ${input.buildingName}`,
+      detailAddress: input.detailAddress,
+      region1: input.sido,
+      region2: input.sigungu,
+      region3: input.bname,
+      extraAddress: input.jibunAddress,
+    }));
+    console.log(input);
+  };
 
   const { zonecode, address, detailAddress } = userInfo;
 
@@ -54,6 +64,8 @@ const Join = () => {
   const [inputNick, setInputNick] = useState();
   const [inputEmail, setInputEmail] = useState();
   const [inputPhone, setInputPhone] = useState();
+  const [inputAge, setInputAge] = useState();
+  const [inputSex, setInputSex] = useState();
 
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
   const pwRegex =
@@ -137,42 +149,48 @@ const Join = () => {
     alert('아이디 중복확인');
   };
 
-  const clickSubmitBtn = useCallback(() => {
-    const userJoinData = {
-      userId: inputId,
-      userPw: inputPw,
-      userName: inputName,
-      userNick: inputNick,
-      userEmail: inputEmail,
-      userPhone: inputPhone,
-      zonecode: userInfo.zonecode,
-      address: userInfo.address,
-      detailAddress: userInfo.detailAddress,
-      // extraAddress: '200호',
-    };
-
-    console.log(userJoinData);
+  // 회원가입 동작
+  const clickSubmitBtn = (e) => {
+    if (
+      inputId === undefined ||
+      inputPw === undefined ||
+      inputName === undefined ||
+      inputNick === undefined ||
+      inputEmail === undefined ||
+      inputPhone === undefined
+    ) {
+      alert('양식을 빠짐없이 입력해주세요.');
+    }
     axios
-      .post('http://localhost:3001/join', userJoinData)
-      .then((response) => {
-        console.log(response);
-        if (response.userJoinData) {
+      .post('http://localhost:3001/auth/join', {
+        userId: inputId,
+        userEmail: inputEmail,
+        userPhone: inputPhone,
+        userPw: inputPw,
+        userName: inputName,
+        userNick: inputNick,
+        zonecode: userInfo.zonecode,
+        address: userInfo.address,
+        detailAddress: userInfo.detailAddress,
+        region1: userInfo.region1,
+        region2: userInfo.region2,
+        region3: userInfo.region3,
+        extraAddress: userInfo.extraAddress,
+        userAge: inputAge,
+        userSex: inputSex,
+        location_agree: true,
+        service_agree: true,
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.data.status === 'success') {
+          alert('회원가입이 완료되었습니다.');
           navigate('/login');
         } else {
-          alert('회원가입에 실패했습니다.');
-        }
-      })
-      .catch((err) => {
-        if (err.response) {
-          alert(err.response.userJoinData);
-          console.log(err.response.userJoinData);
-        } else if (err.request) {
-          alert('서버가 응답하지 않습니다.');
-        } else {
-          alert('잘못된 요청입니다.');
+          alert('다시 시도해 주세요.');
         }
       });
-  }, [inputId, inputPw, inputName, inputNick, inputPhone, userInfo]);
+  };
 
   const touModal = useRef();
 
@@ -279,7 +297,13 @@ const Join = () => {
         </DaumPostStyle>
 
         <p>연령대</p>
-        <select className="ages-select" name="userAge">
+        <select
+          className="ages-select"
+          name="userAge"
+          onChange={(e) => {
+            setInputAge(e.target.value);
+          }}
+        >
           <option value="0">연령대를 선택하세요</option>
           <option value="10">10대</option>
           <option value="20">20대</option>
@@ -291,9 +315,25 @@ const Join = () => {
         <br />
 
         <p>성별</p>
-        <input type="radio" name="userSex" id="male" value="male" />
+        <input
+          type="radio"
+          name="userSex"
+          id="male"
+          value="male"
+          onChange={(e) => {
+            setInputSex(e.target.value);
+          }}
+        />
         <label htmlFor="male">남자</label>
-        <input type="radio" name="userSex" id="female" value="female" />
+        <input
+          type="radio"
+          name="userSex"
+          id="female"
+          value="female"
+          onChange={(e) => {
+            setInputSex(e.target.value);
+          }}
+        />
         <label htmlFor="female">여자</label>
 
         <br />

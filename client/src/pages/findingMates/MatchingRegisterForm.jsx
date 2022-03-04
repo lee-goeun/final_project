@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import AImageFIleInput from '../../components/common/AImageFileInput';
 import AImageViewer from '../../components/common/AImageViewer';
+import BasicDateTimePicker from '../../components/common/BasicDateTimePicker';
+import Button from '../../components/common/Button';
+import { changeInput, initializeForm } from '../../redux/modules/matching';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import Button from '../../components/common/Button';
-import BasicDateTimePicker from '../../components/common/BasicDateTimePicker';
-import BasicSelect from '../../components/common/BasicSelect';
+import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const FormWrapper = styled.form`
   display: flex;
@@ -16,7 +21,7 @@ const FormWrapper = styled.form`
   margin: 5rem 5rem;
 `;
 
-const StyledTextFiled = styled(TextField)`
+const StyledTextField = styled(TextField)`
   && {
     margin: 0.5rem;
   }
@@ -33,24 +38,33 @@ const BottomWrapper = styled.div`
 `;
 
 const MatchingRegisterForm = () => {
-  const [post, setPost] = useState({
-    matchTitle: '코코랑놀사람',
-    matchContent: '코코는 작아요',
-    matchTime: '2022-02-24 12:00',
-    matchImgName: '2.png',
-    selectPet: '4,5',
-  });
-
-  const onChange = (event) => {
-    setPost((prevState) => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }));
-  };
-
-  console.log(post);
-
   const [imageUrl, setImageUrl] = useState('');
+  const [content, setContent] = useState('');
+  const contents = useSelector((state) => state.matching.write);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const formData = new FormData();
+
+  // form 초기화 정보 가져오기(update시)
+  // const { form } = useSelector(({ matching }) => ({
+  //   form: matching.write,
+  // }));
+
+  useEffect(() => {
+    dispatch(initializeForm('write'));
+  }, [dispatch]);
+
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    dispatch(
+      changeInput({
+        form: 'write',
+        name,
+        value,
+      }),
+    );
+  };
 
   const previewUrl = (image) => {
     setImageUrl(image);
@@ -61,36 +75,89 @@ const MatchingRegisterForm = () => {
     setImageUrl('');
   };
 
-  const submitPost = () => {};
+  const appendingFormData = (receivedFormData) => {
+    setContent(receivedFormData);
+    //formData객체확인
+    // for (var pair of formData.entries()) {
+    //   console.log(`key:${pair[0]}, value:${pair[1]}`);
+    // }
+  };
+
+  const submitPost = async (e) => {
+    e.preventDefault();
+    for (const [key, value] of Object.entries(contents)) {
+      if (`${key}` == 'matchImgName') {
+        formData.append(`${key}`, content);
+      } else {
+        formData.append(`${key}`, `${value}`);
+      }
+    }
+    formData.append('token', localStorage.getItem('token'));
+    //formData.append('json', JSON.stringify({ contents }));
+    //이미지 업후 내용수정시 반영안되는 버그수정필요
+
+    for (var pair of formData.entries()) {
+      console.log(`key:${pair[0]}, value:${pair[1]}`);
+    }
+    axios({
+      method: 'post',
+      url: 'http://localhost:3001/match/add',
+      data: formData,
+    }).then((data) => {
+      if (data.status == 200) {
+        alert('게시글이 업로드되었습니다.');
+        navigate('/match/list');
+      }
+      console.log('data', data);
+    });
+  };
 
   return (
     <>
-      <FormWrapper onSubmit={submitPost}>
-        <StyledTextFiled
+      <FormWrapper onSubmit={submitPost} encType="multipart/form-data">
+        <StyledTextField
           id="outlined-multiline-flexible"
           label="제목"
-          onChange={onChange}
+          onChange={handleChange}
           name="matchTitle"
         />
-        <StyledTextFiled
+        <StyledTextField
           id="outlined-multiline-static"
           label="내용"
           multiline
           rows={6}
-          onChange={onChange}
+          onChange={handleChange}
           name="matchContent"
         />
         <BottomWrapper>
           <BottomLeftWrapper>
-            <BasicDateTimePicker onChange={onChange} />
-            <BasicSelect />
+            <BasicDateTimePicker />
+            <Box sx={{ marginBottom: 0.5 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">동물</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="selectPet"
+                  name="selectPet"
+                  onChange={handleChange}
+                  value={useSelector((state) => state.matching.write.selectPet)}
+                >
+                  <MenuItem value={'1'}>강아지</MenuItem>
+                  <MenuItem value={'2'}>고양이</MenuItem>
+                  <MenuItem value={'3'}>기타</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
             <AImageFIleInput
               buttonName={'이미지 첨부'}
               previewUrl={previewUrl}
+              appendingFormData={appendingFormData}
             />
             <Button type="button" onClick={deleteUrl}>
               이미지삭제
             </Button>
+            <Button type="submit">산책메이트 글올리기</Button>
           </BottomLeftWrapper>
           <AImageViewer image={imageUrl} />
         </BottomWrapper>

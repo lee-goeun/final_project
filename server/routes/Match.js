@@ -9,6 +9,8 @@ const crypto = require('crypto');
 const multer = require('multer');
 const fs = require('fs');
 const axios  = require('axios');
+const jwt = require('jsonwebtoken');
+
 
 var matchStorage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -69,13 +71,25 @@ router.get('/listLimit1', (req, res) => {
 //추가
 router.post('/add', matchUpload.single('matchImgName'), (req, res) => {
   console.log('req', req.file);
-  console.log('req', req.session.userInfo);
+  console.log('req', req.headers);
+  console.log('req', req.body);
+  //const token = req.cookies.jwt;
+  var userId = "";  
+  var region1 = "";
+  var region2 = "";
+  var region3 = "";
+  
+  jwt.verify(req.body.token, process.env.JWT_SECRET, function(err,decode){
+    console.log('ssss',decode);
+    userId = decode.userId;
+    region1 = decode.region1;
+    region2 = decode.region2;
+    region3 = decode.region3;
+  });
+  
+  //console.log('tokenResult', tokenResult);
   var body = req.body;
   var filename = req.file.originalname;
-  var userId = req.session.userInfo.userId;  
-  var region1 = req.session.userInfo.region1;
-  var region2 = req.session.userInfo.region2;
-  var region3 = req.session.userInfo.region3;
 
   var sql =
     'INSERT INTO matchTbl(userId, matchImgName, matchTitle, matchContent, selectPet, matchTime, region1, region2, region3) VALUES(?, ?, ?, ?,?,?,?,?,?);';
@@ -190,11 +204,28 @@ router.get('/download', (req, res) => {
 //상세
 router.get('/detail/:id', (req, res) => {
   let id = req.params.id;
-  var sql = 'select * from matchTbl where matchId = ?';
+  console.log('id',id);
+  var sql = 'select m.matchId, m.userId, m.matchTitle, m.matchContent, m.matchTime, m.region1, m.region2, m.region3, m.matchImgName, m.selectPet,'+
+				'u.userNick, u.userAge, u.userSex '+
+				'from matchTbl m left outer join userTbl u on m.userId = u.userId where m.matchDeleted = 0 and m.matchId = ?;';
 
   conn.query(sql, id, (err, results) => {
+    console.log('res', results);
     if (err) return res.json({ success: false, err });
-    else res.json(results);
+    else{
+      //선택한 반려동물
+      const selectPet = results[0].selectPet;
+      console.log('see', selectPet);
+      var sql2 = "select * from mypetTbl where petDeleted = 0 and petId in (?)";
+        conn.query(sql2,selectPet,(err2, results2) => {
+            if(err2) return res.json({success:false, err});
+            else{
+              console.log('res',results2);
+              results[0].selectPets = results2;
+              return res.json(results);
+            } 
+        });
+    }
   });
 });
 

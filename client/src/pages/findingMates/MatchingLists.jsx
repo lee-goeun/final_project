@@ -1,54 +1,135 @@
-import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import MatchingListItem from '../../components/findingMates/MatchingItem';
-import TimeoutListItem from '../../components/findingMates/TimeoutItem';
+import Carousel from '../../components/common/Carousel';
+import SearchIcon from '@mui/icons-material/Search';
+import CreateIcon from '@mui/icons-material/Create';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import moment from 'moment';
 
-const TimeoutListWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+
+const Post = ({ post }) => {
+  // 모달형식으로 링크작업 추후
+  // const [modalVisible, setModalVisible] = useState(false);
+  // const openModal = () => {
+  //   setModalVisible(true);
+  // };
+  // const closeModal = () => {
+  //   setModalVisible(false);
+  // };
+  
+  const korTime = new Date(post.matchTime);
+  return (
+    <StyledLink to={'/match/detail/' + post.matchId}>
+      <DisplayWrapper>
+        <ImgInner
+          src={
+            'http://localhost:3001/match/download?matchId=' +
+            post.matchId +
+            '&matchImgName=' +
+            post.matchImgName
+          }
+          // onClick={openModal}
+        />
+        <h5>
+          {`산책 예정 시간: ${moment(korTime)
+            .format('YYYY-MM-DD HH:mm')
+            .substring(0, 10)} ${moment(korTime)
+            .format('YYYY-MM-DD HH:mm')
+            .substring(11, 13)}시${moment(korTime)
+            .format('YYYY-MM-DD HH:mm')
+            .substring(14, 16)}분`}
+        </h5>
+        <h6>{`${post.region1} ${post.region2} ${post.region3}`}</h6>
+      </DisplayWrapper>
+    </StyledLink>
+  );
+};
+
+const StyledLink = styled(Link)`
+  width: 500px;
+  height: 300px;
+  margin: 20px auto;
 `;
-const MatchingListWrapper = styled.div`
+const DisplayWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ImgInner = styled.img`
+  width: 500px;
+  height: 300px;
+`;
+
+const MiddleSectionWrapper = styled.section`
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 20px;
+`;
+
+const SearchWrapper = styled.div`
+  display: flex;
+  position: relative;
+`;
+
+const MiddleInnerSearch = styled.input.attrs({
+  type: 'text',
+  placeholder: '제목, 내용, 동네 검색하기',
+})`
+  cursor: pointer;
+  border-radius: 30px;
+  width: 100%;
+  height: 35px;
+  padding: 10px 30px;
+  opacity: 0.5;
+`;
+
+const MatchingListWrapper = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
 `;
 
-const MatchingLists = () => {
-  // 레이아웃체크용
-  // const [timeoutMatchingList, setTimeoutMatchingList] = useState([
-  //   'https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGV0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60',
-  //   'https://media.istockphoto.com/photos/young-female-holding-cute-little-pembroke-welsh-corgi-puppy-taking-picture-id1317237255?k=20&m=1317237255&s=612x612&w=0&h=Gs4TZ5Sta3jyf_AB8Fdg0nV7elYdJowS3S8AxGVq234=',
-  //   'https://media.istockphoto.com/photos/dog-napping-with-baby-picture-id1287317675?k=20&m=1287317675&s=612x612&w=0&h=8JrDNntBc5iYZ_RY9dOfvoVNaGVozW1sRMt-ZoTQh7U=',
-  //   'https://images.unsplash.com/photo-1591946614720-90a587da4a36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGV0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60',
-  //   'https://media.istockphoto.com/photos/funny-friends-cute-cat-and-corgi-dog-are-lying-on-a-white-bed-picture-id1347494018?k=20&m=1347494018&s=612x612&w=0&h=ztjdI3c9A9DUAxZ7b_qgkPF7HN6FxKifCrUuQF7zz3M=',
-  // ]);
-  // const [matchingList, setMatchingList] = useState([
-  //   'https://media.istockphoto.com/photos/funny-friends-cute-cat-and-corgi-dog-are-lying-on-a-white-bed-picture-id1347494018?k=20&m=1347494018&s=612x612&w=0&h=ztjdI3c9A9DUAxZ7b_qgkPF7HN6FxKifCrUuQF7zz3M=',
-  //   'https://media.istockphoto.com/photos/chihuahua-dog-sleep-on-bed-picture-id958839274?k=20&m=958839274&s=612x612&w=0&h=9ZlWCfYGdVSf7PhaqyeqC79vznWXSDb9LJAWv7rxHQU=',
-  //   'https://media.istockphoto.com/photos/pretty-chihuahua-puppy-dog-wearing-red-warm-sweater-in-scandinavian-picture-id1179029286?k=20&m=1179029286&s=612x612&w=0&h=-67AzuS9PC2OeN4oTFoqYP2BvSQtebhR65BRBXgj9DM=',
-  //   'https://media.istockphoto.com/photos/young-female-holding-cute-little-pembroke-welsh-corgi-puppy-taking-picture-id1317237255?k=20&m=1317237255&s=612x612&w=0&h=Gs4TZ5Sta3jyf_AB8Fdg0nV7elYdJowS3S8AxGVq234=',
-  //   'https://media.istockphoto.com/photos/dog-napping-with-baby-picture-id1287317675?k=20&m=1287317675&s=612x612&w=0&h=8JrDNntBc5iYZ_RY9dOfvoVNaGVozW1sRMt-ZoTQh7U=',
-  // ]);
-
-  const [timeoutMatchingList, setTimeoutMatchingList] = useState([]);
-  const [matchingList, setMatchingList] = useState([]);
-
+const MatchingLists = ({ loadingList, list }) => {
+  const style1 = {
+    display: 'inline-block',
+    marginLeft: 50,
+  };
+  const style2 = {
+    display: 'inline-block',
+    marginLeft: 30,
+    color: 'red',
+  };
   return (
     <>
-      <TimeoutListWrapper>
-        {timeoutMatchingList.map((post) => (
-          <TimeoutListItem post={post} />
-        ))}
-      </TimeoutListWrapper>
-      <hr></hr>
-      <h3>검색창:</h3>
-      <Link to="/match/add">글쓰기</Link>
-      <hr></hr>
-      <MatchingListWrapper>
-        {matchingList.map((post) => (
-          <MatchingListItem post={post} />
-        ))}
-      </MatchingListWrapper>
+      <section>
+        <h4 style={style1}>시간이 얼마 안남았어요!</h4>
+        <h6 style={style2}>1시간 이내 남은 게시물 노출</h6>
+        <Carousel />
+      </section>
+      <hr />
+      <MiddleSectionWrapper>
+        <div>
+          {'검색필터'}
+          <FilterAltIcon sx={{ position: 'relative', top: '15%', mx: 1 }} />
+        </div>
+        <SearchWrapper>
+          <SearchIcon sx={{ position: 'absolute', left: '2%', top: '18%' }} />
+          <MiddleInnerSearch />
+        </SearchWrapper>
+        <Link to="/match/add">
+          {'게시글 올리기'}
+          <CreateIcon sx={{ position: 'relative', top: '11%', mx: 2 }} />
+        </Link>
+      </MiddleSectionWrapper>
+      <hr />
+      {loadingList && 'loading...'}
+      {!loadingList && list && (
+        <MatchingListWrapper>
+          {list.map((post) => (
+            <Post key={post.matchId} post={post} />
+          ))}
+        </MatchingListWrapper>
+      )}
     </>
   );
 };

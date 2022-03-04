@@ -13,7 +13,11 @@ import Chatting from './pages/Chatting';
 import UsedTrade from './pages/UsedTrade';
 import MatchingPageLayout from './layout/FindingMatesLayout';
 import MatchingLists from './pages/findingMates/MatchingLists';
+import MatchingListsContainer from './redux/containers/MatchingListsContainer';
 import WriteMatchingPost from './pages/findingMates/MatchingRegisterForm';
+
+import MatchingPost from './pages/findingMates/MatchingPost';
+import MatchingPostContainer from './redux/containers/MatchingPostContainer';
 
 function App() {
   return (
@@ -21,22 +25,14 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/join" element={<Join />} />
       <Route path="/" element={<Home />} />
-      <Route
-        path="/post/"
-        element={
-          <>
-            <MiniPostContainer />
-          </>
-        }
-      />
-      <Route path="postpage" element={<PostPage />} />
-      <Route path="detailpost" element={<DetailPost />} />
-      <Route path="/walkingmate" element={<WalkingMate />} />
+      <Route path="board" element={<PostPage />} />
+      <Route path="board/post/:boardId" element={<DetailPost />} />
       <Route path="/usedtrade" element={<UsedTrade />} />
       <Route path="/chatting" element={<Chatting />} />
 
       <Route path="match" element={<MatchingPageLayout />}>
-        <Route path="list" element={<MatchingLists />} />
+        <Route path="list" element={<MatchingListsContainer />} />
+        <Route path="detail/:matchId" element={<MatchingPostContainer />} />
         <Route path="add" element={<WriteMatchingPost />} />
       </Route>
 

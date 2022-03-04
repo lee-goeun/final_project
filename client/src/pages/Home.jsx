@@ -1,68 +1,85 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { PostContainer } from '../components/Post';
 import styled from 'styled-components';
+import Slider from 'react-slick';
+import axios from 'axios';
+import { width } from '@mui/system';
 
 const MainPageFooterStyle = styled.div`
   .main-body-div {
     height: 1077px;
+    width: 1700px;
     padding: 38px 0;
-  }
-  .btn-wrapper {
-    display: flex;
-    flex-direction: row;
-  }
-  .left-btn-div,
-  .right-btn-div {
-    position: relative;
-    bottom: 630px;
     margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    width: fit-content;
-    transition: 0.3s;
   }
-  .left-btn-div {
-    right: 10%;
+  .slick-slider.center.slick-initialized > .slick-prev {
+    left: 40px;
+    transform: translateY(-40px);
+    z-index: 1;
   }
-  .right-btn-div {
-    left: 10%;
+  .slick-slider.center.slick-initialized > .slick-prev::before {
+    right: 15px;
+    bottom: 15px;
+    font-size: 80px;
   }
-
-  @media screen and (max-width: 2250px) {
-    .left-btn-div {
-      right: 16%;
-    }
-    .right-btn-div {
-      left: 16%;
-    }
+  .slick-slider.center.slick-initialized > .slick-next {
+    right: 95px;
+    transform: translateY(-40px);
   }
-  @media screen and (max-width: 2000px) {
-    .left-btn-div {
-      width: 150px;
-      height: 150px;
-      bottom: 590px;
-    }
-    .right-btn-div {
-      width: 150px;
-      height: 150px;
-      bottom: 590px;
-    }
+  .slick-slider.center.slick-initialized > .slick-next::before {
+    right: 25px;
+    bottom: 15px;
+    font-size: 80px;
+  }
+  .slick-slider.center.slick-initialized > .slick-prev:before,
+  .slick-slider.center.slick-initialized > .slick-next:before {
+    color: var(--accent-default);
   }
 `;
 
 const Home = () => {
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/board/')
+      .then((res) => setGetMainPost(res.data));
+  }, []);
+
+  const [getMainPost, setGetMainPost] = useState([]);
+
+  const centerModeSettings = {
+    className: 'center',
+    centerMode: true,
+    infinite: true,
+    centerPadding: '0px',
+    slidesToShow: 1,
+    speed: 500,
+  };
+
   return (
     <>
       <Header />
+
       <MainPageFooterStyle>
         <div className="main-body-div">
-          <PostContainer />
-          <div className="btn-wrapper">
-            <div className="left-btn-div"></div>
-            <div className="right-btn-div"></div>
-          </div>
+          <Slider {...centerModeSettings}>
+            {getMainPost.map((po) => (
+              <div className="center-carousel">
+                <PostContainer
+                  key={po.boardId}
+                  boardId={po.boardId}
+                  userId={po.userId}
+                  boardImgList={po.boardImgList}
+                  boardTitle={po.boardTitle}
+                  boardContent={po.boardContent}
+                  boardGood={po.boardGood}
+                  boardViews={po.boardViews}
+                  boardCreated={po.boardCreated}
+                />
+              </div>
+            ))}
+          </Slider>
         </div>
       </MainPageFooterStyle>
       <Footer />
