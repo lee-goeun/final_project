@@ -20,14 +20,18 @@ exports.create = (req, res) => {
       userId = decode.userId;
     });
 
+    
+
     const post = new Post({
         categoryIndex : req.body.categoryIndex,
         userId : userId,
         boardTitle : req.body.boardTitle,
         boardContent : req.body.boardContent,
         boardViews : 0,
-        // boardImgList : imgId + "_" + userId
+        
     });
+
+    
 
     //데이터베이스에 저장
     Post.create(post, (err, data) => {
