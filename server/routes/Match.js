@@ -204,11 +204,28 @@ router.get('/download', (req, res) => {
 //상세
 router.get('/detail/:id', (req, res) => {
   let id = req.params.id;
-  var sql = 'select * from matchTbl where matchId = ?';
+  console.log('id',id);
+  var sql = 'select m.matchId, m.userId, m.matchTitle, m.matchContent, m.matchTime, m.region1, m.region2, m.region3, m.matchImgName, m.selectPet,'+
+				'u.userNick, u.userAge, u.userSex '+
+				'from matchTbl m left outer join userTbl u on m.userId = u.userId where m.matchDeleted = 0 and m.matchId = ?;';
 
   conn.query(sql, id, (err, results) => {
+    console.log('res', results);
     if (err) return res.json({ success: false, err });
-    else res.json(results);
+    else{
+      //선택한 반려동물
+      const selectPet = results[0].selectPet;
+      console.log('see', selectPet);
+      var sql2 = "select * from mypetTbl where petDeleted = 0 and petId in (?)";
+        conn.query(sql2,selectPet,(err2, results2) => {
+            if(err2) return res.json({success:false, err});
+            else{
+              console.log('res',results2);
+              results[0].selectPets = results2;
+              return res.json(results);
+            } 
+        });
+    }
   });
 });
 
