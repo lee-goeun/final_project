@@ -8,6 +8,7 @@ const { json } = require('body-parser');
 const multer = require('multer');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
+const con = require('../db/index');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -203,6 +204,63 @@ router.post('/delLike', (req, res) => {
     if(err) return res.json({success: false, err});
     else res.json({status:"success"});
   })
+})
+
+//물건구매하기
+router.post('/selling', (req, res) => {
+  //userId : 판매한사람
+  //sellerId : 구매한사람
+  let body = req.body;
+  var sql = 'insert into marketSaleTbl(marketId, userId, sellerId) values(?,?,?)';
+  conn.query(sql,[body.marketId, userId, sellerId], (err, results)=> {
+    if(err) return res.json({success:false, err});
+    else{
+
+      //가격조회하기
+      var selectPrice = 'select price from marketTbl where marketId = ?';
+      conn.query(selectPrice, (err, price) => {
+      try{
+
+        conn.beginTransaction();
+
+        //판매자 = balance + price;
+        //구매자 = balance - price; 
+        conn.query('update userTbl set balance+? where userId=?',[price,userId]);
+        conn.query('update userTbl set balance-? where userId=?',[price, sellerId]);
+
+        conn.commit();
+        return res.json({status:"success"});
+      }catch(err){
+
+        console.log('transaction err : ' + err);
+        conn.rollback();
+        return res.status(500).json(err);
+
+      }finally{
+        conn.release();
+      }
+      })
+      
+    }
+  })
+})
+
+//배송조회(관리자용)
+router.get('/delivery', (req, res) => {
+    var sql = 'select * from marketSaleTbl';
+    conn.query(sql,(err, results) => {
+      if(err) return res.json({success:false,err});
+      else{
+        results.forEach(item => {
+          const userAddress = conn.query('select address from userTbl where userId=?', item.userId);
+          const sellerAddress = conn.query('select address from userTbl where userId=?', item.sellerId);
+
+          item.userAddress = userAddress;
+          item.sellerAddress = sellerAddress;
+        })
+        res.json(results);
+      };
+    })
 })
 
 module.exports = router;
