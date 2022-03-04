@@ -42,6 +42,9 @@ app.use('/match', matchRouter);
 var chatRouter = require('./routes/Chat');
 app.use('/chat', chatRouter);
 
+var marketRouter = require('./routes/Market');
+app.use('/market', marketRouter);
+
 var mypageRouter = require('./routes/Mypage');
 app.use('/mypage', mypageRouter);
 
