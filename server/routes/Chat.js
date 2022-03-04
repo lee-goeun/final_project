@@ -41,12 +41,9 @@ router.post('/add',(req,res) => {
     console.log("req", req.body);
     var body = req.body;
 
-    //TODO : 로그인한 정보 넣기
-    var participant = "test02";
-
     //해당 아이디가 있는 지 확인하기
     conn.query("select * from chatroomTbl where chatroomDeleted = 0 and participant = ? and matchId = ?;",
-      [participant, body.matchId], (err, results) => {
+      [body.participant, body.matchId], (err, results) => {
         if(err) return res.json({success:false, err});
         else{
             if(results.length == 1){

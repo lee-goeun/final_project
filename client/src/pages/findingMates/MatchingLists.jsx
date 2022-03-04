@@ -8,7 +8,6 @@ import moment from 'moment';
 
 
 const Post = ({ post }) => {
-  const dispatch = useDispatch(); 
   // 모달형식으로 링크작업 추후
   // const [modalVisible, setModalVisible] = useState(false);
   // const openModal = () => {

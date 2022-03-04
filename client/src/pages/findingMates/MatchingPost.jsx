@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import UserAvatar from '../../components/common/UserAvatar';
 import MatchingModalButton from '../../components/common/MatchingModalButton';
 import ChatIcon from '@mui/icons-material/Chat';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import axios from 'axios';
+
 const MatchingPostWrapper = styled.section`
   display: flex;
   justify-content: center;
@@ -54,6 +56,19 @@ const marginStyle2 = {
 };
 
 const MatchingPost = ({ item, loadingItem }) => {
+
+  const navigate = useNavigate();
+  console.log("item", item);
+  const addChat = () => {
+     axios.post('http://localhost:3001/chat/add', {
+      matchId : item[0].matchId,
+      participant:localStorage.getItem("userId")
+    }).then((res) => {
+      if (res.status == 200) {
+        console.log('re', res)
+      }
+    });
+  }
   return (
     <MatchingPostWrapper>
       {loadingItem && 'loading...'}
@@ -89,7 +104,7 @@ const MatchingPost = ({ item, loadingItem }) => {
           <h6 style={marginStyle2}>(펫정보)):{item[0].selectPet}</h6>
           <h6 style={marginStyle2}>코코 | 3살 | 강아지 | 포메라니안</h6>
           <StyledButton style={marginStyle1}>
-            <StyledLink to="/chatting">
+            <StyledLink to="/chatting" onClick={addChat}>
               <h3>채팅하기</h3>
               <ChatIcon sx={{ top: 100 }} />
             </StyledLink>
