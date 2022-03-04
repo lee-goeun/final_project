@@ -62,10 +62,12 @@ const MatchingPost = ({ item, loadingItem }) => {
   const addChat = () => {
      axios.post('http://localhost:3001/chat/add', {
       matchId : item[0].matchId,
-      participant:localStorage.getItem("userId")
+      userId : item[0].userId, // 게시글 작성자
+      participant:localStorage.getItem("userId") // 로그인 사람
     }).then((res) => {
       if (res.status == 200) {
-        console.log('re', res)
+        alert('채팅에 참여했습니다.');
+        navigate('/chatting');
       }
     });
   }
@@ -104,7 +106,7 @@ const MatchingPost = ({ item, loadingItem }) => {
           <h6 style={marginStyle2}>(펫정보)):{item[0].selectPet}</h6>
           <h6 style={marginStyle2}>코코 | 3살 | 강아지 | 포메라니안</h6>
           <StyledButton style={marginStyle1}>
-            <StyledLink to="/chatting" onClick={addChat}>
+            <StyledLink to="" onClick={addChat}>
               <h3>채팅하기</h3>
               <ChatIcon sx={{ top: 100 }} />
             </StyledLink>

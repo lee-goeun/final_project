@@ -1,3 +1,4 @@
+
 const express = require("express");
 const conn = require("../db/index");
 const router = express.Router();
@@ -51,7 +52,7 @@ router.post('/add',(req,res) => {
             }else{
                 //참여하고 있지 않은 아이디만 추가
                 var sql = "insert into chatroomTbl(matchId, userId, participant) VALUES(?, ?, ?)";
-                conn.query(sql, [body.matchId, body.userId, participant],(err, results) => {
+                conn.query(sql, [body.matchId, body.userId, body.participant],(err, results) => {
                     if(err) res.json({success:false, err});
                     else res.json({status:"success"});
                 })
