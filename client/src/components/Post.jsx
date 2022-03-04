@@ -163,7 +163,9 @@ const PostContainer = ({
   // 좋아요 버튼(하트) 클릭시
   const clickLike = (e) => {
     setIsLike(!isLike);
-    // axios.post(`http://localhost:3001/board/post/=?/like`);
+    axios
+      .post(`http://localhost:3001/board/post/13/like`)
+      .then((res) => console.log(res.data));
   };
   const clickGoToCommnet = (e) => {
     commentInput.current.focus();
@@ -419,45 +421,46 @@ const MiniPostContainer = () => {
     <>
       {gPostList.map((p) => (
         <>
-          <div
-            key={p.boardId}
-            className="mini-post-container"
-            onClick={() => {
-              // console.log(p.boardId);
-              navigate(`post/?postId=${p.boardId}`);
-            }}
-          >
-            <div className="mpimg-container">
-              <img
-                src={
-                  'http://localhost:3001/board/download?boardImgName=' +
-                  p.boardImgList[0]
-                }
-              />
-            </div>
-            <div className="content-container">
-              <span>
-                {p.boardGood}
-                <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
-              </span>
-              {/* <span>
+          <Link to={'post/' + p.boardId}>
+            <div
+              key={p.boardId}
+              className="mini-post-container"
+              onClick={() => {
+                console.log(p.boardId);
+              }}
+            >
+              <div className="mpimg-container">
+                <img
+                  src={
+                    'http://localhost:3001/board/download?boardImgName=' +
+                    p.boardImgList[0]
+                  }
+                />
+              </div>
+              <div className="content-container">
+                <span>
+                  {p.boardGood}
+                  <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
+                </span>
+                {/* <span>
                 {p.boardTitle}
                 <FontAwesomeIcon
                   icon={borderComment}
                   id="border-comment-icon"
                 />
               </span> */}
-              <span>
-                {p.boardViews}
-                <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
-              </span>
-            </div>
-            {p.multipleImg && (
-              <div className="imgs-info">
-                <FontAwesomeIcon icon={faClone} id="multiple-img-icon" />
+                <span>
+                  {p.boardViews}
+                  <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
+                </span>
               </div>
-            )}
-          </div>
+              {p.multipleImg && (
+                <div className="imgs-info">
+                  <FontAwesomeIcon icon={faClone} id="multiple-img-icon" />
+                </div>
+              )}
+            </div>
+          </Link>
         </>
       ))}
     </>

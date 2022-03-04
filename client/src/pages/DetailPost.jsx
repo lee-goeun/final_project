@@ -2,7 +2,7 @@ import { PostContainer } from '../components/Post';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
 
@@ -34,16 +34,14 @@ const DetailStyle = styled.div`
 `;
 
 const DetailPost = () => {
-  const searchParam = useSearchParams();
+  // useEffect(() => {
+  //   const postId = searchParam.get('postId');
+  //   console.log(postId);
 
-  useEffect(() => {
-    const postId = searchParam.get('postId');
-    console.log(postId);
-
-    axios
-      .get(`http://localhost:3001/board/post/${postId}`)
-      .then((res) => console.log(res));
-  }, []);
+  //   axios
+  //     .get(`http://localhost:3001/board/post/${postId}`)
+  //     .then((res) => console.log(res));
+  // }, []);
 
   return (
     <div>
