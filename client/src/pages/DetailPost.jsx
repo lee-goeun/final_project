@@ -52,8 +52,16 @@ const DetailPost = () => {
   return (
     <div>
       <DetailStyle>
-        <PostContainer />
-        <Link to="/post">
+        <PostContainer
+          boardImgList={getBoard.boardImgList}
+          userId={getBoard.userId}
+          boardTitle={getBoard.boardTitle}
+          boardContent={getBoard.boardContent}
+          boardGood={getBoard.boardGood}
+          boardViews={getBoard.boardViews}
+          boardCreated={getBoard.boardCreated}
+        />
+        <Link to="/board">
           <FontAwesomeIcon
             icon={faCircleArrowLeft}
             className="back-to-list-btn"

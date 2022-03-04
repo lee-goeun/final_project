@@ -9,6 +9,7 @@ import {
   faBullhorn,
   faBookmark as fullBookmark,
   faSearch,
+  faFilter,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faHeart as borderHeart,
@@ -26,6 +27,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import styled from 'styled-components';
 import axios from 'axios';
+import Modal from './common/Modal';
 
 const CarouselStyle = styled.div`
   .carousel-img-container {
@@ -128,17 +130,14 @@ const CarouselStyle = styled.div`
 `;
 
 const PostContainer = ({
-  boardId,
-  categoryIndex,
   boardImgList = '',
   userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
-  userId = 'loading...',
+  userId,
   boardTitle,
   boardContent,
-  boardStatus,
-  boardGood = '0',
-  boardViews = '0',
-  boardCreated = '',
+  boardGood,
+  boardViews,
+  boardCreated,
 }) => {
   const settings = {
     slide: 'div',
@@ -208,13 +207,10 @@ const PostContainer = ({
               <Slider {...settings}>
                 <div>
                   <img
-                    src="https://news.imaeil.com/photos/2017/07/22/2017072200472647573_l.jpg"
-                    alt="이미지"
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://img2.quasarzone.co.kr/img/data/img/editor/1810/1810___2128580865.gif"
+                    src={
+                      'http://localhost:3001/board/download?boardImgName=' +
+                      boardImgList
+                    }
                     alt="이미지"
                   />
                 </div>
@@ -309,7 +305,9 @@ const PostContainer = ({
                 onClick={clickGoToCommnet}
               />
             </p>
-            <p>{boardCreated}</p>
+            <p>
+              {boardCreated.substr(0, 10)}　{boardCreated.substr(11, 5)}
+            </p>
           </div>
           <div className="pr06">
             <CommentContainer />
@@ -356,33 +354,39 @@ const PostContainer = ({
       ) : null}
 
       {showDeleteModal ? (
-        <div className="delete-modal">
-          <p>정말 게시물을 삭제하시겠습니까?</p>
-          <button
-            className="delete-cancel"
-            onClick={() => {
-              setShowDeleteModal(!showDeleteModal);
-            }}
-          >
-            취소
-          </button>
-          <button
-            className="delete-yes"
-            onClick={() => {
-              // boardId 값으로 변경해야함
-              axios.delete('http://localhost:3001/board/post/1').then((res) => {
-                console.log(res);
-                if (res.status === 200) {
-                  alert('게시물이 삭제되었습니다.');
-                  navigate('/board');
-                }
-              });
-              setShowDeleteModal(!showDeleteModal);
-            }}
-          >
-            삭제
-          </button>
-        </div>
+        <>
+          <Modal>
+            <div className="delete-modal">
+              <p>정말 게시물을 삭제하시겠습니까?</p>
+              <button
+                className="delete-cancel"
+                onClick={() => {
+                  setShowDeleteModal(!showDeleteModal);
+                }}
+              >
+                취소
+              </button>
+              <button
+                className="delete-yes"
+                onClick={() => {
+                  // boardId 값으로 변경해야함
+                  axios
+                    .delete('http://localhost:3001/board/post/7')
+                    .then((res) => {
+                      console.log(res);
+                      if (res.status === 200) {
+                        alert('게시물이 삭제되었습니다.');
+                        navigate('/board');
+                      }
+                    });
+                  setShowDeleteModal(!showDeleteModal);
+                }}
+              >
+                삭제
+              </button>
+            </div>
+          </Modal>
+        </>
       ) : null}
       {showEditPost ? (
         <div className="edit-post-modal">
@@ -616,11 +620,22 @@ const CommentContainer = () => {
 
 const PostBackground = () => {
   const uploadDiv = useRef();
+  const filterList = useRef();
+  const [isShowFilter, setIsShowFilter] = useState(false);
+
   const showText = () => {
     uploadDiv.current.style.height = '100px';
   };
   const hideText = () => {
     uploadDiv.current.style.height = '50px';
+  };
+  const showFilter = (e) => {
+    setIsShowFilter(!isShowFilter);
+    if (isShowFilter === false) {
+      filterList.current.style.width = '240px';
+    } else {
+      filterList.current.style.width = '0';
+    }
   };
 
   const [imgBase64, setImgBase64] = useState([]);
@@ -628,10 +643,7 @@ const PostBackground = () => {
   const [boardTitle, setBoardTitle] = useState('');
   const [boardContent, setBoardContent] = useState('');
 
-  useEffect(() => {
-    console.log('베이스64 : ' + imgBase64);
-    console.log('이미지파일 : ' + imgFile);
-  }, [imgBase64, imgFile]);
+  useEffect(() => {}, [imgBase64, imgFile]);
   const handleChangeFile = (e) => {
     console.log(e.target.files);
     setImgFile(e.target.files);
@@ -692,9 +704,18 @@ const PostBackground = () => {
     <>
       <div className="post-background">
         <div className="post-filter">
-          <div>
-            <span>최신순</span>｜<span>조회수 높은순</span>｜
-            <span>좋아요 높은순</span>
+          <div className="pf-left">
+            <div className="filter-btn" onClick={showFilter}>
+              <FontAwesomeIcon
+                icon={faFilter}
+                className="post-sort-filter-btn"
+              />
+              필터
+            </div>
+            <div className="filter-list" ref={filterList}>
+              <span>최신순</span>｜<span>조회수 높은순</span>｜
+              <span>좋아요 높은순</span>
+            </div>
           </div>
           <div>
             <form>

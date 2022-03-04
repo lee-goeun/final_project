@@ -156,6 +156,9 @@
   margin-right: 10px;
   color: #727272;
 }
+.pr05 > p:last-child {
+  font-size: 13px;
+}
 .pr06 {
   grid-area: pr06;
   overflow-y: auto;
@@ -633,6 +636,35 @@
   padding-top: 50px;
 }
 .post-filter > span:hover {
+  color: black;
+}
+.pf-left {
+  display: flex;
+  line-height: 30px;
+  cursor: pointer;
+}
+.filter-btn {
+  color: var(--font-dark);
+  padding: 0 10px 0 5px;
+}
+.filter-btn:hover .post-sort-filter-btn {
+  color: var(--accent-default);
+}
+.post-sort-filter-btn {
+  margin-right: 10px;
+  transition: 0.3s;
+}
+.filter-list {
+  font-size: 14px;
+  width: 0;
+  overflow: hidden;
+  transition: 0.3s;
+  line-height: 32px;
+}
+.filter-list > span {
+  transition: 0.3s;
+}
+.filter-list > span:hover {
   color: black;
 }
 .post-list {
