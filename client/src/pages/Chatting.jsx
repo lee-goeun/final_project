@@ -42,7 +42,7 @@ const Chatting = () => {
       setChatUserList(res.data);
     });
   }, []);
-  console.log("user", chatUserList);
+  console.log('user', chatUserList);
   // const chatUserList = [
   //   {
   //     id: '2477',
@@ -87,11 +87,11 @@ const Chatting = () => {
             ))}
           </div>
           <div className="cl-right">
-            <div className="cl-icon-box">
+            {/* <div className="cl-icon-box">
               <FontAwesomeIcon icon={faTelegram} className="b-message-icon" />
               <p>친구들과 채팅을 시작해 보세요!</p>
-            </div>
-            {/* <ChattingRoom /> */}
+            </div> */}
+            <ChattingRoom></ChattingRoom>
           </div>
         </div>
       </ChattingPageStyle>
