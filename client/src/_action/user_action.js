@@ -23,7 +23,7 @@ export function signupUser(dataToSubmit){
 }
 
 export function auth(){
-  const request = axios.get('/api/user/auth').then(response => response.data)
+  const request = axios.get('/api/auth/auth').then(response => response.data)
   return {
     type : AUTH_USER,
     payload : request

@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Carousel from '../../components/common/Carousel';
 import SearchIcon from '@mui/icons-material/Search';
 import CreateIcon from '@mui/icons-material/Create';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { useDispatch } from 'react-redux'; 
 
 const Post = ({ post }) => {
+  const dispatch = useDispatch(); 
   // 모달형식으로 링크작업 추후
   // const [modalVisible, setModalVisible] = useState(false);
   // const openModal = () => {
@@ -15,6 +17,13 @@ const Post = ({ post }) => {
   // const closeModal = () => {
   //   setModalVisible(false);
   // };
+
+  React.useEffect(() => {
+    console.log('test');
+    dispatch().then(res => {
+      console.log('resSSSSSSSs', res);
+    })
+  })
 
   return (
     <StyledLink to={'/match/detail/' + post.matchId}>
