@@ -185,4 +185,24 @@ router.put('/del/:id', (req, res) => {
   });
 });
 
+//관심목록 추가
+router.post('/like', (req, res) => {
+  let body = req.body;
+  var sql = 'INSERT INTO marketLikeTbl(marketId, userId) VALUES(?,?);';
+  conn.query(sql, [body.marketId, body.userId], (err, results) => {
+    if(err) return res.json({success: false, err});
+    else res.json({status:"success"});
+  })
+})
+
+//관심목록 삭제
+router.post('/delLike', (req, res) => {
+  let body = req.body;
+  var sql = 'delete from marektLikeTbl where marketId = ? and userId = ?;';
+  conn.query(sql, [body.marketId, body.userId], (err, results) => {
+    if(err) return res.json({success: false, err});
+    else res.json({status:"success"});
+  })
+})
+
 module.exports = router;
