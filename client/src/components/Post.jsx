@@ -130,6 +130,7 @@ const CarouselStyle = styled.div`
 `;
 
 const PostContainer = ({
+  boardId,
   boardImgList = '',
   userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
   userId,
@@ -159,13 +160,6 @@ const PostContainer = ({
 
   const navigate = useNavigate();
 
-  // 좋아요 버튼(하트) 클릭시
-  const clickLike = (e) => {
-    setIsLike(!isLike);
-    axios
-      .post(`http://localhost:3001/board/post/13/like`)
-      .then((res) => console.log(res.data));
-  };
   const clickGoToCommnet = (e) => {
     commentInput.current.focus();
   };
@@ -267,14 +261,21 @@ const PostContainer = ({
                   icon={faHeart}
                   id="heart-btn"
                   title="좋아요 취소"
-                  onClick={clickLike}
+                  onClick={() => {
+                    setIsLike(!isLike);
+                  }}
                 />
               ) : (
                 <FontAwesomeIcon
                   icon={borderHeart}
                   id="border-heart-btn"
                   title="좋아요"
-                  onClick={clickLike}
+                  onClick={() => {
+                    setIsLike(!isLike);
+                    axios
+                      .post(`http://localhost:3001/board/post/${boardId}/like`)
+                      .then((res) => console.log(res.data));
+                  }}
                 />
               )}
               <span className="counting">{boardGood}</span>
@@ -355,37 +356,35 @@ const PostContainer = ({
 
       {showDeleteModal ? (
         <>
-          <Modal>
-            <div className="delete-modal">
-              <p>정말 게시물을 삭제하시겠습니까?</p>
-              <button
-                className="delete-cancel"
-                onClick={() => {
-                  setShowDeleteModal(!showDeleteModal);
-                }}
-              >
-                취소
-              </button>
-              <button
-                className="delete-yes"
-                onClick={() => {
-                  // boardId 값으로 변경해야함
-                  axios
-                    .delete('http://localhost:3001/board/post/7')
-                    .then((res) => {
-                      console.log(res);
-                      if (res.status === 200) {
-                        alert('게시물이 삭제되었습니다.');
-                        navigate('/board');
-                      }
-                    });
-                  setShowDeleteModal(!showDeleteModal);
-                }}
-              >
-                삭제
-              </button>
-            </div>
-          </Modal>
+          <div className="delete-modal">
+            <p>정말 게시물을 삭제하시겠습니까?</p>
+            <button
+              className="delete-cancel"
+              onClick={() => {
+                setShowDeleteModal(!showDeleteModal);
+              }}
+            >
+              취소
+            </button>
+            <button
+              className="delete-yes"
+              onClick={() => {
+                // boardId 값으로 변경해야함
+                axios
+                  .delete(`http://localhost:3001/board/post/${boardId}`)
+                  .then((res) => {
+                    console.log(res);
+                    if (res.status === 200) {
+                      alert('게시물이 삭제되었습니다.');
+                      navigate('/board');
+                    }
+                  });
+                setShowDeleteModal(!showDeleteModal);
+              }}
+            >
+              삭제
+            </button>
+          </div>
         </>
       ) : null}
       {showEditPost ? (

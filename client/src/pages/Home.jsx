@@ -5,6 +5,7 @@ import { PostContainer } from '../components/Post';
 import styled from 'styled-components';
 import Slider from 'react-slick';
 import axios from 'axios';
+import { width } from '@mui/system';
 
 const MainPageFooterStyle = styled.div`
   .main-body-div {
@@ -59,6 +60,7 @@ const Home = () => {
   return (
     <>
       <Header />
+
       <MainPageFooterStyle>
         <div className="main-body-div">
           <Slider {...centerModeSettings}>
@@ -66,6 +68,7 @@ const Home = () => {
               <div className="center-carousel">
                 <PostContainer
                   key={po.boardId}
+                  boardId={po.boardId}
                   userId={po.userId}
                   boardImgList={po.boardImgList}
                   boardTitle={po.boardTitle}
