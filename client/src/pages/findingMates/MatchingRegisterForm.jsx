@@ -7,7 +7,7 @@ import Button from '../../components/common/Button';
 import {
   changeInput,
   initializeForm,
-  writeMatchItem,
+  writeMatchPost,
 } from '../../redux/modules/matching';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
@@ -98,7 +98,7 @@ const MatchingRegisterForm = () => {
       }
     }
     formData.append('token', localStorage.getItem('token'));
-    dispatch(writeMatchItem(formData), [dispatch]);
+    dispatch(writeMatchPost(formData), [dispatch]);
   };
 
   return (

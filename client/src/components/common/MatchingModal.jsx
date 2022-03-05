@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteMatchItem } from '../../redux/modules/matching';
+import { deleteMatchPost } from '../../redux/modules/matching';
 import { useNavigate } from 'react-router-dom';
 
 const ModalWrapper = styled.div`
@@ -60,10 +60,8 @@ const MatchingModal = ({
     }
   };
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-  const post = useSelector((state) => state.matching.item);
-  console.log(post[0]);
+  const post = useSelector((state) => state.matching.post);
 
   const close = (e) => {
     if (onClose) {
@@ -77,7 +75,7 @@ const MatchingModal = ({
   };
 
   const onDelete = () => {
-    dispatch(deleteMatchItem(post[0].matchId), [dispatch]);
+    dispatch(deleteMatchPost(post[0].matchId), [dispatch]);
     navigate('/match/list');
   };
 

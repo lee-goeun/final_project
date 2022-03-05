@@ -11,17 +11,19 @@ const INITIALIZE_FORM = 'matching/INITIALIZE_FORM';
 const WRITE_POST = 'matching/WRITE_POST';
 const WRITE_POST_SUCCESS = 'matching/WRITE_POST_SUCCESS';
 
-const UPDATE_ITEM = 'matching/UPDATE_ITEM';
-const UPDATE_ITEM_SUCCESS = 'matching/UPDATE_ITEM_SUCCESS';
+//현재 읽고 있는 포스트를 init state에넣음(ITEM=POST나중에 변경예정)
+// const SET_ORIGINAL_POST = 'matching/SET_ORIGINAL_POST';
+const UPDATE_POST = 'matching/UPDATE_POST';
+const UPDATE_POST_SUCCESS = 'matching/UPDATE_POST_SUCCESS';
 
 const GET_LIST = 'matching/GET_LIST';
 const GET_LIST_SUCCESS = 'matching/GET_LIST_SUCCESS';
 
-const GET_ITEM = 'matching/GET_ITEM';
-const GET_ITEM_SUCCESS = 'matching/GET_ITEM_SUCCESS';
+const GET_POST = 'matching/GET_POST';
+const GET_POST_SUCCESS = 'matching/GET_POST_SUCCESS';
 
-const DELETE_ITEM = 'matching/DELETE_ITEM';
-const DELETE_ITEM_SUCCESS = 'matching/DELETE_ITEM_SUCCESS';
+const DELETE_POST = 'matching/DELETE_POST';
+const DELETE_POST_SUCCESS = 'matching/DELETE_POST_SUCCESS';
 
 //action creator
 export const changeInput = createAction(
@@ -41,32 +43,33 @@ export const changeInputImage = createAction(
   ({ form, uploaded }) => ({ form, uploaded }),
 );
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
-export const writeMatchItem = createRequestThunk(
+export const writeMatchPost = createRequestThunk(
   WRITE_POST,
-  api.writeMatchItem,
+  api.writeMatchPost,
+);
+// export const setOriginalPost = createAction(SET_ORIGINAL_POST, post=>post)
+export const updateMatchPost = createRequestThunk(
+  UPDATE_POST,
+  api.updateMatchPost,
 );
 export const getMatchList = createRequestThunk(GET_LIST, api.getMatchList);
-export const getMatchItem = createRequestThunk(GET_ITEM, api.getMatchItem);
-export const deleteMatchItem = createRequestThunk(
-  DELETE_ITEM,
-  api.deleteMatchItem,
-);
-export const updateMatchItem = createRequestThunk(
-  UPDATE_ITEM,
-  api.updateMatchItem,
+export const getMatchPost = createRequestThunk(GET_POST, api.getMatchPost);
+export const deleteMatchPost = createRequestThunk(
+  DELETE_POST,
+  api.deleteMatchPost,
 );
 
 //init state
 const initialState = {
   loading: {
     GET_LIST: false,
-    GET_ITEM: false,
-    DELETE_ITEM: false,
+    GET_POST: false,
+    DELETE_POST: false,
     WRITE_POST: false,
   },
 
   list: null,
-  item: null,
+  post: null,
   res: null,
 
   write: {
@@ -123,21 +126,21 @@ const matching = handleActions(
       },
       list: action.payload,
     }),
-    [GET_ITEM_SUCCESS]: (state, action) => ({
+    [GET_POST_SUCCESS]: (state, action) => ({
       ...state,
       loading: {
         ...state.loading,
-        GET_ITEM: false,
+        GET_POST: false,
       },
-      item: action.payload,
+      post: action.payload,
     }),
-    [DELETE_ITEM_SUCCESS]: (state, action) => ({
+    [DELETE_POST_SUCCESS]: (state, action) => ({
       ...state,
       loading: {
         ...state.loading,
-        DELETE_ITEM: false,
+        DELETE_POST: false,
       },
-      item: action.payload,
+      post: action.payload,
     }),
   },
   initialState,

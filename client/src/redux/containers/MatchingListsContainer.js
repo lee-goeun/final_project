@@ -1,14 +1,9 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import MatchingLists from '../../pages/findingMates/MatchingLists';
-import { getMatchList, getMatchItem } from '../modules/matching';
+import { getMatchList } from '../modules/matching';
 
-const MatchingListsContainer = ({
-  getMatchList,
-  getMatchItem,
-  list,
-  loadingList,
-}) => {
+const MatchingListsContainer = ({ getMatchList, list, loadingList }) => {
   useEffect(() => {
     //useEffect안에서 async 사용을 위해 fn생성
     const fn = async () => {
@@ -20,7 +15,7 @@ const MatchingListsContainer = ({
       }
     };
     fn();
-  }, [getMatchList, getMatchItem]);
+  }, [getMatchList]);
 
   return <MatchingLists list={list} loadingList={loadingList} />;
 };
