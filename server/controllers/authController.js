@@ -27,6 +27,8 @@ exports.join = (req, res) => {
     userName,
     userEmail,
     userPw,
+    userAge,
+    userSex
   } = req.body;
   // 사용자 아이디가 존재하는지 확인
   const query = 'SELECT userId FROM usertbl WHERE userId = ?;';
@@ -40,7 +42,7 @@ exports.join = (req, res) => {
     console.log(hashedPasword);
     // const create = Now(); , regDate:create
 
-    // 아이디, 닉네임, 핸드폰 번호, 우편번호, 주소, 지역(시도), 지역(구), 지역(동), 상세주소, 추가주소, 이름, 이메일, 암호화 비밀번호[기존 비밀번호랑 대조]
+    // 아이디, 닉네임, 핸드폰 번호, 우편번호, 주소, 지역(시도), 지역(구), 지역(동), 상세주소, 추가주소, 이름, 이메일, 암호화 비밀번호[기존 비밀번호랑 대조], 체크박스 유효성 검사 필요합니다
     db.query(
       'INSERT INTO usertbl set ?',
       {
@@ -57,6 +59,10 @@ exports.join = (req, res) => {
         userName: userName,
         userEmail: userEmail,
         userPw: hashedPasword,
+        userAge:userAge,
+        locationAgree:true,
+        serviceAgree:true,
+        userSex:userSex
       },
       (err, results) => {
         if (err) {

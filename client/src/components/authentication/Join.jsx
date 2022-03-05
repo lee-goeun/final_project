@@ -364,7 +364,7 @@ const Join = () => {
           <input
             ref={tou1}
             type="checkbox"
-            name="location_agree"
+            name="locationAgree"
             id="lo-agree"
           />
           <label htmlFor="lo-agree">
@@ -376,7 +376,7 @@ const Join = () => {
           <input
             ref={tou2}
             type="checkbox"
-            name="service_ agree"
+            name="serviceAgree"
             id="svc-agree"
           />
           <label htmlFor="svc-agree">서비스 이용약관에 동의합니다.</label>
