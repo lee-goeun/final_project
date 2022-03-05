@@ -71,10 +71,16 @@ const MatchingModal = ({
     }
   };
 
+  const onUpdate = () => {
+    // dispatch(setOriginalPost(post))
+    navigate('/match/add');
+  };
+
   const onDelete = () => {
     dispatch(deleteMatchItem(post[0].matchId), [dispatch]);
     navigate('/match/list');
   };
+
   return (
     <>
       <ModalOverlay visible={visible} />
@@ -86,7 +92,7 @@ const MatchingModal = ({
       >
         <ModalInner tabIndex="0" className="modal-inner">
           <h3>{children}</h3>
-          <Button className="matching-modal-update" onClick={close}>
+          <Button className="matching-modal-update" onClick={onUpdate}>
             수정
           </Button>
           <Button className="matching-modal-delete" onClick={onDelete}>

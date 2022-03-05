@@ -8,6 +8,11 @@ const CHANGE_INPUT = 'matching/CHANGE_INPUT';
 const CHANGE_INPUT_TIME = 'matching/CHANGE_INPUT_TIME';
 const CHANGE_INPUT_IMAGE = 'matching/CHANGE_INPUT_IMAGE';
 const INITIALIZE_FORM = 'matching/INITIALIZE_FORM';
+const WRITE_POST = 'matching/WRITE_POST';
+const WRITE_POST_SUCCESS = 'matching/WRITE_POST_SUCCESS';
+
+const UPDATE_ITEM = 'matching/UPDATE_ITEM';
+const UPDATE_ITEM_SUCCESS = 'matching/UPDATE_ITEM_SUCCESS';
 
 const GET_LIST = 'matching/GET_LIST';
 const GET_LIST_SUCCESS = 'matching/GET_LIST_SUCCESS';
@@ -17,9 +22,6 @@ const GET_ITEM_SUCCESS = 'matching/GET_ITEM_SUCCESS';
 
 const DELETE_ITEM = 'matching/DELETE_ITEM';
 const DELETE_ITEM_SUCCESS = 'matching/DELETE_ITEM_SUCCESS';
-
-const UPDATE_ITEM = 'matching/UPDATE_ITEM';
-const UPDATE_ITEM_SUCCESS = 'matching/UPDATE_ITEM_SUCCESS';
 
 //action creator
 export const changeInput = createAction(
@@ -39,6 +41,10 @@ export const changeInputImage = createAction(
   ({ form, uploaded }) => ({ form, uploaded }),
 );
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
+export const writeMatchItem = createRequestThunk(
+  WRITE_POST,
+  api.writeMatchItem,
+);
 export const getMatchList = createRequestThunk(GET_LIST, api.getMatchList);
 export const getMatchItem = createRequestThunk(GET_ITEM, api.getMatchItem);
 export const deleteMatchItem = createRequestThunk(
@@ -56,10 +62,12 @@ const initialState = {
     GET_LIST: false,
     GET_ITEM: false,
     DELETE_ITEM: false,
+    WRITE_POST: false,
   },
 
   list: null,
   item: null,
+  res: null,
 
   write: {
     matchTitle: '',
@@ -81,7 +89,7 @@ const initialState = {
 //reducer
 const matching = handleActions(
   {
-    //form change write
+    //form change write/update
     [CHANGE_INPUT]: (state, { payload: { form, name, value } }) =>
       produce(state, (draft) => {
         draft[form][name] = value;
@@ -99,6 +107,14 @@ const matching = handleActions(
       [form]: initialState[form],
     }),
     //api request
+    [WRITE_POST_SUCCESS]: (state, action) => ({
+      ...state,
+      loading: {
+        ...state.loading,
+        WRITE_POST: false,
+      },
+      res: action.payload,
+    }),
     [GET_LIST_SUCCESS]: (state, action) => ({
       ...state,
       loading: {

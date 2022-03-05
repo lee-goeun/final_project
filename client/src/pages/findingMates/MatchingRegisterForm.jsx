@@ -4,7 +4,11 @@ import AImageFIleInput from '../../components/common/AImageFileInput';
 import AImageViewer from '../../components/common/AImageViewer';
 import BasicDateTimePicker from '../../components/common/BasicDateTimePicker';
 import Button from '../../components/common/Button';
-import { changeInput, initializeForm } from '../../redux/modules/matching';
+import {
+  changeInput,
+  initializeForm,
+  writeMatchItem,
+} from '../../redux/modules/matching';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
@@ -12,7 +16,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const FormWrapper = styled.form`
@@ -47,9 +50,15 @@ const MatchingRegisterForm = () => {
   const formData = new FormData();
 
   // form 초기화 정보 가져오기(update시)
-  // const { form } = useSelector(({ matching }) => ({
-  //   form: matching.write,
-  // }));
+  const { form } = useSelector(({ matching }) => ({
+    form: matching.write,
+  }));
+  const res = useSelector((state) => state.matching.res);
+  if (res) {
+    if (res.status === 'success') {
+      navigate('/match/list');
+    }
+  }
 
   useEffect(() => {
     dispatch(initializeForm('write'));
@@ -77,10 +86,6 @@ const MatchingRegisterForm = () => {
 
   const appendingFormData = (receivedFormData) => {
     setContent(receivedFormData);
-    //formData객체확인
-    // for (var pair of formData.entries()) {
-    //   console.log(`key:${pair[0]}, value:${pair[1]}`);
-    // }
   };
 
   const submitPost = async (e) => {
@@ -93,23 +98,7 @@ const MatchingRegisterForm = () => {
       }
     }
     formData.append('token', localStorage.getItem('token'));
-    //formData.append('json', JSON.stringify({ contents }));
-    //이미지 업후 내용수정시 반영안되는 버그수정필요
-
-    for (var pair of formData.entries()) {
-      console.log(`key:${pair[0]}, value:${pair[1]}`);
-    }
-    axios({
-      method: 'post',
-      url: 'http://localhost:3001/match/add',
-      data: formData,
-    }).then((data) => {
-      if (data.status == 200) {
-        alert('게시글이 업로드되었습니다.');
-        navigate('/match/list');
-      }
-      console.log('data', data);
-    });
+    dispatch(writeMatchItem(formData), [dispatch]);
   };
 
   return (

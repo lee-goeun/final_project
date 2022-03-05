@@ -111,10 +111,10 @@ const Carousel = () => {
 
   const settings = {
     dots: false,
-    infinite: timeoutList.length > 4,
+    infinite: timeoutList.length > 5,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 2,
+    slidesToScroll: 1,
     variableWidth: true,
     arrow: true,
     nextArrow: <SampleNextArrow />,
