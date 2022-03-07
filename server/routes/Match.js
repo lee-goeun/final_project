@@ -8,9 +8,8 @@ const crypto = require('crypto');
 //파일 업로드용 미들웨어
 const multer = require('multer');
 const fs = require('fs');
-const axios  = require('axios');
+const axios = require('axios');
 const jwt = require('jsonwebtoken');
-
 
 var matchStorage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -31,7 +30,7 @@ var ocrStorage = multer.diskStorage({
 });
 
 const matchUpload = multer({ storage: matchStorage });
-const ocrUpload = multer({storage:ocrStorage});
+const ocrUpload = multer({ storage: ocrStorage });
 
 //조회(검색)
 router.get('/list', (req, res) => {
@@ -74,19 +73,19 @@ router.post('/add', matchUpload.single('matchImgName'), (req, res) => {
   console.log('req', req.headers);
   console.log('req', req.body);
   //const token = req.cookies.jwt;
-  var userId = "";  
-  var region1 = "";
-  var region2 = "";
-  var region3 = "";
-  
-  jwt.verify(req.body.token, process.env.JWT_SECRET, function(err,decode){
-    console.log('ssss',decode);
+  var userId = '';
+  var region1 = '';
+  var region2 = '';
+  var region3 = '';
+
+  jwt.verify(req.body.token, process.env.JWT_SECRET, function (err, decode) {
+    console.log('ssss', decode);
     userId = decode.userId;
     region1 = decode.region1;
     region2 = decode.region2;
     region3 = decode.region3;
   });
-  
+
   //console.log('tokenResult', tokenResult);
   var body = req.body;
   var filename = req.file.originalname;
@@ -104,7 +103,7 @@ router.post('/add', matchUpload.single('matchImgName'), (req, res) => {
       body.matchTime,
       region1,
       region2,
-      region3
+      region3,
     ],
     (err, results) => {
       if (err) return res.json({ success: false, err });
@@ -139,55 +138,64 @@ router.post('/add', matchUpload.single('matchImgName'), (req, res) => {
 });
 
 //신분확인(ocr기능)
-router.get('/confirmId', ocrUpload.single('idCard'), (req,res) => {
-  console.log('req',req.file);
+router.get('/confirmId', ocrUpload.single('idCard'), (req, res) => {
+  console.log('req', req.file);
   //이미지 인코딩
   let readFile = fs.readFileSync(req.file.path);
   let encode = Buffer.from(readFile).toString('base64');
 
-  const apiURL = "https://yc2zdolfbc.apigw.ntruss.com/custom/v1/14471/4d0fecd9abbb9baf72dc48c4317fdff307aec28cc83e268e49b6cc94c1cd13de/infer";
-  
+  const apiURL =
+    'https://yc2zdolfbc.apigw.ntruss.com/custom/v1/14471/4d0fecd9abbb9baf72dc48c4317fdff307aec28cc83e268e49b6cc94c1cd13de/infer';
+
   axios({
-    method : "post",
-    url : apiURL,
-    headers : {
-      "Content-Type" : "application/json",
-      "X-OCR-SECRET" : "aURGRmpuSlJSdFZaanNsU3NmbHBhSmlWTWVOaFNXb3Q="
+    method: 'post',
+    url: apiURL,
+    headers: {
+      'Content-Type': 'application/json',
+      'X-OCR-SECRET': 'aURGRmpuSlJSdFZaanNsU3NmbHBhSmlWTWVOaFNXb3Q=',
     },
     data: {
-      "version": "V1",
-      "requestId": "string",
-      "timestamp": 0,
-      "lang":"ko",
-      "images": [
+      version: 'V1',
+      requestId: 'string',
+      timestamp: 0,
+      lang: 'ko',
+      images: [
         {
-          "format": "jpg",
-          "name": req.file.fieldname,
-          "data": encode,
-          "templateIds":[13997]
-        }
-      ]
-    }
-  }).then(ocrRes => {
-    const idNumber = ocrRes.data.images[0].fields[1].inferText;
-    const idNumArr = idNumber.split('-');
-
-    console.log(idNumArr[1].substring(0,1));
-    //유효성검사영역 : title, 주민번호 길이, 주민번호 앞자리 뒷자리 길이, 성별(0 || 1) 
-    if(ocrRes.data.images[0].title.name == '주민등록증' && idNumber.length == 14 && idNumArr[0].length == 6 && idNumArr[1].length == 7 && (idNumArr[1].substring(0,1) == 1 || idNumArr[1].substring(0,1) == 2)){
-      return res.json({
-        status:"valid",
-        name : ocrRes.data.images[0].fields[0].inferText.substring(0,3),
-        birth : idNumArr[0],
-        sex : idNumArr[1].substring(0,1),
-        address : ocrRes.data.images[0].fields[2].inferText
-      })
-    }else{
-      return res.json({status:"invalid"});
-    }
-  }).catch(ocrRes => {
-    console.log('err');
+          format: 'jpg',
+          name: req.file.fieldname,
+          data: encode,
+          templateIds: [13997],
+        },
+      ],
+    },
   })
+    .then((ocrRes) => {
+      const idNumber = ocrRes.data.images[0].fields[1].inferText;
+      const idNumArr = idNumber.split('-');
+
+      console.log(idNumArr[1].substring(0, 1));
+      //유효성검사영역 : title, 주민번호 길이, 주민번호 앞자리 뒷자리 길이, 성별(0 || 1)
+      if (
+        ocrRes.data.images[0].title.name == '주민등록증' &&
+        idNumber.length == 14 &&
+        idNumArr[0].length == 6 &&
+        idNumArr[1].length == 7 &&
+        (idNumArr[1].substring(0, 1) == 1 || idNumArr[1].substring(0, 1) == 2)
+      ) {
+        return res.json({
+          status: 'valid',
+          name: ocrRes.data.images[0].fields[0].inferText.substring(0, 3),
+          birth: idNumArr[0],
+          sex: idNumArr[1].substring(0, 1),
+          address: ocrRes.data.images[0].fields[2].inferText,
+        });
+      } else {
+        return res.json({ status: 'invalid' });
+      }
+    })
+    .catch((ocrRes) => {
+      console.log('err');
+    });
 });
 
 //이미지 읽어오는 경로
@@ -251,16 +259,16 @@ router.put('/mod', matchUpload.single('matchImgName'), (req, res) => {
       else {
         var newdir = 'matchImages/' + body.matchId + '/';
 
-          if (!fs.existsSync(newdir)) {
-            fs.mkdirSync(newdir);
-          }
+        if (!fs.existsSync(newdir)) {
+          fs.mkdirSync(newdir);
+        }
 
-          var oldPath = 'matchImages/temp/' + image;
-          var newPath = newdir + image;
+        var oldPath = 'matchImages/temp/' + image;
+        var newPath = newdir + image;
 
-          fs.rename(oldPath, newPath, function (err) {
-            if (err) throw err;
-            console.log('move success');
+        fs.rename(oldPath, newPath, function (err) {
+          if (err) throw err;
+          console.log('move success');
         });
 
         //TODO: 이전 이미지 삭제

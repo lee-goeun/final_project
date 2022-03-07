@@ -8,15 +8,11 @@ import Join from './components/authentication/Join';
 import { PostContainer, MiniPostContainer } from './components/Post';
 import PostPage from './pages/PostPage';
 import DetailPost from './pages/DetailPost';
-import WalkingMate from './pages/WalkingMate';
 import Chatting from './pages/Chatting';
 import UsedTrade from './pages/UsedTrade';
 import MatchingPageLayout from './layout/FindingMatesLayout';
-import MatchingLists from './pages/findingMates/MatchingLists';
 import MatchingListsContainer from './redux/containers/MatchingListsContainer';
 import WriteMatchingPost from './pages/findingMates/MatchingRegisterForm';
-
-import MatchingPost from './pages/findingMates/MatchingPost';
 import MatchingPostContainer from './redux/containers/MatchingPostContainer';
 
 function App() {

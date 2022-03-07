@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteMatchItem } from '../../redux/modules/matching';
+import { deleteMatchPost } from '../../redux/modules/matching';
 import { useNavigate } from 'react-router-dom';
+import { setOriginalPost } from '../../redux/modules/matching';
 
 const ModalWrapper = styled.div`
   box-sizing: border-box;
@@ -60,10 +61,8 @@ const MatchingModal = ({
     }
   };
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-  const post = useSelector((state) => state.matching.item);
-  console.log(post[0]);
+  const post = useSelector((state) => state.matching.post);
 
   const close = (e) => {
     if (onClose) {
@@ -71,10 +70,16 @@ const MatchingModal = ({
     }
   };
 
+  const onUpdate = () => {
+    dispatch(setOriginalPost(post[0]));
+    navigate('/match/add');
+  };
+
   const onDelete = () => {
-    dispatch(deleteMatchItem(post[0].matchId), [dispatch]);
+    dispatch(deleteMatchPost(post[0].matchId), [dispatch]);
     navigate('/match/list');
   };
+
   return (
     <>
       <ModalOverlay visible={visible} />
@@ -86,7 +91,7 @@ const MatchingModal = ({
       >
         <ModalInner tabIndex="0" className="modal-inner">
           <h3>{children}</h3>
-          <Button className="matching-modal-update" onClick={close}>
+          <Button className="matching-modal-update" onClick={onUpdate}>
             수정
           </Button>
           <Button className="matching-modal-delete" onClick={onDelete}>
