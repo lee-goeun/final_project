@@ -5,7 +5,18 @@ import { PostContainer } from '../components/Post';
 import styled from 'styled-components';
 import Slider from 'react-slick';
 import axios from 'axios';
-import { width } from '@mui/system';
+import { connect } from 'react-redux';
+import { axiosPost } from '../redux/modules/post/postActions';
+
+const mapStateToProps = ({ posts }) => {
+  return {
+    posts: posts,
+  };
+};
+
+const mapDispatchToProps = {
+  axiosPost,
+};
 
 const MainPageFooterStyle = styled.div`
   .main-body-div {
@@ -87,4 +98,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
