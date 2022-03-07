@@ -4,6 +4,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 // 레이아웃 체크용
 // const items = [
@@ -29,7 +30,7 @@ import axios from 'axios';
 //   },
 // ];
 
-const ImageContainer = styled.div`
+const StyledLink = styled(Link)`
   margin: 0 8px;
   width: 150px;
   height: 150px;
@@ -74,10 +75,16 @@ const StyledSlider = styled(Slider)`
     height: 150px;
     margin: 20px 60px 0 60px;
   }
-  .slick-list {
+  .slick-track {
+    top: 10%;
+    max-height: 250px;
+  }
+
+  /* .slick-list {
     display: flex;
     align-items: center;
-  }
+    flex-wrap: nowrap;
+  } */
   .slick-prev:before,
   .slick-next:before {
     display: block;
@@ -90,25 +97,24 @@ const StyledSlider = styled(Slider)`
     color: var(--accent-default);
   }
   .slick-prev {
-    left: 10%;
+    left: 7%;
     z-index: 999;
   }
   .slick-next {
-    right: 10%;
+    right: 7%;
     z-index: 999;
   }
 `;
 
 const Carousel = () => {
   const [timeoutList, setTimeoutList] = useState([]);
-  console.log(timeoutList.length);
 
   const getTimeoutList = async () => {
     let res = await axios.get('http://localhost:3001/match/listLimit1');
     console.log('res', res);
     setTimeoutList(res.data);
   };
-
+  // timeoutList.length > 5
   const settings = {
     dots: false,
     infinite: timeoutList.length > 5,
@@ -129,7 +135,10 @@ const Carousel = () => {
     <StyledSlider {...settings}>
       {timeoutList.map((timeout) => {
         return (
-          <ImageContainer key={timeout.matchId}>
+          <StyledLink
+            to={'/match/detail/' + timeout.matchId}
+            key={timeout.matchId}
+          >
             {timeout.id}
             <Image
               src={
@@ -139,11 +148,11 @@ const Carousel = () => {
                 timeout.matchImgName
               }
             />
-          </ImageContainer>
+          </StyledLink>
         );
       })}
-      {/*레이아웃 체크용
-        {items.map((item) => {
+      {/* 레이아웃 체크용 */}
+      {/* {items.map((item) => {
         return (
           <ImageContainer>
             {item.id}

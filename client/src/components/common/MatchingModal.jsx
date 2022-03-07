@@ -4,6 +4,7 @@ import Button from './Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteMatchPost } from '../../redux/modules/matching';
 import { useNavigate } from 'react-router-dom';
+import { setOriginalPost } from '../../redux/modules/matching';
 
 const ModalWrapper = styled.div`
   box-sizing: border-box;
@@ -70,7 +71,7 @@ const MatchingModal = ({
   };
 
   const onUpdate = () => {
-    // dispatch(setOriginalPost(post))
+    dispatch(setOriginalPost(post[0]));
     navigate('/match/add');
   };
 

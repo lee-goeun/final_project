@@ -4,6 +4,7 @@ import MatchingModalButton from '../../components/common/MatchingModalButton';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+
 const MatchingPostWrapper = styled.section`
   display: flex;
   justify-content: center;
@@ -88,7 +89,7 @@ const MatchingPost = ({ post, loadingPost }) => {
           <h6 style={marginStyle2}>(펫정보)):{post[0].selectPet}</h6>
           <h6 style={marginStyle2}>코코 | 3살 | 강아지 | 포메라니안</h6>
           <StyledButton style={marginStyle1}>
-            <StyledLink to="/chatting">
+            <StyledLink to="">
               <h3>채팅하기</h3>
               <ChatIcon sx={{ top: 100 }} />
             </StyledLink>

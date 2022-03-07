@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 // const ImageWrapper = styled.div`
@@ -17,8 +18,25 @@ const ImageWrapper = styled.img`
   margin: 0.5rem 3rem;
 `;
 
-const ImageViewer = ({ image }) => {
-  return <div>{image && <ImageWrapper src={image} alt="업로드 이미지" />}</div>;
+const ImageViewer = ({ post, imageUrl }) => {
+  console.log(post, imageUrl, '99999999999999999999999999999999999999');
+
+  return (
+    <div>
+      {(imageUrl && <ImageWrapper src={imageUrl} alt="업로드 이미지" />) ||
+        (post.imageUrl && (
+          <ImageWrapper src={post.imageUrl} alt="업로드 이미지" />
+        )) ||
+        (post.matchId && (
+          <ImageWrapper
+            //db에 있어야 name으로 불러올수가 있음
+            //얘를 state에 url로 넣어서 url로 처리를 하자.
+            src={`http://localhost:3001/match/download?matchId=${post.matchId}&matchImgName=${post.matchImgName}`}
+            alt="업로드 이미지"
+          />
+        ))}
+    </div>
+  );
 };
 
 export default ImageViewer;

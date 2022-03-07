@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changeInputTime } from '../../redux/modules/matching';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
-
-const moment = require('moment');
+import moment from 'moment';
 
 const StyledTextField = styled(TextField)`
   && {
@@ -15,23 +14,34 @@ const StyledTextField = styled(TextField)`
   }
 `;
 
-const BasicDateTimePicker = () => {
-  const [time, setTime] = useState(new Date());
+const BasicDateTimePicker = ({ post, matchTime }) => {
+  //기존포스트가 있는 경우:post전달 기존 포스트가 없는 경우:matchTime만 전달
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(changeInputTime({ form: 'write', time }), [dispatch]);
-  });
-
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DateTimePicker
         renderInput={(props) => <StyledTextField {...props} />}
         label="산책할 시간을 골라주세요"
-        value={time}
+        value={(post.matchId && post.matchTime) || matchTime}
         onChange={(newValue) => {
-          console.log('newValue', newValue);
-          setTime(moment(newValue).format('YYYY-MM-DD HH:mm'));
+          if (post.matchId) {
+            dispatch(
+              changeInputTime({
+                form: 'update',
+                // time: moment(newValue).format('YYYY-MM-DD HH:mm'),
+                time: newValue,
+              }),
+              [dispatch],
+            );
+          } else {
+            dispatch(
+              changeInputTime({
+                form: 'write',
+                time: moment(newValue).format('YYYY-MM-DD HH:mm'),
+              }),
+              [dispatch],
+            );
+          }
         }}
       />
     </LocalizationProvider>

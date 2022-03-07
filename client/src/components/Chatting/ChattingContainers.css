@@ -83,9 +83,11 @@
   justify-content: space-between;
 }
 .croom01 {
+  padding: 15px 0;
   width: 100%;
   height: 910px;
   background-color: rgb(127, 201, 209);
+  overflow: auto;
 }
 .croom02 {
   width: 100%;
@@ -96,4 +98,113 @@
   height: 40px;
   padding: 10px;
   border: 1px solid var(--bordercolor-default);
+}
+
+/* ChatBalloon */
+.left-chat-balloon {
+  margin: 0px 15px;
+  min-width: fit-content;
+  max-width: 300px;
+  min-height: fit-content;
+  max-height: fit-content;
+  padding: 0 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 50px fit-content fit-content;
+  grid-template-areas:
+    'lcb01'
+    'lcb02'
+    'lcb03';
+}
+.lcb01 {
+  grid-area: lcb01;
+  display: flex;
+  justify-content: space-between;
+}
+.lcb02 {
+  grid-area: lcb02;
+  width: fit-content;
+  max-width: 300px;
+  background-color: rgb(240, 240, 240);
+  padding: 20px 10px 5px 10px;
+  text-align: left;
+  clip-path: polygon(
+    0 15px,
+    15px 15px,
+    22px 5px,
+    29px 15px,
+    100% 15px,
+    100% 100%,
+    0 100%
+  );
+}
+.lcb03 {
+  grid-area: lcb03;
+  text-align: right;
+  padding-right: 5px;
+}
+.lcb01 h3 {
+  width: 80%;
+  text-align: left;
+  line-height: 50px;
+}
+.lcb01-imgcon {
+  width: 50px;
+  height: 50px;
+  border-radius: 30px;
+  overflow: hidden;
+}
+.lcb01-imgcon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rcb-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.right-chat-balloon {
+  position: relative;
+  margin: 0 15px;
+  min-width: fit-content;
+  max-width: 300px;
+  min-height: fit-content;
+  max-height: fit-content;
+  padding: 0 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: fit-content fit-content;
+  grid-template-areas:
+    'rcb01'
+    'rcb02';
+}
+.rcb01 {
+  grid-area: rcb01;
+  background-color: yellowgreen;
+  width: fit-content;
+  max-width: 300px;
+  background-color: rgb(240, 240, 240);
+  padding: 20px 10px 5px 10px;
+  text-align: left;
+  clip-path: polygon(
+    0 15px,
+    15px 15px,
+    22px 5px,
+    29px 15px,
+    100% 15px,
+    100% 100%,
+    0 100%
+  );
+  transform: scaleX(-1);
+}
+.rcb02 {
+  grid-area: rcb02;
+  text-align: left;
+  padding-left: 5px;
+}
+.rcb01 p {
+  transform: scaleX(-1);
 }

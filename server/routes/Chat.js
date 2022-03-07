@@ -1,3 +1,4 @@
+
 const express = require("express");
 const conn = require("../db/index");
 const router = express.Router();
@@ -41,12 +42,9 @@ router.post('/add',(req,res) => {
     console.log("req", req.body);
     var body = req.body;
 
-    //TODO : 로그인한 정보 넣기
-    var participant = "test02";
-
     //해당 아이디가 있는 지 확인하기
     conn.query("select * from chatroomTbl where chatroomDeleted = 0 and participant = ? and matchId = ?;",
-      [participant, body.matchId], (err, results) => {
+      [body.participant, body.matchId], (err, results) => {
         if(err) return res.json({success:false, err});
         else{
             if(results.length == 1){
@@ -54,7 +52,7 @@ router.post('/add',(req,res) => {
             }else{
                 //참여하고 있지 않은 아이디만 추가
                 var sql = "insert into chatroomTbl(matchId, userId, participant) VALUES(?, ?, ?)";
-                conn.query(sql, [body.matchId, body.userId, participant],(err, results) => {
+                conn.query(sql, [body.matchId, body.userId, body.participant],(err, results) => {
                     if(err) res.json({success:false, err});
                     else res.json({status:"success"});
                 })

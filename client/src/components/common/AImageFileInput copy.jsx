@@ -1,16 +1,19 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import Button from './Button';
-import { useDispatch } from 'react-redux';
-import { changeInputImage } from '../../redux/modules/matching';
 
 const StyledInput = styled.input`
   padding: 1rem;
   display: none;
 `;
 const AImageFIleInput = (props) => {
+  if (props.post.matchId) {
+    console.log(props.post, '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+    props.post.imageUrl = `http://localhost:3001/match/download?matchId=${props.post.matchId}&matchImgName=${props.post.matchImgName}`;
+  }
+
   const inputRef = useRef();
-  const dispatch = useDispatch();
+
   const changeProfileImg = () => {
     inputRef.current.click();
   };
@@ -19,22 +22,7 @@ const AImageFIleInput = (props) => {
     const uploaded = event.target.files[0];
     props.appendingFormData(uploaded);
     if (uploaded) {
-      if (props.post.matchId) {
-        dispatch(
-          changeInputImage({
-            form: 'update',
-            imgName: uploaded.name,
-            imgUrl: URL.createObjectURL(uploaded),
-          }),
-        );
-      } else {
-        dispatch(
-          changeInputImage({
-            form: 'write',
-            imgUrl: URL.createObjectURL(uploaded),
-          }),
-        );
-      }
+      props.imageUrl = URL.createObjectURL(uploaded);
     }
   };
 

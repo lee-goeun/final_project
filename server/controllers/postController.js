@@ -1,5 +1,5 @@
 const Post = require("../models/Post.js");
-
+const Comment = require("../models/Comment.js");
 const fs = require('fs');
 // const { post } = require("../routes/Match.js");
 const conn = require("../db/index.js");
@@ -145,9 +145,26 @@ exports.findOne = (req, res) => {
                 });
             }
         } else {
-            res.send(data);
+          Comment.find(req.params.postId, (err, comment) => {
+            if(err) {
+              if(err.kind === "not_found") {
+                  res.status(404).send({
+                      messge: `Not found Post with id ${req.params.postId}.`
+                  });
+              } else {
+                  res.status(500).send({
+                      message: "Error retrieving Post with id" + req.params.postId
+                  });
+              }
+            } else {
+                data.comment = comment;
+                res.send(data);
+            }
+          });
         }
     });
+
+    
 };
 
 //게시판 수정

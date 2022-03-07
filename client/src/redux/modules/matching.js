@@ -2,17 +2,18 @@ import { createAction, handleActions } from 'redux-actions';
 import produce from 'immer';
 import * as api from '../../lib/api';
 import createRequestThunk from '../../lib/createRequestThunk';
+import moment from 'moment';
 
 //action type
 const CHANGE_INPUT = 'matching/CHANGE_INPUT';
 const CHANGE_INPUT_TIME = 'matching/CHANGE_INPUT_TIME';
 const CHANGE_INPUT_IMAGE = 'matching/CHANGE_INPUT_IMAGE';
 const INITIALIZE_FORM = 'matching/INITIALIZE_FORM';
+
 const WRITE_POST = 'matching/WRITE_POST';
 const WRITE_POST_SUCCESS = 'matching/WRITE_POST_SUCCESS';
-
-//현재 읽고 있는 포스트를 init state에넣음(ITEM=POST나중에 변경예정)
-// const SET_ORIGINAL_POST = 'matching/SET_ORIGINAL_POST';
+//작성된포스트불러오기
+const SET_ORIGINAL_POST = 'matching/SET_ORIGINAL_POST';
 const UPDATE_POST = 'matching/UPDATE_POST';
 const UPDATE_POST_SUCCESS = 'matching/UPDATE_POST_SUCCESS';
 
@@ -21,6 +22,7 @@ const GET_LIST_SUCCESS = 'matching/GET_LIST_SUCCESS';
 
 const GET_POST = 'matching/GET_POST';
 const GET_POST_SUCCESS = 'matching/GET_POST_SUCCESS';
+const UNLOAD_POST = 'matching/UNLOAD_POST';
 
 const DELETE_POST = 'matching/DELETE_POST';
 const DELETE_POST_SUCCESS = 'matching/DELETE_POST_SUCCESS';
@@ -40,20 +42,21 @@ export const changeInputTime = createAction(
 );
 export const changeInputImage = createAction(
   CHANGE_INPUT_IMAGE,
-  ({ form, uploaded }) => ({ form, uploaded }),
+  ({ form, imgUrl, imgName }) => ({ form, imgUrl, imgName }),
 );
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
 export const writeMatchPost = createRequestThunk(
   WRITE_POST,
   api.writeMatchPost,
 );
-// export const setOriginalPost = createAction(SET_ORIGINAL_POST, post=>post)
+export const setOriginalPost = createAction(SET_ORIGINAL_POST, (post) => post);
 export const updateMatchPost = createRequestThunk(
   UPDATE_POST,
   api.updateMatchPost,
 );
 export const getMatchList = createRequestThunk(GET_LIST, api.getMatchList);
 export const getMatchPost = createRequestThunk(GET_POST, api.getMatchPost);
+export const unloadPost = createAction(UNLOAD_POST);
 export const deleteMatchPost = createRequestThunk(
   DELETE_POST,
   api.deleteMatchPost,
@@ -66,6 +69,7 @@ const initialState = {
     GET_POST: false,
     DELETE_POST: false,
     WRITE_POST: false,
+    UPDATE_POST: false,
   },
 
   list: null,
@@ -75,17 +79,20 @@ const initialState = {
   write: {
     matchTitle: '',
     matchContent: '',
-    matchTime: '',
+    matchTime: new Date(),
     matchImgName: '',
     selectPet: '',
+    imageUrl: '',
   },
 
   update: {
     matchTitle: '',
     matchContent: '',
-    matchTime: '',
+    matchTime: new Date(),
     matchImgName: '',
     selectPet: '',
+    matchId: '',
+    imageUrl: '',
   },
 };
 
@@ -99,15 +106,28 @@ const matching = handleActions(
       }),
     [CHANGE_INPUT_TIME]: (state, { payload: { form, time } }) =>
       produce(state, (draft) => {
-        draft[form]['matchTime'] = time;
+        draft[form]['matchTime'] = moment(time).format('YYYY-MM-DD HH:mm');
       }),
-    [CHANGE_INPUT_IMAGE]: (state, { payload: { form, uploaded } }) =>
+    [CHANGE_INPUT_IMAGE]: (state, { payload: { form, imgUrl, imgName } }) =>
       produce(state, (draft) => {
-        draft[form]['matchImgName'] = uploaded;
+        draft[form]['matchImgName'] = imgName;
+        draft[form]['imageUrl'] = imgUrl;
       }),
     [INITIALIZE_FORM]: (state, { payload: form }) => ({
       ...state,
       [form]: initialState[form],
+    }),
+    [SET_ORIGINAL_POST]: (state, { payload: post }) => ({
+      ...state,
+      update: {
+        matchTitle: post.matchTitle,
+        matchContent: post.matchContent,
+        matchTime: moment(post.matchTime).format('YYYY-MM-DD HH:mm'),
+        matchImgName: post.matchImgName,
+        selectPet: post.selectPet,
+        matchId: post.matchId,
+        imageUrl: post.imageUrl,
+      },
     }),
     //api request
     [WRITE_POST_SUCCESS]: (state, action) => ({
@@ -115,6 +135,14 @@ const matching = handleActions(
       loading: {
         ...state.loading,
         WRITE_POST: false,
+      },
+      res: action.payload,
+    }),
+    [UPDATE_POST_SUCCESS]: (state, action) => ({
+      ...state,
+      loading: {
+        ...state.loading,
+        UPDATE_POST: false,
       },
       res: action.payload,
     }),
@@ -134,6 +162,7 @@ const matching = handleActions(
       },
       post: action.payload,
     }),
+    [UNLOAD_POST]: () => initialState,
     [DELETE_POST_SUCCESS]: (state, action) => ({
       ...state,
       loading: {
@@ -143,6 +172,7 @@ const matching = handleActions(
       post: action.payload,
     }),
   },
+
   initialState,
 );
 

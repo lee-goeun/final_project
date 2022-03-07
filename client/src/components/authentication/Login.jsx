@@ -49,10 +49,12 @@ const Login = () => {
 
             axios.get('http://localhost:3001/auth/auth', {params:{token:res.data.token}}).then(response => {
               console.log('response', response);
-              return {
-                type:"AUTH_USER",
-                payload : response.data
-              }
+              localStorage.setItem("userNick", response.data.userNick);
+              localStorage.setItem("userId", response.data.userId);
+              // return {
+              //   type:"AUTH_USER",
+              //   payload : response.data
+              // }
             })
             alert('로그인 되었습니다.');
             navigate('/');

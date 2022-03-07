@@ -9,7 +9,6 @@ const ModalWrapperStyle = styled.div`
     height: 100%;
     background-color: #d5222270;
     backdrop-filter: blur(5px);
-    z-index: 90;
   }
 `;
 
