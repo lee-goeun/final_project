@@ -8,7 +8,6 @@ const { json } = require('body-parser');
 const multer = require('multer');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const con = require('../db/index');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -18,7 +17,8 @@ var storage = multer.diskStorage({
     cb(null, file.originalname); // cb 콜백함수를 통해 전송된 파일 이름 설정
   },
 });
-const matchUpload = multer({ storage: storage });
+
+const upload = multer({ storage: storage });
 
 //조회(검색, 관심도 높은 순)
 router.get('/list', (req, res) => {
@@ -55,7 +55,7 @@ router.get('/viewCountList', (req, res) => {
 });
 
 //추가
-router.post('/add', matchUpload.single('marketImgName'), (req, res) => {
+router.post('/add', upload.single('marketImgName'), (req, res) => {
   console.log('req', req.file);
   var userId = "";  
   jwt.verify(req.body.token, process.env.JWT_SECRET, function(err,decode){
@@ -136,7 +136,7 @@ router.get('/detail/:id', (req, res) => {
 });
 
 //수정
-router.put('/mod', matchUpload.single('marketImgName'), (req, res) => {
+router.put('/mod', upload.single('marketImgName'), (req, res) => {
   var body = req.body;
   var image = req.file.originalname;
   console.log('req', body, req.file);
@@ -212,21 +212,22 @@ router.post('/selling', (req, res) => {
   //sellerId : 구매한사람
   let body = req.body;
   var sql = 'insert into marketSaleTbl(marketId, userId, sellerId) values(?,?,?)';
-  conn.query(sql,[body.marketId, userId, sellerId], (err, results)=> {
+  conn.query(sql,[body.marketId, body.userId, body.sellerId], (err, results)=> {
     if(err) return res.json({success:false, err});
     else{
 
       //가격조회하기
       var selectPrice = 'select price from marketTbl where marketId = ?';
-      conn.query(selectPrice, (err, price) => {
+      conn.query(selectPrice, body.marketId, (err, price) => {
       try{
 
         conn.beginTransaction();
 
         //판매자 = balance + price;
         //구매자 = balance - price; 
-        conn.query('update userTbl set balance+? where userId=?',[price,userId]);
+        conn.query('update userTbl set balance+? where userId=?',[price, userId]);
         conn.query('update userTbl set balance-? where userId=?',[price, sellerId]);
+        conn.query('update marketTbl set isSale = 1;');
 
         conn.commit();
         return res.json({status:"success"});
