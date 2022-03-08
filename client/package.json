@@ -36,14 +36,11 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.1",
     "slick-carousel": "^1.8.1",
-<<<<<<< HEAD
-    "styled-components": "^5.3.3",
-    "universal-cookie": "^4.0.4"
-=======
+    "universal-cookie": "^4.0.4",
     "socket.io-client": "^4.4.1",
     "sockjs-client": "^1.6.0",
     "styled-components": "^5.3.3"
->>>>>>> f164684ff55cce7f2d6e9bada55a5cb7b4278915
+
   },
   "scripts": {
     "start": "react-scripts start",

@@ -18,39 +18,46 @@ const Login = ({ userInfoHandler }) => {
 
   const onChangeIdInput = (e) => {
     setUserId(e.target.value);
-    if (idRegex.test(e.target.value) === false) {
-      setIsErrorId(true);
-    } else {
-      setIsErrorId(false);
-    }
-
-    if (
-      idRegex.test(e.target.value) === true &&
-      isErrorPw === false &&
-      pwInput.current.value >= 8
-    ) {
-      loginBtn.current.disabled = false;
-    } else if (idRegex.test(e.target.value) === false) {
-      loginBtn.current.disabled = true;
-    }
   };
+
   const onChangePwInput = (e) => {
     setUserPw(e.target.value);
-    if (pwRegex.test(e.target.value) === false) {
-      setIsErrorPw(true);
-    } else {
-      setIsErrorPw(false);
-    }
-
-    if (isErrorId === false && pwRegex.test(e.target.value) === true) {
-      loginBtn.current.disabled = false;
-    } else {
-      loginBtn.current.disabled = true;
-    }
   };
 
+  // const onChangeIdInput = (e) => {
+  //   setUserId(e.target.value);
+  //   if (idRegex.test(e.target.value) === false) {
+  //     setIsErrorId(true);
+  //   } else {
+  //     setIsErrorId(false);
+  //   }
+
+  //   if (
+  //     idRegex.test(e.target.value) === true &&
+  //     isErrorPw === false &&
+  //     pwInput.current.value >= 8
+  //   ) {
+  //     loginBtn.current.disabled = false;
+  //   } else if (idRegex.test(e.target.value) === false) {
+  //     loginBtn.current.disabled = true;
+  //   }
+  // };
+  // const onChangePwInput = (e) => {
+  //   setUserPw(e.target.value);
+  //   if (pwRegex.test(e.target.value) === false) {
+  //     setIsErrorPw(true);
+  //   } else {
+  //     setIsErrorPw(false);
+  //   }
+
+  //   if (isErrorId === false && pwRegex.test(e.target.value) === true) {
+  //     loginBtn.current.disabled = false;
+  //   } else {
+  //     loginBtn.current.disabled = true;
+  //   }
+  // };
+
   // 로그인 동작
-<<<<<<< HEAD
   // const clickLoginBtn = useCallback(
   //   (e) => {
   //     // e.preventDefault();
@@ -93,54 +100,53 @@ const Login = ({ userInfoHandler }) => {
         userPw,
       });
       console.log(res);
-      if (res.data.auth === true) {
+      if (!res.data.auth) {
+        alert('아이디나 비밀번호가 맞지 않습니다.');
+      } else {
         userInfoHandler(res);
-        alert('로그인 되었습니다.');
         localStorage.setItem('token', res.data.accessToken);
         navigate('/');
-      } else {
-        alert('아이디나 비밀번호가 맞지 않습니다.');
+        alert('로그인 되었습니다.');
       }
     } catch (e) {
       console.log(e);
     }
   };
-=======
-  const clickLoginBtn = useCallback(
-    (e) => {
-      // e.preventDefault();
-      axios
-        .post('http://localhost:3001/auth/login', {
-          userId,
-          userPw,
-        })
-        .then((res) => {
-          console.log(res);
-          if (res.status === 200) {
-            localStorage.setItem('token', res.data.token);
 
-            axios
-              .get('http://localhost:3001/auth/auth', {
-                params: { token: res.data.token },
-              })
-              .then((response) => {
-                console.log('response', response);
-                localStorage.setItem('userNick', response.data.userNick);
-                localStorage.setItem('userId', response.data.userId);
-                // return {
-                //   type:"AUTH_USER",
-                //   payload : response.data
-                // }
-              });
-            alert('로그인 되었습니다.');
-            navigate('/');
-          }
-        })
-        .catch(() => alert('아이디나 비밀번호가 맞지 않습니다.'));
-    },
-    [userId, userPw],
-  );
->>>>>>> f164684ff55cce7f2d6e9bada55a5cb7b4278915
+  // const clickLoginBtn = useCallback(
+  //   (e) => {
+  //     // e.preventDefault();
+  //     axios
+  //       .post('http://localhost:3001/auth/login', {
+  //         userId,
+  //         userPw,
+  //       })
+  //       .then((res) => {
+  //         console.log(res);
+  //         if (res.status === 200) {
+  //           localStorage.setItem('token', res.data.token);
+
+  //           axios
+  //             .get('http://localhost:3001/auth/auth', {
+  //               params: { token: res.data.token },
+  //             })
+  //             .then((response) => {
+  //               console.log('response', response);
+  //               localStorage.setItem('userNick', response.data.userNick);
+  //               localStorage.setItem('userId', response.data.userId);
+  //               // return {
+  //               //   type:"AUTH_USER",
+  //               //   payload : response.data
+  //               // }
+  //             });
+  //           alert('로그인 되었습니다.');
+  //           navigate('/');
+  //         }
+  //       })
+  //       .catch(() => alert('아이디나 비밀번호가 맞지 않습니다.'));
+  //   },
+  //   [userId, userPw],
+  // );
 
   const idInput = useRef();
   const pwInput = useRef();
@@ -152,34 +158,39 @@ const Login = ({ userInfoHandler }) => {
     setShowFindIdModal(true);
   };
 
-  useEffect(() => {
-    idInput.current.focus();
+  // useEffect(() => {
+  //   idInput.current.focus();
 
-    if (
-      idInput.current.value === undefined ||
-      pwInput.current.value === undefined
-    ) {
-      loginBtn.current.disabled = true;
-    } else if (
-      idInput.current.value.length >= 6 &&
-      pwInput.current.value.length >= 8
-    ) {
-      loginBtn.current.disabled = false;
-    }
-  }, []);
+  //   if (
+  //     idInput.current.value === undefined ||
+  //     pwInput.current.value === undefined
+  //   ) {
+  //     loginBtn.current.disabled = true;
+  //   } else if (
+  //     idInput.current.value.length >= 6 &&
+  //     pwInput.current.value.length >= 8
+  //   ) {
+  //     loginBtn.current.disabled = false;
+  //   }
+  // }, []);
 
-  const keyEnter = (e) => {
-    if (e.key === 'Enter') {
-      clickLoginBtn();
-    }
+  const onSubmit = (e) => {
+    e.preventDefault();
+    clickLoginBtn();
   };
+
+  // const keyEnter = (e) => {
+  //   if (e.key === 'Enter') {
+  //     clickLoginBtn();
+  //   }
+  // };
 
   return (
     <>
       <div className="login-container-wrapper">
         <img src={process.env.PUBLIC_URL + 'img/LogoVertical.png'} />
         <div className="login-container">
-          <form className="login-form">
+          <form className="login-form" onSubmit={onSubmit}>
             <div className="lf1">
               <label htmlFor="id-input">
                 아이디
@@ -203,33 +214,20 @@ const Login = ({ userInfoHandler }) => {
                 id="pw-input"
                 type="password"
                 placeholder="비밀번호를 입력하세요"
-                onKeyPress={keyEnter}
+                // onKeyPress={keyEnter}
                 onChange={onChangePwInput}
               />
             </div>
             <div className="lf3">
-<<<<<<< HEAD
               {/* <Link to="/"> */}
               <button
-                ref={loginBtn}
-                onClick={clickLoginBtn}
+                // ref={loginBtn}
+                // onClick={clickLoginBtn}
                 className="login-btn"
               >
                 로그인
               </button>
               {/* </Link> */}
-=======
-              <Link to="/">
-                <button
-                  ref={loginBtn}
-                  onClick={clickLoginBtn}
-                  className="login-btn"
-                  disabled="disabled"
-                >
-                  로그인
-                </button>
-              </Link>
->>>>>>> f164684ff55cce7f2d6e9bada55a5cb7b4278915
             </div>
           </form>
         </div>

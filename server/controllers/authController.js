@@ -108,7 +108,7 @@ exports.auth = (req, res) => {
   const query = 'SELECT * FROM usertbl WHERE userId = ?';
 
   if (!accessToken) {
-    res.send('need a token');
+    res.send({ auth: false, message: 'need a token' });
   } else {
     verify(accessToken, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {

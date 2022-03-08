@@ -182,9 +182,11 @@ const Header = ({ userInfo }) => {
                   <Link to="/mypost">마이페이지</Link>
                 </p>
                 <p>
-                  <Link to="/login" onClick={clickLogout}>
-                    로그아웃
-                  </Link>
+                  {(userInfo.auth && (
+                    <Link to="/login" onClick={clickLogout}>
+                      로그아웃
+                    </Link>
+                  )) || <Link to="/login">로그인</Link>}
                 </p>
               </div>
             ) : null}

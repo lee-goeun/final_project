@@ -55,6 +55,7 @@ function App() {
         userId: data.userId,
         userNick: data.userNick,
         userName: data.userName,
+        //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
       };
     });
   };
