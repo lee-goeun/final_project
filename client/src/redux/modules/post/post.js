@@ -56,7 +56,7 @@ const initialState = {
 };
 
 // post reducers
-export const postReducer = (state, action) => {
+export const postReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_POST_LIST:
       return {
