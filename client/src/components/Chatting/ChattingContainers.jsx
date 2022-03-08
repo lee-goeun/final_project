@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './ChattingContainers.css';
 
+
 const ChattingUserContainers = ({
   userImg,
   userNick,
@@ -59,7 +60,11 @@ const ChattingRoom = () => {
   );
 };
 
-const LeftChatBalloon = () => {
+const LeftChatBalloon = ({
+  userId,
+  message,
+  time = '13:00'
+}) => {
   return (
     <div className="left-chat-balloon">
       <div className="lcb01">
@@ -69,35 +74,32 @@ const LeftChatBalloon = () => {
             alt="유저이미지"
           />
         </div>
-        <h3>아이디</h3>
+        <h3>{userId}</h3>
       </div>
       <div className="lcb02">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          안녕하세요 반갑습니다 친해게 지내요!
-        </p>
+        <p>{message} </p>
       </div>
       <div className="lcb03">
-        <small>16:32</small>
+        <small>{time}</small>
       </div>
     </div>
   );
 };
 
-const RightChatBalloon = () => {
+const RightChatBalloon = ({
+  userId,
+  message,
+  time = '13:00'
+}) => {
   return (
     <div className="rcb-wrapper">
       <div className="right-chat-balloon">
         <div className="rcb01">
-          <p>반가워요 소통</p>
+          <p>{message}</p>
+          <input type="hidden" value={userId}/>
         </div>
         <div className="rcb02">
-          <small>16:35</small>
+          <small>{time}</small>
         </div>
       </div>
     </div>

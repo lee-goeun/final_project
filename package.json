@@ -24,6 +24,7 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "socketio": "^1.0.0",
+    "sockjs-client": "^1.6.0",
     "stream-http": "^3.2.0",
     "util": "^0.12.4"
   },

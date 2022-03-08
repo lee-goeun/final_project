@@ -63,7 +63,7 @@ db.connect((error) => {
   }
 });
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3001 || 3002;
 app.listen(port, () => {
   console.log(`express is running on ${port}`);
 });
