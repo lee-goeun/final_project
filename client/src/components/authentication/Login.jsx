@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Login = () => {
+const Login = ({ userInfoHandler }) => {
   const navigate = useNavigate();
 
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
@@ -34,36 +34,60 @@ const Login = () => {
   };
 
   // 로그인 동작
-  const clickLoginBtn = useCallback(
-    (e) => {
-      // e.preventDefault();
-      axios
-        .post('http://localhost:3001/auth/login', {
-          userId,
-          userPw,
-        })
-        .then((res) => {
-          console.log(res);
-          if (res.status === 200) {
-            localStorage.setItem('token', res.data.token);
+  // const clickLoginBtn = useCallback(
+  //   (e) => {
+  //     // e.preventDefault();
+  //     axios
+  //       .post('http://localhost:3001/auth/login', {
+  //         userId,
+  //         userPw,
+  //       })
+  //       .then((res) => {
+  //         console.log(res);
+  //         if (res.status === 200) {
+  //           localStorage.setItem('token', res.data.token);
 
-            axios.get('http://localhost:3001/auth/auth', {params:{token:res.data.token}}).then(response => {
-              console.log('response', response);
-              localStorage.setItem("userNick", response.data.userNick);
-              localStorage.setItem("userId", response.data.userId);
-              // return {
-              //   type:"AUTH_USER",
-              //   payload : response.data
-              // }
-            })
-            alert('로그인 되었습니다.');
-            navigate('/');
-          }
-        })
-        .catch(() => alert('아이디나 비밀번호가 맞지 않습니다.'));
-    },
-    [userId, userPw],
-  );
+  //           axios
+  //             .get('http://localhost:3001/auth/auth', {
+  //               params: { token: res.data.token },
+  //             })
+  //             .then((response) => {
+  //               console.log('response', response);
+  //               localStorage.setItem('userNick', response.data.userNick);
+  //               localStorage.setItem('userId', response.data.userId);
+  //               // return {
+  //               //   type:"AUTH_USER",
+  //               //   payload : response.data
+  //               // }
+  //             });
+  //           alert('로그인 되었습니다.');
+  //           navigate('/');
+  //         }
+  //       })
+  //       .catch(() => alert('아이디나 비밀번호가 맞지 않습니다.'));
+  //   },
+  //   [userId, userPw],
+  // );
+
+  const clickLoginBtn = async (e) => {
+    try {
+      const res = await axios.post('http://localhost:3001/auth/login', {
+        userId,
+        userPw,
+      });
+      console.log(res);
+      if (res.data.auth === true) {
+        userInfoHandler(res);
+        alert('로그인 되었습니다.');
+        localStorage.setItem('token', res.data.accessToken);
+        navigate('/');
+      } else {
+        alert('아이디나 비밀번호가 맞지 않습니다.');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const idInput = useRef();
   const pwInput = useRef();
@@ -125,15 +149,15 @@ const Login = () => {
               />
             </div>
             <div className="lf3">
-              <Link to="/">
-                <button
-                  ref={loginBtn}
-                  onClick={clickLoginBtn}
-                  className="login-btn"
-                >
-                  로그인
-                </button>
-              </Link>
+              {/* <Link to="/"> */}
+              <button
+                ref={loginBtn}
+                onClick={clickLoginBtn}
+                className="login-btn"
+              >
+                로그인
+              </button>
+              {/* </Link> */}
             </div>
           </form>
         </div>

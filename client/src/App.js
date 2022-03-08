@@ -14,13 +14,59 @@ import MatchingPageLayout from './layout/FindingMatesLayout';
 import MatchingListsContainer from './redux/containers/MatchingListsContainer';
 import WriteMatchingPost from './pages/findingMates/MatchingRegisterForm';
 import MatchingPostContainer from './redux/containers/MatchingPostContainer';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 function App() {
+  const [userInfo, setUserInfo] = useState({
+    auth: false,
+    userId: '',
+    userNick: '',
+    userEmail: '',
+    userName: '',
+    region1: '',
+    region2: '',
+    region3: '',
+  });
+  console.log(userInfo, '33333333333333333333333');
+
+  useEffect(() => {
+    getAuth();
+  }, []);
+
+  const getAuth = async () => {
+    try {
+      const tokenValidationResponse = await axios({
+        url: 'http://localhost:3001/auth/auth',
+        method: 'get',
+        headers: { 'x-access-token': localStorage.getItem('token') },
+      });
+      console.log(tokenValidationResponse, 'tokenValidResponse');
+      userInfoHandler(tokenValidationResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const userInfoHandler = ({ data }) => {
+    setUserInfo((prevState) => {
+      return {
+        ...prevState,
+        auth: data.auth,
+        userId: data.userId,
+        userNick: data.userNick,
+        userName: data.userName,
+      };
+    });
+  };
+
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
+      <Route
+        path="/login"
+        element={<Login userInfoHandler={userInfoHandler} />}
+      />
       <Route path="/join" element={<Join />} />
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home userInfo={userInfo} />} />
       <Route path="board" element={<PostPage />} />
       <Route path="board/post/:boardId" element={<DetailPost />} />
       <Route path="/usedtrade" element={<UsedTrade />} />

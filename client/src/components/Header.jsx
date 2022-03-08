@@ -114,7 +114,7 @@ const HeaderStyle = Styled.div`
   }
 `;
 
-const Header = () => {
+const Header = ({ userInfo }) => {
   const navigate = useNavigate();
   const [showDropMenu, setShowDropMenu] = useState(false);
 

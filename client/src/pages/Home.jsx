@@ -38,7 +38,7 @@ const MainPageFooterStyle = styled.div`
   }
 `;
 
-const Home = () => {
+const Home = ({ userInfo }) => {
   useEffect(() => {
     axios
       .get('http://localhost:3001/board/')
@@ -58,7 +58,7 @@ const Home = () => {
 
   return (
     <>
-      <Header />
+      <Header userInfo={userInfo} />
 
       <MainPageFooterStyle>
         <div className="main-body-div">
