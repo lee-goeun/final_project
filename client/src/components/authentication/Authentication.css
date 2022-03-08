@@ -68,6 +68,11 @@
   transform: translateY(-3px);
   box-shadow: 0 4px 5px var(--accent-dark);
 }
+.login-btn:disabled {
+  background-color: #45e6f286;
+  color: rgb(235, 235, 235);
+  cursor: auto;
+}
 .join-find-container {
   width: 440px;
   height: 80px;
@@ -283,17 +288,27 @@
 .join-btn {
   width: 180px;
   height: 40px;
-  background-color: var(--accent-default);
-  color: #ffffff;
   border: none;
+  background-color: var(--accent-default);
   box-shadow: 0 1px 5px var(--accent-dark);
+  color: white;
   font-size: 20px;
   transition: 0.3s;
   margin: 40px 0 0 20px;
 }
+.join-btn:disabled {
+  background-color: #45e6f286;
+  color: rgb(235, 235, 235);
+  cursor: auto;
+}
 .join-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 5px var(--accent-dark);
+}
+.active-btn {
+  background-color: var(--accent-default);
+  box-shadow: 0 1px 5px var(--accent-dark);
+  color: #ffffff;
 }
 .show-terms-of-use {
   width: 400px;

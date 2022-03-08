@@ -67,6 +67,8 @@ const Join = () => {
   const [inputAge, setInputAge] = useState();
   const [inputSex, setInputSex] = useState();
 
+  const [isActive, setIsActive] = useState(false);
+
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
   const pwRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,15}$/; // 비밀번호 정규표현식
@@ -138,9 +140,22 @@ const Join = () => {
     if (tou1.current.checked === false || tou2.current.checked === false) {
       tou1.current.checked = true;
       tou2.current.checked = true;
+      joinBtn.current.disabled = false;
     } else if (e.target.checked === false) {
       tou1.current.checked = false;
       tou2.current.checked = false;
+      joinBtn.current.disabled = true;
+    }
+  };
+
+  const clickAgree = (e) => {
+    if (tou1.current.checked === true && tou2.current.checked === true) {
+      joinBtn.current.disabled = false;
+    } else if (
+      tou1.current.checked === false ||
+      tou2.current.checked === false
+    ) {
+      joinBtn.current.disabled = true;
     }
   };
 
@@ -150,6 +165,7 @@ const Join = () => {
   };
 
   // 회원가입 동작
+  const joinBtn = useRef();
   const clickSubmitBtn = (e) => {
     if (
       inputId === undefined ||
@@ -157,7 +173,11 @@ const Join = () => {
       inputName === undefined ||
       inputNick === undefined ||
       inputEmail === undefined ||
-      inputPhone === undefined
+      inputPhone === undefined ||
+      userInfo.zonecode === undefined ||
+      inputSex === undefined ||
+      tou1.current.checked === false ||
+      tou2.current.checked === false
     ) {
       alert('양식을 빠짐없이 입력해주세요.');
     }
@@ -366,6 +386,7 @@ const Join = () => {
             type="checkbox"
             name="locationAgree"
             id="lo-agree"
+            onClick={clickAgree}
           />
           <label htmlFor="lo-agree">
             위치기반 서비스 이용약관에 동의합니다.
@@ -378,6 +399,7 @@ const Join = () => {
             type="checkbox"
             name="serviceAgree"
             id="svc-agree"
+            onClick={clickAgree}
           />
           <label htmlFor="svc-agree">서비스 이용약관에 동의합니다.</label>
         </div>
@@ -385,7 +407,12 @@ const Join = () => {
         <Link to="/login">
           <button className="back-btn">뒤로가기</button>
         </Link>
-        <button className="join-btn" onClick={clickSubmitBtn}>
+        <button
+          className="join-btn"
+          ref={joinBtn}
+          disabled="disabled"
+          onClick={clickSubmitBtn}
+        >
           회원가입
         </button>
       </div>

@@ -5,10 +5,14 @@ import { useRef, useState, useEffect } from 'react';
 import {
   ChattingRoom,
   ChattingUserContainers,
+  LeftChatBalloon,
+  RightChatBalloon
 } from '../components/Chatting/ChattingContainers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTelegram } from '@fortawesome/free-brands-svg-icons';
 import axios from 'axios';
+import socketio from "socket.io-client";
+
 
 const ChattingPageStyle = styled.div`
   .chat-layout {
@@ -35,8 +39,29 @@ const ChattingPageStyle = styled.div`
   }
 `;
 
+const socket = socketio.connect('http://localhost:3002');
 const Chatting = () => {
   const [chatUserList, setChatUserList] = useState([]);
+  console.log('ee', socket);
+  //socket.emit("joinRoom", {roomName:"11"});
+  console.log(chatUserList);
+  
+  const showMsg = (matchId) => {
+    console.log('matchId', matchId);
+    
+    // socket.on('recMsg', function(data){
+      
+    // });
+    
+  }
+  const msgClick = (e) => {
+    console.log(e);
+    if(e.keyCode ==13){
+      console.log('ss');
+    //  socket.emit("reqMsg", {comment: localStorage.getItem('userId')});
+    }
+    
+  }
   useEffect(() => {
     axios.get('http://localhost:3001/chat/list').then((res) => {
       setChatUserList(res.data);
@@ -77,21 +102,43 @@ const Chatting = () => {
         <div className="chat-layout">
           <div className="cl-left">
             {chatUserList.map((chat) => (
-              <ChattingUserContainers
-                key={chat.userId}
-                userImg={chat.userImg}
-                userNick={chat.userId}
-                lastChat={chat.chatting}
-                chatTime={chat.time}
-              />
+              <div onClick={showMsg(chat.matchId)}>
+                <ChattingUserContainers
+                  key={chat.userId}
+                  userImg={chat.userImg}
+                  userNick={chat.userId}
+                  lastChat={chat.chatting}
+                  chatTime={chat.time}
+                />
+              </div>
             ))}
           </div>
           <div className="cl-right">
             {/* <div className="cl-icon-box">
               <FontAwesomeIcon icon={faTelegram} className="b-message-icon" />
               <p>친구들과 채팅을 시작해 보세요!</p>
+              
             </div> */}
-            <ChattingRoom></ChattingRoom>
+            <div className="chat-room">
+              <div className="croom01">
+                {/* {
+                   localStorage.getItem('userId') == chat.userId ? 
+                   <LeftChatBalloon  userId={chat.userId} message={chat.message}/> : 
+                   <RightChatBalloon userId={chat.userId} message={chat.message}/>
+                } */}
+              </div>
+              <div className="croom02">
+                <form>
+                  <input
+                    onKeyUp={msgClick}
+                    type="text"
+                    placeholder="메세지를 입력하세요"
+                    maxLength="200"
+                  />
+                </form>
+              </div>
+            </div>
+            
           </div>
         </div>
       </ChattingPageStyle>
