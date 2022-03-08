@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="http://localhost:3001/match/mod" method="post" enctype="multipart/form-data">
+        <fieldset>
+            <legend>상품등록</legend>
+            <div class="submit_btn">
+                <input type="submit" value="완료"/>
+            </div>
+            <div class="pic_area">
+                <label class="matchImgName" for="matchImgName">사진</label>
+                <p>
+                    <img id="preview" src=""/>
+                </p>
+                <input type="hidden" name="address" id="address" value="${member.address}" />
+                <input type="hidden" name="region1" id="region1" value="${member.region1}" />
+                <input type="hidden" name="region2" id="region2" value="${member.region2}" />
+                <input type="hidden" name="region3" id="region3" value="${member.region3}" />
+                <input type="file" name="matchImgName" id="matchImgName" onchange="readURL(this);" />
+            </div>
+            <div class="text_area">
+                <div>
+                    <label class="category" for="category">카테고리</label> <select name="category" id="category">
+                        <option value="all" selected="selected">카테고리</option>
+                        <option value="pizza">피자</option>
+                        <option value="chicken">치킨</option>
+                        <option value="hamburger">햄버거</option>
+                    </select>
+                </div>
+                <div>
+                    <input type="radio" name="isTogether" value="1" checked />
+                    <label>같이 먹어요</label>
+                    <input type="radio" name="isTogether" value="0" />
+                    <label>따로 먹어요</label>
+                </div>
+                <div>
+                    <label class="matchTitle" for="matchTitle">matchTitle</label>
+                    <input type="text" name="matchTitle" id="matchTitle" placeholder="제목" />
+                </div>
+                <div class="isChecked">
+                    <label class="content" for="matchContent">matchContent</label>
+                    <input type="text" name="matchContent" id="matchContent" placeholder="음식명" />
+                </div>
+                <div class="isChecked">
+                    <label class="content" for="matchTime">matchTime</label>
+                    <input type="text" name="matchTime" id="matchTime" placeholder="음식명" />
+                </div>
+                <div class="isChecked">
+                    <label class="content" for="selectPet">selectPet</label>
+                    <input type="text" name="selectPet" id="selectPet" placeholder="음식명" />
+                </div>
+                <div class="isChecked">
+                    <label class="content" for="matchId">matchId</label>
+                    <input type="text" name="matchId" id="matchId" placeholder="음식명" />
+                </div>
+                <input type="hidden" name="uid" value="${member.uid}" placeholder="작성자" readonly>
+            </div>
+        </fieldset>
+    </form>
+</body>
+</html>

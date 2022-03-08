@@ -1,13 +1,54 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  --accent-default: #45e6f2;
+  --accent-dark: #5bc3ca;
+
+  --font-dark: #4f4f4f;
+  --font-light: #7e7e7e;
+
+  --bgcolor-default: rgb(242, 242, 242);
+  --bgcolor-dark: rgb(230, 230, 230);
+
+  --bordercolor-default: rgb(200, 200, 200);
+
+  --shadow-default: #c4c4c4;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'S-CoreDream-4Regular', sans-serif;
+}
+body {
+  background-color: #f5f5f5;
+}
+@font-face {
+  font-family: 'S-CoreDream-4Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+input:focus {
+  outline: none;
+}
+button {
+  cursor: pointer;
+}
+button:focus {
+  outline: none;
+}
+a {
+  text-decoration: none;
+  color: var(--font-dark);
+}
+a:hover{
+  color: var(--accent-default);
+}
+textarea:focus {
+  outline: none;
 }

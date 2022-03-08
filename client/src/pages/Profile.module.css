@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.register {
+  max-width: 60rem;
+  margin: auto;
+  width: 95%;
+  height: 100%;
+  background: white;
+  padding: 3em;
+  margin: 0.3rem auto;
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 1rem;
+  text-align: left;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+.register h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.register input {
+  width: 100%;
+  height: 1rem;
+  outline: none;
+  padding: 1rem;
+  border: 1px solid #707070;
+  transition: 0.3s;
+}
+.register input:valid,
+.register input:focus {
+  border: 1px solid black;
+}
+.register .center {
+  display: flex;
+  align-items: center;
+}
+.register .flex {
+  display: flex;
+  flex-direction: column;
+}
+.register .flex .container {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  margin-bottom: 1rem;
+}
+.register .flex .container .item:first-child {
+  margin: 0 1rem;
+}
+.register .flex .container .item:last-child {
+  margin-left: 1rem;
+}
