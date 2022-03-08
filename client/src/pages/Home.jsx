@@ -59,7 +59,6 @@ const Home = ({ userInfo }) => {
   return (
     <>
       <Header userInfo={userInfo} />
-
       <MainPageFooterStyle>
         <div className="main-body-div">
           <Slider {...centerModeSettings}>

@@ -124,6 +124,7 @@ exports.auth = (req, res) => {
               userNick: result[0].userNick,
               userEmail: result[0].userEmail,
               userName: result[0].userName,
+              //필요한 유저정보 여기다 추가
               // region1: result[0].region1,
               // region2: result[0].region1,
               // region3: result[0].region1,
