@@ -56,10 +56,11 @@ const marginStyle2 = {
 
 const MatchingPost = ({ post, loadingPost }) => {
   const navigate = useNavigate();
-  
+
   const addChat = () => {
     axios.post('http://localhost:3001/chat/add', {
      matchId : post[0].matchId,
+     userId : post[0].userId,
      participant:localStorage.getItem("userId")
    }).then((res) => {
      if (res.status == 200) {
