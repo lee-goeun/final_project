@@ -4,6 +4,7 @@ const conn = require("../db/index.js");
 // const Post = require("../models/Post.js");
 // const { resourceLimits } = require("worker_threads");
 const jwt = require('jsonwebtoken');
+const { resolveSoa } = require("dns");
 
 //새 댓글 생성
 exports.create = (req, res) => {
@@ -61,3 +62,55 @@ exports.create = (req, res) => {
   });
 }
 
+//댓글 수정
+exports.update = (req, res) => {
+  if(!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+ 
+  Comment.updateById(
+    req.params.commentId,
+    new Comment(req.body),
+    (err, data) => {
+      if(err) {
+        if(err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found Comment with id ${req.params.commentId}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating Comment with id" + req.params.commentId
+          });
+        }
+      } else {
+        res.send(data);
+      }
+    }
+  );
+};
+
+//댓글 삭제
+exports.delete = (req, res) => {
+  Comment.remove(req.params.commentId, (err, data) => {
+    if(err) {
+      if(err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Comment with id ${req.params.commentId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete Comment with id " + req.params.commentId 
+        });
+      }
+    } else {
+      res.send({
+        message: `Comment was deleted successfully!`
+      });
+    }
+
+    
+  });
+};
