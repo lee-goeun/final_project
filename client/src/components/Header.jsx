@@ -114,7 +114,7 @@ const HeaderStyle = Styled.div`
   }
 `;
 
-const Header = () => {
+const Header = ({ userInfo }) => {
   const navigate = useNavigate();
   const [showDropMenu, setShowDropMenu] = useState(false);
 
@@ -154,7 +154,7 @@ const Header = () => {
                 title="산책메이트 찾기"
               />
             </NavLink>
-            <NavLink to="/usedtrade">
+            <NavLink to="/market/list">
               <FontAwesomeIcon
                 icon={faBoxOpen}
                 id="header-market-icon"
@@ -182,9 +182,11 @@ const Header = () => {
                   <Link to="/mypost">마이페이지</Link>
                 </p>
                 <p>
-                  <Link to="/login" onClick={clickLogout}>
-                    로그아웃
-                  </Link>
+                  {(userInfo && userInfo.auth && (
+                    <Link to="/login" onClick={clickLogout}>
+                      로그아웃
+                    </Link>
+                  )) || <Link to="/login">로그인</Link>}
                 </p>
               </div>
             ) : null}

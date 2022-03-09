@@ -14,6 +14,7 @@
     "@mui/icons-material": "^5.4.4",
     "@mui/lab": "^5.0.0-alpha.70",
     "@mui/material": "^5.4.2",
+    "@stomp/stompjs": "^6.1.2",
     "axios": "^0.26.0",
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
@@ -35,7 +36,11 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.1",
     "slick-carousel": "^1.8.1",
+    "universal-cookie": "^4.0.4",
+    "socket.io-client": "^4.4.1",
+    "sockjs-client": "^1.6.0",
     "styled-components": "^5.3.3"
+
   },
   "scripts": {
     "start": "react-scripts start",

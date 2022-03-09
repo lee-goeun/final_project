@@ -14,13 +14,64 @@ import MatchingPageLayout from './layout/FindingMatesLayout';
 import MatchingListsContainer from './redux/containers/MatchingListsContainer';
 import WriteMatchingPost from './pages/findingMates/MatchingRegisterForm';
 import MatchingPostContainer from './redux/containers/MatchingPostContainer';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import MarketPageLayout from './layout/MarketLayout';
+import ItemLists from './pages/usedMarket/ItemLists';
+import ItemPost from './pages/usedMarket/ItemPost';
+import WriteItemPost from './pages/usedMarket/ItemRegisterForm';
 
 function App() {
+  const [userInfo, setUserInfo] = useState({
+    auth: false,
+    userId: '',
+    userNick: '',
+    userEmail: '',
+    userName: '',
+    region1: '',
+    region2: '',
+    region3: '',
+  });
+  console.log(userInfo, '33333333333333333333333');
+
+  useEffect(() => {
+    getAuth();
+  }, []);
+
+  const getAuth = async () => {
+    try {
+      const tokenValidationResponse = await axios({
+        url: 'http://localhost:3001/auth/auth',
+        method: 'get',
+        headers: { 'x-access-token': localStorage.getItem('token') },
+      });
+      console.log(tokenValidationResponse, 'tokenValidResponse');
+      userInfoHandler(tokenValidationResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const userInfoHandler = ({ data }) => {
+    setUserInfo((prevState) => {
+      return {
+        ...prevState,
+        auth: data.auth,
+        userId: data.userId,
+        userNick: data.userNick,
+        userName: data.userName,
+        //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
+      };
+    });
+  };
+
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
+      <Route
+        path="/login"
+        element={<Login userInfoHandler={userInfoHandler} />}
+      />
       <Route path="/join" element={<Join />} />
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home userInfo={userInfo} />} />
       <Route path="board" element={<PostPage />} />
       <Route path="board/post/:boardId" element={<DetailPost />} />
       <Route path="/usedtrade" element={<UsedTrade />} />
@@ -32,9 +83,18 @@ function App() {
         <Route path="add" element={<WriteMatchingPost />} />
       </Route>
 
-      <Route element={<MyPageLayout />}>
+      <Route path="market" element={<MarketPageLayout />}>
+        <Route path="list" element={<ItemLists />} />
+        <Route path="detail/:itemId" element={<ItemPost />} />
+        <Route path="add" element={<WriteItemPost />} />
+      </Route>
+
+      <Route element={<MyPageLayout userInfo={userInfo} />}>
         <Route path="/mypost/" element={<Mypost />} />
-        <Route path="/profile/" element={<Profile />} />
+        <Route
+          path="/profile/"
+          element={<Profile userInfoProps={userInfo} />}
+        />
         {/* <Route path="profile/:username" element={<Profile />} /> */}
       </Route>
     </Routes>

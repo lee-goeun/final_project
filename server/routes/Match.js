@@ -88,8 +88,9 @@ router.post('/add', matchUpload.single('matchImgName'), (req, res) => {
 
   //console.log('tokenResult', tokenResult);
   var body = req.body;
-  var filename = req.file.originalname;
-
+  if(req.file){ 
+    var filename = req.file.originalname;
+  }
   var sql =
     'INSERT INTO matchTbl(userId, matchImgName, matchTitle, matchContent, selectPet, matchTime, region1, region2, region3) VALUES(?, ?, ?, ?,?,?,?,?,?);';
   conn.query(
@@ -240,7 +241,9 @@ router.get('/detail/:id', (req, res) => {
 //수정
 router.put('/mod', matchUpload.single('matchImgName'), (req, res) => {
   var body = req.body;
-  var image = req.file.originalname;
+  if(req.file){
+    var image = req.file.originalname;
+  }
   console.log('req', body, req.file);
   var sql =
     'UPDATE matchTbl set matchImgName=?, matchTitle=?, matchContent=?, selectPet=?, matchTime=? where matchId=?';
@@ -263,13 +266,16 @@ router.put('/mod', matchUpload.single('matchImgName'), (req, res) => {
           fs.mkdirSync(newdir);
         }
 
-        var oldPath = 'matchImages/temp/' + image;
-        var newPath = newdir + image;
+        if(image){
+          var oldPath = 'matchImages/temp/' + image;
+          var newPath = newdir + image;
 
-        fs.rename(oldPath, newPath, function (err) {
-          if (err) throw err;
-          console.log('move success');
-        });
+          fs.rename(oldPath, newPath, function (err) {
+            if (err) throw err;
+            console.log('move success');
+          });
+        }
+        
 
         //TODO: 이전 이미지 삭제
 

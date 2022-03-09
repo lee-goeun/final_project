@@ -145,12 +145,13 @@ exports.findOne = (req, res) => {
                 });
             }
         } else {
+
+          //댓글 보기
           Comment.find(req.params.postId, (err, comment) => {
             if(err) {
               if(err.kind === "not_found") {
-                  res.status(404).send({
-                      messge: `Not found Post with id ${req.params.postId}.`
-                  });
+                  data.comment = null;
+                  res.send(data);
               } else {
                   res.status(500).send({
                       message: "Error retrieving Post with id" + req.params.postId

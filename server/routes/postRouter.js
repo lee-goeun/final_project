@@ -28,20 +28,23 @@ module.exports = (app) => {
     });
   });
 
-
   const upload = multer({ storage: storage });
-  //모든 게시글 조회
+
+
+  //모든 게시글 조회 GET
   postRouter.get('/', posts.findAll);
 
-  //게시글 작성 GET / POST
+  //게시글 작성 POST
   postRouter.post('/post', upload.array('img', 5), posts.create);
 
 
-  // //특정 게시글 GET / DELETE
+  //게시글 상세보기
   postRouter.get('/post/:postId', posts.findOne);
+
+  //게시글 삭제
   postRouter.delete('/post/:postId', posts.delete);
 
-  // //게시글 수정 GET / POST
+  //게시글 수정 POST
   postRouter.post('/post/edit/:postId', posts.update);
 
   //게시글 좋아요
