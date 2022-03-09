@@ -28,6 +28,8 @@ import Slider from 'react-slick';
 import styled from 'styled-components';
 import axios from 'axios';
 import Modal from './common/Modal';
+import { connect } from 'react-redux';
+import { goodDecrease, goodIncrease } from '../redux/modules/post/post';
 
 const CarouselStyle = styled.div`
   .carousel-img-container {
@@ -130,15 +132,18 @@ const CarouselStyle = styled.div`
 `;
 
 const PostContainer = ({
-  boardId,
+  boardId = '',
   boardImgList = '',
   userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
-  userId,
-  boardTitle,
-  boardContent,
-  boardGood,
-  boardViews,
-  boardCreated,
+  userId = '',
+  boardTitle = '',
+  boardContent = '',
+  boardGood = 0,
+  boardViews = 0,
+  boardCreated = 'date',
+  isGood = '',
+  goodIncrease,
+  goodDecrease,
 }) => {
   const settings = {
     slide: 'div',
@@ -256,28 +261,22 @@ const PostContainer = ({
           </div>
           <div className="pr05">
             <p>
-              {isLike ? (
+              {isGood ? (
                 <FontAwesomeIcon
                   icon={faHeart}
                   id="heart-btn"
                   title="좋아요 취소"
-                  onClick={() => {
-                    setIsLike(!isLike);
-                  }}
+                  onClick={goodDecrease}
                 />
               ) : (
                 <FontAwesomeIcon
                   icon={borderHeart}
                   id="border-heart-btn"
                   title="좋아요"
-                  onClick={() => {
-                    setIsLike(!isLike);
-                    axios
-                      .post(`http://localhost:3001/board/post/${boardId}/like`)
-                      .then((res) => console.log(res.data));
-                  }}
+                  onClick={goodIncrease}
                 />
               )}
+
               <span className="counting">{boardGood}</span>
 
               <FontAwesomeIcon icon={borderEye} id="viewss" />
@@ -412,6 +411,24 @@ const PostContainer = ({
     </>
   );
 };
+
+// 좋아요 기능 ==============================================================
+const mapStateToProps = (state) => ({
+  number: state.number,
+  isGood: state.isGood,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  goodIncrease: () => {
+    dispatch(goodIncrease());
+  },
+  goodDecrease: () => {
+    dispatch(goodDecrease());
+  },
+});
+// ===========================================================================
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostContainer);
 
 const MiniPostContainer = () => {
   const [gPostList, setGPostList] = useState([]);
@@ -790,4 +807,4 @@ const PostBackground = () => {
   );
 };
 
-export { PostContainer, MiniPostContainer, CommentContainer, PostBackground };
+export { MiniPostContainer, CommentContainer, PostBackground };

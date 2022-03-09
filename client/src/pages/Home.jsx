@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { PostContainer } from '../components/Post';
+import PostContainer from '../components/Post';
 import styled from 'styled-components';
 import Slider from 'react-slick';
 import axios from 'axios';
+import { getPostList } from '../redux/modules/post/post';
+import { connect } from 'react-redux';
 
 const MainPageFooterStyle = styled.div`
   .main-body-div {
@@ -38,14 +40,18 @@ const MainPageFooterStyle = styled.div`
   }
 `;
 
-const Home = () => {
-  useEffect(() => {
-    axios
-      .get('http://localhost:3001/board/')
-      .then((res) => setGetMainPost(res.data));
-  }, []);
+const Home = ({ getPostList, postsLoading, res }) => {
+  // useEffect(() => {
+  //   axios
+  //     .get('http://localhost:3001/board/')
+  //     .then((res) => setGetMainPost(res.data));
+  // }, []);
 
-  const [getMainPost, setGetMainPost] = useState([]);
+  // const [getMainPost, setGetMainPost] = useState([]);
+
+  useEffect(() => {
+    getPostList();
+  }, []);
 
   const centerModeSettings = {
     className: 'center',
@@ -63,7 +69,7 @@ const Home = () => {
       <MainPageFooterStyle>
         <div className="main-body-div">
           <Slider {...centerModeSettings}>
-            {getMainPost.map((po) => (
+            {/* {getMainPost.map((po) => (
               <div className="center-carousel">
                 <PostContainer
                   key={po.boardId}
@@ -75,9 +81,11 @@ const Home = () => {
                   boardGood={po.boardGood}
                   boardViews={po.boardViews}
                   boardCreated={po.boardCreated}
+                  goodCount={0}
                 />
               </div>
-            ))}
+            ))} */}
+            <PostContainer />
           </Slider>
         </div>
       </MainPageFooterStyle>
@@ -86,4 +94,14 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    posts: state.posts,
+  };
+};
+
+const mapDispatchToProps = {
+  getPostList,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
