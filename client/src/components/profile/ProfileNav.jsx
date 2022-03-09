@@ -53,19 +53,14 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
-const ProfileNav = ({ category, onSelect }) => {
-  //유저정보 추후 리덕스에서 관리
-  const [userInfo, setUserInfo] = useState({
-    user_nick: '댕댕댕',
-  });
-
-  const { user_nick } = userInfo;
+const ProfileNav = ({ category, onSelect, userInfo }) => {
+  const { userNick } = userInfo || '';
 
   return (
     <Nav>
       <AvatarBlock>
         <UserAvatar />
-        <span>{user_nick}님</span>
+        <span>{userNick || ''}님</span>
       </AvatarBlock>
       <hr />
       <CategoriesBlock>
