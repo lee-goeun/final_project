@@ -154,7 +154,7 @@ const Header = ({ userInfo }) => {
                 title="산책메이트 찾기"
               />
             </NavLink>
-            <NavLink to="/usedtrade">
+            <NavLink to="/market/list">
               <FontAwesomeIcon
                 icon={faBoxOpen}
                 id="header-market-icon"

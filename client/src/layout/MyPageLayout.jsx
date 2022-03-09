@@ -14,7 +14,7 @@ const ProfileBlock = styled.div`
   justify-content: center;
 `;
 
-const MyPageLayout = () => {
+const MyPageLayout = ({ userInfo }) => {
   const [category, setCategory] = useState('all');
   const onSelect = useCallback((category) => setCategory(category), []);
 
@@ -23,7 +23,11 @@ const MyPageLayout = () => {
       <Header />
       <ProfileBlock>
         <ProfileHeaderBlock>
-          <ProfileNav category={category} onSelect={onSelect} />
+          <ProfileNav
+            category={category}
+            onSelect={onSelect}
+            userInfo={userInfo}
+          />
         </ProfileHeaderBlock>
         <MainWrapper>
           <Outlet />

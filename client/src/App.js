@@ -16,6 +16,10 @@ import WriteMatchingPost from './pages/findingMates/MatchingRegisterForm';
 import MatchingPostContainer from './redux/containers/MatchingPostContainer';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import MarketPageLayout from './layout/MarketLayout';
+import ItemLists from './pages/usedMarket/ItemLists';
+import ItemPost from './pages/usedMarket/ItemPost';
+import WriteItemPost from './pages/usedMarket/ItemRegisterForm';
 
 function App() {
   const [userInfo, setUserInfo] = useState({
@@ -79,9 +83,18 @@ function App() {
         <Route path="add" element={<WriteMatchingPost />} />
       </Route>
 
-      <Route element={<MyPageLayout />}>
+      <Route path="market" element={<MarketPageLayout />}>
+        <Route path="list" element={<ItemLists />} />
+        <Route path="detail/:itemId" element={<ItemPost />} />
+        <Route path="add" element={<WriteItemPost />} />
+      </Route>
+
+      <Route element={<MyPageLayout userInfo={userInfo} />}>
         <Route path="/mypost/" element={<Mypost />} />
-        <Route path="/profile/" element={<Profile />} />
+        <Route
+          path="/profile/"
+          element={<Profile userInfoProps={userInfo} />}
+        />
         {/* <Route path="profile/:username" element={<Profile />} /> */}
       </Route>
     </Routes>

@@ -5,11 +5,8 @@ import Button from '../components/common/Button';
 import UserAvatar from '../components/common/UserAvatar';
 import ProfileModalButton from '../components/profile/ProfileModalButton';
 
-const Profile = () => {
-  //유저정보 추후 리덕스에서 관리해야할것 같음
+const Profile = ({ userInfoProps }) => {
   const [userInfo, setUserInfo] = useState({
-    user_id: 'asmr5586',
-    user_nick: '댕댕댕',
     introduce: '강아지를 좋아하고 산책을 주 5회정도 해요 같이산책 하실분~',
     user_email: 'aaa@gmail.com',
     zonecode: '13494',
@@ -26,8 +23,6 @@ const Profile = () => {
     useState(false);
 
   const {
-    user_id,
-    user_nick,
     introduce,
     user_email,
     user_phone,
@@ -38,8 +33,12 @@ const Profile = () => {
     newPassword,
     newPasswordConfirmation,
   } = userInfo;
+  const { userId, userNick } = userInfoProps;
 
   useEffect(() => {
+    if (!userId) {
+      alert('로그인 후 이용해주세요');
+    }
     passwordValidationCheck();
   }, [newPassword, newPasswordConfirmation]);
 
@@ -83,7 +82,7 @@ const Profile = () => {
   return (
     <div className={styles.register}>
       <UserAvatar sx={{ height: '80px', width: '80px' }} />
-      <p>{user_id}</p>
+      <p>{userId || ''}</p>
       <ProfileModalButton buttonName={'프로필 사진 바꾸기'} />
       <h3>프로필</h3>
       <form onSubmit={register}>
@@ -95,7 +94,7 @@ const Profile = () => {
                 autoFocus
                 name="nickname"
                 onChange={handleInput}
-                value={user_nick}
+                value={userNick || ''}
               />
             </li>
             <li className={styles.item}></li>

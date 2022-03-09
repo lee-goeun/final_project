@@ -42,7 +42,7 @@ const BottomWrapper = styled.div`
   display: flex;
 `;
 
-const MatchingRegisterForm = () => {
+const ItemRegisterForm = () => {
   const [content, setContent] = useState('');
   const contents = useSelector((state) => state.matching.write);
   const post = useSelector((state) => state.matching.update);
@@ -177,9 +177,7 @@ const MatchingRegisterForm = () => {
             <Button type="button" onClick={deleteUrl}>
               이미지삭제
             </Button>
-            <Button type="submit">
-              {(post.matchId && '산책포스팅 수정') || '산책메이트 글올리기'}
-            </Button>
+            <Button type="submit">산책메이트 글올리기</Button>
           </BottomLeftWrapper>
           <AImageViewer post={post} imageUrl={imageUrl} />
         </BottomWrapper>
@@ -188,4 +186,4 @@ const MatchingRegisterForm = () => {
   );
 };
 
-export default MatchingRegisterForm;
+export default ItemRegisterForm;
