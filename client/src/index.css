@@ -33,7 +33,14 @@ ul {
   list-style: none;
   padding-left: 0;
 }
+input,
+select {
+  border: 1px solid var(--bordercolor-default);
+}
 input:focus {
+  outline: none;
+}
+select:focus {
   outline: none;
 }
 button {
@@ -46,9 +53,20 @@ a {
   text-decoration: none;
   color: var(--font-dark);
 }
-a:hover{
+a:hover {
   color: var(--accent-default);
 }
 textarea:focus {
   outline: none;
+}
+
+.btn__style {
+  background-color: var(--accent-default);
+  box-shadow: 0 1px 5px var(--accent-dark);
+  color: white;
+  height: 35px;
+  min-width: 100px;
+  font-size: 20px;
+  border: none;
+  margin: 0 20px;
 }
