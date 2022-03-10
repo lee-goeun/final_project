@@ -144,6 +144,7 @@ const PostContainer = ({
   isGood = '',
   goodIncrease,
   goodDecrease,
+  userInfo,
 }) => {
   const settings = {
     slide: 'div',
@@ -154,6 +155,8 @@ const PostContainer = ({
     slidesToScroll: 1,
     arrows: true,
   };
+
+  console.log('로그인 정보', userInfo);
 
   const [isFollow, setIsFollow] = useState(false);
 

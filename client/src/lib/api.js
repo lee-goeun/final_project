@@ -13,7 +13,6 @@ export const updateMatchPost = (formData) => {
   return axios.put('http://localhost:3001/match/mod', formData);
 };
 
-
 export const getMarketList = (keyword) =>
   axios.get(`http://localhost:3001/market/list?keyword=${keyword}`);
 export const getMarketPost = (marketId) =>
@@ -38,3 +37,9 @@ export const sellingMarketPost = (data) => {
   return axios.post('http://localhost:3001/market/selling', data);
 };
 
+// 일반 게시물
+export const getPostList = (boardId) =>
+  axios.get('http://localhost:3001/board/');
+
+export const getPost = (boardId) =>
+  axios.get(`http://localhost:3001/board/post/${boardId}`);
