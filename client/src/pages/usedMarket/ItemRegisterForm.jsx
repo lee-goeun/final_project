@@ -65,7 +65,6 @@ const ItemRegisterForm = () => {
 
   //write/update후처리
   const res = useSelector((state) => state.market.res);
-  console.log(res, 'resrersersreserser');
   if (res) {
     if (res.status === 'success') {
       navigate('/market/list');

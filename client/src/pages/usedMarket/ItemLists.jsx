@@ -15,30 +15,21 @@ const Post = ({ post }) => {
   // const closeModal = () => {
   //   setModalVisible(false);
   // };
-
-  const korTime = new Date(post.matchTime);
+  console.log('post',post);
   return (
-    <StyledLink to={'/match/detail/' + post.matchId}>
+    <StyledLink to={'/market/detail/' + post.marketId}>
       <DisplayWrapper>
         <ImgInner
           src={
-            'http://localhost:3001/match/download?matchId=' +
-            post.matchId +
-            '&matchImgName=' +
-            post.matchImgName
+            'http://localhost:3001/market/download?marketId=' +
+            post.marketId +
+            '&marketImgName=' +
+            post.marketImgName
           }
           // onClick={openModal}
         />
-        <h5>
-          {`산책 예정 시간: ${moment(korTime)
-            .format('YYYY-MM-DD HH:mm')
-            .substring(0, 10)} ${moment(korTime)
-            .format('YYYY-MM-DD HH:mm')
-            .substring(11, 13)}시${moment(korTime)
-            .format('YYYY-MM-DD HH:mm')
-            .substring(14, 16)}분`}
-        </h5>
-        <h6>{`${post.region1} ${post.region2} ${post.region3}`}</h6>
+        <h3>{`${post.marketTitle}`}</h3>
+        <h6>{`${post.price}`} 원</h6>
       </DisplayWrapper>
     </StyledLink>
   );
@@ -89,6 +80,7 @@ const ItemListWrapper = styled.section`
 `;
 
 const ItemLists = ({ loadingList, list }) => {
+  console.log('list', list);
   const style1 = {
     display: 'inline-block',
     marginLeft: 50,
@@ -124,7 +116,7 @@ const ItemLists = ({ loadingList, list }) => {
       {!loadingList && list && (
         <ItemListWrapper>
           {list.map((post) => (
-            <Post key={post.matchId} post={post} />
+            <Post key={post.marketId} post={post} />
           ))}
         </ItemListWrapper>
       )}
