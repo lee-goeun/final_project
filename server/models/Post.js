@@ -76,9 +76,28 @@ Post.findOne = (postID, result) => {
                 }
                 res[0].boardImgList = imgList;
                 res[0].userNick = userNick[0].userNick;
+
+                //조회수 증가
+                sql.query('UPDATE boardTbl SET boardViews=? WHERE boardId=?', [res[0].boardViews+1, postID], (err, views) => {
+                  if(err) {
+                    console.log("error:", err);
+                    // result(err, null);
+                    return;
+                  }
+                  
+                  //id 결과 없을시
+                  if(res.affectedRows == 0) {
+                      // result({kind:"not_found"}, null);
+                      return;
+                  }
+
+                  
+                })
                 result(null, res[0]);
+                
               });
             });
+            //조회수 증가
             
             return;
         }
