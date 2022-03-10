@@ -38,29 +38,20 @@ const ChattingPageStyle = styled.div`
     text-align: center;
   }
 `;
-
-const socket = socketio.connect('http://localhost:3002');
+const socket = socketio('localhost:3002');
+console.log('socket', socket)
 const Chatting = () => {
   const [chatUserList, setChatUserList] = useState([]);
-  console.log('ee', socket);
-  //socket.emit("joinRoom", {roomName:"11"});
+  
   console.log(chatUserList);
   
   const showMsg = (matchId) => {
-    console.log('matchId', matchId);
-    
-    // socket.on('recMsg', function(data){
-      
-    // });
-    
+  }
+  const clickTest = (e) =>{
+    e.preventDefault();
+    socket.emit('send message', {name : '홍길동',message:'테스트'});
   }
   const msgClick = (e) => {
-    console.log(e);
-    if(e.keyCode ==13){
-      console.log('ss');
-    //  socket.emit("reqMsg", {comment: localStorage.getItem('userId')});
-    }
-    
   }
   useEffect(() => {
     axios.get('http://localhost:3001/chat/list').then((res) => {
@@ -136,7 +127,9 @@ const Chatting = () => {
                     maxLength="200"
                   />
                 </form>
+                <button onClick={clickTest}>클릭테스트</button>
               </div>
+            
             </div>
             
           </div>

@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import UserAvatar from '../../components/common/UserAvatar';
-import MatchingModalButton from '../../components/common/MatchingModalButton';
+import MarketModalButton from '../../components/common/MarketModalButton';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import axios from 'axios';
 
-const MatchingPostWrapper = styled.section`
+const MarketPostWrapper = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,23 +57,8 @@ const marginStyle2 = {
 const ItemPost = ({ post, loadingPost }) => {
   const navigate = useNavigate();
 
-  const addChat = () => {
-    axios
-      .post('http://localhost:3001/chat/add', {
-        matchId: post[0].matchId,
-        userId: post[0].userId,
-        participant: localStorage.getItem('userId'),
-      })
-      .then((res) => {
-        if (res.status == 200) {
-          navigate('/chatting');
-          console.log('re', res);
-        }
-      });
-  };
-
   return (
-    <MatchingPostWrapper>
+    <MarketPostWrapper>
       {loadingPost && 'loading...'}
       {!loadingPost && post && (
         <div>
@@ -83,38 +68,23 @@ const ItemPost = ({ post, loadingPost }) => {
               <h4>작성자:{post[0].userId}</h4>
             </UserWrapper>
             <ButtonWrapper>
-              <MatchingModalButton />
+              <MarketModalButton />
             </ButtonWrapper>
           </TopWrapper>
-          <h2 style={marginStyle1}>{post[0].matchTitle}</h2>
+          <h2 style={marginStyle1}>{post[0].marketTitle}</h2>
           <ImgWrapper
-            src={`http://localhost:3001/match/download?matchId=${post[0].matchId}&matchImgName=${post[0].matchImgName}`}
+            src={`http://localhost:3001/market/download?marketId=${post[0].marketId}&marketImgName=${post[0].marketImgName}`}
           />
-          <h4 style={marginStyle1}>{post[0].matchContent}</h4>
-          <h6 style={marginStyle2}>
-            {`산책 예정 시간: ${moment(new Date(post[0].matchTime))
-              .format('YYYY-MM-DD HH:mm')
-              .substring(0, 10)} ${moment(new Date(post[0].matchTime))
-              .format('YYYY-MM-DD HH:mm')
-              .substring(11, 13)}시${moment(new Date(post[0].matchTime))
-              .format('YYYY-MM-DD HH:mm')
-              .substring(14, 16)}분`}
-          </h6>
+          <h4 style={marginStyle1}>{post[0].marketContent}</h4>
           <h6 style={marginStyle2}>
             20대 | 남자 |
             {`${post[0].region1} ${post[0].region2}  ${post[0].region3}`}
           </h6>
           <h6 style={marginStyle2}>(펫정보)):{post[0].selectPet}</h6>
           <h6 style={marginStyle2}>코코 | 3살 | 강아지 | 포메라니안</h6>
-          <StyledButton style={marginStyle1}>
-            <StyledLink to="" onClick={addChat}>
-              <h3>채팅하기</h3>
-              <ChatIcon sx={{ top: 100 }} />
-            </StyledLink>
-          </StyledButton>
         </div>
       )}
-    </MatchingPostWrapper>
+    </MarketPostWrapper>
   );
 };
 
