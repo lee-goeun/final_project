@@ -186,17 +186,27 @@ router.put('/del/:id', (req, res) => {
 //관심목록 추가
 router.post('/like', (req, res) => {
   let body = req.body;
-  var sql = 'INSERT INTO marketLikeTbl(marketId, userId) VALUES(?,?);';
-  conn.query(sql, [body.marketId, body.userId], (err, results) => {
-    if(err) return res.json({success: false, err});
-    else res.json({status:"success"});
-  })
+  var sql1 = 'SELECT * FROM marketLikeTbl WHERE marketId = ? and userId = ?';
+  conn.query(sql1, [body.marketId, body.userId], (err1, results1) => {
+    if(err1) return res.json({success:false}, err1);
+    else{
+      if(results1.length == 0){
+        var sql2 = 'INSERT INTO marketLikeTbl(marketId, userId) VALUES(?,?);';
+        conn.query(sql2, [body.marketId, body.userId], (err2, results2) => {
+          if(err2) return res.json({success: false, err2});
+          else res.json({status:"success"});
+        })
+      }
+    }
+  }) 
+  
 })
 
 //관심목록 삭제
 router.post('/delLike', (req, res) => {
   let body = req.body;
-  var sql = 'delete from marektLikeTbl where marketId = ? and userId = ?;';
+  console.log('reqqqqqqqqq', body);
+  var sql = 'delete from marketLikeTbl where marketId = ? and userId = ?;';
   conn.query(sql, [body.marketId, body.userId], (err, results) => {
     if(err) return res.json({success: false, err});
     else res.json({status:"success"});

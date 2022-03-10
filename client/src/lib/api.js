@@ -26,3 +26,11 @@ export const writeMarketPost = (formData) => {
 export const updateMarketPost = (formData) => {
   return axios.put('http://localhost:3001/market/mod', formData);
 };
+//관심목록
+export const addLikeMarketPost = (data) => {
+  return axios.post('http://localhost:3001/market/like', data);
+};
+export const delLikeMarketPost = (data) => {
+  return axios.post('http://localhost:3001/market/delLike', data);
+};
+

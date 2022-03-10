@@ -6,9 +6,10 @@ import CreateIcon from '@mui/icons-material/Create';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { getMarketList } from '../../redux/modules/market'
+import { getMarketList, addLikeMarketPost, delLikeMarketPost } from '../../redux/modules/market'
 
 
 const Post = ({ post }) => {
@@ -20,8 +21,15 @@ const Post = ({ post }) => {
   // const closeModal = () => {
   //   setModalVisible(false);
   // };
-  
-  
+  const dispatch = useDispatch();
+  const [isBookmark, setIsBookmark] = useState(true);
+
+  const bookmarkChk = () =>{
+    setIsBookmark(!isBookmark);
+    const data = {marketId : post.marketId , userId : localStorage.getItem("userId")};
+    isBookmark? dispatch(addLikeMarketPost(data), [dispatch]) : dispatch(delLikeMarketPost(data), [dispatch]);
+  }
+
   return (
     <Wrapper>
         <StyledLink to={'/market/detail/' + post.marketId}>
@@ -40,7 +48,11 @@ const Post = ({ post }) => {
         <h3>{`${post.marketTitle}`}</h3>
         <h6>{`${post.price}`} 원</h6>
         <VisibilityIcon/><span>34</span>
-        <BookmarkBorderIcon/>
+        <Link to="" onClick={bookmarkChk}>
+        {
+          isBookmark ? <BookmarkBorderIcon/> : <BookmarkIcon/>
+        }
+        </Link>
     </Wrapper>
     
   );

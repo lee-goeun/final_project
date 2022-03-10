@@ -10,6 +10,11 @@ const CHANGE_INPUT_TIME = 'market/CHANGE_INPUT_TIME';
 const CHANGE_INPUT_IMAGE = 'market/CHANGE_INPUT_IMAGE';
 const INITIALIZE_FORM = 'market/INITIALIZE_FORM';
 
+const LIKE_POST = 'market/LIKE_POST';
+const LIKE_POST_SUCCESS = 'market/LIKE_POST_SUCCESS';
+const DELLIKE_POST = 'market/DELLIKE_POST';
+const DELLIKE_POST_SUCCESS = 'market/DELLIKE_POST_SUCCESS';
+
 const WRITE_POST = 'market/WRITE_POST';
 const WRITE_POST_SUCCESS = 'market/WRITE_POST_SUCCESS';
 //작성된포스트불러오기
@@ -44,6 +49,16 @@ export const changeInputImage = createAction(
   CHANGE_INPUT_IMAGE,
   ({ form, imgUrl, imgName }) => ({ form, imgUrl, imgName }),
 );
+
+export const addLikeMarketPost = createRequestThunk(
+  LIKE_POST,
+  api.addLikeMarketPost,
+);
+export const delLikeMarketPost = createRequestThunk(
+  DELLIKE_POST,
+  api.delLikeMarketPost,
+);
+
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
 export const writeMarketPost = createRequestThunk(
   WRITE_POST,
@@ -62,6 +77,7 @@ export const deleteMarketPost = createRequestThunk(
   api.deleteMarketPost,
 );
 
+
 //init state
 const initialState = {
   loading: {
@@ -70,6 +86,8 @@ const initialState = {
     DELETE_POST: false,
     WRITE_POST: false,
     UPDATE_POST: false,
+    LIKE_POST: false,
+    DELLIKE_POST: false,
   },
 
   list: null,
@@ -123,6 +141,22 @@ const market = handleActions(
       },
     }),
     //api request
+    [LIKE_POST_SUCCESS]: (state, action) => ({
+      ...state,
+      loading: {
+        ...state.loading,
+        LIKE_POST: false,
+      },
+      res: action.payload,
+    }),
+    [DELLIKE_POST_SUCCESS]: (state, action) => ({
+      ...state,
+      loading: {
+        ...state.loading,
+        DELLIKE_POST: false,
+      },
+      res: action.payload,
+    }),
     [WRITE_POST_SUCCESS]: (state, action) => ({
       ...state,
       loading: {
