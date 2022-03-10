@@ -4,7 +4,10 @@ import Carousel from '../../components/common/Carousel';
 import SearchIcon from '@mui/icons-material/Search';
 import CreateIcon from '@mui/icons-material/Create';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { getMarketList } from '../../redux/modules/market'
+
 
 const Post = ({ post }) => {
   // 모달형식으로 링크작업 추후
@@ -15,7 +18,8 @@ const Post = ({ post }) => {
   // const closeModal = () => {
   //   setModalVisible(false);
   // };
-  console.log('post',post);
+  
+  
   return (
     <StyledLink to={'/market/detail/' + post.marketId}>
       <DisplayWrapper>
@@ -34,6 +38,8 @@ const Post = ({ post }) => {
     </StyledLink>
   );
 };
+
+
 
 const StyledLink = styled(Link)`
   width: 500px;
@@ -79,8 +85,21 @@ const ItemListWrapper = styled.section`
   grid-template-columns: 1fr 1fr;
 `;
 
+
+
 const ItemLists = ({ loadingList, list }) => {
-  console.log('list', list);
+  const dispatch = useDispatch();
+  const [keyword, setKeyword] = useState("");
+
+  const searchKeyword = (e) => {
+    setKeyword(e.target.value);
+    console.log('e', keyword);
+    console.log('dddd', e);
+    if(e.code == 'Enter'){
+      dispatch(getMarketList(keyword), [dispatch]);
+    }
+  }
+
   const style1 = {
     display: 'inline-block',
     marginLeft: 50,
@@ -104,7 +123,7 @@ const ItemLists = ({ loadingList, list }) => {
         </div>
         <SearchWrapper>
           <SearchIcon sx={{ position: 'absolute', left: '2%', top: '18%' }} />
-          <MiddleInnerSearch />
+          <MiddleInnerSearch onKeyUp={searchKeyword}/>
         </SearchWrapper>
         <Link to="/market/add">
           {'중고거래 올리기'}

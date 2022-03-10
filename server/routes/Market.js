@@ -23,11 +23,10 @@ const upload = multer({ storage: storage });
 //조회(검색, 관심도 높은 순)
 router.get('/list', (req, res) => {
   let keyword = req.query.keyword;
-  console.log('###########', keyword);
 
   var sql = '';
-  if (keyword == undefined) {
-    sql = 'select * from marketTbl where marketDeleted = 0';
+  if (keyword == 'undefined' || keyword == '') {
+    sql = 'select * from marketTbl where marketDeleted = 0 ORDER BY marketCreated DESC';
     conn.query(sql, (err, results) => {
       if (err) return res.json({ success: false, err });
       else return res.json(results);
@@ -35,8 +34,7 @@ router.get('/list', (req, res) => {
   } else {
     keyword = '%' + keyword + '%';
     sql =
-      'select * from marketTbl where marketDeleted = 0 and (marketTitle like ? or marketContent like ?)';
-
+      'select * from marketTbl where marketDeleted = 0 and (marketTitle like ? or marketContent like ?) ORDER BY marketCreated DESC';
     conn.query(sql, [keyword, keyword], (err, results) => {
       if (err) return res.json({ success: false, err });
       else return res.json(results);
