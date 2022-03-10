@@ -7,7 +7,7 @@ import UserAvatar from '../common/UserAvatar';
 const categories = [
   {
     name: 'mypost',
-    text: '나의게시물',
+    text: '나의 게시물',
   },
   {
     name: 'mypet',
@@ -24,8 +24,12 @@ const categories = [
 ];
 
 const Nav = styled.nav`
-  border: 1px solid black;
   margin: 0.5rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px rgb(0 0 0 / 20%);
+  width: 180px;
+  padding: 0 10px;
 `;
 const AvatarBlock = styled.div`
   display: flex;

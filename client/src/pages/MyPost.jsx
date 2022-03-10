@@ -3,6 +3,7 @@ import './MyPageStyle.css';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+// 마이페이지 -> 나의 게시물
 const MyPost = () => {
   const postCon = useRef();
   const matchCon = useRef();

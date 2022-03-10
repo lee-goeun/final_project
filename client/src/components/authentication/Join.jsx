@@ -407,12 +407,7 @@ const Join = () => {
         <Link to="/login">
           <button className="back-btn">뒤로가기</button>
         </Link>
-        <button
-          className="join-btn"
-          ref={joinBtn}
-          disabled="disabled"
-          onClick={clickSubmitBtn}
-        >
+        <button className="join-btn" ref={joinBtn} onClick={clickSubmitBtn}>
           회원가입
         </button>
       </div>

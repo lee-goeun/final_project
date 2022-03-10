@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquarePlus } from '@fortawesome/free-regular-svg-icons';
 import AddPetForm from '../components/mypage/AddPetForm';
 
+// 마이페이지 -> 나의 반려동물
 const MyPet = () => {
   const addPetText = useRef();
 

@@ -68,6 +68,7 @@ const Home = ({ getPostList, posts, postsLoading }) => {
             ) : (
               posts.data.map((post) => <PostContainer key={post.boardId} />)
             )} */}
+            <PostContainer />
           </Slider>
         </div>
       </MainPageFooterStyle>
