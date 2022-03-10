@@ -4,7 +4,6 @@ import Footer from '../components/Footer';
 import PostContainer from '../components/Post';
 import styled from 'styled-components';
 import Slider from 'react-slick';
-import axios from 'axios';
 import { getPostList } from '../redux/modules/post/post';
 import { connect } from 'react-redux';
 
@@ -40,16 +39,11 @@ const MainPageFooterStyle = styled.div`
   }
 `;
 
-const Home = ({ getPostList, postsLoading, res }) => {
-  // useEffect(() => {
-  //   axios
-  //     .get('http://localhost:3001/board/')
-  //     .then((res) => setGetMainPost(res.data));
-  // }, []);
-
-  // const [getMainPost, setGetMainPost] = useState([]);
-
+const Home = ({ getPostList, posts, postsLoading }) => {
   useEffect(() => {
+    // actionGetPostList();
+    // console.log('로딩', postsLoading);
+    // console.log('포스트', posts);
     getPostList();
   }, []);
 
@@ -69,23 +63,11 @@ const Home = ({ getPostList, postsLoading, res }) => {
       <MainPageFooterStyle>
         <div className="main-body-div">
           <Slider {...centerModeSettings}>
-            {/* {getMainPost.map((po) => (
-              <div className="center-carousel">
-                <PostContainer
-                  key={po.boardId}
-                  boardId={po.boardId}
-                  userId={po.userId}
-                  boardImgList={po.boardImgList}
-                  boardTitle={po.boardTitle}
-                  boardContent={po.boardContent}
-                  boardGood={po.boardGood}
-                  boardViews={po.boardViews}
-                  boardCreated={po.boardCreated}
-                  goodCount={0}
-                />
-              </div>
-            ))} */}
-            <PostContainer />
+            {/* {postsLoading ? (
+              <div>로딩중</div>
+            ) : (
+              posts.data.map((post) => <PostContainer key={post.boardId} />)
+            )} */}
           </Slider>
         </div>
       </MainPageFooterStyle>
@@ -96,7 +78,8 @@ const Home = ({ getPostList, postsLoading, res }) => {
 
 const mapStateToProps = (state) => {
   return {
-    posts: state.posts,
+    posts: state.postReducer.posts,
+    postsLoading: state.postReducer.postsLoading,
   };
 };
 

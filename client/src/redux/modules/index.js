@@ -9,8 +9,8 @@ const rootReducer = combineReducers({
   profileImgHandler,
   matching,
   loading,
-  post: postReducer,
-  likePost: LikePostReducer,
+  postReducer,
+  LikePostReducer,
 });
 
 export default rootReducer;

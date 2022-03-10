@@ -4,6 +4,7 @@ import createRequestThunk from '../../../lib/createRequestThunk';
 
 // post actions types
 const GET_POST_LIST = `post/GET_POST_LIST`;
+const GET_POST_REQUEST = 'post/GET_POST_REQUEST';
 const GET_POST_SUCCESS = 'post/GET_POST_SUCCESS';
 const GET_POST_FAILURE = 'post/GET_POST_FAILURE';
 const GET_POST = 'post/GET_POST';
@@ -16,15 +17,16 @@ const UPLOAD_COMMENT_IN_POST = 'post/UPLOAD_COMMENT_IN_POST';
 
 // API actions
 export const getPostList = () => {
+  // const res = await axios.get('http://localhost:3001/board/');
+  // getPostSuccess(res.data);
   return (dispatch) => {
+    dispatch(getPostRequest());
     axios
       .get('http://localhost:3001/board/')
       .then((res) => {
-        console.log('일반게시물 리스트 :', res);
         dispatch(getPostSuccess(res));
       })
       .catch((error) => {
-        console.log(error);
         dispatch(getPostFailure(error));
       });
   };
@@ -49,7 +51,13 @@ export const uploadCommentInPost = (boardId) =>
   axios.post(`http://localhost:3001/board/comment/${boardId}`);
 
 // post actions
-// export const actionGetPostList = createAction(GET_POST_LIST, getPostList);
+export const actionGetPostList = createAction(GET_POST_LIST, getPostList);
+
+export const getPostRequest = () => {
+  return {
+    type: GET_POST_REQUEST,
+  };
+};
 
 export const getPostSuccess = (res) => {
   return {
@@ -57,6 +65,12 @@ export const getPostSuccess = (res) => {
     payload: res,
   };
 };
+// {
+//   return {
+//     type: GET_POST_SUCCESS,
+//     payload: res,
+//   };
+// };
 
 export const getPostFailure = (error) => {
   return {
@@ -84,6 +98,11 @@ const LikeInitialState = {
 // post reducers
 export const postReducer = (state = postInitialState, action) => {
   switch (action.type) {
+    case GET_POST_REQUEST:
+      return {
+        ...state,
+        postsLoading: true,
+      };
     case GET_POST_SUCCESS:
       return {
         ...state,
