@@ -66,7 +66,7 @@ router.post('/add', upload.single('marketImgName'), (req, res) => {
   var filename = req.file.originalname;
 
   var sql =
-    'INSERT INTO marketTbl(userId, marketmgName, marketTitle, marketContent, price) VALUES(?,?,?,?,?);';
+    'INSERT INTO marketTbl(userId, marketImgName, marketTitle, marketContent, price) VALUES(?,?,?,?,?);';
   conn.query(
     sql,
     [
@@ -111,8 +111,9 @@ router.post('/add', upload.single('marketImgName'), (req, res) => {
 router.get('/download', (req, res) => {
   var id = req.query.marketId;
   var img = req.query.marketImgName;
+  console.log("id", id ,"img", img);
 
-  fs.readFile('marketImgName/' + id + '/' + img, function (err, results) {
+  fs.readFile('marketImages/' + id + '/' + img, function (err, results) {
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.end(results);
   });

@@ -10,13 +10,22 @@ import PostPage from './pages/PostPage';
 import DetailPost from './pages/DetailPost';
 import Chatting from './pages/Chatting';
 import UsedTrade from './pages/UsedTrade';
+
+//매칭페이지
 import MatchingPageLayout from './layout/FindingMatesLayout';
 import MatchingListsContainer from './redux/containers/MatchingListsContainer';
 import WriteMatchingPost from './pages/findingMates/MatchingRegisterForm';
 import MatchingPostContainer from './redux/containers/MatchingPostContainer';
+
+//중고장터페이지
+import MarketPageLayout from './layout/MarketLayout';
+import MarketListsContainer from './redux/containers/MarketListsContainer';
+import WriteMarketgPost from './pages/usedMarket/ItemRegisterForm';
+import MarketPostContainer from './redux/containers/MarketPostContainer';
+
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import MarketPageLayout from './layout/MarketLayout';
+
 import ItemLists from './pages/usedMarket/ItemLists';
 import ItemPost from './pages/usedMarket/ItemPost';
 import WriteItemPost from './pages/usedMarket/ItemRegisterForm';
@@ -77,16 +86,18 @@ function App() {
       <Route path="/usedtrade" element={<UsedTrade />} />
       <Route path="/chatting" element={<Chatting />} />
 
+      {/* 매칭페이지 */}
       <Route path="match" element={<MatchingPageLayout />}>
         <Route path="list" element={<MatchingListsContainer />} />
         <Route path="detail/:matchId" element={<MatchingPostContainer />} />
         <Route path="add" element={<WriteMatchingPost />} />
       </Route>
 
+      {/* 중고장터 페이지 */}
       <Route path="market" element={<MarketPageLayout />}>
-        <Route path="list" element={<ItemLists />} />
-        <Route path="detail/:itemId" element={<ItemPost />} />
-        <Route path="add" element={<WriteItemPost />} />
+        <Route path="list" element={<MarketListsContainer />} />
+        <Route path="detail/:marketId" element={<MarketPostContainer />} />
+        <Route path="add" element={<WriteMarketgPost />} />
       </Route>
 
       <Route element={<MyPageLayout userInfo={userInfo} />}>
