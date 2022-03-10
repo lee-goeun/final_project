@@ -45,8 +45,12 @@ const Post = ({ post }) => {
           />
         </DisplayWrapper>
       </StyledLink>
+      {
+        post.isSale ? <SoldOut>판매완료</SoldOut> : ""
+      }
         <h3>{`${post.marketTitle}`}</h3>
         <h6>{`${post.price}`} 원</h6>
+        
         <VisibilityIcon/><span>34</span>
         <Link to="" onClick={bookmarkChk}>
         {
@@ -63,6 +67,15 @@ const Wrapper = styled.div`
   width: 500px;
   height: 300px;
   margin: 20px auto 70px;
+  position:relative;
+`;
+const SoldOut = styled.div`
+  width: 500px;
+  height: 300px;
+  margin: 20px auto;
+  position:absolute;
+  top:0; left:0;
+  background-color:rgba(0,0,0,0.5);
 `;
 const StyledLink = styled(Link)`
   width: 500px;
