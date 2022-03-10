@@ -3,7 +3,6 @@ import UserAvatar from '../../components/common/UserAvatar';
 import MarketModalButton from '../../components/common/MarketModalButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link, useNavigate } from 'react-router-dom';
-import moment from 'moment';
 import axios from 'axios';
 
 const MarketPostWrapper = styled.section`
@@ -55,20 +54,8 @@ const marginStyle2 = {
 };
 
 const ItemPost = ({ post, loadingPost }) => {
-  console.log('post',post)
-  const navigate = useNavigate();
 
   const buyItem = () => {
-    axios.post('http://localhost:3001/chat/add', {
-     matchId : post[0].matchId,
-     userId : post[0].userId,
-     participant:localStorage.getItem("userId")
-   }).then((res) => {
-     if (res.status == 200) {
-        navigate('/chatting');
-       console.log('re', res)
-     }
-   });
  }
 
   return (

@@ -4,7 +4,12 @@ import Carousel from '../../components/common/Carousel';
 import SearchIcon from '@mui/icons-material/Search';
 import CreateIcon from '@mui/icons-material/Create';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import moment from 'moment';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { getMarketList } from '../../redux/modules/market'
+
 
 const Post = ({ post }) => {
   // 모달형식으로 링크작업 추후
@@ -15,26 +20,38 @@ const Post = ({ post }) => {
   // const closeModal = () => {
   //   setModalVisible(false);
   // };
-  console.log('post',post);
+  
+  
   return (
-    <StyledLink to={'/market/detail/' + post.marketId}>
-      <DisplayWrapper>
-        <ImgInner
-          src={
-            'http://localhost:3001/market/download?marketId=' +
-            post.marketId +
-            '&marketImgName=' +
-            post.marketImgName
-          }
-          // onClick={openModal}
-        />
+    <Wrapper>
+        <StyledLink to={'/market/detail/' + post.marketId}>
+        <DisplayWrapper>
+          <ImgInner
+            src={
+              'http://localhost:3001/market/download?marketId=' +
+              post.marketId +
+              '&marketImgName=' +
+              post.marketImgName
+            }
+            // onClick={openModal}
+          />
+        </DisplayWrapper>
+      </StyledLink>
         <h3>{`${post.marketTitle}`}</h3>
         <h6>{`${post.price}`} 원</h6>
-      </DisplayWrapper>
-    </StyledLink>
+        <VisibilityIcon/><span>34</span>
+        <BookmarkBorderIcon/>
+    </Wrapper>
+    
   );
 };
 
+
+const Wrapper = styled.div`
+  width: 500px;
+  height: 300px;
+  margin: 20px auto;
+`;
 const StyledLink = styled(Link)`
   width: 500px;
   height: 300px;
@@ -79,8 +96,19 @@ const ItemListWrapper = styled.section`
   grid-template-columns: 1fr 1fr;
 `;
 
+
+
 const ItemLists = ({ loadingList, list }) => {
-  console.log('list', list);
+  const dispatch = useDispatch();
+  const [keyword, setKeyword] = useState("");
+
+  const searchKeyword = (e) => {
+    setKeyword(e.target.value);
+    if(e.code == 'Enter'){
+      dispatch(getMarketList(keyword), [dispatch]);
+    }
+  }
+
   const style1 = {
     display: 'inline-block',
     marginLeft: 50,
@@ -98,13 +126,13 @@ const ItemLists = ({ loadingList, list }) => {
       </section>
       <hr />
       <MiddleSectionWrapper>
-        <div>
+        <Link to="">
           {'관심도 높은순'}
           <FilterAltIcon sx={{ position: 'relative', top: '15%', mx: 1 }} />
-        </div>
+        </Link>
         <SearchWrapper>
           <SearchIcon sx={{ position: 'absolute', left: '2%', top: '18%' }} />
-          <MiddleInnerSearch />
+          <MiddleInnerSearch onKeyUp={searchKeyword}/>
         </SearchWrapper>
         <Link to="/market/add">
           {'중고거래 올리기'}

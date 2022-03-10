@@ -14,8 +14,8 @@ export const updateMatchPost = (formData) => {
 };
 
 
-export const getMarketList = (marketId) =>
-  axios.get('http://localhost:3001/market/list');
+export const getMarketList = (keyword) =>
+  axios.get(`http://localhost:3001/market/list?keyword=${keyword}`);
 export const getMarketPost = (marketId) =>
   axios.get(`http://localhost:3001/market/detail/${marketId}`);
 export const deleteMarketPost = (marketId) =>
