@@ -20,6 +20,7 @@ import MarketPageLayout from './layout/MarketLayout';
 import ItemLists from './pages/usedMarket/ItemLists';
 import ItemPost from './pages/usedMarket/ItemPost';
 import WriteItemPost from './pages/usedMarket/ItemRegisterForm';
+import MyPet from './pages/MyPet';
 
 function App() {
   const [userInfo, setUserInfo] = useState({
@@ -91,6 +92,7 @@ function App() {
 
       <Route element={<MyPageLayout userInfo={userInfo} />}>
         <Route path="/mypost/" element={<Mypost />} />
+        <Route path="/mypet/" element={<MyPet />} />
         <Route
           path="/profile/"
           element={<Profile userInfoProps={userInfo} />}
