@@ -120,7 +120,7 @@ const AddPetForm = ({ clickAddCancel }) => {
           <p className="imgppp" ref={imgText}>
             반려동물 사진
           </p>
-          <input id="pet-img" type="file" />
+          <input id="pet-img" type="file" name="petImgName" />
           <label className="pet-form-label" htmlFor="pet-name">
             반려동물 이름
           </label>
@@ -128,11 +128,12 @@ const AddPetForm = ({ clickAddCancel }) => {
             id="pet-name"
             type="text"
             placeholder="반려동물의 이름을 입력하세요"
+            name="petName"
           />
           <label className="pet-form-label" htmlFor="pet-species">
             반려동물 종류
           </label>
-          <select id="pet-species" onChange={selectSpecies}>
+          <select id="pet-species" onChange={selectSpecies} name="petType">
             <option value="none">종류를 선택하세요</option>
             <option value="dog">강아지</option>
             <option value="cat">고양이</option>
@@ -147,6 +148,7 @@ const AddPetForm = ({ clickAddCancel }) => {
               type="text"
               id="pet-species-direct-input"
               placeholder="반려동물의 종류를 입력해주세요"
+              name="petType"
             />
           ) : null}
           <label className="pet-form-label" htmlFor="pet-species-name">
@@ -156,17 +158,19 @@ const AddPetForm = ({ clickAddCancel }) => {
             type="text"
             id="pet-species-name"
             placeholder="반려동물의 세부 종(품종)을 입력하세요 "
+            name="petTypeDetail"
           />
           <label className="pet-form-label" htmlFor="pet-birth">
             생년월일
           </label>
-          <input id="pet-birth" type="date" />
+          <input id="pet-birth" type="date" name="petBirth" />
+
           <label className="pet-form-label">반려동물 성별</label>
-          <input type="radio" name="petSex" id="pet-male" value="male" />
+          <input type="radio" name="petSex" id="pet-male" value="1" />
           <label className="pet-sex-label" htmlFor="pet-male">
             수컷
           </label>
-          <input type="radio" name="petSex" id="pet-female" value="female" />
+          <input type="radio" name="petSex" id="pet-female" value="0" />
           <label className="pet-sex-label" htmlFor="pet-female">
             암컷
           </label>
