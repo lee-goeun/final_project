@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import UserAvatar from '../../components/common/UserAvatar';
 import MarketModalButton from '../../components/common/MarketModalButton';
-import ChatIcon from '@mui/icons-material/Chat';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import axios from 'axios';
@@ -55,7 +55,21 @@ const marginStyle2 = {
 };
 
 const ItemPost = ({ post, loadingPost }) => {
+  console.log('post',post)
   const navigate = useNavigate();
+
+  const buyItem = () => {
+    axios.post('http://localhost:3001/chat/add', {
+     matchId : post[0].matchId,
+     userId : post[0].userId,
+     participant:localStorage.getItem("userId")
+   }).then((res) => {
+     if (res.status == 200) {
+        navigate('/chatting');
+       console.log('re', res)
+     }
+   });
+ }
 
   return (
     <MarketPostWrapper>
@@ -65,7 +79,7 @@ const ItemPost = ({ post, loadingPost }) => {
           <TopWrapper>
             <UserWrapper>
               <UserAvatar sx={{ right: 10 }} />
-              <h4>작성자:{post[0].userId}</h4>
+              <h4>작성자:{post[0].userNick}</h4>
             </UserWrapper>
             <ButtonWrapper>
               <MarketModalButton />
@@ -76,12 +90,13 @@ const ItemPost = ({ post, loadingPost }) => {
             src={`http://localhost:3001/market/download?marketId=${post[0].marketId}&marketImgName=${post[0].marketImgName}`}
           />
           <h4 style={marginStyle1}>{post[0].marketContent}</h4>
-          <h6 style={marginStyle2}>
-            20대 | 남자 |
-            {`${post[0].region1} ${post[0].region2}  ${post[0].region3}`}
-          </h6>
-          <h6 style={marginStyle2}>(펫정보)):{post[0].selectPet}</h6>
-          <h6 style={marginStyle2}>코코 | 3살 | 강아지 | 포메라니안</h6>
+          <h6 style={marginStyle2}>{post[0].price} 원</h6>
+          <StyledButton style={marginStyle1}>
+            <StyledLink to="" onClick={buyItem}>
+              <h3>구매하기</h3>
+              <ShoppingCartIcon sx={{ top: 100 }} />
+            </StyledLink>
+          </StyledButton>
         </div>
       )}
     </MarketPostWrapper>

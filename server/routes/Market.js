@@ -123,12 +123,10 @@ router.get('/download', (req, res) => {
 router.get('/detail/:id', (req, res) => {
   let id = req.params.id;
   console.log('id',id);
-  var sql = 'select m.marketId, m.userId, m.marketTitle, m.marketContent, m.marketImgName,'+
-				'u.userNick'+
+  var sql = 'select m.marketId, m.userId, m.marketTitle, m.marketContent, m.price, m.marketImgName, u.userNick '+
 				'from marketTbl m left outer join userTbl u on m.userId = u.userId where m.marketDeleted = 0 and m.marketId = ?;';
 
   conn.query(sql, id, (err, results) => {
-    console.log('res', results);
     if (err) return res.json({ success: false, err });
     else{
       return res.json(results);
