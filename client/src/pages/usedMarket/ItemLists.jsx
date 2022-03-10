@@ -4,6 +4,8 @@ import Carousel from '../../components/common/Carousel';
 import SearchIcon from '@mui/icons-material/Search';
 import CreateIcon from '@mui/icons-material/Create';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { getMarketList } from '../../redux/modules/market'
@@ -21,26 +23,35 @@ const Post = ({ post }) => {
   
   
   return (
-    <StyledLink to={'/market/detail/' + post.marketId}>
-      <DisplayWrapper>
-        <ImgInner
-          src={
-            'http://localhost:3001/market/download?marketId=' +
-            post.marketId +
-            '&marketImgName=' +
-            post.marketImgName
-          }
-          // onClick={openModal}
-        />
+    <Wrapper>
+        <StyledLink to={'/market/detail/' + post.marketId}>
+        <DisplayWrapper>
+          <ImgInner
+            src={
+              'http://localhost:3001/market/download?marketId=' +
+              post.marketId +
+              '&marketImgName=' +
+              post.marketImgName
+            }
+            // onClick={openModal}
+          />
+        </DisplayWrapper>
+      </StyledLink>
         <h3>{`${post.marketTitle}`}</h3>
         <h6>{`${post.price}`} 원</h6>
-      </DisplayWrapper>
-    </StyledLink>
+        <VisibilityIcon/><span>34</span>
+        <BookmarkBorderIcon/>
+    </Wrapper>
+    
   );
 };
 
 
-
+const Wrapper = styled.div`
+  width: 500px;
+  height: 300px;
+  margin: 20px auto;
+`;
 const StyledLink = styled(Link)`
   width: 500px;
   height: 300px;
@@ -93,8 +104,6 @@ const ItemLists = ({ loadingList, list }) => {
 
   const searchKeyword = (e) => {
     setKeyword(e.target.value);
-    console.log('e', keyword);
-    console.log('dddd', e);
     if(e.code == 'Enter'){
       dispatch(getMarketList(keyword), [dispatch]);
     }
@@ -117,10 +126,10 @@ const ItemLists = ({ loadingList, list }) => {
       </section>
       <hr />
       <MiddleSectionWrapper>
-        <div>
+        <Link to="">
           {'관심도 높은순'}
           <FilterAltIcon sx={{ position: 'relative', top: '15%', mx: 1 }} />
-        </div>
+        </Link>
         <SearchWrapper>
           <SearchIcon sx={{ position: 'absolute', left: '2%', top: '18%' }} />
           <MiddleInnerSearch onKeyUp={searchKeyword}/>
