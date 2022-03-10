@@ -73,7 +73,7 @@ const SearchWrapper = styled.div`
 
 const MiddleInnerSearch = styled.input.attrs({
   type: 'text',
-  placeholder: '제목, 내용, 동네 검색하기',
+  placeholder: '물품 검색하기',
 })`
   cursor: pointer;
   border-radius: 30px;
@@ -101,22 +101,21 @@ const ItemLists = ({ loadingList, list }) => {
   return (
     <>
       <section>
-        <h4 style={style1}>시간이 얼마 안남았어요!</h4>
-        <h6 style={style2}>1시간 이내 남은 게시물 노출</h6>
+        <h4 style={style1}>지금 가장 HOT한 중고물품</h4>
         <Carousel />
       </section>
       <hr />
       <MiddleSectionWrapper>
         <div>
-          {'검색필터'}
+          {'관심도 높은순'}
           <FilterAltIcon sx={{ position: 'relative', top: '15%', mx: 1 }} />
         </div>
         <SearchWrapper>
           <SearchIcon sx={{ position: 'absolute', left: '2%', top: '18%' }} />
           <MiddleInnerSearch />
         </SearchWrapper>
-        <Link to="/match/add">
-          {'게시글 올리기'}
+        <Link to="/market/add">
+          {'중고거래 올리기'}
           <CreateIcon sx={{ position: 'relative', top: '11%', mx: 2 }} />
         </Link>
       </MiddleSectionWrapper>

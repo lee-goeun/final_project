@@ -1,32 +1,33 @@
 
 const express = require("express");
-const http = require('http').createServer(express);
+const app = express();
+const http = require('http').createServer(app);
 const conn = require("../db/index");
 const router = express.Router();
 const { json } = require("body-parser");
 const { emit } = require("process");
+const io = require('socket.io')(http);
+
+
 //웹소켓관련
-var io = require('socket.io').listen(http);
-
-http.listen(3002, function(){
-  console.log('listening on *:3002');
-});
-var roomName;
-
-io.on('connection', function(socket){
-  var instanceId = socket.id;
-  
-  socket.on('joinRoom',(data)=>{
-    console.log('data',data);
+io.on('connection', socket => {
+  //console.log("user Connected");
+  socket.on('disconnect',()=>{
+   // console.log('user Disconnect');
   })
+})
 
-  // socket.on('disconnect', function(){
-  //   console.log('disconnect');
-  // })
+http.listen(3002, () => console.log('listing on port 3002'));
 
-  socket.on('reqMsg', function(data){
-    console.log(data);
-    io.sockets.in(roomName).emit('recMsg',{comment:instanceId + ":" + data.comment + "\n"});
+io.on('connection', socket => {
+  //console.log('sssss');
+  socket.on('send message', (item) => {
+    const msg = item.name + ":" + item.message;
+    console.log(msg);
+    io.emit('receive message', {name:item.name,message:item.message});
+  });
+  socket.on('disconnect', function(){
+   // console.log('user disconnected', socket.id);
   })
 })
 
