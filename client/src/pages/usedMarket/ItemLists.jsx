@@ -62,7 +62,7 @@ const Post = ({ post }) => {
 const Wrapper = styled.div`
   width: 500px;
   height: 300px;
-  margin: 20px auto;
+  margin: 20px auto 70px;
 `;
 const StyledLink = styled(Link)`
   width: 500px;

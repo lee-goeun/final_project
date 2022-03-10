@@ -205,7 +205,6 @@ router.post('/like', (req, res) => {
 //관심목록 삭제
 router.post('/delLike', (req, res) => {
   let body = req.body;
-  console.log('reqqqqqqqqq', body);
   var sql = 'delete from marketLikeTbl where marketId = ? and userId = ?;';
   conn.query(sql, [body.marketId, body.userId], (err, results) => {
     if(err) return res.json({success: false, err});
@@ -218,6 +217,7 @@ router.post('/selling', (req, res) => {
   //userId : 판매한사람
   //sellerId : 구매한사람
   let body = req.body;
+  console.log('body', body);
   var sql = 'insert into marketSaleTbl(marketId, userId, sellerId) values(?,?,?)';
   conn.query(sql,[body.marketId, body.userId, body.sellerId], (err, results)=> {
     if(err) return res.json({success:false, err});
@@ -225,16 +225,16 @@ router.post('/selling', (req, res) => {
 
       //가격조회하기
       var selectPrice = 'select price from marketTbl where marketId = ?';
-      conn.query(selectPrice, body.marketId, (err, price) => {
+      conn.query(selectPrice, body.marketId, (err, results2) => {
       try{
-
+        const price = results2.price;
         conn.beginTransaction();
 
         //판매자 = balance + price;
         //구매자 = balance - price; 
-        conn.query('update userTbl set balance+? where userId=?',[price, userId]);
-        conn.query('update userTbl set balance-? where userId=?',[price, sellerId]);
-        conn.query('update marketTbl set isSale = 1;');
+        conn.query('update userTbl set balance=balance+? where userId=?',[price, body.userId]);
+        conn.query('update userTbl set balance=balance-? where userId=?',[price, body.sellerId]);
+        conn.query('update marketTbl set isSale = 1 where marketId=?;',[body.marketId]);
 
         conn.commit();
         return res.json({status:"success"});
@@ -245,7 +245,8 @@ router.post('/selling', (req, res) => {
         return res.status(500).json(err);
 
       }finally{
-        conn.release();
+        //TODO : 나중에 이거 뭐가 문제인지 찾아보기
+        //conn.release();
       }
       })
       

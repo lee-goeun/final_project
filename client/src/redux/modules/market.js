@@ -15,6 +15,9 @@ const LIKE_POST_SUCCESS = 'market/LIKE_POST_SUCCESS';
 const DELLIKE_POST = 'market/DELLIKE_POST';
 const DELLIKE_POST_SUCCESS = 'market/DELLIKE_POST_SUCCESS';
 
+const SELLING_POST = 'market/SELLING_POST';
+const SELLING_POST_SUCCESS = 'market/SELLING_POST_SUCCESS';
+
 const WRITE_POST = 'market/WRITE_POST';
 const WRITE_POST_SUCCESS = 'market/WRITE_POST_SUCCESS';
 //작성된포스트불러오기
@@ -59,6 +62,11 @@ export const delLikeMarketPost = createRequestThunk(
   api.delLikeMarketPost,
 );
 
+export const sellingMarketPost = createRequestThunk(
+  SELLING_POST,
+  api.sellingMarketPost,
+);
+
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
 export const writeMarketPost = createRequestThunk(
   WRITE_POST,
@@ -88,6 +96,7 @@ const initialState = {
     UPDATE_POST: false,
     LIKE_POST: false,
     DELLIKE_POST: false,
+    SELLING_POST : false
   },
 
   list: null,
@@ -154,6 +163,14 @@ const market = handleActions(
       loading: {
         ...state.loading,
         DELLIKE_POST: false,
+      },
+      res: action.payload,
+    }),
+    [SELLING_POST_SUCCESS]: (state, action) => ({
+      ...state,
+      loading: {
+        ...state.loading,
+        SELLING_POST: false,
       },
       res: action.payload,
     }),

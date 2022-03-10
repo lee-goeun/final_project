@@ -3,7 +3,8 @@ import UserAvatar from '../../components/common/UserAvatar';
 import MarketModalButton from '../../components/common/MarketModalButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { sellingMarketPost } from '../../redux/modules/market'
 
 const MarketPostWrapper = styled.section`
   display: flex;
@@ -54,9 +55,16 @@ const marginStyle2 = {
 };
 
 const ItemPost = ({ post, loadingPost }) => {
+  const dispatch = useDispatch();
 
   const buyItem = () => {
- }
+    const cnfrm = window.confirm('구매하시겠습니까?');
+    const data = {marketId : post[0].marketId, userId: post[0].userId, sellerId:localStorage.getItem('userId')};
+    console.log('dat', data);
+    if(cnfrm){
+      dispatch(sellingMarketPost(data), [dispatch]);
+    }
+  }
 
   return (
     <MarketPostWrapper>

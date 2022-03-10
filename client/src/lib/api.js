@@ -33,4 +33,8 @@ export const addLikeMarketPost = (data) => {
 export const delLikeMarketPost = (data) => {
   return axios.post('http://localhost:3001/market/delLike', data);
 };
+//물건구매하기
+export const sellingMarketPost = (data) => {
+  return axios.post('http://localhost:3001/market/selling', data);
+};
 
