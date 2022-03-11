@@ -199,7 +199,6 @@ Post.like = (postID, userID, result) => {
               return;
           }
           
-          console.log("좋아요 개수: ", boardgood[0])
           //게시글 좋아요 개수 증가
           sql.query('UPDATE boardTbl SET boardGood=? where boardId=?', [boardgood[0].boardGood + 1, postID], (err, res) => {
             if(err) {
@@ -239,7 +238,39 @@ Post.like = (postID, userID, result) => {
             return;
         }
 
-        console.log("deleted collect with id: ", good[0]);
+        //boardtbl의 boardGood 좋아요 개수 감소
+        sql.query('SELECT boardGood FROM boardTbl WHERE boardId=?', postID, (err, boardgood) => {
+          if(err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+          }
+          //id 결과가 없을시
+          if(boardgood.affectedRows == 0) {
+              result({kind:"not_found"}, null);
+              return;
+          }
+          
+          //게시글 좋아요 개수 감소
+          sql.query('UPDATE boardTbl SET boardGood=? where boardId=?', [boardgood[0].boardGood - 1, postID], (err, res) => {
+            if(err) {
+              console.log("error:", err);
+              result(err, null);
+              return;
+            }
+            
+            //id 결과 없을시
+            if(res.affectedRows == 0) {
+                result({kind:"not_found"}, null);
+                return;
+            }
+      
+            console.log("like post: ", postID);
+            result(null, res);
+          });
+        });
+
+        console.log("deleted boardgood with id: ", good[0]);
         result(null, del);
 
       });

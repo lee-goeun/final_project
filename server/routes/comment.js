@@ -9,8 +9,11 @@ module.exports = app => {
   //댓글 삭제
   commentRouter.delete('/comment/:commentId', comments.delete);
 
-  //게시글 수정
+  //댓글 수정
   commentRouter.post('/comment/edit/:commentId', comments.update);
+
+  //댓글 좋아요
+  commentRouter.post('/comment/:commentId/like', comments.like);
 
   app.use("/board", commentRouter);
 }
