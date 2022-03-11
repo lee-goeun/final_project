@@ -284,6 +284,14 @@ const PostContainer = ({
                   title="좋아요"
                   onClick={() => {
                     setIsLike(!isLike);
+                    axios
+                      .post(
+                        `http://localhost:3001/board/post/${boardId}/like`,
+                        { boardId },
+                      )
+                      .then((res) =>
+                        console.log(boardId, '번 게시물 좋아요 클릭', res),
+                      );
                   }}
                 />
               )}
