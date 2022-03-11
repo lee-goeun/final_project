@@ -1,7 +1,15 @@
 import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
+import {
+  changeInput,
+  initializeForm,
+  unloadPost,
+  updateMyPetPost,
+  writeMyPetPost,
+} from '../../redux/modules/mypet';
 
 const FormStyle = styled.div`
   .add-pet-form-wrapper {
@@ -86,6 +94,92 @@ const FormStyle = styled.div`
 const AddPetForm = ({ clickAddCancel }) => {
   const [selectOther, setSelectOther] = useState(false);
 
+  const [content, setContent] = useState('');
+  const contents = useSelector((state) => state.mypet.write);
+  const post = useSelector((state) => state.mypet.update);
+
+  const dispatch = useDispatch();
+  const formData = new FormData();
+  // form 초기화 정보 가져오기(글쓰기시에만 write가 사용)
+  const { form } = useSelector(({ mypet }) => ({
+    form: mypet.write,
+  }));
+
+  const { petName, petTypeDetail, petType, petBirth,petSex, petImgName, imageUrl } = form;
+
+  useEffect(() => {
+    if (!post.petId) dispatch(initializeForm('write'));
+    else setContent();
+    return () => {
+      dispatch(unloadPost());
+    };
+  }, [dispatch]);
+
+  //write/update후처리
+  const res = useSelector((state) => state.mypet.res);
+  if (res) {
+    if (res.status === 'success') {
+      //navigate('/mypet/list');
+      res.status = '';
+    }
+  }
+
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    value === 'other' && name === 'petType' ?  setSelectOther(true) : setSelectOther(false);
+    if (post.petId) {
+      dispatch(
+        changeInput({
+          form: 'update',
+          name,
+          value,
+        }),
+      );
+    } else {
+      dispatch(
+        changeInput({
+          form: 'write',
+          name,
+          value,
+        }),
+      );
+    }
+  };
+
+  const deleteUrl = () => {
+    if (!post.petId) URL.revokeObjectURL(imageUrl);
+    else URL.revokeObjectURL(post.imageUrl);
+  };
+
+  const appendingFormData = (receivedFormData) => {
+    setContent(receivedFormData);
+  };
+
+  const submitPost = async (e) => {
+    e.preventDefault();
+    if (!post.petId) {
+      for (const [key, value] of Object.entries(contents)) {
+        if (`${key}` == 'petImgName') {
+          formData.append(`${key}`, content);
+        } else {
+          formData.append(`${key}`, `${value}`);
+        }
+      }
+    } else {
+      for (const [key, value] of Object.entries(post)) {
+        if (`${key}` == 'petImgName') {
+          formData.append(`${key}`, content);
+        } else {
+          formData.append(`${key}`, `${value}`);
+        }
+      }
+    }
+
+    formData.append('userId', localStorage.getItem('userId'));
+    if (!post.petId) dispatch(writeMyPetPost(formData), [dispatch]);
+    else dispatch(updateMyPetPost(formData), [dispatch]);
+  };
+
   const imgText = useRef();
 
   const showImgText = () => {
@@ -95,17 +189,9 @@ const AddPetForm = ({ clickAddCancel }) => {
     imgText.current.style.bottom = '60px';
   };
 
-  const selectSpecies = (e) => {
-    console.log(e.target.value);
-    if (e.target.value === 'other') {
-      setSelectOther(true);
-    } else if (e.target.value !== 'other') {
-      setSelectOther(false);
-    }
-  };
 
   return (
-    <FormStyle>
+    <FormStyle onSubmit={submitPost} encType="multipart/form-data">
       <div className="add-pet-form-wrapper">
         <div className="add-pet-form-container">
           <label htmlFor="pet-img" className="pet-img-label">
@@ -129,23 +215,27 @@ const AddPetForm = ({ clickAddCancel }) => {
             type="text"
             placeholder="반려동물의 이름을 입력하세요"
             name="petName"
+            value = {petName}
+            onChange={handleChange}
           />
           <label className="pet-form-label" htmlFor="pet-species">
             반려동물 종류
           </label>
-          <select id="pet-species" onChange={selectSpecies} name="petType">
-            <option value="none">종류를 선택하세요</option>
-            <option value="dog">강아지</option>
-            <option value="cat">고양이</option>
-            <option value="reptile">파충류</option>
-            <option value="fish">물고기</option>
-            <option value="hamster">햄스터</option>
-            <option value="bird">새</option>
-            <option value="other">기타 (직접입력)</option>
+          <select id="pet-species" onChange={handleChange} name="petType" value={useSelector((state) => state.mypet.write.petType)}>
+            <option value={'none'}>종류를 선택하세요</option>
+            <option value={"dog"}>강아지</option>
+            <option value={"cat"}>고양이</option>
+            <option value={"reptile"}>파충류</option>
+            <option value={"fish"}>물고기</option>
+            <option value={"hamster"}>햄스터</option>
+            <option value={"bird"}>새</option>
+            <option value={"other"}>기타 (직접입력)</option>
           </select>
           {selectOther ? (
             <input
               type="text"
+              onChange={handleChange}
+              // value={useSelector((state) => state.mypet.write.petType)}
               id="pet-species-direct-input"
               placeholder="반려동물의 종류를 입력해주세요"
               name="petType"
@@ -159,18 +249,20 @@ const AddPetForm = ({ clickAddCancel }) => {
             id="pet-species-name"
             placeholder="반려동물의 세부 종(품종)을 입력하세요 "
             name="petTypeDetail"
+            value={petTypeDetail}
+            onChange={handleChange}
           />
           <label className="pet-form-label" htmlFor="pet-birth">
             생년월일
           </label>
-          <input id="pet-birth" type="date" name="petBirth" />
+          <input onChange={handleChange} value={petBirth} id="pet-birth" type="date" name="petBirth" />
 
           <label className="pet-form-label">반려동물 성별</label>
-          <input type="radio" name="petSex" id="pet-male" value="1" />
+          <input type="radio" name="petSex" id="pet-male" value="1" onChange={handleChange}/>
           <label className="pet-sex-label" htmlFor="pet-male">
             수컷
           </label>
-          <input type="radio" name="petSex" id="pet-female" value="0" />
+          <input type="radio" name="petSex" id="pet-female" value="0" onChange={handleChange}/>
           <label className="pet-sex-label" htmlFor="pet-female">
             암컷
           </label>
