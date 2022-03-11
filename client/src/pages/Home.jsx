@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { PostContainer } from '../components/Post';
@@ -8,12 +8,21 @@ import { connect } from 'react-redux';
 import { getPostList, getPost } from '../redux/modules/post';
 import LoadingCont from '../components/common/LoadingCont';
 
+import {
+  ReportPostModal,
+  ModifyPostModal,
+  DeletePostModal,
+} from '../components/common/Modal';
+import { alertTitleClasses } from '@mui/material';
+import axios from 'axios';
+
 const MainPageFooterStyle = styled.div`
   .main-body-div {
     height: 1077px;
     width: 1700px;
     padding: 38px 0;
     margin: 0 auto;
+    z-index: -1;
   }
   .slick-slider.center.slick-initialized > .slick-prev {
     left: 40px;
@@ -52,6 +61,10 @@ const Home = ({
     getPostList();
   }, [getPostList]);
 
+  const [showReportPostModal, setShowReportPostModal] = useState();
+  const [showModifyPostModal, setShowModifyPostModal] = useState();
+  const [showDeletePostModal, setShowDeletePostModal] = useState();
+
   const centerModeSettings = {
     className: 'center',
     centerMode: true,
@@ -81,6 +94,15 @@ const Home = ({
                     boardGood={post.boardGood}
                     boardViews={post.boardViews}
                     boardCreated={post.boardCreated}
+                    clickReportPost={() => {
+                      setShowReportPostModal(true);
+                    }}
+                    clickModifyPost={() => {
+                      setShowModifyPostModal(true);
+                    }}
+                    clickDeletePost={() => {
+                      setShowDeletePostModal(true);
+                    }}
                   />
                 ))}
               </Slider>
@@ -88,6 +110,47 @@ const Home = ({
           )}
         </div>
       </MainPageFooterStyle>
+      {showReportPostModal && (
+        <ReportPostModal
+          clickReportPostCancel={() => {
+            setShowReportPostModal(!showReportPostModal);
+          }}
+          clickReportPostConfirm={() => {
+            alert('운영진이 검토후 처리될 예정입니다.');
+            setShowReportPostModal(!showReportPostModal);
+          }}
+        />
+      )}
+      {showModifyPostModal && (
+        <ModifyPostModal
+          clickModifyPostCancel={() => {
+            setShowModifyPostModal(!showModifyPostModal);
+          }}
+          clickModifyPostConfirm={() => {
+            setShowModifyPostModal(!showModifyPostModal);
+            alert('게시물이 수정되었습니다.');
+          }}
+        />
+      )}
+      {showDeletePostModal && (
+        <DeletePostModal
+          clickDeletePostCancel={() => {
+            setShowDeletePostModal(false);
+          }}
+          clickDeletePostConfirm={() => {
+            axios
+              .delete(`http://localhost:3001/board/post/${post.boardId}`)
+              .then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                  alert('게시물이 삭제되었습니다.');
+                }
+              });
+            setShowDeletePostModal(false);
+          }}
+        />
+      )}
+
       <Footer />
     </>
   );

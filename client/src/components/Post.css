@@ -238,13 +238,12 @@
   width: 300px;
   height: 150px;
   background-color: var(--bgcolor-default);
-  box-shadow: 3px 3px 20px #797979;
 }
 .report-post-modal > p {
   padding-top: 30px;
 }
 .report-post-cancel,
-.report-post-yes {
+.report-post-confirm {
   padding: 5px 20px;
   font-size: 18px;
   margin: 30px 20px 0 20px;
@@ -261,13 +260,12 @@
   width: 300px;
   height: 150px;
   background-color: var(--bgcolor-default);
-  box-shadow: 3px 3px 20px #797979;
 }
 .delete-modal > p {
   padding-top: 30px;
 }
 .delete-cancel,
-.delete-yes {
+.delete-confirm {
   padding: 5px 20px;
   font-size: 18px;
   margin: 30px 20px 0 20px;
@@ -285,7 +283,6 @@
   height: fit-content;
   padding: 40px 60px;
   background-color: var(--bgcolor-default);
-  box-shadow: 3px 3px 10px #c4c4c4;
   text-align: center;
 }
 .edit-post-modal > textarea {
@@ -298,7 +295,7 @@
   border: 1px solid var(--bordercolor-default);
 }
 .edit-post-cancel,
-.edit-post-yes {
+.edit-post-confirm {
   padding: 5px 20px;
   width: 150px;
   font-size: 18px;
@@ -572,7 +569,7 @@
   padding-top: 30px;
 }
 .report-comment-cancel,
-.report-comment-yes {
+.report-comment-confirm {
   padding: 5px 20px;
   font-size: 18px;
   margin: 30px 20px 0 20px;

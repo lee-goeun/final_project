@@ -149,6 +149,9 @@ const PostContainer = ({
   boardViews = 0,
   boardCreated = 'date',
   userInfo,
+  clickReportPost,
+  clickModifyPost,
+  clickDeletePost,
 }) => {
   const settings = {
     slide: 'div',
@@ -180,23 +183,6 @@ const PostContainer = ({
   const [isFavoritePost, setIsFavoritePost] = useState(false);
   const clickFavoritePost = () => {
     setIsFavoritePost(!isFavoritePost);
-  };
-
-  // 게시물 신고하기 버튼 클릭시
-  const [showReportPostModal, setShowReportPostModal] = useState(false);
-  const clickReportPost = () => {
-    setShowReportPostModal(!showReportPostModal);
-    setShowPostMenu(!showPostMenu);
-  };
-
-  // 수정하기 버튼 클릭시
-  const [showEditPost, setShowEditPost] = useState(false);
-
-  // 삭제하기 버튼 클릭시
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const clickDeletePostBtn = (e) => {
-    setShowDeleteModal(!showDeleteModal);
-    setShowPostMenu(!showPostMenu);
   };
 
   // 댓글 작성 ENTER 버튼 클릭시
@@ -250,15 +236,8 @@ const PostContainer = ({
             {showPostMenu && (
               <div className="menu-modal-container">
                 <p onClick={clickReportPost}>신고하기</p>
-                <p
-                  onClick={() => {
-                    setShowPostMenu(!showPostMenu);
-                    setShowEditPost(!showEditPost);
-                  }}
-                >
-                  수정하기
-                </p>
-                <p onClick={clickDeletePostBtn}>삭제하기</p>
+                <p onClick={clickModifyPost}>수정하기</p>
+                <p onClick={clickDeletePost}>삭제하기</p>
               </div>
             )}
           </div>
@@ -348,85 +327,6 @@ const PostContainer = ({
           </div>
         </div>
       </div>
-
-      {showReportPostModal ? (
-        <div className="report-post-modal">
-          <p>정말 게시물을 신고하시겠습니까?</p>
-          <button
-            className="report-post-cancel"
-            onClick={() => {
-              setShowReportPostModal(!showReportPostModal);
-            }}
-          >
-            취소
-          </button>
-          <button
-            className="report-post-yes"
-            onClick={() => {
-              alert('운영진이 검토후 처리될 예정입니다.');
-              setShowReportPostModal(!showReportPostModal);
-            }}
-          >
-            신고
-          </button>
-        </div>
-      ) : null}
-
-      {showDeleteModal ? (
-        <>
-          <div className="delete-modal">
-            <p>정말 게시물을 삭제하시겠습니까?</p>
-            <button
-              className="delete-cancel"
-              onClick={() => {
-                setShowDeleteModal(!showDeleteModal);
-              }}
-            >
-              취소
-            </button>
-            <button
-              className="delete-yes"
-              onClick={() => {
-                // boardId 값으로 변경해야함
-                axios
-                  .delete(`http://localhost:3001/board/post/${boardId}`)
-                  .then((res) => {
-                    console.log(res);
-                    if (res.status === 200) {
-                      alert('게시물이 삭제되었습니다.');
-                      navigate('/board');
-                    }
-                  });
-                setShowDeleteModal(!showDeleteModal);
-              }}
-            >
-              삭제
-            </button>
-          </div>
-        </>
-      ) : null}
-      {showEditPost ? (
-        <div className="edit-post-modal">
-          <textarea>기존 텍스트</textarea>
-          <button
-            className="edit-post-cancel"
-            onClick={() => {
-              setShowEditPost(!showEditPost);
-            }}
-          >
-            취소
-          </button>
-          <button
-            className="edit-post-yes"
-            onClick={() => {
-              alert('게시물이 수정되었습니다.');
-              setShowEditPost(!showEditPost);
-            }}
-          >
-            수정
-          </button>
-        </div>
-      ) : null}
     </>
   );
 };
