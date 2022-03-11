@@ -316,7 +316,9 @@ const PostContainer = ({
                 onClick={clickGoToCommnet}
               />
             </p>
-            <p>{boardCreated}</p>
+            <p>
+              {boardCreated.substr(0, 10)}　{boardCreated.substr(11, 5)}
+            </p>
           </div>
           <div className="pr06">
             <CommentContainer />
