@@ -27,9 +27,10 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import styled from 'styled-components';
 import axios from 'axios';
-import Modal from './common/Modal';
+import LoadingCont from './common/LoadingCont';
 import { connect } from 'react-redux';
-import { goodDecrease, goodIncrease } from '../redux/modules/post/post';
+import { getPostList } from '../redux/modules/post';
+import loading from '../redux/modules/loading';
 
 const CarouselStyle = styled.div`
   .carousel-img-container {
@@ -133,17 +134,21 @@ const CarouselStyle = styled.div`
 
 const PostContainer = ({
   boardId = '',
+  categoryIndex = '',
   boardImgList = '',
   userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
   userId = '',
   boardTitle = '',
   boardContent = '',
+  boardStatus = '',
+  boardMod = '',
+  boardDeleted = '',
+  boardReport = '',
+  boardSearch = '',
   boardGood = 0,
   boardViews = 0,
   boardCreated = 'date',
-  isGood = '',
-  goodIncrease,
-  goodDecrease,
+  userInfo,
 }) => {
   const settings = {
     slide: 'div',
@@ -154,6 +159,8 @@ const PostContainer = ({
     slidesToScroll: 1,
     arrows: true,
   };
+
+  console.log('로그인 정보', userInfo);
 
   const [isFollow, setIsFollow] = useState(false);
 
@@ -261,19 +268,23 @@ const PostContainer = ({
           </div>
           <div className="pr05">
             <p>
-              {isGood ? (
+              {isLike ? (
                 <FontAwesomeIcon
                   icon={faHeart}
                   id="heart-btn"
                   title="좋아요 취소"
-                  onClick={goodDecrease}
+                  onClick={() => {
+                    setIsLike(!isLike);
+                  }}
                 />
               ) : (
                 <FontAwesomeIcon
                   icon={borderHeart}
                   id="border-heart-btn"
                   title="좋아요"
-                  onClick={goodIncrease}
+                  onClick={() => {
+                    setIsLike(!isLike);
+                  }}
                 />
               )}
 
@@ -305,9 +316,7 @@ const PostContainer = ({
                 onClick={clickGoToCommnet}
               />
             </p>
-            <p>
-              {boardCreated.substr(0, 10)}　{boardCreated.substr(11, 5)}
-            </p>
+            <p>{boardCreated}</p>
           </div>
           <div className="pr06">
             <CommentContainer />
@@ -412,81 +421,52 @@ const PostContainer = ({
   );
 };
 
-// 좋아요 기능 ==============================================================
-const mapStateToProps = (state) => ({
-  number: state.number,
-  isGood: state.isGood,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  goodIncrease: () => {
-    dispatch(goodIncrease());
-  },
-  goodDecrease: () => {
-    dispatch(goodDecrease());
-  },
-});
-// ===========================================================================
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostContainer);
-
-const MiniPostContainer = () => {
-  const [gPostList, setGPostList] = useState([]);
-  useEffect(() => {
-    axios.get('http://localhost:3001/board/').then((res) => {
-      // console.log(res.data);
-      setGPostList(res.data);
-    });
-  }, []);
-
-  const navigate = useNavigate();
-
+const MiniPostContainer = ({ postList, loadingPostList }) => {
   return (
     <>
-      {gPostList.map((p) => (
+      {loadingPostList && <LoadingCont />}
+      {!loadingPostList && postList && (
         <>
-          <Link to={'post/' + p.boardId}>
-            <div
-              key={p.boardId}
-              className="mini-post-container"
-              onClick={() => {
-                console.log(p.boardId);
-              }}
-            >
-              <div className="mpimg-container">
-                <img
-                  src={
-                    'http://localhost:3001/board/download?boardImgName=' +
-                    p.boardImgList[0]
-                  }
-                />
-              </div>
-              <div className="content-container">
-                <span>
-                  {p.boardGood}
-                  <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
-                </span>
-                {/* <span>
-                {p.boardTitle}
-                <FontAwesomeIcon
-                  icon={borderComment}
-                  id="border-comment-icon"
-                />
-              </span> */}
-                <span>
-                  {p.boardViews}
-                  <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
-                </span>
-              </div>
-              {p.multipleImg && (
+          {postList.map((post) => (
+            <>
+              <Link to={'post/' + post.boardId}>
+                <div key={post.boardId} className="mini-post-container">
+                  <div className="mpimg-container">
+                    <img
+                      src={
+                        'http://localhost:3001/board/download?boardImgName=' +
+                        post.boardImgList[0]
+                      }
+                      alt="이미지"
+                    />
+                  </div>
+                  <div className="content-container">
+                    <span>
+                      {post.boardGood}
+                      <FontAwesomeIcon
+                        icon={borderHeart}
+                        id="border-heart-icon"
+                      />
+                    </span>
+                    <span>
+                      {post.boardViews}
+                      <FontAwesomeIcon
+                        icon={borderEye}
+                        id="border-views-icon"
+                      />
+                    </span>
+                  </div>
+                  {/* {po.multipleImg && (
                 <div className="imgs-info">
                   <FontAwesomeIcon icon={faClone} id="multiple-img-icon" />
                 </div>
-              )}
-            </div>
-          </Link>
+              )} */}
+                </div>
+              </Link>
+            </>
+          ))}
         </>
-      ))}
+      )}
     </>
   );
 };
@@ -634,7 +614,11 @@ const CommentContainer = () => {
   );
 };
 
-const PostBackground = () => {
+const PostBackground = ({ postList, loadingPostList, getPostList }) => {
+  useEffect(() => {
+    getPostList();
+  }, [getPostList]);
+
   const uploadDiv = useRef();
   const filterList = useRef();
   const [isShowFilter, setIsShowFilter] = useState(false);
@@ -753,58 +737,67 @@ const PostBackground = () => {
           </div>
         </div>
 
-        {/* <div>
-          {posts.map((post) => (
-            <PostItem key={post.id} post={post} />
-          ))}
-        </div> */}
-
         <div className="post-list">
-          <MiniPostContainer />
+          <MiniPostContainer
+            postList={postList}
+            loadingPostList={loadingPostList}
+          />
         </div>
       </div>
 
       {/* 게시물 작성폼 모달창 */}
       {showUploadFormModal ? (
-        <div className="upload-modal-container">
-          <div className="post-upload-form-container">
-            <label htmlFor="post-img-select">이미지 업로드</label>
-            <input
-              type="file"
-              id="post-img-select"
-              multiple
-              onChange={handleChangeFile}
-            />
+        <div className="upload-modal-wrapper">
+          <div className="upload-modal-container">
+            <div className="post-upload-form-container">
+              <label htmlFor="post-img-select">이미지 업로드</label>
+              <input
+                type="file"
+                id="post-img-select"
+                multiple
+                onChange={handleChangeFile}
+              />
 
-            {imgBase64.map((img) => {
-              return (
-                <div className="img-preview-container">
-                  <img src={img} alt="업로드할 이미지" />
-                </div>
-              );
-            })}
-            <input
-              className="post-title-input"
-              type="text"
-              placeholder="제목"
-              onChange={(e) => {
-                setBoardTitle(e.target.value);
-              }}
-            />
-            <textarea
-              placeholder="내용"
-              onChange={(e) => {
-                setBoardContent(e.target.value);
-              }}
-            ></textarea>
+              {imgBase64.map((img) => {
+                return (
+                  <div className="img-preview-container">
+                    <img src={img} alt="업로드할 이미지" />
+                  </div>
+                );
+              })}
+              <input
+                className="post-title-input"
+                type="text"
+                placeholder="제목"
+                onChange={(e) => {
+                  setBoardTitle(e.target.value);
+                }}
+              />
+              <textarea
+                placeholder="내용"
+                onChange={(e) => {
+                  setBoardContent(e.target.value);
+                }}
+              ></textarea>
+            </div>
+
+            <button onClick={clickUploadFormModal}>취소</button>
+            <button onClick={clickPostWrite}>작성</button>
           </div>
-
-          <button onClick={clickUploadFormModal}>취소</button>
-          <button onClick={clickPostWrite}>작성</button>
         </div>
       ) : null}
     </>
   );
 };
 
-export { MiniPostContainer, CommentContainer, PostBackground };
+export default connect(
+  ({ post }) => ({
+    postList: post.postList,
+    loadingPostList: post.loading.GET_POST_LIST,
+  }),
+  {
+    getPostList,
+  },
+)(PostBackground);
+
+export { PostContainer, MiniPostContainer, CommentContainer };

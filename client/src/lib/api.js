@@ -14,7 +14,6 @@ export const updateMatchPost = (formData) => {
   return axios.put('http://localhost:3001/match/mod', formData);
 };
 
-
 // ------ 중고장터 ---------
 export const getMarketList = (keyword) =>
   axios.get(`http://localhost:3001/market/list?keyword=${keyword}`);
@@ -59,3 +58,10 @@ export const updateMyPetPost = (formData) => {
 export const delMyPetPost = (petId) => {
   return axios.put(`http://localhost:3001/mypage/del/${petId}`);
 };
+
+// 일반 게시물
+export const getPostList = (boardId) =>
+  axios.get('http://localhost:3001/board/');
+
+export const getPost = (boardId) =>
+  axios.get(`http://localhost:3001/board/post/${boardId}`);

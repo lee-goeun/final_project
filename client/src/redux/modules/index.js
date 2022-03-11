@@ -4,8 +4,7 @@ import matching from './matching';
 import market from './market';
 import mypet from './mypet';
 import loading from './loading';
-
-import { LikePostReducer, postReducer } from './post/post';
+import { post } from './post';
 
 const rootReducer = combineReducers({
   profileImgHandler,
@@ -13,8 +12,7 @@ const rootReducer = combineReducers({
   market,
   mypet,
   loading,
-  postReducer,
-  LikePostReducer,
+  post,
 });
 
 export default rootReducer;

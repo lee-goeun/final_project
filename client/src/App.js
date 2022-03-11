@@ -30,6 +30,7 @@ import ItemLists from './pages/usedMarket/ItemLists';
 import ItemPost from './pages/usedMarket/ItemPost';
 import WriteItemPost from './pages/usedMarket/ItemRegisterForm';
 import MyPet from './pages/MyPet';
+import InterestedPost from './pages/InterestedPost';
 
 function App() {
   const [userInfo, setUserInfo] = useState({
@@ -104,6 +105,7 @@ function App() {
       <Route element={<MyPageLayout userInfo={userInfo} />}>
         <Route path="/mypost/" element={<Mypost />} />
         <Route path="/mypet/" element={<MyPet />} />
+        <Route path="/interestingpost/" element={<InterestedPost />} />
         <Route
           path="/profile/"
           element={<Profile userInfoProps={userInfo} />}
