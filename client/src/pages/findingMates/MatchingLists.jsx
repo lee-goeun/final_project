@@ -5,6 +5,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import CreateIcon from '@mui/icons-material/Create';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import moment from 'moment';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { getMatchList } from '../../redux/modules/matching'
 
 const Post = ({ post }) => {
   // 모달형식으로 링크작업 추후
@@ -89,6 +92,15 @@ const MatchingListWrapper = styled.section`
 `;
 
 const MatchingLists = ({ loadingList, list }) => {
+  const dispatch = useDispatch();
+  const [keyword, setKeyword] = useState("");
+
+  const searchKeyword = (e) => {
+    setKeyword(e.target.value);
+    if(e.code == 'Enter'){
+      dispatch(getMatchList(keyword), [dispatch]);
+    }
+  }
   const style1 = {
     display: 'inline-block',
     marginLeft: 50,
@@ -113,7 +125,7 @@ const MatchingLists = ({ loadingList, list }) => {
         </div>
         <SearchWrapper>
           <SearchIcon sx={{ position: 'absolute', left: '2%', top: '18%' }} />
-          <MiddleInnerSearch />
+          <MiddleInnerSearch onKeyUp={searchKeyword}/>
         </SearchWrapper>
         <Link to="/match/add">
           {'게시글 올리기'}

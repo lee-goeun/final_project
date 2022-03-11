@@ -78,9 +78,10 @@ const PetContainer = ({post}) => {
 
   const delMyPet = () =>{
     const cnfrm = window.confirm('삭제하시겠습니까?');
-    if(cnfrm)
+    if(cnfrm){
       dispatch(deleteMyPetPost(post.petId), [dispatch]);
       window.location.replace('/mypet')
+    }
   }
 
   return (
@@ -131,7 +132,7 @@ const MyPet = ({list, loadingList}) => {
   const showText = (e) => {
     addPetText.current.style.bottom = '30px';
   };
-  const hideText = () => {
+  const hideText = (e) => {
     addPetText.current.style.bottom = '70px';
   };
 

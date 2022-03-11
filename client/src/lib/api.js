@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // ------ 산책메이트 --------
-export const getMatchList = (matchId) =>
-  axios.get('http://localhost:3001/match/list');
+export const getMatchList = (keyword) =>
+  axios.get(`http://localhost:3001/match/list?keyword=${keyword}`);
 export const getMatchPost = (matchId) =>
   axios.get(`http://localhost:3001/match/detail/${matchId}`);
 export const deleteMatchPost = (matchId) =>

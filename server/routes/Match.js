@@ -38,7 +38,7 @@ router.get('/list', (req, res) => {
   console.log('###########', keyword);
 
   var sql = '';
-  if (keyword == undefined) {
+  if (keyword == 'undefined' || keyword == '') {
     sql = 'select * from matchTbl where matchDeleted = 0';
     conn.query(sql, (err, results) => {
       if (err) return res.json({ success: false, err });
