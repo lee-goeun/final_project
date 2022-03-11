@@ -1,7 +1,9 @@
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import AImageFIleInput from '../../components/common/AImageFileInput';
 import React, { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   changeInput,
@@ -11,7 +13,7 @@ import {
   writeMyPetPost,
 } from '../../redux/modules/mypet';
 
-const FormStyle = styled.div`
+const FormStyle = styled.form`
   .add-pet-form-wrapper {
     position: fixed;
     top: 0;
@@ -91,7 +93,7 @@ const FormStyle = styled.div`
   }
 `;
 
-const AddPetForm = ({ clickAddCancel }) => {
+const AddPetForm = ({clickAddCancel}) => {
   const [selectOther, setSelectOther] = useState(false);
 
   const [content, setContent] = useState('');
@@ -99,13 +101,14 @@ const AddPetForm = ({ clickAddCancel }) => {
   const post = useSelector((state) => state.mypet.update);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const formData = new FormData();
   // form 초기화 정보 가져오기(글쓰기시에만 write가 사용)
   const { form } = useSelector(({ mypet }) => ({
     form: mypet.write,
   }));
 
-  const { petName, petTypeDetail, petType, petBirth,petSex, petImgName, imageUrl } = form;
+  const { petName, petTypeDetail, petType, petBirth, petSex, petImgName, imageUrl } = form;
 
   useEffect(() => {
     if (!post.petId) dispatch(initializeForm('write'));
@@ -118,8 +121,9 @@ const AddPetForm = ({ clickAddCancel }) => {
   //write/update후처리
   const res = useSelector((state) => state.mypet.res);
   if (res) {
+    console.log('rrrrrrrrrrrr',res);
     if (res.status === 'success') {
-      //navigate('/mypet/list');
+      alert('새 반려동물이 등록되었습니다.');
       res.status = '';
     }
   }
@@ -146,11 +150,6 @@ const AddPetForm = ({ clickAddCancel }) => {
     }
   };
 
-  const deleteUrl = () => {
-    if (!post.petId) URL.revokeObjectURL(imageUrl);
-    else URL.revokeObjectURL(post.imageUrl);
-  };
-
   const appendingFormData = (receivedFormData) => {
     setContent(receivedFormData);
   };
@@ -175,6 +174,8 @@ const AddPetForm = ({ clickAddCancel }) => {
       }
     }
 
+    
+
     formData.append('userId', localStorage.getItem('userId'));
     if (!post.petId) dispatch(writeMyPetPost(formData), [dispatch]);
     else dispatch(updateMyPetPost(formData), [dispatch]);
@@ -195,13 +196,20 @@ const AddPetForm = ({ clickAddCancel }) => {
       <div className="add-pet-form-wrapper">
         <div className="add-pet-form-container">
           <label htmlFor="pet-img" className="pet-img-label">
-            <FontAwesomeIcon
+            <AImageFIleInput
+              buttonName={'이미지 첨부'}
+             // previewUrl={previewUrl}
+              appendingFormData={appendingFormData}
+              post={post}
+            />
+            {/* TODO : 공통 component에서 image넣는 방법 찾아보기 */}
+            {/* <FontAwesomeIcon
               icon={faImage}
               className="pet-img-btn"
               title="반려동물 사진 올리기"
               onMouseEnter={showImgText}
               onMouseLeave={hideImgText}
-            />
+            /> */}
           </label>
           <p className="imgppp" ref={imgText}>
             반려동물 사진
@@ -270,7 +278,7 @@ const AddPetForm = ({ clickAddCancel }) => {
             <button className="btn__style" onClick={clickAddCancel}>
               취소
             </button>
-            <button className="btn__style">등록</button>
+            <button type="submit" className="btn__style">등록</button>
           </div>
         </div>
       </div>

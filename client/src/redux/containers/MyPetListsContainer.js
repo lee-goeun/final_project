@@ -5,11 +5,12 @@ import { getMyPetList } from '../modules/mypet';
 
 const MyPetListsContainer = ({ getMyPetList, list, loadingList }) => {
   useEffect(() => {
+    
     //useEffect안에서 async 사용을 위해 fn생성
     const fn = async () => {
       try {
-        await getMyPetList(1);
-        //추후 검색이걸로구현 1대신 검색key값 넣어야함
+        await getMyPetList(localStorage.getItem('userId'));
+        console.log('list', getMyPetList);
       } catch (e) {
         console.log(e); //showing error on console
       }
@@ -23,7 +24,6 @@ const MyPetListsContainer = ({ getMyPetList, list, loadingList }) => {
 export default connect(
   ({ mypet, loading }) => ({
     list: mypet.list,
-
     loadingList: loading['mypet/GET_LIST'],
   }),
   {

@@ -67,7 +67,8 @@ const PCStyle = styled.div`
   }
 `;
 
-const PetContainer = () => {
+const PetContainer = ({loadingList, list}) => {
+  console.log(list);
   return (
     <PCStyle>
       <div className="pet-container">
