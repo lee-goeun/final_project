@@ -133,7 +133,7 @@ exports.findAll = (req, res) => {
  
 //게시판 상세보기
 exports.findOne = (req, res) => {
-    Post.findOne(req.params.postId, (err, data) => {
+    Post.findOne(req.params.postId, req.body.userId, (err, data) => {
         if(err) {
             if(err.kind === "not_found") {
                 res.status(404).send({
@@ -222,7 +222,7 @@ exports.delete = (req, res) => {
 
 //게시글 좋아요
 exports.like = (req, res) => {
-  Post.like(req.params.postId, (err, data) => {
+  Post.like(req.params.postId, req.body.userId, (err, data) => {
     if(err) {
       if(err.kind === "not_found") {
           res.status(404).send({
