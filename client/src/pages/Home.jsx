@@ -69,23 +69,21 @@ const Home = ({
         <div className="main-body-div">
           {!loadingPostList && postList && (
             <>
-              {postList.map((post) => (
-                <Slider {...centerModeSettings}>
-                  <div>
-                    <PostContainer
-                      key={post.boardId}
-                      boardId={post.boardId}
-                      userId={post.userId}
-                      boardImgList={post.boardImgList}
-                      boardTitle={post.boardTitle}
-                      boardContent={post.boardContent}
-                      boardGood={post.boardGood}
-                      boardViews={post.boardViews}
-                      boardCreated={post.boardCreated}
-                    />
-                  </div>
-                </Slider>
-              ))}
+              <Slider {...centerModeSettings}>
+                {postList.map((post) => (
+                  <PostContainer
+                    key={post.boardId}
+                    boardId={post.boardId}
+                    userId={post.userId}
+                    boardImgList={post.boardImgList}
+                    boardTitle={post.boardTitle}
+                    boardContent={post.boardContent}
+                    boardGood={post.boardGood}
+                    boardViews={post.boardViews}
+                    boardCreated={post.boardCreated}
+                  />
+                ))}
+              </Slider>
             </>
           )}
         </div>
