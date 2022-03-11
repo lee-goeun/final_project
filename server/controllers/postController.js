@@ -238,3 +238,26 @@ exports.like = (req, res) => {
     }
   })
 }
+
+//관심 게시물
+exports.collect = (req, res) => {
+  if(!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  };
+
+  Post.collect(req.params.postId, req.body.userId, (err, data) => {
+    if(err) {
+      res.status(500).send({
+        message:
+        err.message || "Some error occurred while creating the Collect."
+      });
+    } else {
+      res.send({
+        message: `Collect successfully!`
+      });
+    };
+  });
+  
+}

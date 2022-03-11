@@ -50,5 +50,8 @@ module.exports = (app) => {
   //게시글 좋아요
   postRouter.post('/post/:postId/like', posts.like);
 
+  //관심게시물
+  postRouter.post('/post/:postId/collect', posts.collect);
+
   app.use('/board', postRouter);
 };

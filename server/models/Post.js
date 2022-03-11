@@ -147,6 +147,7 @@ Post.remove = (id, result) => {
     });
 };
 
+//게시물 좋아요
 Post.like = (postID, result) => {
   sql.query('SELECT boardGood FROM boardTbl WHERE boardId=?', postID, (err, boardgood) => {
     if(err) {
@@ -179,6 +180,46 @@ Post.like = (postID, result) => {
       result(null, res);
     })
   })
+}
+
+//관심 게시물 
+Post.collect = (postID, userID, result) => {
+  sql.query('SELECT collectId FROM boardCollectTbl WHERE boardId=? AND userId=?', [postID, userID], (err, col) => {
+    console.log(col.length);
+    if(col.length == 0) {
+      sql.query('INSERT INTO boardCollectTbl(boardId, userId) VALUES(?, ?)', [postID, userID], (err, res) => {
+        if(err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+   
+        console.log("Created collect: ", res.insertId);
+        result(null, res.insertId);
+     });
+    } else {
+      sql.query('DELETE FROM boardCollectTbl WHERE collectId=?', col[0].collectId, (err, del) => {
+        if(err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+        
+        //id 결과가 없을시
+        if(del.affectedRows == 0) {
+            result({kind:"not_found"}, null);
+            return;
+        }
+
+        console.log("deleted collect with id: ", col[0]);
+        result(null, del);
+
+      });
+    }
+
+    return;
+  })
+ 
 }
 
 
