@@ -42,9 +42,8 @@ export const sellingMarketPost = (data) => {
 
 // ------ 마이페이지 --------
 //나의반려동물
-export const getMyPetList = (userId) => {
-  return axios.get(`http://localhost:3001/mypage/mypetList?userId=${userId}`);
-};
+export const getMyPetList = (userId) => 
+   axios.get(`http://localhost:3001/mypage/mypetList?userId=${userId}`);
 export const writeMyPetPost = (formData) => {
   return axios.post('http://localhost:3001/mypage/mypetAdd', formData);
 };

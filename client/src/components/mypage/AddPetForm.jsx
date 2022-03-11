@@ -231,12 +231,12 @@ const AddPetForm = ({clickAddCancel}) => {
           </label>
           <select id="pet-species" onChange={handleChange} name="petType" value={useSelector((state) => state.mypet.write.petType)}>
             <option value={'none'}>종류를 선택하세요</option>
-            <option value={"dog"}>강아지</option>
-            <option value={"cat"}>고양이</option>
-            <option value={"reptile"}>파충류</option>
-            <option value={"fish"}>물고기</option>
-            <option value={"hamster"}>햄스터</option>
-            <option value={"bird"}>새</option>
+            <option value={"강아지"}>강아지</option>
+            <option value={"고양이"}>고양이</option>
+            <option value={"파충류"}>파충류</option>
+            <option value={"물고기"}>물고기</option>
+            <option value={"햄스터"}>햄스터</option>
+            <option value={"새"}>새</option>
             <option value={"other"}>기타 (직접입력)</option>
           </select>
           {selectOther ? (

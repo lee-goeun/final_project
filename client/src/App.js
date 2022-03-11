@@ -26,10 +26,7 @@ import MarketPostContainer from './redux/containers/MarketPostContainer';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-import ItemLists from './pages/usedMarket/ItemLists';
-import ItemPost from './pages/usedMarket/ItemPost';
-import WriteItemPost from './pages/usedMarket/ItemRegisterForm';
-import MyPet from './pages/MyPet';
+import MyPetListsContainer from './redux/containers/MyPetListsContainer';
 import InterestedPost from './pages/InterestedPost';
 
 function App() {
@@ -104,7 +101,7 @@ function App() {
 
       <Route element={<MyPageLayout userInfo={userInfo} />}>
         <Route path="/mypost/" element={<Mypost />} />
-        <Route path="/mypet/" element={<MyPet />} />
+        <Route path="/mypet/" element={<MyPetListsContainer />} />
         <Route path="/interestingpost/" element={<InterestedPost />} />
         <Route
           path="/profile/"
