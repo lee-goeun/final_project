@@ -27,9 +27,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import styled from 'styled-components';
 import axios from 'axios';
-import Modal from './common/Modal';
-import { connect } from 'react-redux';
-import { goodDecrease, goodIncrease } from '../redux/modules/post/post';
 
 const CarouselStyle = styled.div`
   .carousel-img-container {
@@ -133,17 +130,20 @@ const CarouselStyle = styled.div`
 
 const PostContainer = ({
   boardId = '',
+  categoryIndex = '',
   boardImgList = '',
   userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
   userId = '',
   boardTitle = '',
   boardContent = '',
+  boardStatus = '',
+  boardMod = '',
+  boardDeleted = '',
+  boardReport = '',
+  boardSearch = '',
   boardGood = 0,
   boardViews = 0,
   boardCreated = 'date',
-  isGood = '',
-  goodIncrease,
-  goodDecrease,
   userInfo,
 }) => {
   const settings = {
@@ -264,19 +264,23 @@ const PostContainer = ({
           </div>
           <div className="pr05">
             <p>
-              {isGood ? (
+              {isLike ? (
                 <FontAwesomeIcon
                   icon={faHeart}
                   id="heart-btn"
                   title="좋아요 취소"
-                  onClick={goodDecrease}
+                  onClick={() => {
+                    setIsLike(!isLike);
+                  }}
                 />
               ) : (
                 <FontAwesomeIcon
                   icon={borderHeart}
                   id="border-heart-btn"
                   title="좋아요"
-                  onClick={goodIncrease}
+                  onClick={() => {
+                    setIsLike(!isLike);
+                  }}
                 />
               )}
 
@@ -308,9 +312,7 @@ const PostContainer = ({
                 onClick={clickGoToCommnet}
               />
             </p>
-            <p>
-              {boardCreated.substr(0, 10)}　{boardCreated.substr(11, 5)}
-            </p>
+            <p>{boardCreated}</p>
           </div>
           <div className="pr06">
             <CommentContainer />
@@ -415,24 +417,6 @@ const PostContainer = ({
   );
 };
 
-// 좋아요 기능 ==============================================================
-const mapStateToProps = (state) => ({
-  number: state.number,
-  isGood: state.isGood,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  goodIncrease: () => {
-    dispatch(goodIncrease());
-  },
-  goodDecrease: () => {
-    dispatch(goodDecrease());
-  },
-});
-// ===========================================================================
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostContainer);
-
 const MiniPostContainer = () => {
   const [gPostList, setGPostList] = useState([]);
   useEffect(() => {
@@ -441,8 +425,6 @@ const MiniPostContainer = () => {
       setGPostList(res.data);
     });
   }, []);
-
-  const navigate = useNavigate();
 
   return (
     <>
@@ -810,4 +792,4 @@ const PostBackground = () => {
   );
 };
 
-export { MiniPostContainer, CommentContainer, PostBackground };
+export { PostContainer, MiniPostContainer, CommentContainer, PostBackground };

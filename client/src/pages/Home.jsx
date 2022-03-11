@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import PostContainer from '../components/Post';
+import { PostContainer } from '../components/Post';
 import styled from 'styled-components';
 import Slider from 'react-slick';
-import { getPostList } from '../redux/modules/post/post';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import { getPostList, getPost } from '../redux/modules/post';
+import LoadingCont from '../components/common/LoadingCont';
 
 const MainPageFooterStyle = styled.div`
   .main-body-div {
@@ -40,20 +40,17 @@ const MainPageFooterStyle = styled.div`
   }
 `;
 
-const Home = ({ getPostList, posts, postsLoading, userInfo }) => {
+const Home = ({
+  getPostList,
+  getPost,
+  postList,
+  post,
+  loadingPostList,
+  loadingPost,
+}) => {
   useEffect(() => {
-    // actionGetPostList();
-    // console.log('로딩', postsLoading);
-    // console.log('포스트', posts);
-    axios.get('http://localhost:3001/board/').then((res) => {
-      console.log('홈에서 게시물 리스트 가져오기', res);
-      setPostList(res.data);
-    });
     getPostList();
-  }, []);
-  console.log('로그인 유저정보', userInfo);
-
-  const [postList, setPostList] = useState([]);
+  }, [getPostList]);
 
   const centerModeSettings = {
     className: 'center',
@@ -67,29 +64,30 @@ const Home = ({ getPostList, posts, postsLoading, userInfo }) => {
   return (
     <>
       <Header />
-
+      {loadingPostList && <LoadingCont />}
       <MainPageFooterStyle>
         <div className="main-body-div">
-          <Slider {...centerModeSettings}>
-            {/* {postsLoading ? (
-              <div>로딩중</div>
-            ) : (
-              posts.data.map((post) => <PostContainer key={post.boardId} />)
-            )} */}
-            {postList.map((post) => (
-              <PostContainer
-                key={post.boardId}
-                boardId={post.boardId}
-                userId={post.userId}
-                boardImgList={post.boardImgList}
-                boardTitle={post.boardTitle}
-                boardContent={post.boardContent}
-                boardGood={post.boardGood}
-                boardViews={post.boardViews}
-                boardCreated={post.boardCreated}
-              />
-            ))}
-          </Slider>
+          {!loadingPostList && postList && (
+            <>
+              {postList.map((post) => (
+                <Slider {...centerModeSettings}>
+                  <div>
+                    <PostContainer
+                      key={post.boardId}
+                      boardId={post.boardId}
+                      userId={post.userId}
+                      boardImgList={post.boardImgList}
+                      boardTitle={post.boardTitle}
+                      boardContent={post.boardContent}
+                      boardGood={post.boardGood}
+                      boardViews={post.boardViews}
+                      boardCreated={post.boardCreated}
+                    />
+                  </div>
+                </Slider>
+              ))}
+            </>
+          )}
         </div>
       </MainPageFooterStyle>
       <Footer />
@@ -97,15 +95,15 @@ const Home = ({ getPostList, posts, postsLoading, userInfo }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    posts: state.postReducer.posts,
-    postsLoading: state.postReducer.postsLoading,
-  };
-};
-
-const mapDispatchToProps = {
-  getPostList,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(
+  ({ post }) => ({
+    post: post.post,
+    postList: post.postList,
+    loadingPost: post.loading.GET_POST,
+    loadingPostList: post.loading.GET_POST_LIST,
+  }),
+  {
+    getPost,
+    getPostList,
+  },
+)(Home);
