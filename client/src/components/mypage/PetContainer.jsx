@@ -5,6 +5,8 @@ import React, { useRef, useState } from 'react';
 import '../../pages/MyPageStyle.css';
 import { faSquarePlus } from '@fortawesome/free-regular-svg-icons';
 import AddPetForm from './AddPetForm';
+import { useDispatch } from 'react-redux';
+import { deleteMyPetPost } from '../../redux/modules/mypet'
 
 const PCStyle = styled.div`
   .pet-container {
@@ -72,6 +74,15 @@ const PCStyle = styled.div`
 
 const PetContainer = ({post}) => {
   var nowYear = new Date().getFullYear();
+  const dispatch = useDispatch();
+
+  const delMyPet = () =>{
+    const cnfrm = window.confirm('삭제하시겠습니까?');
+    if(cnfrm)
+      dispatch(deleteMyPetPost(post.petId), [dispatch]);
+      window.location.replace('/mypet')
+  }
+
   return (
     <PCStyle>
       <div className="pet-container">
@@ -97,6 +108,7 @@ const PetContainer = ({post}) => {
             <FontAwesomeIcon
               icon={faSquareXmark}
               className="pet-delete-btn"
+              onClick={delMyPet}
               title="삭제하기"
             />
           </div>
