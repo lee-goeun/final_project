@@ -34,7 +34,7 @@ router.get('/mypetList', (req, res) => {
       });
   }else{
     //id별 모두 조회
-    var sql = "select * from mypetTbl where petDeleted = 0 and userId = ?";
+    var sql = "select * from mypetTbl where petDeleted = 0 and userId = ? ORDER BY petCreated DESC";
       conn.query(sql,id,(err, results) => {
           if(err) return res.json({success:false, err});
           else{
@@ -45,6 +45,17 @@ router.get('/mypetList', (req, res) => {
   }
   
 })
+
+//이미지 읽어오는 경로
+router.get('/petDownload', (req, res) => {
+  var id = req.query.petId;
+  var img = req.query.petImgName;
+
+  fs.readFile('petImages/' + id + '/' + img, function (err, results) {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(results);
+  });
+});
 
 //나의 애완동물(추가)
 router.post('/mypetAdd', upload.single('petImgName'), (req, res) => {

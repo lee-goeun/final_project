@@ -13,6 +13,9 @@ const Post = function(post) {
     this.boardViews = post.boardViews;
     this.boardImgList = post.boardImgList;
     this.userNick = post.userNick;
+    // this.goodStatus = 0;
+    // this.collectStatus = 0;
+
 };
 
 //Post 생성 
@@ -57,7 +60,7 @@ Post.getAll = result => {
 };
 
 //Post 상세보기(id로 조회)
-Post.findOne = (postID, result) => {
+Post.findOne = (postID, userID, result) => {
     sql.query('SELECT * FROM boardTbl WHERE boardId = ?', postID, (err, res) => {
         if(err) {
             console.log("error: ", err);
@@ -68,6 +71,8 @@ Post.findOne = (postID, result) => {
         if(res.length) {
             console.log("found post: ", res[0]);
             var imgPath = "boardImages/" + res[0].boardId + "/";
+
+            //닉네임 가져오는 부분
             sql.query('SELECT userNick FROM userTbl WHERE userId=?', res[0].userId, (err, userNick) => {
               fs.readdir(imgPath, (err, temp) => {
                 var imgList = [];
@@ -92,12 +97,30 @@ Post.findOne = (postID, result) => {
                   }
 
                   
+                });
+
+                //좋아요 상태 가져오기
+                sql.query('SELECT postLikeId FROM postLikeTbl WHERE userId=? AND boardId=?', [userID, postID], (err, good) => {
+                  if(good.length == 0) {
+                    res[0].goodStatus = 0;
+                  } else {
+                    res[0].goodStatus = 1;
+                  }
+                });
+
+                //관심 게시물 상태 가져오기
+                sql.query('SELECT collectId FROM boardCollectTbl WHERE userId=? AND boardId=?', [userID, postID], (err, collect) => {
+                  if(collect.length == 0) {
+                    res[0].collectStatus = 0;
+                  } else {
+                    res[0].collectStatus = 1;
+                  }
                 })
+
                 result(null, res[0]);
                 
               });
             });
-            //조회수 증가
             
             return;
         }
@@ -148,44 +171,117 @@ Post.remove = (id, result) => {
 };
 
 //게시물 좋아요
-Post.like = (postID, result) => {
-  sql.query('SELECT boardGood FROM boardTbl WHERE boardId=?', postID, (err, boardgood) => {
-    if(err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-    //id 결과가 없을시
-    if(boardgood.affectedRows == 0) {
-        result({kind:"not_found"}, null);
-        return;
-    }
-    
-    console.log("좋아요 개수: ", boardgood[0])
-    //게시글 좋아요 개수 증가
-    sql.query('UPDATE boardTbl SET boardGood=? where boardId=?', [boardgood[0].boardGood + 1, postID], (err, res) => {
-      if(err) {
-        console.log("error:", err);
-        result(err, null);
-        return;
-      }
-      
-      //id 결과 없을시
-      if(res.affectedRows == 0) {
-          result({kind:"not_found"}, null);
-          return;
-      }
+Post.like = (postID, userID, result) => {
+  
 
-      console.log("like post: ", postID);
-      result(null, res);
-    })
+  sql.query('SELECT postLikeId FROM postLikeTbl WHERE boardId=? AND userId=?', [postID, userID], (err, good) => {
+    
+    //좋아요 하지 않은 게시물일 경우
+    if(good.length == 0) {
+      //boardGoodTbl에 좋아요 데이터 추가
+      sql.query('INSERT INTO postLikeTbl(boardId, userId) VALUES(?, ?)', [postID, userID], (err, insert) => {
+        if(err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+
+        //boardtbl의 boardGood 좋아요 개수 증가
+        sql.query('SELECT boardGood FROM boardTbl WHERE boardId=?', postID, (err, boardgood) => {
+          if(err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+          }
+          //id 결과가 없을시
+          if(boardgood.affectedRows == 0) {
+              result({kind:"not_found"}, null);
+              return;
+          }
+          
+          //게시글 좋아요 개수 증가
+          sql.query('UPDATE boardTbl SET boardGood=? where boardId=?', [boardgood[0].boardGood + 1, postID], (err, res) => {
+            if(err) {
+              console.log("error:", err);
+              result(err, null);
+              return;
+            }
+            
+            //id 결과 없을시
+            if(res.affectedRows == 0) {
+                result({kind:"not_found"}, null);
+                return;
+            }
+      
+            console.log("like post: ", postID);
+            result(null, res);
+          });
+        });
+
+        console.log("Created boardGood: ", insert.insertId);
+        // result(null, insert.insertId);
+      });
+
+
+    } else {
+      //좋아요한 게시물일 경우(좋아요 취소)
+      sql.query('DELETE FROM postLikeTbl WHERE postLikeId=?', good[0].postLikeId, (err, del) => {
+        if(err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+        
+        //id 결과가 없을시
+        if(del.affectedRows == 0) {
+            result({kind:"not_found"}, null);
+            return;
+        }
+
+        //boardtbl의 boardGood 좋아요 개수 감소
+        sql.query('SELECT boardGood FROM boardTbl WHERE boardId=?', postID, (err, boardgood) => {
+          if(err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+          }
+          //id 결과가 없을시
+          if(boardgood.affectedRows == 0) {
+              result({kind:"not_found"}, null);
+              return;
+          }
+          
+          //게시글 좋아요 개수 감소
+          sql.query('UPDATE boardTbl SET boardGood=? where boardId=?', [boardgood[0].boardGood - 1, postID], (err, res) => {
+            if(err) {
+              console.log("error:", err);
+              result(err, null);
+              return;
+            }
+            
+            //id 결과 없을시
+            if(res.affectedRows == 0) {
+                result({kind:"not_found"}, null);
+                return;
+            }
+      
+            console.log("like post: ", postID);
+            result(null, res);
+          });
+        });
+
+        console.log("deleted boardgood with id: ", good[0]);
+        result(null, del);
+
+      });
+    }
   })
+  
 }
 
 //관심 게시물 
 Post.collect = (postID, userID, result) => {
   sql.query('SELECT collectId FROM boardCollectTbl WHERE boardId=? AND userId=?', [postID, userID], (err, col) => {
-    console.log(col.length);
     if(col.length == 0) {
       sql.query('INSERT INTO boardCollectTbl(boardId, userId) VALUES(?, ?)', [postID, userID], (err, res) => {
         if(err) {

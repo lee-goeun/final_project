@@ -8,6 +8,7 @@ const Comment = function(comment) {
   this.boardId = comment.boardId;
   this.commentContent = comment.commentContent;
   this.userId = comment.userId;
+  this.commentLikeCounting = comment.commentLikeCounting;
 };
 
 Comment.create = (newComment, result) => {
@@ -86,6 +87,108 @@ Comment.remove = (id, result) => {
   });
 };
 
+//댓글 좋아요
+Comment.like = (commentID, userID, result) => {
+  sql.query('SELECT commentLikeId FROM commentLikeTbl WHERE commentId=? AND userId=?', [commentID, userID], (err, good) => {
+    
+    //좋아요 하지 않은 댓글일 경우
+    if(good.length == 0) {
+      console.log("좋아요 하지 않은 댓글");
+      //commentTbl에 좋아요 데이터 추가
+      sql.query('INSERT INTO commentLikeTbl(commentId, userId) VALUES(?, ?)', [commentID, userID], (err, insert) => {
+        if(err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+
+        //commentTbl의 좋아요 개수 증가
+        sql.query('SELECT commentLikeCounting FROM boardCommentTbl WHERE commentId=?', commentID, (err, commentgood) => {
+          if(err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+          }
+
+          //id 결과 없을시
+          if(commentgood.affectedRows == 0) {
+            result({kind:"not_found"}, null);
+            return;
+          }
+
+          sql.query('UPDATE boardCommentTbl SET commentLikeCounting=? WHERE commentId=?', [commentgood[0].commentLikeCounting+1, commentID], (err, res) => {
+            if(err) {
+              console.log("error: ", err);
+              result(err, null);
+              return;
+            }
+
+            //id 결과 없을시
+            if(res.affectedRows == 0) {
+              result({kind:"not_found"}, null);
+              return;
+            }
+
+            console.log("like comment: ", commentID);
+            result(null, res);
+          });
+        });
+
+        console.log("Created commentGood: ", insert.insertId);
+      });
+    } else {
+      //좋아요한 댓글일 경우(좋아요 취소)
+      sql.query('DELETE FROM commentLikeTbl WHERE commentLikeId=?', good[0].commentLikeId, (err, del) => {
+        if(err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+
+        //id결과가 없을시
+        if(del.affectedRows == 0) {
+          result({kind:"not_found"}, null);
+          return;
+        }
+
+        //boardtbl의 boardGood 좋아요 개수 감소
+        sql.query('SELECT commentLikeCounting FROM boardCommentTbl WHERE commentId=?', commentID, (err, commentgood) => {
+          if(err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+          }
+          //id 결과가 없을시
+          if(commentgood.affectedRows == 0) {
+              result({kind:"not_found"}, null);
+              return;
+          }
+          
+          //댓글 좋아요 개수 감소
+          sql.query('UPDATE boardCommentTbl SET commentLikeCounting=? where commentId=?', [commentgood[0].commentLikeCounting - 1, commentID], (err, res) => {
+            if(err) {
+              console.log("error:", err);
+              result(err, null);
+              return;
+            }
+            
+            //id 결과 없을시
+            if(res.affectedRows == 0) {
+                result({kind:"not_found"}, null);
+                return;
+            }
+      
+            console.log("like post: ", commentID);
+            // result(null, res);
+          });
+        });        
+
+        console.log("deleted commentgood with id: ", good[0]);
+        result(null, del);
+      });
+    }
+  })
+}
 
 
 module.exports = Comment;

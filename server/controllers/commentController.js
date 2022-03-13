@@ -41,7 +41,8 @@ exports.create = (req, res) => {
       categoryIndex : result[0].categoryIndex,
       boardId : result[0].boardId,
       commentContent : req.body.commentContent,
-      userId : userId
+      userId : userId,
+      commentLikeCounting : 0,
     });
   
     //데이터베이스에 저장
@@ -114,3 +115,21 @@ exports.delete = (req, res) => {
     
   });
 };
+
+exports.like = (req, res) => {
+  Comment.like(req.params.commentId, req.body.userId, (err, data) => {
+    if(err) {
+      if(err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Comment with id ${req.params.commentId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Comment with id" + req.params.commentId
+        });
+      }
+    } else {
+      res.send(data);
+    }
+  })
+}

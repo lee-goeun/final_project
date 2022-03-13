@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // ------ 산책메이트 --------
-export const getMatchList = (matchId) =>
-  axios.get('http://localhost:3001/match/list');
+export const getMatchList = (keyword) =>
+  axios.get(`http://localhost:3001/match/list?keyword=${keyword}`);
 export const getMatchPost = (matchId) =>
   axios.get(`http://localhost:3001/match/detail/${matchId}`);
 export const deleteMatchPost = (matchId) =>
@@ -41,9 +41,8 @@ export const sellingMarketPost = (data) => {
 
 // ------ 마이페이지 --------
 //나의반려동물
-export const getMyPetList = (userId) => {
-  return axios.get(`http://localhost:3001/mypage/mypetList?userId=${userId}`);
-};
+export const getMyPetList = (userId) => 
+   axios.get(`http://localhost:3001/mypage/mypetList?userId=${userId}`);
 export const writeMyPetPost = (formData) => {
   return axios.post('http://localhost:3001/mypage/mypetAdd', formData);
 };

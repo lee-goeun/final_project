@@ -1,7 +1,12 @@
 import { faImage, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
 import styled from 'styled-components';
+import React, { useRef, useState } from 'react';
+import '../../pages/MyPageStyle.css';
+import { faSquarePlus } from '@fortawesome/free-regular-svg-icons';
+import AddPetForm from './AddPetForm';
+import { useDispatch } from 'react-redux';
+import { deleteMyPetPost } from '../../redux/modules/mypet'
 
 const PCStyle = styled.div`
   .pet-container {
@@ -67,19 +72,34 @@ const PCStyle = styled.div`
   }
 `;
 
-const PetContainer = ({loadingList, list}) => {
-  console.log(list);
+const PetContainer = ({post}) => {
+  var nowYear = new Date().getFullYear();
+  const dispatch = useDispatch();
+
+  const delMyPet = () =>{
+    const cnfrm = window.confirm('삭제하시겠습니까?');
+    if(cnfrm){
+      dispatch(deleteMyPetPost(post.petId), [dispatch]);
+      window.location.replace('/mypet')
+    }
+  }
+
   return (
     <PCStyle>
       <div className="pet-container">
         <div className="pet01">
           <img
-            src="https://www.ui4u.go.kr/depart/img/content/sub03/img_con03030100_01.jpg"
+            src={
+              'http://localhost:3001/mypage/petDownload?petId=' +
+              post.petId +
+              '&petImgName=' +
+              post.petImgName
+            }
             alt="반려동물사진"
           />
         </div>
         <div className="pet02">
-          코코
+          {post.petName}
           <div>
             <FontAwesomeIcon
               icon={faImage}
@@ -89,16 +109,69 @@ const PetContainer = ({loadingList, list}) => {
             <FontAwesomeIcon
               icon={faSquareXmark}
               className="pet-delete-btn"
+              onClick={delMyPet}
               title="삭제하기"
             />
           </div>
         </div>
-        <div className="pet03">3살</div>
-        <div className="pet04">암컷</div>
-        <div className="pet05">강아지 ＞ 푸들</div>
+        <div className="pet03">{nowYear - post.petBirth.substring(0,4) + 1}살</div>
+        <div className="pet04">{post.petSex ? '수컷' : '암컷' }</div>
+        <div className="pet05">{post.petType} ＞ {post.petTypeDetail}</div>
       </div>
     </PCStyle>
   );
 };
 
-export default PetContainer;
+
+const MyPet = ({list, loadingList}) => {
+  console.log(list);
+  const addPetText = useRef();
+
+  const [showAddForm, setShowAddForm] = useState(false);
+
+  const showText = (e) => {
+    addPetText.current.style.bottom = '30px';
+  };
+  const hideText = (e) => {
+    addPetText.current.style.bottom = '70px';
+  };
+
+  return (
+    <>
+      <div className="mypet-container">
+        {loadingList && 'loading...'}
+        {!loadingList && list && (
+          <div>
+            {list.map((post) => (
+              <PetContainer key={post.petId} post={post}/>
+            ))}
+          </div>
+        )}
+        <div className="add-container">
+          <FontAwesomeIcon
+            icon={faSquarePlus}
+            className="add-pet-btn"
+            title="반려동물 추가하기"
+            onMouseEnter={showText}
+            onMouseLeave={hideText}
+            onClick={() => {
+              setShowAddForm(!showAddForm);
+            }}
+          />
+        </div>
+        <p className="ppp" ref={addPetText}>
+          반려동물 추가하기
+        </p>
+      </div>
+      {showAddForm && (
+        <AddPetForm
+          clickAddCancel={() => {
+            setShowAddForm(!showAddForm);
+          }}
+        />
+      )}
+    </>
+  );
+};
+
+export default MyPet;
