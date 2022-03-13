@@ -29,7 +29,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import LoadingCont from './common/LoadingCont';
 import { connect } from 'react-redux';
-import { getPostList } from '../redux/modules/post';
+import { getPostList, post } from '../redux/modules/post';
 import loading from '../redux/modules/loading';
 
 const CarouselStyle = styled.div`
@@ -270,7 +270,8 @@ const PostContainer = ({
                       )
                       .then((res) =>
                         console.log(boardId, '번 게시물 좋아요 클릭', res),
-                      );
+                      )
+                      .catch((error) => console.log('좋아요 에러 :', error));
                   }}
                 />
               )}
@@ -307,9 +308,7 @@ const PostContainer = ({
               {boardCreated.substr(0, 10)}　{boardCreated.substr(11, 5)}
             </p>
           </div>
-          <div className="pr06">
-            <CommentContainer />
-          </div>
+          <div className="pr06"></div>
           <div className="pr07">
             <input
               type="text"
@@ -339,7 +338,7 @@ const MiniPostContainer = ({ postList, loadingPostList }) => {
         <>
           {postList.map((post) => (
             <>
-              <Link to={'post/' + post.boardId}>
+              <Link to={`post/${post.boardId}`}>
                 <div key={post.boardId} className="mini-post-container">
                   <div className="mpimg-container">
                     <img
@@ -381,36 +380,42 @@ const MiniPostContainer = ({ postList, loadingPostList }) => {
   );
 };
 
-const CommentContainer = () => {
-  const [comment, setCommnet] = useState({
-    comments: [
-      {
-        id: 44134,
-        nick: '집사',
-        img: 'https://blog.kakaocdn.net/dn/btkVeS/btqFOXbMQbB/Uf5rey5lRoKKRStYNn5oVK/img.png',
-        date: '2022/02/10',
-        content: '고양이 진짜 이쁘네요 부러워용ㅠ',
-        key: 2125325,
-      },
-      {
-        id: 3451,
-        nick: '고양이나만없어',
-        img: 'https://image.fnnews.com/resource/media/image/2021/04/21/202104211351203685_l.jpg',
-        date: '2022/02/12',
-        content: '고양이 무슨 종이에요?',
-        key: 21253212125,
-      },
-      {
-        id: 125122,
-        nick: '가나다라',
-        img: 'https://img.hankyung.com/photo/202103/20210323110008_60594ba899dab_1.jpg',
-        date: '2022/02/20',
-        content:
-          '부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.',
-        key: 21253258998989,
-      },
-    ],
-  });
+const CommentContainer = ({
+  userId,
+  userImg,
+  commentContent,
+  commentLikeCounting,
+  commentCreated,
+}) => {
+  // const [comment, setCommnet] = useState({
+  //   comments: [
+  //     {
+  //       id: 44134,
+  //       nick: '집사',
+  //       img: 'https://blog.kakaocdn.net/dn/btkVeS/btqFOXbMQbB/Uf5rey5lRoKKRStYNn5oVK/img.png',
+  //       date: '2022/02/10',
+  //       content: '고양이 진짜 이쁘네요 부러워용ㅠ',
+  //       key: 2125325,
+  //     },
+  //     {
+  //       id: 3451,
+  //       nick: '고양이나만없어',
+  //       img: 'https://image.fnnews.com/resource/media/image/2021/04/21/202104211351203685_l.jpg',
+  //       date: '2022/02/12',
+  //       content: '고양이 무슨 종이에요?',
+  //       key: 21253212125,
+  //     },
+  //     {
+  //       id: 125122,
+  //       nick: '가나다라',
+  //       img: 'https://img.hankyung.com/photo/202103/20210323110008_60594ba899dab_1.jpg',
+  //       date: '2022/02/20',
+  //       content:
+  //         '부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.',
+  //       key: 21253258998989,
+  //     },
+  //   ],
+  // });
 
   const [showmodifyCommentModal, setShowModifyCommentModal] = useState(false);
 
@@ -429,59 +434,58 @@ const CommentContainer = () => {
 
   return (
     <>
-      {comment.comments.map((com) => (
-        <div key={com.id} className="comment-container">
-          <div className="cc01">
-            <div className="cc01-img-container">
-              <img src={process.env.PUBLIC_URL + `${com.img}`} />
-            </div>
-          </div>
-          <div className="cc02">
-            <h4>{com.nick}</h4>
-            <p></p>
-          </div>
-          <div className="cc03">
-            <FontAwesomeIcon
-              icon={faPen}
-              id="edit-icon"
-              title="수정하기"
-              onClick={clickModifyComment}
-            />
-            <FontAwesomeIcon icon={faX} id="delete-icon" title="삭제하기" />
-            <FontAwesomeIcon
-              icon={faBullhorn}
-              id="report-icon"
-              title="신고하기"
-              onClick={clickReportComment}
-            />
-          </div>
-          <div className="cc04">
-            <p>
-              {com.content}
-              <br />
-              <span className="comment-date">- {com.date}</span>
-              {isLikeComment ? (
-                <FontAwesomeIcon
-                  icon={faHeart}
-                  id="comment-like-icon"
-                  onClick={() => {
-                    setIsLikeComment(!isLikeComment);
-                  }}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={borderHeart}
-                  id="comment-border-like-icon"
-                  onClick={() => {
-                    setIsLikeComment(!isLikeComment);
-                  }}
-                />
-              )}
-              <span className="comment-like-count">22개</span>
-            </p>
+      <div className="comment-container">
+        <div className="cc01">
+          <div className="cc01-img-container">
+            <img src={process.env.PUBLIC_URL + `${userImg}`} />
           </div>
         </div>
-      ))}
+        <div className="cc02">
+          <h4>{userId}</h4>
+          <p></p>
+        </div>
+        <div className="cc03">
+          <FontAwesomeIcon
+            icon={faPen}
+            id="edit-icon"
+            title="수정하기"
+            onClick={clickModifyComment}
+          />
+          <FontAwesomeIcon icon={faX} id="delete-icon" title="삭제하기" />
+          <FontAwesomeIcon
+            icon={faBullhorn}
+            id="report-icon"
+            title="신고하기"
+            onClick={clickReportComment}
+          />
+        </div>
+        <div className="cc04">
+          <p>
+            {commentContent}
+            <br />
+            <span className="comment-date">- {commentCreated}</span>
+            {isLikeComment ? (
+              <FontAwesomeIcon
+                icon={faHeart}
+                id="comment-like-icon"
+                onClick={() => {
+                  setIsLikeComment(!isLikeComment);
+                }}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={borderHeart}
+                id="comment-border-like-icon"
+                onClick={() => {
+                  setIsLikeComment(!isLikeComment);
+                }}
+              />
+            )}
+            <span className="comment-like-count">{commentLikeCounting}</span>
+          </p>
+        </div>
+      </div>
+
       {showReportCommentModal ? (
         <div className="report-comment-modal">
           <p>댓글을 신고하시겠습니까?</p>

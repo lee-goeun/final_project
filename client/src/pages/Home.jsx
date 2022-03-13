@@ -15,6 +15,7 @@ import {
 } from '../components/common/Modal';
 import { alertTitleClasses } from '@mui/material';
 import axios from 'axios';
+import { postStore } from '../zustand/zustandStore';
 
 const MainPageFooterStyle = styled.div`
   .main-body-div {

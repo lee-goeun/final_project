@@ -39,7 +39,6 @@ export const sellingMarketPost = (data) => {
   return axios.post('http://localhost:3001/market/selling', data);
 };
 
-
 // ------ 마이페이지 --------
 //나의반려동물
 export const getMyPetList = (userId) => {
@@ -65,3 +64,6 @@ export const getPostList = (boardId) =>
 
 export const getPost = (boardId) =>
   axios.get(`http://localhost:3001/board/post/${boardId}`);
+
+export const updatePost = (boardId) =>
+  axios.post(`http://localhost:3001/board/post/edit/${boardId}`);

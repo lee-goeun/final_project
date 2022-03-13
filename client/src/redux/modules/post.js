@@ -9,6 +9,10 @@ const GET_POST = 'post/GET_POST';
 const GET_POST_SUCCESS = 'post/GET_POST_SUCCESS';
 const GET_POST_FAILURE = 'post/GET_POST_FAILURE';
 
+const UPDATE_POST = 'post/UPDATE_POST';
+const UPDATE_POST_SUCCESS = 'post/UPDATE_POST_SUCCESS';
+const UPDATE_POST_FAILURE = 'post/UPDATE_POST_FAILURE';
+
 export const getPostList = () => async (dispatch) => {
   dispatch({ type: GET_POST_LIST });
   try {
@@ -45,10 +49,29 @@ export const getPost = (boardId) => async (dispatch) => {
   }
 };
 
+export const updatePost = (boardId) => async (dispatch) => {
+  dispatch({ type: UPDATE_POST });
+  try {
+    const response = await api.updatePost(boardId);
+    dispatch({
+      type: UPDATE_POST_SUCCESS,
+      payload: response.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: UPDATE_POST_FAILURE,
+      payload: e,
+      error: true,
+    });
+    throw e;
+  }
+};
+
 const initialState = {
   loading: {
     GET_POST_LIST: false,
     GET_POST: false,
+    UPDATE_POST: false,
   },
   postList: null,
   post: null,
