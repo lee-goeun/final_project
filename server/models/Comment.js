@@ -11,9 +11,8 @@ const Comment = function(comment) {
   this.commentLikeCounting = comment.commentLikeCounting;
 };
 
+//댓글 작성
 Comment.create = (newComment, result) => {
-  
-
   sql.query("INSERT INTO boardCommentTbl(categoryIndex, boardId, commentContent, userId) VALUES (?, ?, ?, ?)"
   ,[newComment.categoryIndex, newComment.boardId, newComment.commentContent, newComment.userId]
   , (err, res) => {
@@ -188,6 +187,27 @@ Comment.like = (commentID, userID, result) => {
       });
     }
   })
+}
+
+//댓글 신고
+Comment.report = (commentID, userID, result) => {
+  //신고 댓글의 유저 아이디 가져오기
+  console.log("댓글 모델로 들어옴")
+  sql.query('SELECT userId FROM boardCommentTbl WHERE commentId=?', commentID, (err, comment) => {
+    sql.query('INSERT INTO commentReportTbl(commentId, userId, reportedUserId) values(?, ?, ?)', [commentID, userID, comment[0].userId], (err, res) => {
+      if(err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      console.log("Created report: ", res.insertId);
+      result(null, res.insertId);
+      return;
+    });
+
+    return;
+  });
 }
 
 

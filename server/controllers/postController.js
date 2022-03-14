@@ -133,6 +133,7 @@ exports.findAll = (req, res) => {
  
 //게시판 상세보기
 exports.findOne = (req, res) => {
+    console.log("login id: ", req.body.userId);
     Post.findOne(req.params.postId, req.body.userId, (err, data) => {
         if(err) {
             if(err.kind === "not_found") {
@@ -145,7 +146,6 @@ exports.findOne = (req, res) => {
                 });
             }
         } else {
-
           //댓글 보기
           Comment.find(req.params.postId, (err, comment) => {
             if(err) {
@@ -260,4 +260,25 @@ exports.collect = (req, res) => {
     };
   });
   
+}
+
+//게시물 신고하기
+exports.report = (req, res) => {
+  Post.report(req.params.postId, req.body.userId, (err, data) => {
+    if(err) {
+      if(err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Post with id ${req.params.postId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Post with id " + req.params.postId
+        });
+      }
+    } else {
+      res.send({
+        message: `Report successfully!`
+      });
+    }
+  });
 }

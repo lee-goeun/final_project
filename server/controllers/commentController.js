@@ -116,6 +116,7 @@ exports.delete = (req, res) => {
   });
 };
 
+//댓글 좋아요
 exports.like = (req, res) => {
   Comment.like(req.params.commentId, req.body.userId, (err, data) => {
     if(err) {
@@ -132,4 +133,25 @@ exports.like = (req, res) => {
       res.send(data);
     }
   })
+}
+
+//댓글 신고
+exports.report = (req, res) => {
+  Comment.report(req.body.commentId, req.body.userId, (err, data) => {
+    if(err) {
+      if(err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Post with id ${req.body.commentId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Post with id " + req.body.commentId
+        });
+      }
+    } else {
+      res.send({
+        message: `Report successfully!`
+      });
+    }
+  });
 }

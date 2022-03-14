@@ -53,5 +53,8 @@ module.exports = (app) => {
   //관심게시물
   postRouter.post('/post/:postId/collect', posts.collect);
 
+  //게시물 신고
+  postRouter.post('/post/:postId/report', posts.report);
+  
   app.use('/board', postRouter);
 };

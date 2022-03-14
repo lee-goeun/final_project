@@ -15,5 +15,8 @@ module.exports = app => {
   //댓글 좋아요
   commentRouter.post('/comment/:commentId/like', comments.like);
 
+  //댓글 신고
+  commentRouter.post('/comment/:postId/report', comments.report);
+  
   app.use("/board", commentRouter);
 }

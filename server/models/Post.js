@@ -3,6 +3,7 @@ const removeUploadedFiles = require("multer/lib/remove-uploaded-files");
 const sql = require("../db/index.js");
 var fs = require('fs');
 const { json } = require("body-parser");
+const { post } = require("../routes/Match.js");
 
 //생성자
 const Post = function(post) {
@@ -69,7 +70,7 @@ Post.findOne = (postID, userID, result) => {
         }
 
         if(res.length) {
-            console.log("found post: ", res[0]);
+            
             var imgPath = "boardImages/" + res[0].boardId + "/";
 
             //닉네임 가져오는 부분
@@ -101,23 +102,28 @@ Post.findOne = (postID, userID, result) => {
 
                 //좋아요 상태 가져오기
                 sql.query('SELECT postLikeId FROM postLikeTbl WHERE userId=? AND boardId=?', [userID, postID], (err, good) => {
+                  console.log(userID);
                   if(good.length == 0) {
                     res[0].goodStatus = 0;
                   } else {
                     res[0].goodStatus = 1;
                   }
+
+                   //관심 게시물 상태 가져오기
+                  sql.query('SELECT collectId FROM boardCollectTbl WHERE userId=? AND boardId=?', [userID, postID], (err, collect) => {
+                    if(collect.length == 0) {
+                      res[0].collectStatus = 0;
+                    } else {
+                      res[0].collectStatus = 1;
+                    }
+
+                    console.log("found post: ", res[0]);
+                    result(null, res[0]);
+
+                  });
+
+
                 });
-
-                //관심 게시물 상태 가져오기
-                sql.query('SELECT collectId FROM boardCollectTbl WHERE userId=? AND boardId=?', [userID, postID], (err, collect) => {
-                  if(collect.length == 0) {
-                    res[0].collectStatus = 0;
-                  } else {
-                    res[0].collectStatus = 1;
-                  }
-                })
-
-                result(null, res[0]);
                 
               });
             });
@@ -214,7 +220,7 @@ Post.like = (postID, userID, result) => {
             }
       
             console.log("like post: ", postID);
-            result(null, res);
+            result(null, {id:postID, ...res});
           });
         });
 
@@ -265,8 +271,10 @@ Post.like = (postID, userID, result) => {
                 return;
             }
       
-            console.log("like post: ", postID);
-            result(null, res);
+            console.log("like cancel post: ", postID);
+            console.log("res: ", res);
+            // result(null, {id:postID});
+            // return;
           });
         });
 
@@ -316,6 +324,27 @@ Post.collect = (postID, userID, result) => {
     return;
   })
  
+}
+
+//게시물 신고
+Post.report = (postID, userID, result) => {
+  //신고 게시물의 유저 아이디 가져오기
+  sql.query('SELECT userId FROM boardTbl WHERE boardId=?', postID, (err, board) => {
+    sql.query('INSERT INTO boardReportTbl(boardId, userId, reportedUserId) values(?, ?, ?)', [postID, userID, board[0].userId], (err, res) => {
+      if(err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      console.log("Created report: ", res.insertId);
+      result(null, res.insertId);
+      return;
+    });
+
+    return;
+  });
+  
 }
 
 
