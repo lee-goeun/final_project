@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createStore } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -19,6 +19,7 @@ import {
   updateMatchPost,
   writeMatchPost,
 } from '../../redux/modules/matching';
+import { getMyPetList } from '../../redux/modules/mypet';
 
 const FormWrapper = styled.form`
   display: flex;
@@ -46,16 +47,15 @@ const MatchingRegisterForm = () => {
   const [content, setContent] = useState('');
   const contents = useSelector((state) => state.matching.write);
   const post = useSelector((state) => state.matching.update);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const formData = new FormData();
   // form 초기화 정보 가져오기(글쓰기시에만 write가 사용)
   const { form } = useSelector(({ matching }) => ({
     form: matching.write,
   }));
   const { matchTitle, matchContent, matchTime, selectPet, imageUrl } = form;
-
   useEffect(() => {
     if (!post.matchId) dispatch(initializeForm('write'));
     else setContent();
@@ -64,6 +64,11 @@ const MatchingRegisterForm = () => {
     };
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(getMyPetList(localStorage.getItem('userId')));
+  },[])
+  
+  const petList = useSelector((state) => state.mypet.list);
   //write/update후처리
   const res = useSelector((state) => state.matching.res);
   console.log(res, 'resrersersreserser');
@@ -153,7 +158,7 @@ const MatchingRegisterForm = () => {
             <BasicDateTimePicker post={post} matchTime={matchTime} />
             <Box sx={{ marginBottom: 0.5 }}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">동물</InputLabel>
+                <InputLabel id="demo-simple-select-label">나의 반려동물</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -162,9 +167,9 @@ const MatchingRegisterForm = () => {
                   onChange={handleChange}
                   value={useSelector((state) => state.matching.write.selectPet)}
                 >
-                  <MenuItem value={'1'}>강아지</MenuItem>
-                  <MenuItem value={'2'}>고양이</MenuItem>
-                  <MenuItem value={'3'}>기타</MenuItem>
+                  {petList.map((val) => (
+                    <MenuItem value={val.petId}>{val.petName}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Box>

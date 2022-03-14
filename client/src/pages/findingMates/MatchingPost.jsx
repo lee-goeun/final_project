@@ -55,6 +55,7 @@ const marginStyle2 = {
 };
 
 const MatchingPost = ({ post, loadingPost }) => {
+  console.log('pst', post);
   const navigate = useNavigate();
 
   const addChat = () => {
@@ -69,6 +70,7 @@ const MatchingPost = ({ post, loadingPost }) => {
      }
    });
  }
+ var nowYear = new Date().getFullYear();
 
   return (
     <MatchingPostWrapper>
@@ -78,7 +80,7 @@ const MatchingPost = ({ post, loadingPost }) => {
           <TopWrapper>
             <UserWrapper>
               <UserAvatar sx={{ right: 10 }} />
-              <h4>작성자:{post[0].userId}</h4>
+              <h4>작성자:{post[0].userNick}</h4>
             </UserWrapper>
             <ButtonWrapper>
               <MatchingModalButton />
@@ -99,11 +101,11 @@ const MatchingPost = ({ post, loadingPost }) => {
               .substring(14, 16)}분`}
           </h6>
           <h6 style={marginStyle2}>
-            20대 | 남자 |
+            {post[0].userAge}대 | {post[0].userSex == 'male' ? '남자' : '여자'} |
             {`${post[0].region1} ${post[0].region2}  ${post[0].region3}`}
           </h6>
-          <h6 style={marginStyle2}>(펫정보)):{post[0].selectPet}</h6>
-          <h6 style={marginStyle2}>코코 | 3살 | 강아지 | 포메라니안</h6>
+          <h6 style={marginStyle2}>( 펫정보 ) : </h6>
+          <h6 style={marginStyle2}>{post[0].selectPets[0].petName} | {nowYear - post[0].selectPets[0].petBirth.substring(0,4) + 1}살 | {post[0].selectPets[0].petSex ? '수컷' : '암컷' } | {post[0].selectPets[0].petType} | {post[0].selectPets[0].petTypeDetail}</h6>
           <StyledButton style={marginStyle1}>
             <StyledLink to="" onClick={addChat}>
               <h3>채팅하기</h3>

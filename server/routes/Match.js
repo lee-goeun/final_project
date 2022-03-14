@@ -39,7 +39,7 @@ router.get('/list', (req, res) => {
 
   var sql = '';
   if (keyword == 'undefined' || keyword == '') {
-    sql = 'select * from matchTbl where matchDeleted = 0';
+    sql = 'select * from matchTbl where matchDeleted = 0 ORDER BY matchCreated DESC';
     conn.query(sql, (err, results) => {
       if (err) return res.json({ success: false, err });
       else return res.json(results);
@@ -47,7 +47,7 @@ router.get('/list', (req, res) => {
   } else {
     keyword = '%' + keyword + '%';
     sql =
-      'select * from matchTbl where matchDeleted = 0 and (matchTitle like ? or matchContent like ?)';
+      'select * from matchTbl where matchDeleted = 0 and (matchTitle like ? or matchContent like ?) ORDER BY matchCreated DESC';
 
     conn.query(sql, [keyword, keyword], (err, results) => {
       if (err) return res.json({ success: false, err });
