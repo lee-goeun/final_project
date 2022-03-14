@@ -54,15 +54,15 @@ const marginStyle2 = {
   marginBottom: 5,
 };
 
-const MatchingPost = ({ post, loadingPost }) => {
-  console.log('pst', post);
+const MatchingPost = ({ post, loadingPost, userInfo }) => {
+  console.log('pst', userInfo);
   const navigate = useNavigate();
 
   const addChat = () => {
     axios.post('http://localhost:3001/chat/add', {
      matchId : post[0].matchId,
      userId : post[0].userId,
-     participant:localStorage.getItem("userId")
+     participant:userInfo.userId
    }).then((res) => {
      if (res.status == 200) {
         navigate('/chatting');

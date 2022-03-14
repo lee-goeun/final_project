@@ -4,7 +4,7 @@ import MatchingPost from '../../pages/findingMates/MatchingPost';
 import { getMatchPost } from '../modules/matching';
 import { useParams } from 'react-router-dom';
 
-const MatchingPostContainer = ({ getMatchPost, post, loadingPost }) => {
+const MatchingPostContainer = ({ getMatchPost, post, loadingPost, userInfo }) => {
   const { matchId } = useParams();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const MatchingPostContainer = ({ getMatchPost, post, loadingPost }) => {
     fn();
   }, [getMatchPost]);
 
-  return <MatchingPost post={post} loadingPost={loadingPost} />;
+  return <MatchingPost post={post} loadingPost={loadingPost} userInfo={userInfo}/>;
 };
 
 export default connect(

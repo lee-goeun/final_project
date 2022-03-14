@@ -4,7 +4,7 @@ import MarketLists from '../../pages/usedMarket/ItemLists';
 import { getMarketList } from '../modules/market';
 import { useParams } from 'react-router-dom';
 
-const MarketListsContainer = ({ getMarketList, list, loadingList }) => {
+const MarketListsContainer = ({ getMarketList, list, loadingList, userInfo }) => {
   const { keyword } = useParams();
   console.log('marketLit', getMarketList);
   useEffect(() => {
@@ -20,7 +20,7 @@ const MarketListsContainer = ({ getMarketList, list, loadingList }) => {
     fn();
   }, [getMarketList]);
 
-  return <MarketLists list={list} loadingList={loadingList} />;
+  return <MarketLists list={list} loadingList={loadingList} userInfo={userInfo} />;
 };
 
 export default connect(

@@ -4,7 +4,7 @@ import MarketPost from '../../pages/usedMarket/ItemPost';
 import { getMarketPost } from '../modules/market';
 import { useParams } from 'react-router-dom';
 
-const MarketPostContainer = ({ getMarketPost, post, loadingPost }) => {
+const MarketPostContainer = ({ getMarketPost, post, loadingPost, userInfo }) => {
   const { marketId } = useParams();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const MarketPostContainer = ({ getMarketPost, post, loadingPost }) => {
     fn();
   }, [getMarketPost]);
 
-  return <MarketPost post={post} loadingPost={loadingPost} />;
+  return <MarketPost post={post} loadingPost={loadingPost} userInfo={userInfo}/>;
 };
 
 export default connect(

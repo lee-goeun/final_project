@@ -87,19 +87,19 @@ function App() {
       <Route path="board" element={<PostPage />} />
       <Route path="board/:boardId" element={<DetailPost />} />
       <Route path="/usedtrade" element={<UsedTrade />} />
-      <Route path="/chatting" element={<Chatting />} />
+      <Route path="/chatting" element={<Chatting  userInfo={userInfo} />} />
 
       {/* 매칭페이지 */}
       <Route path="match" element={<MatchingPageLayout />}>
         <Route path="list" element={<MatchingListsContainer userInfo={userInfo}/>} />
-        <Route path="detail/:matchId" element={<MatchingPostContainer />} />
+        <Route path="detail/:matchId" element={<MatchingPostContainer userInfo={userInfo}/>} />
         <Route path="add" element={<WriteMatchingPost userInfo={userInfo} />} />
       </Route>
 
       {/* 중고장터 페이지 */}
       <Route path="market" element={<MarketPageLayout />}>
-        <Route path="list" element={<MarketListsContainer />} />
-        <Route path="detail/:marketId" element={<MarketPostContainer />} />
+        <Route path="list" element={<MarketListsContainer userInfo={userInfo}/>} />
+        <Route path="detail/:marketId" element={<MarketPostContainer userInfo={userInfo}/>} />
         <Route path="add" element={<WriteMarketgPost />} />
       </Route>
 

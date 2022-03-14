@@ -40,7 +40,7 @@ const ChattingPageStyle = styled.div`
 `;
 const socket = socketio('localhost:3002');
 console.log('socket', socket)
-const Chatting = () => {
+const Chatting = ({userInfo}) => {
   const [chatUserList, setChatUserList] = useState([]);
   
   console.log(chatUserList);
@@ -112,11 +112,11 @@ const Chatting = () => {
             </div> */}
             <div className="chat-room">
               <div className="croom01">
-                {/* {
-                   localStorage.getItem('userId') == chat.userId ? 
+                {/* { 
+                   userInfo.userId == chat.userId ? 
                    <LeftChatBalloon  userId={chat.userId} message={chat.message}/> : 
                    <RightChatBalloon userId={chat.userId} message={chat.message}/>
-                } */}
+                 } */}
               </div>
               <div className="croom02">
                 <form>

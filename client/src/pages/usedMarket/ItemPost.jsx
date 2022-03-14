@@ -54,12 +54,12 @@ const marginStyle2 = {
   marginBottom: 5,
 };
 
-const ItemPost = ({ post, loadingPost }) => {
+const ItemPost = ({ post, loadingPost, userInfo }) => {
   const dispatch = useDispatch();
 
   const buyItem = () => {
     const cnfrm = window.confirm('구매하시겠습니까?');
-    const data = {marketId : post[0].marketId, userId: post[0].userId, sellerId:localStorage.getItem('userId')};
+    const data = {marketId : post[0].marketId, userId: post[0].userId, sellerId:userInfo.userId};
     console.log('dat', data);
     if(cnfrm){
       dispatch(sellingMarketPost(data), [dispatch]);
