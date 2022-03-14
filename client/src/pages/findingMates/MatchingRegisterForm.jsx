@@ -48,27 +48,28 @@ const MatchingRegisterForm = ({userInfo}) => {
   const [content, setContent] = useState('');
   const contents = useSelector((state) => state.matching.write);
   const post = useSelector((state) => state.matching.update);
+  console.log('pppppppost', post);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+ 
   const formData = new FormData();
   // form 초기화 정보 가져오기(글쓰기시에만 write가 사용)
   const { form } = useSelector(({ matching }) => ({
     form: matching.write,
   }));
   const { matchTitle, matchContent, matchTime, selectPet, imageUrl } = form;
+  console.log('imageUrl', imageUrl);
   useEffect(() => {
     if (!post.matchId) dispatch(initializeForm('write'));
     else setContent();
+
+    dispatch(getMyPetList(userInfo.userId));
+    
     return () => {
       dispatch(unloadPost());
     };
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getMyPetList(userInfo.userId));
-    return dispatch(unloadPost());
-  },[dispatch]);
   
   const petList = useSelector((state) => state.mypet.list);
   //write/update후처리
@@ -101,6 +102,7 @@ const MatchingRegisterForm = ({userInfo}) => {
       );
     }
   };
+  console.log('post', post)
 
   const deleteUrl = () => {
     if (!post.matchId) URL.revokeObjectURL(imageUrl);
@@ -179,7 +181,7 @@ const MatchingRegisterForm = ({userInfo}) => {
             </Box>
             <AImageFIleInput
               buttonName={'이미지 첨부'}
-              // previewUrl={previewUrl}
+            //  previewUrl={imageUrl}
               appendingFormData={appendingFormData}
               post={post}
             />
@@ -190,7 +192,7 @@ const MatchingRegisterForm = ({userInfo}) => {
               {(post.matchId && '산책포스팅 수정') || '산책메이트 글올리기'}
             </Button>
           </BottomLeftWrapper>
-          <AImageViewer post={post} imageUrl={imageUrl} />
+          <AImageViewer post={post?post:""} imageUrl={imageUrl} />
         </BottomWrapper>
       </FormWrapper>
     </>
