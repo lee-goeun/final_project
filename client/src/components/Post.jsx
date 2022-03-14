@@ -165,7 +165,7 @@ const PostContainer = ({
   const [isFollow, setIsFollow] = useState(false);
   const [showPostMenu, setShowPostMenu] = useState(false);
   const [isLike, setIsLike] = useState(false);
-  const [writeComment, setWriteComment] = useState();
+  const [commentContent, setCommentContent] = useState();
 
   const commentInput = useRef();
 
@@ -178,6 +178,17 @@ const PostContainer = ({
   // 관심게시물 등록 버튼 클릭시
   const [isFavoritePost, setIsFavoritePost] = useState(false);
   const clickFavoritePost = () => {
+    axios
+      .post(`http://localhost:3001/board/post/${boardId}/collect`, {
+        boardId,
+        userId,
+      })
+      .then((res) =>
+        console.log(
+          `${userId}님께서 ${boardId}번 게시물을 관심 게시물로 등록하였습니다.`,
+        ),
+      )
+      .catch((error) => console.log(error));
     setIsFavoritePost(!isFavoritePost);
   };
 
@@ -185,7 +196,9 @@ const PostContainer = ({
   const clickCommentEnter = (e) => {
     alert('댓글이 작성되었습니다');
     axios
-      .post(`http://localhost:3001/board/comment/${boardId}`)
+      .post(`http://localhost:3001/board/comment/${boardId}`, {
+        commentContent,
+      })
       .then((res) => console.log(res))
       .catch((error) => console.log('댓글작성 에러 : ', error));
   };
@@ -266,7 +279,7 @@ const PostContainer = ({
                     axios
                       .post(
                         `http://localhost:3001/board/post/${boardId}/like`,
-                        { boardId },
+                        { boardId, userId },
                       )
                       .then((res) =>
                         console.log(boardId, '번 게시물 좋아요 클릭', res),
@@ -315,7 +328,7 @@ const PostContainer = ({
               maxLength="50"
               placeholder="댓글 남기기"
               onChange={(e) => {
-                setWriteComment(e.target.value);
+                setCommentContent(e.target.value);
               }}
               ref={commentInput}
               onKeyPress={(e) => {
@@ -335,7 +348,8 @@ const PostContainer = ({
 
 const MiniPostContainer = ({ postList, loadingPostList }) => {
   useEffect(() => {
-    console.log('렌더링');
+    console.log('MiniPostContainer 렌더링');
+    console.log('미니렌더링', postList);
   }, [postList]);
   return (
     <>
@@ -344,7 +358,7 @@ const MiniPostContainer = ({ postList, loadingPostList }) => {
         <>
           {postList.map((post) => (
             <>
-              <Link to={`post/${post.boardId}`}>
+              <Link to={`${post.boardId}`}>
                 <div key={post.boardId} className="mini-post-container">
                   <div className="mpimg-container">
                     <img

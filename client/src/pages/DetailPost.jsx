@@ -43,23 +43,25 @@ const DetailPost = () => {
   const [getBoard, setGetBoard] = useState();
 
   useEffect(() => {
-    console.log('상세보기 렌더링');
+    console.log(`${boardId}번 게시물 상세보기 렌더링`);
     axios
-      .get('http://localhost:3001/board/post/' + boardId)
-      .then((res) => setGetBoard(res.data));
+      .get(`http://localhost:3001/board/post/${boardId}`, boardId)
+      .then((res) => setGetBoard(res.data))
+      .catch((error) => console.log(error));
   }, []);
+  console.log('가져온 게시물', getBoard);
 
   return (
     <div>
       <DetailStyle>
         <PostContainer
-          boardImgList={getBoard.boardImgList}
-          userId={getBoard.userId}
-          boardTitle={getBoard.boardTitle}
-          boardContent={getBoard.boardContent}
-          boardGood={getBoard.boardGood}
-          boardViews={getBoard.boardViews}
-          boardCreated={getBoard.boardCreated}
+        // boardImgList={getBoard.boardImgList}
+        // userId={getBoard.userId}
+        // boardTitle={getBoard.boardTitle}
+        // boardContent={getBoard.boardContent}
+        // boardGood={getBoard.boardGood}
+        // boardViews={getBoard.boardViews}
+        // boardCreated={getBoard.boardCreated}
         />
         <Link to="/board">
           <FontAwesomeIcon

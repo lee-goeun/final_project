@@ -1,3 +1,14 @@
+@keyframes showing {
+  from {
+    opacity: 0.5;
+    top: 55%;
+  }
+  to {
+    opacity: 1;
+    top: 50%;
+  }
+}
+
 /* my post */
 .mypost-container {
   margin-left: 30px;

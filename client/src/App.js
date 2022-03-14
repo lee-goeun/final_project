@@ -81,7 +81,7 @@ function App() {
       <Route path="/join" element={<Join />} />
       <Route path="/" element={<Home userInfo={userInfo} />} />
       <Route path="board" element={<PostPage />} />
-      <Route path="board/post/:boardId" element={<DetailPost />} />
+      <Route path="board/:boardId" element={<DetailPost />} />
       <Route path="/usedtrade" element={<UsedTrade />} />
       <Route path="/chatting" element={<Chatting />} />
 

@@ -1,3 +1,13 @@
+@keyframes showing {
+  from {
+    opacity: 0.5;
+    top: 55%;
+  }
+  to {
+    opacity: 1;
+    top: 50%;
+  }
+}
 /* .post-wrapper {
   position: absolute;
   left: 0;
@@ -744,6 +754,7 @@
   background-color: var(--bgcolor-default);
   box-shadow: 1px 1px 5px rgb(0 0 0 / 20%);
   z-index: 10;
+  animation: showing 0.3s;
 }
 
 /* 게시판별 게시물 작성폼 */
