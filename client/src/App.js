@@ -61,12 +61,16 @@ function App() {
   };
   const userInfoHandler = ({ data }) => {
     setUserInfo((prevState) => {
+      console.log('ssss',data);
       return {
         ...prevState,
         auth: data.auth,
         userId: data.userId,
         userNick: data.userNick,
         userName: data.userName,
+        region1 : data.region1,
+        region2 : data,region2,
+        region3 : data.region3
         //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
       };
     });
@@ -89,7 +93,7 @@ function App() {
       <Route path="match" element={<MatchingPageLayout />}>
         <Route path="list" element={<MatchingListsContainer />} />
         <Route path="detail/:matchId" element={<MatchingPostContainer />} />
-        <Route path="add" element={<WriteMatchingPost />} />
+        <Route path="add" element={<WriteMatchingPost userInfo={userInfo} />} />
       </Route>
 
       {/* 중고장터 페이지 */}

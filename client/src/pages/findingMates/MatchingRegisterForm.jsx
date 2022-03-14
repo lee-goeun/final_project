@@ -20,6 +20,7 @@ import {
   writeMatchPost,
 } from '../../redux/modules/matching';
 import { getMyPetList } from '../../redux/modules/mypet';
+import { FormControlUnstyled } from '@mui/base';
 
 const FormWrapper = styled.form`
   display: flex;
@@ -43,7 +44,8 @@ const BottomWrapper = styled.div`
   display: flex;
 `;
 
-const MatchingRegisterForm = () => {
+const MatchingRegisterForm = ({userInfo}) => {
+  console.log('userInfo', userInfo);
   const [content, setContent] = useState('');
   const contents = useSelector((state) => state.matching.write);
   const post = useSelector((state) => state.matching.update);
@@ -66,7 +68,8 @@ const MatchingRegisterForm = () => {
 
   useEffect(() => {
     dispatch(getMyPetList(localStorage.getItem('userId')));
-  },[])
+    return dispatch(unloadPost());
+  },[dispatch]);
   
   const petList = useSelector((state) => state.mypet.list);
   //write/update후처리
@@ -128,7 +131,6 @@ const MatchingRegisterForm = () => {
         }
       }
     }
-
     formData.append('token', localStorage.getItem('token'));
     if (!post.matchId) dispatch(writeMatchPost(formData), [dispatch]);
     else dispatch(updateMatchPost(formData), [dispatch]);
@@ -167,9 +169,9 @@ const MatchingRegisterForm = () => {
                   onChange={handleChange}
                   value={useSelector((state) => state.matching.write.selectPet)}
                 >
-                  {petList.map((val) => (
+                  {petList ? petList.map((val) => (
                     <MenuItem value={val.petId}>{val.petName}</MenuItem>
-                  ))}
+                  )) : ""}
                 </Select>
               </FormControl>
             </Box>
