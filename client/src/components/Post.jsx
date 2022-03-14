@@ -148,7 +148,6 @@ const PostContainer = ({
   boardGood = 0,
   boardViews = 0,
   boardCreated = 'date',
-  userInfo,
   clickReportPost,
   clickModifyPost,
   clickDeletePost,
@@ -163,13 +162,10 @@ const PostContainer = ({
     arrows: true,
   };
 
-  console.log('로그인 정보', userInfo);
-
   const [isFollow, setIsFollow] = useState(false);
-
   const [showPostMenu, setShowPostMenu] = useState(false);
-
   const [isLike, setIsLike] = useState(false);
+  const [writeComment, setWriteComment] = useState();
 
   const commentInput = useRef();
 
@@ -188,6 +184,10 @@ const PostContainer = ({
   // 댓글 작성 ENTER 버튼 클릭시
   const clickCommentEnter = (e) => {
     alert('댓글이 작성되었습니다');
+    axios
+      .post(`http://localhost:3001/board/comment/${boardId}`)
+      .then((res) => console.log(res))
+      .catch((error) => console.log('댓글작성 에러 : ', error));
   };
 
   return (
@@ -314,6 +314,9 @@ const PostContainer = ({
               type="text"
               maxLength="50"
               placeholder="댓글 남기기"
+              onChange={(e) => {
+                setWriteComment(e.target.value);
+              }}
               ref={commentInput}
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
@@ -331,6 +334,9 @@ const PostContainer = ({
 };
 
 const MiniPostContainer = ({ postList, loadingPostList }) => {
+  useEffect(() => {
+    console.log('렌더링');
+  }, [postList]);
   return (
     <>
       {loadingPostList && <LoadingCont />}
@@ -382,7 +388,7 @@ const MiniPostContainer = ({ postList, loadingPostList }) => {
 
 const CommentContainer = ({
   userId,
-  userImg,
+  userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
   commentContent,
   commentLikeCounting,
   commentCreated,
@@ -529,9 +535,13 @@ const CommentContainer = ({
 };
 
 const PostBackground = ({ postList, loadingPostList, getPostList }) => {
-  useEffect(() => {
-    getPostList();
-  }, [getPostList]);
+  useEffect(
+    () => {
+      getPostList();
+    },
+    [getPostList],
+    [postList],
+  );
 
   const uploadDiv = useRef();
   const filterList = useRef();
@@ -599,6 +609,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     axios.post('http://localhost:3001/board/post', formData).then((res) => {
       if (res.status == 200) {
         alert('게시글이 업로드 되었습니다.');
+        getPostList();
       }
     });
 

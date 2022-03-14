@@ -15,7 +15,6 @@ import {
 } from '../components/common/Modal';
 import { alertTitleClasses } from '@mui/material';
 import axios from 'axios';
-import { postStore } from '../zustand/zustandStore';
 
 const MainPageFooterStyle = styled.div`
   .main-body-div {
@@ -146,7 +145,8 @@ const Home = ({
                 if (res.status === 200) {
                   alert('게시물이 삭제되었습니다.');
                 }
-              });
+              })
+              .catch((error) => console.log('게시물 삭제 에러: ', error));
             setShowDeletePostModal(false);
           }}
         />
