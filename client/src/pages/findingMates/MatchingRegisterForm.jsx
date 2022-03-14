@@ -192,7 +192,7 @@ const MatchingRegisterForm = ({userInfo}) => {
               {(post.matchId && '산책포스팅 수정') || '산책메이트 글올리기'}
             </Button>
           </BottomLeftWrapper>
-          <AImageViewer post={post?post:""} imageUrl={imageUrl} />
+          <AImageViewer post={post} imageUrl={imageUrl} />
         </BottomWrapper>
       </FormWrapper>
     </>

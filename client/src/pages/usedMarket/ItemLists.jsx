@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { getMarketList, addLikeMarketPost, delLikeMarketPost } from '../../redux/modules/market'
 
 
-const Post = ({ post }) => {
+const Post = ({ post, userInfo }) => {
   // 모달형식으로 링크작업 추후
   // const [modalVisible, setModalVisible] = useState(false);
   // const openModal = () => {
@@ -26,7 +26,7 @@ const Post = ({ post }) => {
 
   const bookmarkChk = () =>{
     setIsBookmark(!isBookmark);
-    const data = {marketId : post.marketId , userId : localStorage.getItem("userId")};
+    const data = {marketId : post.marketId , userId : userInfo.userId};
     isBookmark? dispatch(addLikeMarketPost(data), [dispatch]) : dispatch(delLikeMarketPost(data), [dispatch]);
   }
 
@@ -123,7 +123,7 @@ const ItemListWrapper = styled.section`
 
 
 
-const ItemLists = ({ loadingList, list }) => {
+const ItemLists = ({ loadingList, list, userInfo }) => {
   const dispatch = useDispatch();
   const [keyword, setKeyword] = useState("");
 
@@ -169,7 +169,7 @@ const ItemLists = ({ loadingList, list }) => {
       {!loadingList && list && (
         <ItemListWrapper>
           {list.map((post) => (
-            <Post key={post.marketId} post={post} />
+            <Post key={post.marketId} post={post} userInfo={userInfo}/>
           ))}
         </ItemListWrapper>
       )}
