@@ -227,7 +227,7 @@ router.post('/selling', (req, res) => {
       var selectPrice = 'select price from marketTbl where marketId = ?';
       conn.query(selectPrice, body.marketId, (err, results2) => {
       try{
-        const price = results2.price;
+        const price = results2[0].price;
         conn.beginTransaction();
 
         //판매자 = balance + price;

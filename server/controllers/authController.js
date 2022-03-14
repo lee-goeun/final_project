@@ -128,6 +128,7 @@ exports.auth = (req, res) => {
                region1: result[0].region1,
                region2: result[0].region2,
                region3: result[0].region3,
+               balance: result[0].balance
             });
           }
         });
