@@ -18,8 +18,9 @@ const AImageFIleInput = (props) => {
   const onChange = (event) => {
     const uploaded = event.target.files[0];
     props.appendingFormData(uploaded);
+    console.log('uploade', props, uploaded);
     if (uploaded) {
-      if (props.post.matchId) {
+      if (props.post.matchId || props.post.marketId) {
         dispatch(
           changeInputImage({
             form: 'update',
@@ -27,7 +28,7 @@ const AImageFIleInput = (props) => {
             imgUrl: URL.createObjectURL(uploaded),
           }),
         );
-      } else {
+      } else if(!props.post.matchId && !props.post.marketId){
         dispatch(
           changeInputImage({
             form: 'write',
