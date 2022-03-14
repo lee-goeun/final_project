@@ -105,7 +105,7 @@ function App() {
 
       <Route element={<MyPageLayout userInfo={userInfo} />}>
         <Route path="/mypost/" element={<Mypost />} />
-        <Route path="/mypet/" element={<MyPetListsContainer />} />
+        <Route path="/mypet/" element={<MyPetListsContainer userInfo={userInfo}/>} />
         <Route path="/interestingpost/" element={<InterestedPost />} />
         <Route
           path="/profile/"

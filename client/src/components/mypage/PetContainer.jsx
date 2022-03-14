@@ -123,8 +123,8 @@ const PetContainer = ({post}) => {
 };
 
 
-const MyPet = ({list, loadingList}) => {
-  console.log(list);
+const MyPet = ({list, loadingList, userInfo}) => {
+  console.log(userInfo);
   const addPetText = useRef();
 
   const [showAddForm, setShowAddForm] = useState(false);
@@ -165,6 +165,7 @@ const MyPet = ({list, loadingList}) => {
       </div>
       {showAddForm && (
         <AddPetForm
+          userInfo = {userInfo}
           clickAddCancel={() => {
             setShowAddForm(!showAddForm);
           }}

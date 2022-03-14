@@ -66,7 +66,7 @@ const MatchingRegisterForm = ({userInfo}) => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getMyPetList(localStorage.getItem('userId')));
+    dispatch(getMyPetList(userInfo.userId));
     return dispatch(unloadPost());
   },[dispatch]);
   
