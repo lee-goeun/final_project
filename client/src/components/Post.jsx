@@ -151,6 +151,8 @@ const PostContainer = ({
   clickReportPost,
   clickModifyPost,
   clickDeletePost,
+  comment,
+  commentSection,
 }) => {
   const settings = {
     slide: 'div',
@@ -166,7 +168,16 @@ const PostContainer = ({
     getAuth();
   }, []);
 
-  const [userInfo, setUserInfo] = useState();
+  const [userInfo, setUserInfo] = useState({
+    auth: false,
+    userId: '',
+    userNick: '',
+    userEmail: '',
+    userName: '',
+    region1: '',
+    region2: '',
+    region3: '',
+  });
 
   const getAuth = async () => {
     try {
@@ -232,6 +243,8 @@ const PostContainer = ({
     alert('댓글이 작성되었습니다');
     axios
       .post(`http://localhost:3001/board/comment/${boardId}`, {
+        boardId,
+        userId,
         commentContent,
       })
       .then((res) => console.log(res))
@@ -283,7 +296,7 @@ const PostContainer = ({
             {/* 수정/삭제 모달창 */}
             {showPostMenu && (
               <div className="menu-modal-container">
-                {!userInfo.auth && userInfo.userId === { userId } ? (
+                {userInfo.auth && userInfo.userId === { userId } ? (
                   <>
                     <p onClick={clickModifyPost}>수정하기</p>
                     <p onClick={clickDeletePost}>삭제하기</p>
@@ -319,7 +332,7 @@ const PostContainer = ({
                     axios
                       .post(
                         `http://localhost:3001/board/post/${boardId}/like`,
-                        { boardId, userId },
+                        { boardId, userInfo },
                       )
                       .then((res) =>
                         console.log(boardId, '번 게시물 좋아요 클릭', res),
@@ -361,7 +374,7 @@ const PostContainer = ({
               {boardCreated.substr(0, 10)}　{boardCreated.substr(11, 5)}
             </p>
           </div>
-          <div className="pr06"></div>
+          <div className="pr06">{commentSection}</div>
           <div className="pr07">
             <input
               type="text"
@@ -441,7 +454,7 @@ const MiniPostContainer = ({ postList, loadingPostList }) => {
 };
 
 const CommentContainer = ({
-  userId,
+  userNick,
   userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
   commentContent,
   commentLikeCounting,
@@ -501,7 +514,7 @@ const CommentContainer = ({
           </div>
         </div>
         <div className="cc02">
-          <h4>{userId}</h4>
+          <h4>{userNick}</h4>
           <p></p>
         </div>
         <div className="cc03">
@@ -541,7 +554,7 @@ const CommentContainer = ({
                 }}
               />
             )}
-            <span className="comment-like-count">{commentLikeCounting}</span>
+            <span className="comment-like-count">{commentLikeCounting}개</span>
           </p>
         </div>
       </div>

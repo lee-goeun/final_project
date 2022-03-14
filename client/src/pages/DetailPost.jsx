@@ -14,6 +14,7 @@ import axios from 'axios';
 import { getPost } from '../redux/modules/post';
 import { connect } from 'react-redux';
 import LoadingCont from '../components/common/LoadingCont';
+import { CommentContainer } from '../components/Post';
 import {
   DeletePostModal,
   ModifyPostModal,
@@ -52,6 +53,8 @@ const DetailPost = ({ getPost, post, loadingPost }) => {
 
   const { boardId } = useParams();
 
+  const [comments, setComments] = useState([]);
+
   const [showReportPostModal, setShowReportPostModal] = useState();
   const [showModifyPostModal, setShowModifyPostModal] = useState();
   const [showDeletePostModal, setShowDeletePostModal] = useState();
@@ -59,13 +62,15 @@ const DetailPost = ({ getPost, post, loadingPost }) => {
   useEffect(() => {
     console.log(`${boardId}번 게시물 상세보기 렌더링`);
     getPost(boardId);
-    // axios
-    //   .get(`http://localhost:3001/board/post/${boardId}`, boardId)
-    //   .then((res) => {
-    //     setGetBoard(res.data);
-    //     console.log('가져온 게시물', getBoard);
-    //   })
-    //   .catch((error) => console.log(error));
+    axios
+      .get(`http://localhost:3001/board/post/${boardId}`, boardId)
+      .then((res) => {
+        console.log('DetailPost - 가져온 게시물', res.data);
+        setComments(res.data.comment);
+        console.log(res.data.comment);
+        // console.log(`${boardId}번 게시물의 댓글 ${comments}`);
+      })
+      .catch((error) => console.log(error));
   }, [getPost]);
 
   return (
@@ -85,6 +90,19 @@ const DetailPost = ({ getPost, post, loadingPost }) => {
               boardGood={post.boardGood}
               boardViews={post.boardViews}
               boardCreated={post.boardCreated}
+              commentSection={
+                comments
+                  ? comments.map((com) => (
+                      <CommentContainer
+                        key={com.commentCreated}
+                        userNick={com.userNick}
+                        commentContent={com.commentContent}
+                        commentLikeCounting={com.commentLikeCounting}
+                        commentCreated={com.commentCreated}
+                      />
+                    ))
+                  : null
+              }
               clickReportPost={() => {
                 setShowReportPostModal(true);
               }}

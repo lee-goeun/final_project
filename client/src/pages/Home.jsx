@@ -94,7 +94,7 @@ const Home = ({
     });
   };
 
-  console.log('헤더에서 auth info 가져오기', userInfo);
+  console.log('홈에서 auth info 가져오기', userInfo);
 
   const [showReportPostModal, setShowReportPostModal] = useState();
   const [showModifyPostModal, setShowModifyPostModal] = useState();
