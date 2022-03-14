@@ -12,6 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const HeaderStyle = Styled.div`
   .header-container {
@@ -114,7 +115,11 @@ const HeaderStyle = Styled.div`
   }
 `;
 
-const Header = ({ userInfo }) => {
+const Header = () => {
+  useEffect(() => {
+    getAuth();
+  }, []);
+
   const navigate = useNavigate();
   const [showDropMenu, setShowDropMenu] = useState(false);
 
@@ -122,6 +127,37 @@ const Header = ({ userInfo }) => {
     localStorage.removeItem('token');
     alert('로그아웃 되었습니다.');
     navigate('/login');
+  };
+
+  const [userInfo, setUserInfo] = useState();
+
+  const getAuth = async () => {
+    try {
+      const tokenValidationResponse = await axios({
+        url: 'http://localhost:3001/auth/auth',
+        method: 'get',
+        headers: { 'x-access-token': localStorage.getItem('token') },
+      });
+      console.log(tokenValidationResponse, 'tokenValidResponse');
+      userInfoHandler(tokenValidationResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const userInfoHandler = ({ data }) => {
+    setUserInfo((prevState) => {
+      return {
+        ...prevState,
+        auth: data.auth,
+        userId: data.userId,
+        userNick: data.userNick,
+        userName: data.userName,
+        region1: data.region1,
+        region2: data.region2,
+        region3: data.region3,
+        //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
+      };
+    });
   };
 
   return (

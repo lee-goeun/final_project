@@ -162,6 +162,41 @@ const PostContainer = ({
     arrows: true,
   };
 
+  useEffect(() => {
+    getAuth();
+  }, []);
+
+  const [userInfo, setUserInfo] = useState();
+
+  const getAuth = async () => {
+    try {
+      const tokenValidationResponse = await axios({
+        url: 'http://localhost:3001/auth/auth',
+        method: 'get',
+        headers: { 'x-access-token': localStorage.getItem('token') },
+      });
+      // console.log(tokenValidationResponse, 'tokenValidResponse');
+      userInfoHandler(tokenValidationResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const userInfoHandler = ({ data }) => {
+    setUserInfo((prevState) => {
+      return {
+        ...prevState,
+        auth: data.auth,
+        userId: data.userId,
+        userNick: data.userNick,
+        userName: data.userName,
+        region1: data.region1,
+        region2: data.region2,
+        region3: data.region3,
+        //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
+      };
+    });
+  };
+
   const [isFollow, setIsFollow] = useState(false);
   const [showPostMenu, setShowPostMenu] = useState(false);
   const [isLike, setIsLike] = useState(false);
@@ -248,9 +283,14 @@ const PostContainer = ({
             {/* 수정/삭제 모달창 */}
             {showPostMenu && (
               <div className="menu-modal-container">
-                <p onClick={clickReportPost}>신고하기</p>
-                <p onClick={clickModifyPost}>수정하기</p>
-                <p onClick={clickDeletePost}>삭제하기</p>
+                {!userInfo.auth && userInfo.userId === { userId } ? (
+                  <>
+                    <p onClick={clickModifyPost}>수정하기</p>
+                    <p onClick={clickDeletePost}>삭제하기</p>
+                  </>
+                ) : (
+                  <p onClick={clickReportPost}>신고하기</p>
+                )}
               </div>
             )}
           </div>
