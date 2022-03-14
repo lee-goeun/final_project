@@ -23,8 +23,8 @@ const ImageViewer = ({ post, imageUrl }) => {
 
   return (
     <div>
-      {(imageUrl && <ImageWrapper src={imageUrl} alt="업로드 이미지" />) ||
-        (post.imageUrl && (
+      {imageUrl && (post.imageUrl == null || post.imageUrl == '') ? <ImageWrapper src={imageUrl} alt="업로드 이미지" /> :
+              (post.imageUrl && (
           <ImageWrapper src={post.imageUrl} alt="업로드 이미지" />
         )) || post.matchId ? 
         (post.matchId && (
