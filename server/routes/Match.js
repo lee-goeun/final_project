@@ -47,9 +47,9 @@ router.get('/list', (req, res) => {
   } else {
     keyword = '%' + keyword + '%';
     sql =
-      'select * from matchTbl where matchDeleted = 0 and (matchTitle like ? or matchContent like ?) ORDER BY matchCreated DESC';
+      'select * from matchTbl where matchDeleted = 0 and (matchTitle like ? or matchContent like ? or region1 like ? or region2 like ? or region3 like ?) ORDER BY matchCreated DESC';
 
-    conn.query(sql, [keyword, keyword], (err, results) => {
+    conn.query(sql, [keyword, keyword, keyword, keyword, keyword], (err, results) => {
       if (err) return res.json({ success: false, err });
       else return res.json(results);
     });
