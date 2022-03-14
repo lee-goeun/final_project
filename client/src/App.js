@@ -91,7 +91,7 @@ function App() {
 
       {/* 매칭페이지 */}
       <Route path="match" element={<MatchingPageLayout />}>
-        <Route path="list" element={<MatchingListsContainer />} />
+        <Route path="list" element={<MatchingListsContainer userInfo={userInfo}/>} />
         <Route path="detail/:matchId" element={<MatchingPostContainer />} />
         <Route path="add" element={<WriteMatchingPost userInfo={userInfo} />} />
       </Route>

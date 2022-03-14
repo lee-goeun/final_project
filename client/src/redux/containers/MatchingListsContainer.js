@@ -4,7 +4,7 @@ import MatchingLists from '../../pages/findingMates/MatchingLists';
 import { getMatchList } from '../modules/matching';
 import { useParams } from 'react-router-dom';
 
-const MatchingListsContainer = ({ getMatchList, list, loadingList }) => {
+const MatchingListsContainer = ({ getMatchList, list, loadingList, userInfo }) => {
   const { keyword } = useParams();
   useEffect(() => {
     //useEffect안에서 async 사용을 위해 fn생성
@@ -19,7 +19,7 @@ const MatchingListsContainer = ({ getMatchList, list, loadingList }) => {
     fn();
   }, [getMatchList]);
 
-  return <MatchingLists list={list} loadingList={loadingList} />;
+  return <MatchingLists list={list} loadingList={loadingList} userInfo={userInfo} />;
 };
 
 export default connect(

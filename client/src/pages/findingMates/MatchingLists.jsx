@@ -91,10 +91,10 @@ const MatchingListWrapper = styled.section`
   grid-template-columns: 1fr 1fr;
 `;
 
-const MatchingLists = ({ loadingList, list }) => {
+const MatchingLists = ({ loadingList, list, userInfo }) => {
+  console.log('user', list, userInfo);
   const dispatch = useDispatch();
   const [keyword, setKeyword] = useState("");
-
   const searchKeyword = (e) => {
     setKeyword(e.target.value);
     if(e.code == 'Enter'){
@@ -132,12 +132,17 @@ const MatchingLists = ({ loadingList, list }) => {
           <CreateIcon sx={{ position: 'relative', top: '11%', mx: 2 }} />
         </Link>
       </MiddleSectionWrapper>
+      <div style={{textAlign:'center'}}>
+        {userInfo.region1} {userInfo.region2}
+      </div>
       <hr />
+      
       {loadingList && 'loading...'}
       {!loadingList && list && (
         <MatchingListWrapper>
           {list.map((post) => (
-            <Post key={post.matchId} post={post} />
+            post.region1 == userInfo.region1 && post.region2 == userInfo.region2 ?
+              <Post key={post.matchId} post={post} /> : ""
           ))}
         </MatchingListWrapper>
       )}
