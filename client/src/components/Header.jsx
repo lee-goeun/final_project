@@ -138,7 +138,6 @@ const Header = () => {
         method: 'get',
         headers: { 'x-access-token': localStorage.getItem('token') },
       });
-      console.log(tokenValidationResponse, 'tokenValidResponse');
       userInfoHandler(tokenValidationResponse);
     } catch (error) {
       console.log(error);

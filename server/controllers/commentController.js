@@ -29,19 +29,12 @@ exports.create = (req, res) => {
 
     console.log("board result: ", result[0])
 
-    
-
-    var userId = "";  
-    jwt.verify(req.body.token, process.env.JWT_SECRET, function(err,decode){
-      console.log('ssss',decode);
-      userId = decode.userId;
-    });
   
     const comment = new Comment({
       categoryIndex : result[0].categoryIndex,
       boardId : result[0].boardId,
       commentContent : req.body.commentContent,
-      userId : userId,
+      userId : req.body.userId,
       commentLikeCounting : 0,
     });
   
