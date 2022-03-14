@@ -22,6 +22,7 @@ const AProfileFileInput = (props) => {
       const imageUrl = URL.createObjectURL(uploaded);
       props.savingUrl(imageUrl);
     }
+    console.log('uploadedddddddddd', uploaded);
   };
 
   return (
