@@ -20,7 +20,6 @@ import {
   writeMatchPost,
 } from '../../redux/modules/matching';
 import { getMyPetList } from '../../redux/modules/mypet';
-import { FormControlUnstyled } from '@mui/base';
 
 const FormWrapper = styled.form`
   display: flex;
@@ -132,6 +131,9 @@ const MatchingRegisterForm = ({userInfo}) => {
       }
     }
     formData.append('token', localStorage.getItem('token'));
+    formData.append('region1', userInfo.region1);
+    formData.append('region2', userInfo.region2);
+    formData.append('region3', userInfo.region3);
     if (!post.matchId) dispatch(writeMatchPost(formData), [dispatch]);
     else dispatch(updateMatchPost(formData), [dispatch]);
   };
