@@ -39,7 +39,7 @@ router.get('/list', (req, res) => {
 
   var sql = '';
   if (keyword == 'undefined' || keyword == '') {
-    sql = 'select * from matchTbl where matchDeleted = 0';
+    sql = 'select * from matchTbl where matchDeleted = 0 ORDER BY matchCreated DESC';
     conn.query(sql, (err, results) => {
       if (err) return res.json({ success: false, err });
       else return res.json(results);
@@ -47,7 +47,7 @@ router.get('/list', (req, res) => {
   } else {
     keyword = '%' + keyword + '%';
     sql =
-      'select * from matchTbl where matchDeleted = 0 and (matchTitle like ? or matchContent like ?)';
+      'select * from matchTbl where matchDeleted = 0 and (matchTitle like ? or matchContent like ?) ORDER BY matchCreated DESC';
 
     conn.query(sql, [keyword, keyword], (err, results) => {
       if (err) return res.json({ success: false, err });
@@ -74,16 +74,9 @@ router.post('/add', matchUpload.single('matchImgName'), (req, res) => {
   console.log('req', req.body);
   //const token = req.cookies.jwt;
   var userId = '';
-  var region1 = '';
-  var region2 = '';
-  var region3 = '';
-
   jwt.verify(req.body.token, process.env.JWT_SECRET, function (err, decode) {
     console.log('ssss', decode);
     userId = decode.userId;
-    region1 = decode.region1;
-    region2 = decode.region2;
-    region3 = decode.region3;
   });
 
   //console.log('tokenResult', tokenResult);
@@ -102,9 +95,9 @@ router.post('/add', matchUpload.single('matchImgName'), (req, res) => {
       body.matchContent,
       body.selectPet,
       body.matchTime,
-      region1,
-      region2,
-      region3,
+      body.region1,
+      body.region2,
+      body.region3,
     ],
     (err, results) => {
       if (err) return res.json({ success: false, err });

@@ -12,6 +12,7 @@ import {
   updateMyPetPost,
   writeMyPetPost,
 } from '../../redux/modules/mypet';
+import { formControlClasses } from '@mui/material';
 
 const FormStyle = styled.form`
   .add-pet-form-wrapper {
@@ -93,7 +94,7 @@ const FormStyle = styled.form`
   }
 `;
 
-const AddPetForm = ({clickAddCancel}) => {
+const AddPetForm = ({clickAddCancel, userInfo}) => {
   const [selectOther, setSelectOther] = useState(false);
 
   const [content, setContent] = useState('');
@@ -176,7 +177,8 @@ const AddPetForm = ({clickAddCancel}) => {
 
     
 
-    formData.append('userId', localStorage.getItem('userId'));
+    formData.append('userId', userInfo.userId);
+    console.log('formData', formData);
     if (!post.petId) dispatch(writeMyPetPost(formData), [dispatch]);
     else dispatch(updateMyPetPost(formData), [dispatch]);
   };
