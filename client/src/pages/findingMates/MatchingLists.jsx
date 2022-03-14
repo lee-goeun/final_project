@@ -120,8 +120,8 @@ const MatchingLists = ({ loadingList, list, userInfo }) => {
       <hr />
       <MiddleSectionWrapper>
         <div>
-          {'검색필터'}
-          <FilterAltIcon sx={{ position: 'relative', top: '15%', mx: 1 }} />
+          {/* {'검색필터'}
+          <FilterAltIcon sx={{ position: 'relative', top: '15%', mx: 1 }} /> */}
         </div>
         <SearchWrapper>
           <SearchIcon sx={{ position: 'absolute', left: '2%', top: '18%' }} />

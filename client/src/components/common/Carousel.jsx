@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import Slider from 'react-slick';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
 // 레이아웃 체크용
 // const items = [
 //   {
@@ -108,7 +108,8 @@ const StyledSlider = styled(Slider)`
 
 const Carousel = () => {
   const [timeoutList, setTimeoutList] = useState([]);
-
+  var nowTime = new Date().getTime();
+  console.log('nowTiem', nowTime);
   const getTimeoutList = async () => {
     let res = await axios.get('http://localhost:3001/match/listLimit1');
     console.log('res', res);
@@ -148,6 +149,8 @@ const Carousel = () => {
                 timeout.matchImgName
               }
             />
+            <AccessAlarmIcon/> 
+            {parseInt((new Date(timeout.matchTime).getTime() - nowTime)/1000/60 + 1)}분 남음
           </StyledLink>
         );
       })}
