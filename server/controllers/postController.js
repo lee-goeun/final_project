@@ -159,6 +159,7 @@ exports.findOne = (req, res) => {
               }
             } else {
                 data.comment = comment;
+                console.log("found post: ", data);
                 res.send(data);
             }
           });
