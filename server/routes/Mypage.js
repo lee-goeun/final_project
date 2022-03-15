@@ -6,6 +6,7 @@ const { json } = require("body-parser");
 //파일 업로드용 미들웨어
 const multer = require('multer');
 const fs = require('fs');
+const Post = require("../models/Post");
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -162,5 +163,57 @@ router.put('/del/:id', (req, res) => {
     else res.json({ status: 'success' });
   });
 });
+
+
+//////////////개시물 페이지/////////////////
+//나의 일반게시물 가져오기
+router.get('/myboard', (req, result) => {
+  var userId = req.body.userId;
+  conn.query("SELECT boardId, categoryIndex, boardTbl.userId, boardTitle, boardContent, boardStatus, boardGood, boardCreated, boardMod, boardViews, boardDeleted, boardReport, boardSearch, boardImgList, userNick FROM userTbl JOIN boardTbl ON userTbl.userId=boardTbl.userId WHERE boardTbl.userId=?",
+  userId, (err, res) => {
+    if(err) {
+      console.log("error: ", err);
+      result.status(500).send({
+        message:
+        err.message || "Some error occurred while retrieving posts."
+      });
+    } else {
+      for (let i = 0; i < res.length; i++) {
+        var temp = res[i].boardImgList;
+        var templist = temp.split(' ');
+        res[i].boardImgList = templist;
+        console.log("resi", res[i]);
+      } 
+      result.send(res);
+    }
+  });
+});
+
+//나의 관심 게시물 가져오기
+router.get('/mycollectboard', (req, result) => {
+  var userId = req.body.userId;
+  conn.query("SELECT boardTbl.boardId, categoryIndex, boardTbl.userId, boardTitle, boardContent, boardStatus, boardGood, boardCreated, boardMod, boardViews, boardDeleted, boardReport, boardSearch, boardImgList, userNick FROM boardCollectTbl JOIN (boardTbl JOIN userTbl ON userTbl.userId=boardTbl.userId) ON boardTbl.boardId=boardCollectTbl.boardId WHERE boardTbl.userId=?",
+  userId, (err, res) => {
+    if(err) {
+      console.log("error: ", err);
+      result.status(500).send({
+        message:
+        err.message || "Some error occurred while retrieving posts."
+      });
+    } else {
+      for (let i = 0; i < res.length; i++) {
+        var temp = res[i].boardImgList;
+        var templist = temp.split(' ');
+        res[i].boardImgList = templist;
+        console.log("resi", res[i]);
+      } 
+      result.send(res);
+      // conn.query('SELECT userNick FROM userTbl WHERE userId=?', userId, (req, data) => {
+        
+      // })
+      
+    }
+  })
+})
 
 module.exports = router;

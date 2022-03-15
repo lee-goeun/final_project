@@ -47,7 +47,7 @@ exports.create = (req, res) => {
         };
     });
 
-    console.log("파일 이름 : ", req.files);  
+    console.log("사진 개수 : ", req.files.length);
 
     let urlArr = new Array();
     for (let i = 0; i < req.files.length; i++) {
