@@ -208,7 +208,6 @@ const PostContainer = ({
     });
   };
 
-  const [isFollow, setIsFollow] = useState(false);
   const [showPostMenu, setShowPostMenu] = useState(false);
   const [isLike, setIsLike] = useState(false);
   const [commentContent, setCommentContent] = useState();
@@ -277,13 +276,6 @@ const PostContainer = ({
           </div>
           <div className="pr02">
             <h2>{userId}</h2>
-            <span
-              onClick={() => {
-                setIsFollow(!isFollow);
-              }}
-            >
-              {isFollow ? '팔로잉' : '팔로우'}
-            </span>
           </div>
           <div className="pr03">
             <FontAwesomeIcon
@@ -611,22 +603,12 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
   );
 
   const uploadDiv = useRef();
-  const filterList = useRef();
-  const [isShowFilter, setIsShowFilter] = useState(false);
 
   const showText = () => {
     uploadDiv.current.style.height = '100px';
   };
   const hideText = () => {
     uploadDiv.current.style.height = '50px';
-  };
-  const showFilter = (e) => {
-    setIsShowFilter(!isShowFilter);
-    if (isShowFilter === false) {
-      filterList.current.style.width = '240px';
-    } else {
-      filterList.current.style.width = '0';
-    }
   };
 
   const [imgBase64, setImgBase64] = useState([]);
@@ -696,19 +678,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     <>
       <div className="post-background">
         <div className="post-filter">
-          <div className="pf-left">
-            <div className="filter-btn" onClick={showFilter}>
-              <FontAwesomeIcon
-                icon={faFilter}
-                className="post-sort-filter-btn"
-              />
-              필터
-            </div>
-            <div className="filter-list" ref={filterList}>
-              <span>최신순</span>｜<span>조회수 높은순</span>｜
-              <span>좋아요 높은순</span>
-            </div>
-          </div>
+          <div className="pf-left"></div>
           <div>
             <form>
               <input type="text" placeholder="검색하기.." />
