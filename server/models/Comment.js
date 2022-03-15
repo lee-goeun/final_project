@@ -28,7 +28,7 @@ Comment.create = (newComment, result) => {
 };
 
 Comment.find = (postId, result) => {
-  sql.query('SELECT userNick, commentContent, commentLikeCounting, commentCreated FROM usertbl LEFT JOIN boardCommentTbl ON usertbl.userId= boardCommentTbl.userId WHERE boardCommentTbl.boardId=?',
+  sql.query('SELECT userNick, commentContent, commentLikeCounting, commentCreated FROM usertbl LEFT JOIN boardCommentTbl ON usertbl.userId= boardCommentTbl.userId WHERE boardCommentTbl.boardId=? ORDER BY commentCreated',
   postId, (err, res) => {
     if(err) {
       console.log("error: ", err);
