@@ -15,8 +15,8 @@ export const updateMatchPost = (formData) => {
 };
 
 // ------ 중고장터 ---------
-export const getMarketList = (userId, keyword) =>
-  axios.get(`http://localhost:3001/market/list/${userId}?keyword=${keyword}`);
+export const getMarketList = (data) =>
+   axios.get(`http://localhost:3001/market/list/`, {params:data});
 export const getMarketPost = (marketId) =>
   axios.get(`http://localhost:3001/market/detail/${marketId}`);
 export const deleteMarketPost = (marketId) =>

@@ -10,6 +10,8 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { getMarketList, addLikeMarketPost, delLikeMarketPost } from '../../redux/modules/market'
+import axios from 'axios';
+import { formControlClasses } from '@mui/material';
 
 
 const Post = ({ post, userInfo }) => {
@@ -129,9 +131,15 @@ const ItemLists = ({ loadingList, list, userInfo }) => {
 
   const searchKeyword = (e) => {
     setKeyword(e.target.value);
+    const data = {userId: userInfo.userId, order:'created', keyword:keyword};
     if(e.code == 'Enter'){
-      dispatch(getMarketList(userInfo.userId, keyword), [dispatch]);
+      dispatch(getMarketList(data), [dispatch]);
     }
+  }
+  
+  const likeCount = () => {
+    const data = {userId: userInfo.userId, order:'like'};
+    dispatch(getMarketList(data), [dispatch]);
   }
 
   const style1 = {
@@ -151,7 +159,7 @@ const ItemLists = ({ loadingList, list, userInfo }) => {
       </section>
       <hr />
       <MiddleSectionWrapper>
-        <Link to="">
+        <Link to="" onClick={likeCount}>
           {'관심도 높은순'}
           <FilterAltIcon sx={{ position: 'relative', top: '15%', mx: 1 }} />
         </Link>

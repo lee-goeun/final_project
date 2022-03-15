@@ -19,40 +19,59 @@ var storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
+//TODO : 조회 더 간단하게 분기하는 방법 찾아보기
 //조회(검색, 관심도 높은 순)
-router.get('/list/:userId', (req, res) => {
+router.get('/list', (req, res) => {
+  console.log('query', req.query);
   let keyword = req.query.keyword;
-  let userId = req.params.userId;
-  console.log('userId' ,req.params);
+  let order = req.query.order;
+  let userId = req.query.userId;
+  console.log('query', keyword, order, userId);
   var sql = '';
-  if (keyword == 'undefined' || keyword == '') {
-    sql = 'select * '+
-		'from ( ' +
-      'select m.marketId, m.userId, m.marketTitle, m.price, m.marketCreated, m.isSale, m.marketDeleted, m.marketImgName, m.marketViews, ' + 
-      'l.isLike, l2.likeCnt ' +
-      'from marketTbl m left outer join (select marketId, IFNULL(1, 0) as isLike from marketLikeTbl where userId = ?) as l on m.marketId = l.marketId ' +
-      'left outer join (select marketId, count(distinct userId) as likeCnt from marketLikeTbl group by marketId) as l2 on m.marketId = l2.marketId ' +
-      'where m.marketDeleted = 0 ) as T1 ORDER BY marketCreated DESC;';
+  //관심도 높은 순
+  if(order == 'like'){
+    var sql =
+      'select * '+
+      'from ( ' +
+        'select m.marketId, m.userId, m.marketTitle, m.price, m.marketCreated, m.isSale, m.marketDeleted, m.marketImgName, m.marketViews, ' + 
+        'l.isLike, l2.likeCnt '+
+        'from marketTbl m left outer join (select marketId, IFNULL(1, 0) as isLike from marketLikeTbl where userId = ?) as l on m.marketId = l.marketId ' +
+        'left outer join (select marketId, count(distinct userId) as likeCnt from marketLikeTbl group by marketId) as l2 on m.marketId = l2.marketId ' +
+        'where m.marketDeleted = 0 ) as T1 ORDER BY likeCnt DESC;';
     conn.query(sql, userId, (err, results) => {
+      console.log('res', results);
       if (err) return res.json({ success: false, err });
-      else return res.json(results);
+      else res.json(results);
     });
-  } else {
-    keyword = '%' + keyword + '%';
-    sql =
-    'select * '+
-		'from ( ' +
-      'select m.marketId, m.userId, m.marketTitle, m.price, m.marketCreated, m.isSale, m.marketDeleted, m.marketImgName, m.marketViews, ' + 
-      'l.isLike, l2.likeCnt ' +
-      'from marketTbl m left outer join (select marketId, IFNULL(1, 0) as isLike from marketLikeTbl where userId = ?) as l on m.marketId = l.marketId ' +
-      'left outer join (select marketId, count(distinct userId) as likeCnt from marketLikeTbl group by marketId) as l2 on m.marketId = l2.marketId ' +
-      'where m.marketDeleted = 0  and (marketTitle like ? or marketContent like ?) ) as T1 ORDER BY marketCreated DESC;';
-    conn.query(sql, [userId, keyword, keyword], (err, results) => {
-      if (err) return res.json({ success: false, err });
-      else return res.json(results);
-    });
-  }
+  //생성날짜 순
+  }else{
+    if (keyword == undefined || keyword == 'undefined' ||keyword == '') {
+      sql = 'select * '+
+      'from ( ' +
+        'select m.marketId, m.userId, m.marketTitle, m.price, m.marketCreated, m.isSale, m.marketDeleted, m.marketImgName, m.marketViews, ' + 
+        'l.isLike ' +
+        'from marketTbl m left outer join (select marketId, IFNULL(1, 0) as isLike from marketLikeTbl where userId = ?) as l on m.marketId = l.marketId ' +
+        'where m.marketDeleted = 0 ) as T1 ORDER BY marketCreated DESC;';
+      conn.query(sql, userId, (err, results) => {
+        console.log('res', results);
+        if (err) return res.json({ success: false, err });
+        else return res.json(results);
+      });
+    } else {
+      keyword = '%' + keyword + '%';
+      sql =
+      'select * '+
+      'from ( ' +
+        'select m.marketId, m.userId, m.marketTitle, m.price, m.marketCreated, m.isSale, m.marketDeleted, m.marketImgName, m.marketViews, ' + 
+        'l.isLike ' +
+        'from marketTbl m left outer join (select marketId, IFNULL(1, 0) as isLike from marketLikeTbl where userId = ?) as l on m.marketId = l.marketId ' +
+        'where m.marketDeleted = 0  and (marketTitle like ? or marketContent like ?) ) as T1 ORDER BY marketCreated DESC;';
+      conn.query(sql, [userId, keyword, keyword], (err, results) => {
+        if (err) return res.json({ success: false, err });
+        else return res.json(results);
+      });
+    }
+}
 });
 
 //조회(조회수 높은순)
@@ -64,6 +83,7 @@ router.get('/viewCountList', (req, res) => {
     else res.json(results);
   });
 });
+
 
 //추가
 router.post('/add', upload.single('marketImgName'), (req, res) => {
