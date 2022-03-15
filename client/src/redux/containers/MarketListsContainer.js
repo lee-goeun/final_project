@@ -11,7 +11,7 @@ const MarketListsContainer = ({ getMarketList, list, loadingList, userInfo }) =>
     //useEffect안에서 async 사용을 위해 fn생성
     const fn = async () => {
       try {
-        await getMarketList(keyword);
+        await getMarketList(userInfo.userId, keyword);
         //추후 검색이걸로구현 1대신 검색key값 넣어야함
       } catch (e) {
         console.log(e); //showing error on console

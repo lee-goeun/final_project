@@ -21,21 +21,34 @@ var storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 //조회(검색, 관심도 높은 순)
-router.get('/list', (req, res) => {
+router.get('/list/:userId', (req, res) => {
   let keyword = req.query.keyword;
-
+  let userId = req.params.userId;
+  console.log('userId' ,req.params);
   var sql = '';
   if (keyword == 'undefined' || keyword == '') {
-    sql = 'select * from marketTbl where marketDeleted = 0 ORDER BY marketCreated DESC';
-    conn.query(sql, (err, results) => {
+    sql = 'select * '+
+		'from ( ' +
+      'select m.marketId, m.userId, m.marketTitle, m.price, m.marketCreated, m.isSale, m.marketDeleted, m.marketImgName, m.marketViews, ' + 
+      'l.isLike, l2.likeCnt ' +
+      'from marketTbl m left outer join (select marketId, IFNULL(1, 0) as isLike from marketLikeTbl where userId = ?) as l on m.marketId = l.marketId ' +
+      'left outer join (select marketId, count(distinct userId) as likeCnt from marketLikeTbl group by marketId) as l2 on m.marketId = l2.marketId ' +
+      'where m.marketDeleted = 0 ) as T1 ORDER BY marketCreated DESC;';
+    conn.query(sql, userId, (err, results) => {
       if (err) return res.json({ success: false, err });
       else return res.json(results);
     });
   } else {
     keyword = '%' + keyword + '%';
     sql =
-      'select * from marketTbl where marketDeleted = 0 and (marketTitle like ? or marketContent like ?) ORDER BY marketCreated DESC';
-    conn.query(sql, [keyword, keyword], (err, results) => {
+    'select * '+
+		'from ( ' +
+      'select m.marketId, m.userId, m.marketTitle, m.price, m.marketCreated, m.isSale, m.marketDeleted, m.marketImgName, m.marketViews, ' + 
+      'l.isLike, l2.likeCnt ' +
+      'from marketTbl m left outer join (select marketId, IFNULL(1, 0) as isLike from marketLikeTbl where userId = ?) as l on m.marketId = l.marketId ' +
+      'left outer join (select marketId, count(distinct userId) as likeCnt from marketLikeTbl group by marketId) as l2 on m.marketId = l2.marketId ' +
+      'where m.marketDeleted = 0  and (marketTitle like ? or marketContent like ?) ) as T1 ORDER BY marketCreated DESC;';
+    conn.query(sql, [userId, keyword, keyword], (err, results) => {
       if (err) return res.json({ success: false, err });
       else return res.json(results);
     });
@@ -121,13 +134,14 @@ router.get('/download', (req, res) => {
 router.get('/detail/:id', (req, res) => {
   let id = req.params.id;
   console.log('id',id);
-  var sql = 'select m.marketId, m.userId, m.marketTitle, m.marketContent, m.price, m.marketImgName, u.userNick '+
+  
+  var sql= 'select m.marketId, m.userId, m.marketTitle, m.marketContent, m.price, m.marketImgName, u.userNick '+
 				'from marketTbl m left outer join userTbl u on m.userId = u.userId where m.marketDeleted = 0 and m.marketId = ?;';
-
-  conn.query(sql, id, (err, results) => {
+  conn.query(sql, id, (err, results1) => {
     if (err) return res.json({ success: false, err });
     else{
-      return res.json(results);
+      conn.query('update marketTbl set marketViews = marketViews + 1 where marketId = ?', id);
+      return res.json(results1);
     }
   });
 });

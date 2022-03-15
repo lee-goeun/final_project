@@ -51,10 +51,10 @@ const Post = ({ post, userInfo }) => {
         <h3>{`${post.marketTitle}`}</h3>
         <h6>{`${post.price}`} 원</h6>
         
-        <VisibilityIcon/><span>34</span>
+        <VisibilityIcon/><span>{post.marketViews}</span>
         <Link to="" onClick={bookmarkChk}>
         {
-          isBookmark ? <BookmarkBorderIcon/> : <BookmarkIcon/>
+          post.isLike ? <BookmarkIcon/> : <BookmarkBorderIcon/> 
         }
         </Link>
     </Wrapper>
@@ -130,7 +130,7 @@ const ItemLists = ({ loadingList, list, userInfo }) => {
   const searchKeyword = (e) => {
     setKeyword(e.target.value);
     if(e.code == 'Enter'){
-      dispatch(getMarketList(keyword), [dispatch]);
+      dispatch(getMarketList(userInfo.userId, keyword), [dispatch]);
     }
   }
 
