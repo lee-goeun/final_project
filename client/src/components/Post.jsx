@@ -208,6 +208,8 @@ const PostContainer = ({
     });
   };
 
+  const currentUserId = userInfo.userId;
+
   const [showPostMenu, setShowPostMenu] = useState(false);
   const [isLike, setIsLike] = useState(false);
   const [commentContent, setCommentContent] = useState();
@@ -239,15 +241,20 @@ const PostContainer = ({
 
   // 댓글 작성 ENTER 버튼 클릭시
   const clickCommentEnter = (e) => {
-    alert('댓글이 작성되었습니다');
     axios
       .post(`http://localhost:3001/board/comment/${boardId}`, {
         boardId,
-        userId,
+        userId: currentUserId,
         commentContent,
       })
-      .then((res) => console.log(res))
-      .catch((error) => console.log('댓글작성 에러 : ', error));
+      .then((res) => {
+        console.log(res);
+        alert('댓글이 작성되었습니다.');
+      })
+      .catch((error) => {
+        console.log('댓글작성 에러 : ', error);
+        alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
+      });
   };
 
   return (
@@ -451,37 +458,8 @@ const CommentContainer = ({
   commentContent,
   commentLikeCounting,
   commentCreated,
+  clickDeleteComment,
 }) => {
-  // const [comment, setCommnet] = useState({
-  //   comments: [
-  //     {
-  //       id: 44134,
-  //       nick: '집사',
-  //       img: 'https://blog.kakaocdn.net/dn/btkVeS/btqFOXbMQbB/Uf5rey5lRoKKRStYNn5oVK/img.png',
-  //       date: '2022/02/10',
-  //       content: '고양이 진짜 이쁘네요 부러워용ㅠ',
-  //       key: 2125325,
-  //     },
-  //     {
-  //       id: 3451,
-  //       nick: '고양이나만없어',
-  //       img: 'https://image.fnnews.com/resource/media/image/2021/04/21/202104211351203685_l.jpg',
-  //       date: '2022/02/12',
-  //       content: '고양이 무슨 종이에요?',
-  //       key: 21253212125,
-  //     },
-  //     {
-  //       id: 125122,
-  //       nick: '가나다라',
-  //       img: 'https://img.hankyung.com/photo/202103/20210323110008_60594ba899dab_1.jpg',
-  //       date: '2022/02/20',
-  //       content:
-  //         '부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.부럽다. 부럽다. 부럽다. 부럽다. 부럽다.',
-  //       key: 21253258998989,
-  //     },
-  //   ],
-  // });
-
   const [showmodifyCommentModal, setShowModifyCommentModal] = useState(false);
 
   const clickModifyComment = (e) => {
@@ -516,7 +494,12 @@ const CommentContainer = ({
             title="수정하기"
             onClick={clickModifyComment}
           />
-          <FontAwesomeIcon icon={faX} id="delete-icon" title="삭제하기" />
+          <FontAwesomeIcon
+            icon={faX}
+            id="delete-icon"
+            title="삭제하기"
+            onClick={clickDeleteComment}
+          />
           <FontAwesomeIcon
             icon={faBullhorn}
             id="report-icon"
@@ -528,7 +511,9 @@ const CommentContainer = ({
           <p>
             {commentContent}
             <br />
-            <span className="comment-date">- {commentCreated}</span>
+            <span className="comment-date">
+              {commentCreated.substr(2, 8)}　{commentCreated.substr(11, 5)}
+            </span>
             {isLikeComment ? (
               <FontAwesomeIcon
                 icon={faHeart}
