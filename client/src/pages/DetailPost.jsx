@@ -49,6 +49,11 @@ const DetailStyle = styled.div`
 `;
 
 const DetailPost = ({ getPost, post, commentList, loadingPost }) => {
+  useEffect(() => {
+    console.log(`${boardId}번 게시물 상세보기 렌더링`);
+    getPost(boardId);
+  }, [getPost]);
+
   const navigate = useNavigate();
 
   const { boardId } = useParams();
@@ -57,10 +62,27 @@ const DetailPost = ({ getPost, post, commentList, loadingPost }) => {
   const [showModifyPostModal, setShowModifyPostModal] = useState();
   const [showDeletePostModal, setShowDeletePostModal] = useState();
 
-  useEffect(() => {
-    console.log(`${boardId}번 게시물 상세보기 렌더링`);
-    getPost(boardId);
-  }, [getPost]);
+  const deleteComment = (e) => {
+    console.log('클릭한 댓글의 타겟', e.target);
+    console.log('댓글리스트', commentList);
+    const commentId = commentList.commentId;
+    console.log('코멘트ID', commentId);
+    axios
+      .delete(`http://localhost:3001/board/comment/${commentId}`, commentId)
+      .then((res) => {
+        console.log(`${commentId}번 댓글이 삭제되었습니다.`);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  // const likeComment = () => {
+
+  //   const likeData = {
+  //     commentId: commentList.commentId
+  //   }
+
+  //   axios.post(`http://localhost:3001/board/comment/${commentId}/like`, )
+  // }
 
   return (
     <div>
@@ -72,7 +94,7 @@ const DetailPost = ({ getPost, post, commentList, loadingPost }) => {
             <PostContainer
               key={post.boardId}
               boardId={post.boardId}
-              userId={post.userId}
+              userId={post.userNick}
               boardImgList={post.boardImgList}
               boardTitle={post.boardTitle}
               boardContent={post.boardContent}
@@ -88,7 +110,8 @@ const DetailPost = ({ getPost, post, commentList, loadingPost }) => {
                         commentContent={com.commentContent}
                         commentLikeCounting={com.commentLikeCounting}
                         commentCreated={com.commentCreated}
-                        // clickDeleteComment={}
+                        clickDeleteComment={deleteComment}
+                        // clickLikeComment={likeComment}
                       />
                     ))
                   : null
