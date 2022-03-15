@@ -250,6 +250,8 @@ const PostContainer = ({
       .then((res) => {
         console.log(res);
         alert('댓글이 작성되었습니다.');
+        commentInput.current.value = '';
+        window.location.replace(`/board/${boardId}`);
       })
       .catch((error) => {
         console.log('댓글작성 에러 : ', error);

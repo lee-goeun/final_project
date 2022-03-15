@@ -501,6 +501,7 @@
 .cc04 {
   grid-area: cc04;
   font-size: 14px;
+  color: var(--font-dark);
 }
 
 .cc01-img-container {
@@ -518,7 +519,7 @@
 .cc02 > h4,
 .cc02 > p {
   display: inline-block;
-  margin-left: 10px;
+  margin-left: 5px;
 }
 .cc02 > p {
   font-size: 12px;
