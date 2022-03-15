@@ -216,6 +216,9 @@ const Profile = ({ userInfoProps }) => {
               <Button name="submitChangeInfo" type="submit">
                 정보수정
               </Button>
+              <Button name="submitChangeInfo" type="submit">
+                회원탈퇴
+              </Button>
             </li>
           </ul>
         </div>

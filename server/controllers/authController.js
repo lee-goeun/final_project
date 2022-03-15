@@ -81,30 +81,6 @@ exports.join = (req, res) => {
     );
   });
 };
-// exports.auth = async (req, res) => {
-//   const query = 'select * from userTbl where userId = ?';
-
-//   //get token in client's cookie
-
-//   console.log('req', req.query);
-//   let token = req.query.token;
-//   jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
-//     if (err) throw err;
-//     if (!decoded) return res.json({ isAuth: false, err: true });
-//     else {
-//       //decode token and find user
-//       db.query(query, decoded.userId, async (err, results) => {
-//         if (err) throw err;
-//         else {
-//           results[0].isAuth = true;
-//           delete results[0].userPw;
-//           console.log('results', results);
-//           res.status(200).json(results[0]);
-//         }
-//       });
-//     }
-//   });
-// };
 
 exports.auth = (req, res) => {
   const accessToken = req.headers['x-access-token'];

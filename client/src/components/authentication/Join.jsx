@@ -70,8 +70,7 @@ const Join = () => {
   const [isActive, setIsActive] = useState(false);
 
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
-  const pwRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,15}$/; // 비밀번호 정규표현식
+  const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,15}$/; // 비밀번호 정규표현식
 
   // 아이디, 비밀번호, 비밀번호 재입력 별 유효성 검사 에러문
   const [idRegErrorText, setIdRegErrorText] = useState(
@@ -87,6 +86,132 @@ const Join = () => {
   const pwRegErrorStyle = useRef();
   const reCheckPwRegErrorStyle = useRef();
 
+  // 유효성 시작
+
+  // userId [유저 아이디] <-완료
+  const checkUserId = (userId) => {
+    const idRegExp = /^[a-z]{1}[a-z0-9]{5,15}$/;        
+    if (!idRegExp.test(userId)) {
+      alert('영문자(소문자)로 시작하는 6~16자리 아이디를 입력하세요!');
+      userId.focus();
+      return false;
+    }
+    return true; //확인이 완료되었을 때
+  };
+
+  // userPw [비밀번호 확인] <- 완료
+  const checkUserPw = (userId, userPw, checkPw) => {
+    // 숫자, 영문자, 특수문자 포함한 8~16자리 유효성 순서 상관없음
+    const userPWRegExp = /^(?=.*[a-zA-Z])(?=.*[#?!@$%^&*-])(?=.*[0-9]).{8,16}$/;
+    if (!userPWRegExp.test(userPw)) {
+      alert('숫자, 영문(소·대문자), 특수문자를 포함한 8~16자리를 입력하세요!');
+      userPw.focus();
+      return false;
+    }
+    //비밀번호와 비밀번호 확인이 맞지 않다면.
+    if (userPw != checkPw) {
+      alert('두 비밀번호가 맞지 않습니다.');
+      checkPw.focus();
+      return false;
+    }
+    //아이디와 비밀번호가 같을 때.
+    if (userId == userPw) {
+      alert('아이디와 비밀번호는 같을 수 없습니다!');
+      checkPw.focus();
+      return false;
+    }
+  return true; //확인이 완료되었을 때
+  };
+
+  // userName [이름 입력 확인] <-완료
+  const checkName = (userName) => {
+    // 2~6글자 한글 또는 영문 대소문자 이름
+    const nameRegExp = /^[가-힣a-zA-Z]{2,12}$/;
+    if (!nameRegExp.test(userName)) {
+      alert('한글 또는 영어 이름을 공백 없이 2~12자리로 입력하세요!');
+      userName.focus();
+      return false;
+    }
+    return true; //확인이 완료되었을 때
+  };
+
+  // userNick [유저 닉네임] <- 완료
+  const checkNick = (userNick) => {
+    // 한글, 영어 숫자 섞어서 닉네임 가능
+    const nameRegExp = /^[가-힣a-zA-Z0-9]{2,12}$/;
+    if (!nameRegExp.test(userNick)) {
+      alert('한글, 대소문자, 숫자를 원하는 조합으로 2~12자리만 입력하세요!');
+      userNick.focus();
+      return false;
+    }
+    return true; //확인이 완료되었을 때
+  };
+
+  // userEamil [이메일 입력 확인] <-완료
+  const checkEmail = (userEmail) => {
+    // 이메일 유효성 검사
+    const emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+    if (!emailRegExp.test(userEmail)) {
+      alert('이메일 형식이 올바르지 않습니다!');
+      userEmail.focus();
+      return false;
+    }
+    return true; //확인이 완료되었을 때
+  };
+
+  // userPhone [핸드폰 번호] <-완료
+  const checUserPhone = (userPhone) => {
+    //핸드폰 번호가 제대로 입력되었는지 확인하기
+    const userPhoneRegExp = /^[0-9]{5}$/;
+    if (!userPhoneRegExp.test(userPhone)) {
+      alert('핸드폰 번호를 입력해야합니다!');
+      userPhone.focus();
+      return false;
+    }
+    return true; //확인이 완료되었을 때
+  };
+
+  // zonecode [우편번호]
+  const checZonecode = (zonecode) => {
+    //핸드폰 번호가 제대로 입력되었는지 확인하기
+    ///(\d{3}-\d{3}|\d{5})/)[0]
+    const userZonecodeRegExp = /^[a-zA-z0-9]{11}$/;
+    if (!userZonecodeRegExp.test(zonecode)) {
+      alert('핸드폰 번호를 입력해야합니다!');
+      zonecode.focus();
+      return false;
+    }
+    return true; //확인이 완료되었을 때
+  };
+
+  // address [주소]
+  const checAddress = (address) => {
+
+    const User_PWRegExp = /^[a-zA-z0-9]{11}$/;
+    if (!User_PWRegExp.test(address)) {
+      alert('핸드폰 번호를 입력해야합니다!');
+      address.focus();
+      return false;
+    }
+    return true; //확인이 완료되었을 때
+  };
+
+  // extraAddress [상세주소]
+  const checExtarAddress = (extraAddress) => {
+    //핸드폰 번호가 제대로 입력되었는지 확인하기
+
+    const User_PWRegExp = /^[a-zA-z0-9]{11}$/;
+    if (!User_PWRegExp.test(extraAddress)) {
+      alert('핸드폰 번호를 입력해야합니다!');
+      extraAddress.focus();
+      return false;
+    }
+    return true; //확인이 완료되었을 때
+  }; 
+  
+  // 유효성 끝
+
+
   // 아이디 유효성 검사
   useEffect(() => {
     if (inputId === '' || inputId === undefined) {
@@ -98,6 +223,8 @@ const Join = () => {
     } else if (idRegex.test(inputId) === true) {
       setIdRegErrorText('올바른 형식의 아이디입니다. 중복을 확인 해주세요.');
       idRegErrorStyle.current.style.color = '#25d039';
+    } else if (checkUserId){
+      
     }
   }, [inputId]);
 
@@ -181,6 +308,15 @@ const Join = () => {
     ) {
       alert('양식을 빠짐없이 입력해주세요.');
     }
+    // join 유효성 검사
+    if(checkUserId(inputId) &&
+    checkUserPw(inputId, inputPw, reInputPw) &&
+    checkName(inputName)&&
+    checkNick(inputNick)&&
+    checkEmail(inputEmail)&&
+    checUserPhone(inputPhone)
+    ){
+    }
     axios
       .post('http://localhost:3001/auth/join', {
         userId: inputId,
@@ -253,6 +389,7 @@ const Join = () => {
         <input
           className="pw-re-input"
           type="password"
+          name="checkPw"
           placeholder="비밀번호를 재입력하세요"
           onChange={(e) => {
             setReInputPw(e.target.value);

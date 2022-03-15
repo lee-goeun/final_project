@@ -247,20 +247,18 @@ const Login = ({ userInfoHandler }) => {
               <p>아이디가 기억나지 않습니다.</p>
               <div className="find-id">
                 <input type="text" placeholder="이름을 입력하세요" />
-                <input type="text" placeholder="휴대폰 번호를 입력하세요" />
+                <input type="text" placeholder="이메일을 입력하세요" />
                 <small>아이디 찾기</small>
                 <p>회원님의 아이디는</p>
-                <p>OOO 입니다.</p>
               </div>
             </div>
             <div>
               <p>비밀번호가 기억나지 않습니다.</p>
               <div className="find-pw">
                 <input type="text" placeholder="아이디를 입력하세요" />
-                <input type="text" placeholder="이름을 입력하세요" />
+                <input type="text" placeholder="이메일을 입력하세요" />
                 <small>비밀번호 찾기</small>
                 <p>회원님의 비밀번호는</p>
-                <p>000 입니다.</p>
               </div>
             </div>
           </div>
