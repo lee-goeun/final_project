@@ -138,9 +138,9 @@ const Join = () => {
   // userNick [유저 닉네임] <- 완료
   const checkNick = (userNick) => {
     // 한글, 영어 숫자 섞어서 닉네임 가능
-    const nameRegExp = /^[가-힣a-zA-Z0-9]{2,12}$/;
-    if (!nameRegExp.test(userNick)) {
-      alert('한글, 대소문자, 숫자를 원하는 조합으로 2~12자리만 입력하세요!');
+    const nickRegExp = /[가-힣a-zA-Z0-9].{2,12}$/;
+    if (!nickRegExp.test(userNick)) {
+      alert('닉네임을 한글, 대소문자, 숫자를 조합해서 2~12자리를 입력하세요!');
       userNick.focus();
       return false;
     }
@@ -149,10 +149,9 @@ const Join = () => {
 
   // userEamil [이메일 입력 확인] <-완료
   const checkEmail = (userEmail) => {
-    // 이메일 유효성 검사
     const emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
     if (!emailRegExp.test(userEmail)) {
-      alert('이메일 형식이 올바르지 않습니다!');
+      alert('이메일이 작성되지 않았거나 형식이 올바르지 않습니다!');
       userEmail.focus();
       return false;
     }
@@ -162,23 +161,10 @@ const Join = () => {
   // userPhone [핸드폰 번호] <-완료
   const checUserPhone = (userPhone) => {
     //핸드폰 번호가 제대로 입력되었는지 확인하기
-    const userPhoneRegExp = /^[0-9]{5}$/;
+    const userPhoneRegExp = /^[0-9]{3}[0-9]{4}[0-9]{4}$/;
     if (!userPhoneRegExp.test(userPhone)) {
-      alert('핸드폰 번호를 입력해야합니다!');
+      alert('핸드폰 번호를 -과 공백 없이 입력해야 합니다!');
       userPhone.focus();
-      return false;
-    }
-    return true; //확인이 완료되었을 때
-  };
-
-  // zonecode [우편번호]
-  const checZonecode = (zonecode) => {
-    //핸드폰 번호가 제대로 입력되었는지 확인하기
-    ///(\d{3}-\d{3}|\d{5})/)[0]
-    const userZonecodeRegExp = /^[a-zA-z0-9]{11}$/;
-    if (!userZonecodeRegExp.test(zonecode)) {
-      alert('핸드폰 번호를 입력해야합니다!');
-      zonecode.focus();
       return false;
     }
     return true; //확인이 완료되었을 때
@@ -186,10 +172,9 @@ const Join = () => {
 
   // address [주소]
   const checAddress = (address) => {
-
-    const User_PWRegExp = /^[a-zA-z0-9]{11}$/;
-    if (!User_PWRegExp.test(address)) {
-      alert('핸드폰 번호를 입력해야합니다!');
+    const AddressRegExp = /^[가-힣a-zA-z0-9]{1,20}$/;
+    if (!AddressRegExp.test(address)) {
+      alert('주소를 입력해야합니다!');
       address.focus();
       return false;
     }
@@ -198,11 +183,9 @@ const Join = () => {
 
   // extraAddress [상세주소]
   const checExtarAddress = (extraAddress) => {
-    //핸드폰 번호가 제대로 입력되었는지 확인하기
-
-    const User_PWRegExp = /^[a-zA-z0-9]{11}$/;
-    if (!User_PWRegExp.test(extraAddress)) {
-      alert('핸드폰 번호를 입력해야합니다!');
+    const ExtarAddressRegExp = /^[가-힣a-zA-z0-9]{2,11}-[가-힣a-zA-z0-9]{2,11}$/;
+    if (!ExtarAddressRegExp.test(extraAddress)) {
+      alert('상세 주소를 입력해야합니다!');
       extraAddress.focus();
       return false;
     }
@@ -306,16 +289,20 @@ const Join = () => {
       tou1.current.checked === false ||
       tou2.current.checked === false
     ) {
-      alert('양식을 빠짐없이 입력해주세요.');
+      alert('빈칸이 존재합니다. 빠짐없이 입력해주세요.');
     }
     // join 유효성 검사
     if(checkUserId(inputId) &&
     checkUserPw(inputId, inputPw, reInputPw) &&
     checkName(inputName)&&
     checkNick(inputNick)&&
-    checkEmail(inputEmail)&&
-    checUserPhone(inputPhone)
+    checkEmail(inputEmail)
+    // 미완
+    // checUserPhone(inputPhone)&&
+    // checAddress(address)&&
+    // checExtarAddress(detailAddress)
     ){
+      
     }
     axios
       .post('http://localhost:3001/auth/join', {
