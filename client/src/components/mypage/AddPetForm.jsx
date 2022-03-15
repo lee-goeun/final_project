@@ -94,7 +94,7 @@ const FormStyle = styled.form`
   }
 `;
 
-const AddPetForm = ({clickAddCancel, userInfo}) => {
+const AddPetForm = ({ clickAddCancel, clickAddConfirm, userInfo }) => {
   const [selectOther, setSelectOther] = useState(false);
 
   const [content, setContent] = useState('');
@@ -109,7 +109,15 @@ const AddPetForm = ({clickAddCancel, userInfo}) => {
     form: mypet.write,
   }));
 
-  const { petName, petTypeDetail, petType, petBirth, petSex, petImgName, imageUrl } = form;
+  const {
+    petName,
+    petTypeDetail,
+    petType,
+    petBirth,
+    petSex,
+    petImgName,
+    imageUrl,
+  } = form;
 
   useEffect(() => {
     if (!post.petId) dispatch(initializeForm('write'));
@@ -122,7 +130,7 @@ const AddPetForm = ({clickAddCancel, userInfo}) => {
   //write/update후처리
   const res = useSelector((state) => state.mypet.res);
   if (res) {
-    console.log('rrrrrrrrrrrr',res);
+    console.log('rrrrrrrrrrrr', res);
     if (res.status === 'success') {
       alert('새 반려동물이 등록되었습니다.');
       res.status = '';
@@ -131,7 +139,9 @@ const AddPetForm = ({clickAddCancel, userInfo}) => {
 
   const handleChange = (e) => {
     const { value, name } = e.target;
-    value === 'other' && name === 'petType' ?  setSelectOther(true) : setSelectOther(false);
+    value === 'other' && name === 'petType'
+      ? setSelectOther(true)
+      : setSelectOther(false);
     if (post.petId) {
       dispatch(
         changeInput({
@@ -175,8 +185,6 @@ const AddPetForm = ({clickAddCancel, userInfo}) => {
       }
     }
 
-    
-
     formData.append('userId', userInfo.userId);
     console.log('formData', formData);
     if (!post.petId) dispatch(writeMyPetPost(formData), [dispatch]);
@@ -192,7 +200,6 @@ const AddPetForm = ({clickAddCancel, userInfo}) => {
     imgText.current.style.bottom = '60px';
   };
 
-
   return (
     <FormStyle onSubmit={submitPost} encType="multipart/form-data">
       <div className="add-pet-form-wrapper">
@@ -200,7 +207,7 @@ const AddPetForm = ({clickAddCancel, userInfo}) => {
           <label htmlFor="pet-img" className="pet-img-label">
             <AImageFIleInput
               buttonName={'이미지 첨부'}
-             // previewUrl={previewUrl}
+              // previewUrl={previewUrl}
               appendingFormData={appendingFormData}
               post={post}
             />
@@ -225,21 +232,26 @@ const AddPetForm = ({clickAddCancel, userInfo}) => {
             type="text"
             placeholder="반려동물의 이름을 입력하세요"
             name="petName"
-            value = {petName}
+            value={petName}
             onChange={handleChange}
           />
           <label className="pet-form-label" htmlFor="pet-species">
             반려동물 종류
           </label>
-          <select id="pet-species" onChange={handleChange} name="petType" value={useSelector((state) => state.mypet.write.petType)}>
+          <select
+            id="pet-species"
+            onChange={handleChange}
+            name="petType"
+            value={useSelector((state) => state.mypet.write.petType)}
+          >
             <option value={'none'}>종류를 선택하세요</option>
-            <option value={"강아지"}>강아지</option>
-            <option value={"고양이"}>고양이</option>
-            <option value={"파충류"}>파충류</option>
-            <option value={"물고기"}>물고기</option>
-            <option value={"햄스터"}>햄스터</option>
-            <option value={"새"}>새</option>
-            <option value={"other"}>기타 (직접입력)</option>
+            <option value={'강아지'}>강아지</option>
+            <option value={'고양이'}>고양이</option>
+            <option value={'파충류'}>파충류</option>
+            <option value={'물고기'}>물고기</option>
+            <option value={'햄스터'}>햄스터</option>
+            <option value={'새'}>새</option>
+            <option value={'other'}>기타 (직접입력)</option>
           </select>
           {selectOther ? (
             <input
@@ -265,14 +277,32 @@ const AddPetForm = ({clickAddCancel, userInfo}) => {
           <label className="pet-form-label" htmlFor="pet-birth">
             생년월일
           </label>
-          <input onChange={handleChange} value={petBirth} id="pet-birth" type="date" name="petBirth" />
+          <input
+            onChange={handleChange}
+            value={petBirth}
+            id="pet-birth"
+            type="date"
+            name="petBirth"
+          />
 
           <label className="pet-form-label">반려동물 성별</label>
-          <input type="radio" name="petSex" id="pet-male" value="1" onChange={handleChange}/>
+          <input
+            type="radio"
+            name="petSex"
+            id="pet-male"
+            value="1"
+            onChange={handleChange}
+          />
           <label className="pet-sex-label" htmlFor="pet-male">
             수컷
           </label>
-          <input type="radio" name="petSex" id="pet-female" value="0" onChange={handleChange}/>
+          <input
+            type="radio"
+            name="petSex"
+            id="pet-female"
+            value="0"
+            onChange={handleChange}
+          />
           <label className="pet-sex-label" htmlFor="pet-female">
             암컷
           </label>
@@ -280,7 +310,13 @@ const AddPetForm = ({clickAddCancel, userInfo}) => {
             <button className="btn__style" onClick={clickAddCancel}>
               취소
             </button>
-            <button type="submit" className="btn__style">등록</button>
+            <button
+              type="submit"
+              className="btn__style"
+              onClick={clickAddConfirm}
+            >
+              등록
+            </button>
           </div>
         </div>
       </div>

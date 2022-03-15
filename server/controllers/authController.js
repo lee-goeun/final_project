@@ -128,10 +128,10 @@ exports.auth = (req, res) => {
               userEmail: result[0].userEmail,
               userName: result[0].userName,
               //필요한 유저정보 여기다 추가
-               region1: result[0].region1,
-               region2: result[0].region2,
-               region3: result[0].region3,
-               balance: result[0].balance
+              region1: result[0].region1,
+              region2: result[0].region2,
+              region3: result[0].region3,
+              balance: result[0].balance,
             });
           }
         });
@@ -189,9 +189,6 @@ const postLoginModel = (req) => {
     db.query(query, [userId], (error, result) => {
       if (error) {
         throw error;
-      } else if ((req.body.deleted = 1)) {
-        // 삭제 상태 여부
-        res.send('없는 아이디입니다.');
       }
       if (result.length > 0) {
         bcrypt.compare(userPw, result[0].userPw, (err, match) => {

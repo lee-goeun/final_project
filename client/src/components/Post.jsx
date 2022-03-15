@@ -332,7 +332,7 @@ const PostContainer = ({
                     axios
                       .post(
                         `http://localhost:3001/board/post/${boardId}/like`,
-                        { boardId, userInfo },
+                        { boardId, userId },
                       )
                       .then((res) =>
                         console.log(boardId, '번 게시물 좋아요 클릭', res),

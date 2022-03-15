@@ -6,7 +6,7 @@ import '../../pages/MyPageStyle.css';
 import { faSquarePlus } from '@fortawesome/free-regular-svg-icons';
 import AddPetForm from './AddPetForm';
 import { useDispatch } from 'react-redux';
-import { deleteMyPetPost } from '../../redux/modules/mypet'
+import { deleteMyPetPost } from '../../redux/modules/mypet';
 
 const PCStyle = styled.div`
   .pet-container {
@@ -72,17 +72,17 @@ const PCStyle = styled.div`
   }
 `;
 
-const PetContainer = ({post}) => {
+const PetContainer = ({ post }) => {
   var nowYear = new Date().getFullYear();
   const dispatch = useDispatch();
 
-  const delMyPet = () =>{
+  const delMyPet = () => {
     const cnfrm = window.confirm('삭제하시겠습니까?');
-    if(cnfrm){
+    if (cnfrm) {
       dispatch(deleteMyPetPost(post.petId), [dispatch]);
-      window.location.replace('/mypet')
+      window.location.replace('/mypet');
     }
-  }
+  };
 
   return (
     <PCStyle>
@@ -114,16 +114,19 @@ const PetContainer = ({post}) => {
             />
           </div>
         </div>
-        <div className="pet03">{nowYear - post.petBirth.substring(0,4) + 1}살</div>
-        <div className="pet04">{post.petSex ? '수컷' : '암컷' }</div>
-        <div className="pet05">{post.petType} ＞ {post.petTypeDetail}</div>
+        <div className="pet03">
+          {nowYear - post.petBirth.substring(0, 4) + 1}살
+        </div>
+        <div className="pet04">{post.petSex ? '수컷' : '암컷'}</div>
+        <div className="pet05">
+          {post.petType} ＞ {post.petTypeDetail}
+        </div>
       </div>
     </PCStyle>
   );
 };
 
-
-const MyPet = ({list, loadingList, userInfo}) => {
+const MyPet = ({ list, loadingList, userInfo }) => {
   console.log(userInfo);
   const addPetText = useRef();
 
@@ -143,7 +146,7 @@ const MyPet = ({list, loadingList, userInfo}) => {
         {!loadingList && list && (
           <div>
             {list.map((post) => (
-              <PetContainer key={post.petId} post={post}/>
+              <PetContainer key={post.petId} post={post} />
             ))}
           </div>
         )}
@@ -165,8 +168,11 @@ const MyPet = ({list, loadingList, userInfo}) => {
       </div>
       {showAddForm && (
         <AddPetForm
-          userInfo = {userInfo}
+          userInfo={userInfo}
           clickAddCancel={() => {
+            setShowAddForm(!showAddForm);
+          }}
+          clickAddConfirm={() => {
             setShowAddForm(!showAddForm);
           }}
         />
