@@ -50,6 +50,7 @@ const MainPageFooterStyle = styled.div`
 `;
 
 const Home = ({
+  userInfo,
   getPostList,
   getPost,
   postList,
@@ -60,42 +61,8 @@ const Home = ({
 }) => {
   useEffect(() => {
     getPostList();
-    getAuth();
+    console.log('홈에서 로그인회원 정보', userInfo);
   }, [getPostList]);
-
-  const [userInfo, setUserInfo] = useState();
-
-  const getAuth = async () => {
-    try {
-      const tokenValidationResponse = await axios({
-        url: 'http://localhost:3001/auth/auth',
-        method: 'get',
-        headers: { 'x-access-token': localStorage.getItem('token') },
-      });
-      console.log(tokenValidationResponse, 'tokenValidResponse');
-      userInfoHandler(tokenValidationResponse);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const userInfoHandler = ({ data }) => {
-    setUserInfo((prevState) => {
-      console.log('home', data);
-      return {
-        ...prevState,
-        auth: data.auth,
-        userId: data.userId,
-        userNick: data.userNick,
-        userName: data.userName,
-        region1: data.region1,
-        region2: data.region2,
-        region3: data.region3,
-        //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
-      };
-    });
-  };
-
-  console.log('홈에서 auth info 가져오기', userInfo);
 
   const [showReportPostModal, setShowReportPostModal] = useState();
   const [showModifyPostModal, setShowModifyPostModal] = useState();

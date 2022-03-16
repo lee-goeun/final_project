@@ -31,6 +31,7 @@ import LoadingCont from './common/LoadingCont';
 import { connect } from 'react-redux';
 import { getPostList, post } from '../redux/modules/post';
 import loading from '../redux/modules/loading';
+import { convertCompilerOptionsFromJson } from 'typescript';
 
 const CarouselStyle = styled.div`
   .carousel-img-container {
@@ -149,6 +150,8 @@ const PostContainer = ({
   boardGood,
   boardViews,
   boardCreated = 'date',
+  goodStatus,
+  collectStatus,
   clickReportPost,
   clickModifyPost,
   clickDeletePost,
@@ -305,7 +308,7 @@ const PostContainer = ({
           </div>
           <div className="pr05">
             <p>
-              {isLike ? (
+              {goodStatus !== undefined ? (
                 <FontAwesomeIcon
                   icon={faHeart}
                   id="heart-btn"
@@ -321,10 +324,12 @@ const PostContainer = ({
                   title="좋아요"
                   onClick={() => {
                     setIsLike(!isLike);
+                    console.log('좋아요상태', goodStatus);
+                    console.log('로그인 아이디', currentUserId);
                     axios
                       .post(
                         `http://localhost:3001/board/post/${boardId}/like`,
-                        { boardId, userId: userInfo.userId },
+                        { boardId, userId: currentUserId },
                       )
                       .then((res) =>
                         console.log(boardId, '번 게시물 좋아요 클릭', res),
@@ -733,6 +738,8 @@ export default connect(
   ({ post }) => ({
     postList: post.postList,
     loadingPostList: post.loading.GET_POST_LIST,
+    goodStatus: post.goodStatus,
+    collectStatus: post.collectStatus,
   }),
   {
     getPostList,

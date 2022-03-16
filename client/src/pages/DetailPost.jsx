@@ -48,7 +48,14 @@ const DetailStyle = styled.div`
   }
 `;
 
-const DetailPost = ({ getPost, post, commentList, imgList, loadingPost }) => {
+const DetailPost = ({
+  userInfo,
+  getPost,
+  post,
+  commentList,
+  imgList,
+  loadingPost,
+}) => {
   useEffect(() => {
     console.log(`${boardId}번 게시물 상세보기 렌더링`);
     getPost(boardId);
@@ -158,7 +165,17 @@ const DetailPost = ({ getPost, post, commentList, imgList, loadingPost }) => {
             setShowReportPostModal(!showReportPostModal);
           }}
           clickReportPostConfirm={() => {
-            alert('운영진이 검토후 처리될 예정입니다.');
+            console.log(userInfo.userId);
+            axios
+              .post(`http://localhost:3001/board/post/${boardId}/report`, {
+                userId: userInfo.userId,
+                reportedUserId: post.userId,
+              })
+              .then((res) => {
+                console.log(res);
+                alert('운영진이 검토후 처리될 예정입니다.');
+              })
+              .catch((error) => console.log(error));
             setShowReportPostModal(!showReportPostModal);
           }}
         />
