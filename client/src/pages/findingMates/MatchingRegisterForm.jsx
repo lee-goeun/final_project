@@ -184,6 +184,7 @@ const MatchingRegisterForm = ({userInfo}) => {
             //  previewUrl={imageUrl}
               appendingFormData={appendingFormData}
               post={post}
+              type="matching"
             />
             <Button type="button" onClick={deleteUrl}>
               이미지삭제

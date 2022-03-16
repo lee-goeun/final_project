@@ -45,7 +45,7 @@ const ItemRegisterForm = () => {
   const [content, setContent] = useState('');
   const contents = useSelector((state) => state.market.write);
   const post = useSelector((state) => state.market.update);
-
+  console.log('content', content, post);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const formData = new FormData();
@@ -54,7 +54,7 @@ const ItemRegisterForm = () => {
     form: market.write,
   }));
   const { marketTitle, marketContent, price, imageUrl } = form;
-
+  console.log('image', imageUrl);
   useEffect(() => {
     if (!post.marketId) dispatch(initializeForm('write'));
     else setContent();
@@ -160,6 +160,7 @@ const ItemRegisterForm = () => {
               buttonName={'이미지 첨부'}
               appendingFormData={appendingFormData}
               post={post}
+              type="market"
             />
             <Button type="button" onClick={deleteUrl}>
               이미지삭제

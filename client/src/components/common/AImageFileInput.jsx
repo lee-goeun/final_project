@@ -2,7 +2,8 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 import { useDispatch } from 'react-redux';
-import { changeInputImage } from '../../redux/modules/matching';
+import { changeInputImageMatching } from '../../redux/modules/matching';
+import { changeInputImageMarket } from '../../redux/modules/market';
 
 const StyledInput = styled.input`
   padding: 1rem;
@@ -18,24 +19,43 @@ const AImageFIleInput = (props) => {
   const onChange = (event) => {
     const uploaded = event.target.files[0];
     props.appendingFormData(uploaded);
-    console.log('uploade', props, uploaded);
     if (uploaded) {
-      if (props.post.matchId || props.post.marketId) {
-        dispatch(
-          changeInputImage({
-            form: 'update',
-            imgName: uploaded.name,
-            imgUrl: URL.createObjectURL(uploaded),
-          }),
-        );
-      } else if(!props.post.matchId && !props.post.marketId){
-        dispatch(
-          changeInputImage({
-            form: 'write',
-            imgUrl: URL.createObjectURL(uploaded),
-          }),
-        );
+      if(props.type =='matching'){
+        if (props.post.matchId) {
+          dispatch(
+            changeInputImageMatching({
+              form: 'update',
+              imgName: uploaded.name,
+              imgUrl: URL.createObjectURL(uploaded),
+            }),
+          );
+        } else{
+          dispatch(
+            changeInputImageMatching({
+              form: 'write',
+              imgUrl: URL.createObjectURL(uploaded),
+            }),
+          );
+        }
+      }else{
+        if (props.post.marketId) {
+          dispatch(
+            changeInputImageMarket({
+              form: 'update',
+              imgName: uploaded.name,
+              imgUrl: URL.createObjectURL(uploaded),
+            }),
+          );
+        } else{
+          dispatch(
+            changeInputImageMarket({
+              form: 'write',
+              imgUrl: URL.createObjectURL(uploaded),
+            }),
+          );
+        }
       }
+      
     }
   };
 
