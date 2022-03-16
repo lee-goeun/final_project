@@ -53,6 +53,7 @@ const Home = ({
   getPostList,
   getPost,
   postList,
+  imgList,
   post,
   loadingPostList,
   loadingPost,
@@ -123,7 +124,21 @@ const Home = ({
                     key={post.boardId}
                     boardId={post.boardId}
                     userId={post.userId}
-                    boardImgList={post.boardImgList}
+                    imgListSection={
+                      imgList
+                        ? imgList.map((img, i) => (
+                            <div key={i}>
+                              <img
+                                src={
+                                  'http://localhost:3001/board/download?boardImgName=' +
+                                  img
+                                }
+                                alt="이미지"
+                              />
+                            </div>
+                          ))
+                        : null
+                    }
                     boardTitle={post.boardTitle}
                     boardContent={post.boardContent}
                     boardGood={post.boardGood}
@@ -196,6 +211,7 @@ export default connect(
   ({ post }) => ({
     post: post.post,
     postList: post.postList,
+    imgList: post.imgList,
     loadingPost: post.loading.GET_POST,
     loadingPostList: post.loading.GET_POST_LIST,
   }),

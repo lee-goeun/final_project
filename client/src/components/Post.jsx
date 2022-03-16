@@ -136,6 +136,7 @@ const PostContainer = ({
   boardId = '',
   categoryIndex = '',
   boardImgList = '',
+  imgListSection,
   userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
   userId = '',
   boardTitle = '',
@@ -265,17 +266,7 @@ const PostContainer = ({
         <div className="pc-left">
           <CarouselStyle>
             <div className="carousel-img-container">
-              <Slider {...settings}>
-                <div>
-                  <img
-                    src={
-                      'http://localhost:3001/board/download?boardImgName=' +
-                      boardImgList
-                    }
-                    alt="이미지"
-                  />
-                </div>
-              </Slider>
+              <Slider {...settings}>{imgListSection}</Slider>
             </div>
           </CarouselStyle>
         </div>

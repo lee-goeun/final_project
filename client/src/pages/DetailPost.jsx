@@ -48,7 +48,7 @@ const DetailStyle = styled.div`
   }
 `;
 
-const DetailPost = ({ getPost, post, commentList, loadingPost }) => {
+const DetailPost = ({ getPost, post, commentList, imgList, loadingPost }) => {
   useEffect(() => {
     console.log(`${boardId}번 게시물 상세보기 렌더링`);
     getPost(boardId);
@@ -95,7 +95,21 @@ const DetailPost = ({ getPost, post, commentList, loadingPost }) => {
               key={post.boardId}
               boardId={post.boardId}
               userId={post.userNick}
-              boardImgList={post.boardImgList}
+              imgListSection={
+                imgList
+                  ? imgList.map((img, i) => (
+                      <div key={i}>
+                        <img
+                          src={
+                            'http://localhost:3001/board/download?boardImgName=' +
+                            img
+                          }
+                          alt="이미지"
+                        />
+                      </div>
+                    ))
+                  : null
+              }
               boardTitle={post.boardTitle}
               boardContent={post.boardContent}
               boardGood={post.boardGood}
@@ -187,6 +201,7 @@ export default connect(
   ({ post }) => ({
     post: post.post,
     commentList: post.commentList,
+    imgList: post.imgList,
     loadingPost: post.loading.GET_POST,
   }),
   {

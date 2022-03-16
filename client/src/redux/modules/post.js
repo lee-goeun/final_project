@@ -76,6 +76,7 @@ const initialState = {
   postList: null,
   post: null,
   commentList: null,
+  imgList: null,
 };
 
 export const post = handleActions(
@@ -118,6 +119,7 @@ export const post = handleActions(
       },
       post: action.payload,
       commentList: action.payload.comment,
+      imgList: action.payload.boardImgList,
     }),
     [GET_POST_FAILURE]: (state, action) => ({
       ...state,
