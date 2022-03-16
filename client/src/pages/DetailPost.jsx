@@ -11,7 +11,7 @@ import {
 } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { getPost } from '../redux/modules/post';
+import { getPost, likePost } from '../redux/modules/post';
 import { connect } from 'react-redux';
 import LoadingCont from '../components/common/LoadingCont';
 import { CommentContainer } from '../components/Post';
@@ -59,7 +59,21 @@ const DetailPost = ({
   useEffect(() => {
     console.log(`${boardId}번 게시물 상세보기 렌더링`);
     getPost(boardId);
+    axios
+      .get(`http://localhost:3001/board/post/${boardId}`)
+      .then((res) => {
+        console.log('따로aixos 찍어본것', res);
+        console.log(
+          `따로axios ${boardId}번 좋아요 상태, ${res.data.goodStatus}`,
+        );
+        console.log(
+          `따로axios ${boardId}번 이미지 리스트 ${res.data.boardImgList.length}`,
+        );
+      })
+      .catch((e) => console.log(e));
   }, [getPost]);
+
+  const userId = userInfo.userId;
 
   const navigate = useNavigate();
 
@@ -122,6 +136,19 @@ const DetailPost = ({
               boardGood={post.boardGood}
               boardViews={post.boardViews}
               boardCreated={post.boardCreated}
+              clickLikeCancel={null}
+              clickLikeConfirm={() => {
+                console.log(userId);
+                axios
+                  .post(`http://localhost:3001/board/post/${boardId}/like`, {
+                    boardId,
+                    userId,
+                  })
+                  .then((res) =>
+                    console.log(boardId, '번 게시물 좋아요 클릭', res),
+                  )
+                  .catch((error) => console.log('좋아요 에러 :', error));
+              }}
               commentSection={
                 commentList
                   ? commentList.map((com) => (
@@ -137,15 +164,34 @@ const DetailPost = ({
                     ))
                   : null
               }
-              clickReportPost={() => {
-                setShowReportPostModal(true);
-              }}
-              clickModifyPost={() => {
-                setShowModifyPostModal(true);
-              }}
-              clickDeletePost={() => {
-                setShowDeletePostModal(true);
-              }}
+              postMenuSection={
+                userId === post.userId ? (
+                  <>
+                    <p
+                      onClick={() => {
+                        setShowModifyPostModal(true);
+                      }}
+                    >
+                      수정하기
+                    </p>
+                    <p
+                      onClick={() => {
+                        setShowDeletePostModal(true);
+                      }}
+                    >
+                      삭제하기
+                    </p>
+                  </>
+                ) : (
+                  <p
+                    onClick={() => {
+                      setShowReportPostModal(true);
+                    }}
+                  >
+                    신고하기
+                  </p>
+                )
+              }
             />
             <FontAwesomeIcon
               icon={faCircleArrowLeft}
@@ -223,5 +269,6 @@ export default connect(
   }),
   {
     getPost,
+    likePost,
   },
 )(DetailPost);

@@ -1,4 +1,5 @@
 import { handleActions } from 'redux-actions';
+import { isDoStatement } from 'typescript';
 import * as api from '../../lib/api';
 
 const GET_POST_LIST = 'post/GET_POST_LIST';
@@ -16,6 +17,10 @@ const UPDATE_POST_FAILURE = 'post/UPDATE_POST_FAILURE';
 const REPORT_POST = 'post/REPORT_POST';
 const REPORT_POST_SUCCESS = 'post/REPORT_POST_SUCCESS';
 const REPORT_POST_FAILURE = 'post/REPORT_POST_FAILURE';
+
+const LIKE_POST = 'post/LIKE_POST';
+const LIKE_POST_SUCCESS = 'post/LIKE_POST_SUCCESS';
+const LIKE_POST_FAILURE = 'post/LIKE_POST_FAILURE';
 
 export const getPostList = () => async (dispatch) => {
   dispatch({ type: GET_POST_LIST });
@@ -89,19 +94,40 @@ export const reportPost = (boardId) => async (dispatch) => {
   }
 };
 
+export const likePost = (boardId, userId) => async (dispatch) => {
+  dispatch({ type: LIKE_POST });
+  try {
+    const response = await api.likePost(boardId, userId);
+    dispatch({
+      type: LIKE_POST_SUCCESS,
+      payload: response.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: LIKE_POST_FAILURE,
+      payload: e,
+      error: true,
+    });
+    throw e;
+  }
+};
+
 const initialState = {
   loading: {
     GET_POST_LIST: false,
     GET_POST: false,
     UPDATE_POST: false,
     REPORT_POST: false,
+    LIKE_POST: false,
   },
   postList: null,
+  postListCommentList: null,
   post: null,
   commentList: null,
   imgList: null,
   goodStatus: null,
   collectStatus: null,
+  LikeStatus: 0,
 };
 
 export const post = handleActions(
@@ -120,6 +146,7 @@ export const post = handleActions(
         GET_POST_LIST: false,
       },
       postList: action.payload,
+      postListCommentList: action.payload.comment,
     }),
 
     [GET_POST_LIST_FAILURE]: (state, action) => ({
@@ -148,11 +175,26 @@ export const post = handleActions(
       goodStatus: action.payload.goodStatus,
       collectStatus: action.payload.collectStatus,
     }),
-    [GET_POST_FAILURE]: (state, action) => ({
+    [LIKE_POST]: (state, action) => ({
       ...state,
       loading: {
         ...state.loading,
-        GET_POST: false,
+        LIKE_POST: true,
+      },
+    }),
+    [LIKE_POST_SUCCESS]: (state, action) => ({
+      ...state,
+      loading: {
+        ...state.loading,
+        LIKE_POST: false,
+      },
+      LikeStatus: action.payload,
+    }),
+    [LIKE_POST_FAILURE]: (state, action) => ({
+      ...state,
+      loading: {
+        ...state.loading,
+        LIKE_POST: false,
       },
     }),
   },

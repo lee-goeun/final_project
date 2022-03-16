@@ -61,7 +61,6 @@ const Home = ({
 }) => {
   useEffect(() => {
     getPostList();
-    console.log('홈에서 로그인회원 정보', userInfo);
   }, [getPostList]);
 
   const [showReportPostModal, setShowReportPostModal] = useState();
@@ -76,6 +75,8 @@ const Home = ({
     slidesToShow: 1,
     speed: 500,
   };
+
+  console.log('홈에서 로그인회원 정보', userInfo.userId);
 
   return (
     <>

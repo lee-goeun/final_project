@@ -40,11 +40,11 @@ export const sellingMarketPost = (data) => {
 };
 
 // ------ 마이페이지 --------
-//나의 게시물 
-export const getMyMatchingList = (userId) => 
-   axios.get(`http://localhost:3001/match/myList/${userId}`);
-export const getMyMarketList = (userId) => 
-   axios.get(`http://localhost:3001/market/myList/${userId}`);
+//나의 게시물
+export const getMyMatchingList = (userId) =>
+  axios.get(`http://localhost:3001/match/myList/${userId}`);
+export const getMyMarketList = (userId) =>
+  axios.get(`http://localhost:3001/market/myList/${userId}`);
 
 //나의반려동물
 export const getMyPetList = (userId) =>
@@ -64,8 +64,8 @@ export const delMyPetPost = (petId) => {
 };
 
 //관심게시물
-export const getMyLikeMarketList = (userId) => 
-   axios.get(`http://localhost:3001/mypage/myLikeList/${userId}`);
+export const getMyLikeMarketList = (userId) =>
+  axios.get(`http://localhost:3001/mypage/myLikeList/${userId}`);
 
 //프로필관리(임시)
 export const getMyInfoPost = (userId) => {
@@ -87,3 +87,6 @@ export const updatePost = (boardId) =>
 
 export const reportPost = (boardId) =>
   axios.post(`http://localhost:3001/board/post/${boardId}/report`);
+
+export const likePost = (boardId, userId) =>
+  axios.post(`http://localhost:3001/board/post/${boardId}/like`, userId);

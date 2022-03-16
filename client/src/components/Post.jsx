@@ -157,6 +157,9 @@ const PostContainer = ({
   clickDeletePost,
   comment,
   commentSection,
+  postMenuSection,
+  clickLikeCancel,
+  clickLikeConfirm,
 }) => {
   const settings = {
     slide: 'div',
@@ -232,7 +235,7 @@ const PostContainer = ({
     axios
       .post(`http://localhost:3001/board/post/${boardId}/collect`, {
         boardId,
-        userId,
+        userId: currentUserId,
       })
       .then((res) =>
         console.log(
@@ -290,16 +293,7 @@ const PostContainer = ({
             />
             {/* 수정/삭제 모달창 */}
             {showPostMenu && (
-              <div className="menu-modal-container">
-                {userInfo.auth && userInfo.userId === { userId } ? (
-                  <>
-                    <p onClick={clickModifyPost}>수정하기</p>
-                    <p onClick={clickDeletePost}>삭제하기</p>
-                  </>
-                ) : (
-                  <p onClick={clickReportPost}>신고하기</p>
-                )}
-              </div>
+              <div className="menu-modal-container">{postMenuSection}</div>
             )}
           </div>
           <div className="pr04">
@@ -313,29 +307,14 @@ const PostContainer = ({
                   icon={faHeart}
                   id="heart-btn"
                   title="좋아요 취소"
-                  onClick={() => {
-                    setIsLike(!isLike);
-                  }}
+                  onClick={clickLikeCancel}
                 />
               ) : (
                 <FontAwesomeIcon
                   icon={borderHeart}
                   id="border-heart-btn"
                   title="좋아요"
-                  onClick={() => {
-                    setIsLike(!isLike);
-                    console.log('좋아요상태', goodStatus);
-                    console.log('로그인 아이디', currentUserId);
-                    axios
-                      .post(
-                        `http://localhost:3001/board/post/${boardId}/like`,
-                        { boardId, userId: currentUserId },
-                      )
-                      .then((res) =>
-                        console.log(boardId, '번 게시물 좋아요 클릭', res),
-                      )
-                      .catch((error) => console.log('좋아요 에러 :', error));
-                  }}
+                  onClick={clickLikeConfirm}
                 />
               )}
 
