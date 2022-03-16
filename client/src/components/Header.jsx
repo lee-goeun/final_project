@@ -157,6 +157,7 @@ const Header = () => {
         region1: data.region1,
         region2: data.region2,
         region3: data.region3,
+        deleted: data.deleted
         //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
       };
     });
@@ -167,7 +168,7 @@ const Header = () => {
       <HeaderStyle>
         <div className="header-container">
           <div className="header-logo-container">
-            <img src={process.env.PUBLIC_URL + '/img/LogoHorizon.png'} />
+            <a href='/'><img src={process.env.PUBLIC_URL + '/img/LogoHorizon.png'} /></a>
           </div>
           <div className="header-icons-container">
             <NavLink to="/">
