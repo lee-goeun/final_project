@@ -18,20 +18,21 @@ const Post = ({ post }) => {
   // const closeModal = () => {
   //   setModalVisible(false);
   // };
-
+  console.log('img', post.matchImgName);
   const korTime = new Date(post.matchTime);
   return (
     <StyledLink to={'/match/detail/' + post.matchId}>
       <DisplayWrapper>
-        <ImgInner
+        {post.matchImgName != null ? <ImgInner
           src={
             'http://localhost:3001/match/download?matchId=' +
             post.matchId +
             '&matchImgName=' +
             post.matchImgName
           }
-          // onClick={openModal}
-        />
+        /> : <ImgInner src={process.env.PUBLIC_URL + '/img/LogoHorizon.png'}/>
+        }
+        
         <h5>
           {`산책 예정 시간: ${moment(korTime)
             .format('YYYY-MM-DD HH:mm')

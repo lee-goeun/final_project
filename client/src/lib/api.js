@@ -56,6 +56,14 @@ export const updateMyPetPost = (formData) => {
 export const delMyPetPost = (petId) => {
   return axios.put(`http://localhost:3001/mypage/del/${petId}`);
 };
+//프로필관리(임시)
+export const getMyInfoPost = (userId) => {
+  return axios.get(`http://localhost:3001/mypage/mypet/${userId}`);
+};
+export const updateMyInfoPost = (formData) => {
+  return axios.put('http://localhost:3001/mypage/mypetAdd', formData);
+};
+
 
 // 일반 게시물
 export const getPostList = (boardId) =>

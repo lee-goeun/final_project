@@ -165,7 +165,7 @@ const AddPetForm = ({ clickAddCancel, clickAddConfirm, userInfo }) => {
     setContent(receivedFormData);
   };
 
-  const submitPost = async (e) => {
+  clickAddConfirm = async (e) => {
     e.preventDefault();
     if (!post.petId) {
       for (const [key, value] of Object.entries(contents)) {
@@ -201,7 +201,7 @@ const AddPetForm = ({ clickAddCancel, clickAddConfirm, userInfo }) => {
   };
 
   return (
-    <FormStyle onSubmit={submitPost} encType="multipart/form-data">
+    <FormStyle encType="multipart/form-data">
       <div className="add-pet-form-wrapper">
         <div className="add-pet-form-container">
           <label htmlFor="pet-img" className="pet-img-label">
