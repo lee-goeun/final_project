@@ -31,7 +31,6 @@ import LoadingCont from './common/LoadingCont';
 import { connect } from 'react-redux';
 import { getPostList, post } from '../redux/modules/post';
 import loading from '../redux/modules/loading';
-import { convertCompilerOptionsFromJson } from 'typescript';
 
 const CarouselStyle = styled.div`
   .carousel-img-container {
@@ -633,11 +632,15 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     <>
       <div className="post-background">
         <div className="post-filter">
-          <div className="pf-left"></div>
+          {/* <div className="pf-left"></div> */}
           <div>
-            <form>
-              <input type="text" placeholder="검색하기.." />
+            <form className="post-search-form">
               <FontAwesomeIcon icon={faSearch} className="post-search-icon" />
+              <input
+                className="post-search-input"
+                type="text"
+                placeholder="검색하기.."
+              />
             </form>
           </div>
         </div>

@@ -113,6 +113,9 @@ const HeaderStyle = Styled.div`
   .drop-menu > p:hover{
     color: var(--accent-default) !important;
   }
+  #nim{
+    margin-left:3px;
+  }
 `;
 
 const Header = () => {
@@ -166,7 +169,6 @@ const Header = () => {
           <div className="header-logo-container">
             <img src={process.env.PUBLIC_URL + '/img/LogoHorizon.png'} />
           </div>
-
           <div className="header-icons-container">
             <NavLink to="/">
               <FontAwesomeIcon
@@ -213,6 +215,12 @@ const Header = () => {
             />
             {showDropMenu ? (
               <div className="drop-menu">
+                {userInfo ? (
+                  <p>
+                    {userInfo.userNick}
+                    <small id="nim">님</small>
+                  </p>
+                ) : null}
                 <p>
                   <Link to="/mypost">마이페이지</Link>
                 </p>

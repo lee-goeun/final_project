@@ -1,6 +1,6 @@
 @keyframes showing {
   from {
-    opacity: 0.5;
+    opacity: 0.2;
     top: 55%;
   }
   to {
@@ -33,6 +33,7 @@
   width: fit-content;
   height: fit-content;
   box-shadow: 3px 3px 20px #c2c2c2;
+  animation: showing 0.5s;
 }
 .pc-left {
   background-color: rgb(30, 30, 30);
@@ -631,11 +632,11 @@
   margin: 40px auto 0 auto;
   max-width: 1020px;
   min-width: 90%;
-  height: 30px;
+  height: 40px;
   border-bottom: 1px solid var(--font-light);
   color: var(--font-light);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 .post-filter > div > span {
   cursor: pointer;
@@ -675,6 +676,13 @@
 .filter-list > span:hover {
   color: black;
 }
+.post-search-form {
+}
+.post-search-input {
+  height: 30px;
+  border-radius: 20px;
+  padding: 0 10px 0 30px !important;
+}
 .post-list {
   text-align: center;
   margin: 0px auto;
@@ -691,6 +699,8 @@
   cursor: pointer;
 }
 .post-search-icon {
+  position: absolute;
+  transform: translateY(8px);
   color: var(--font-dark);
   margin-left: 10px;
   margin-right: 5px;
