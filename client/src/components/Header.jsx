@@ -157,6 +157,7 @@ const Header = () => {
         region1: data.region1,
         region2: data.region2,
         region3: data.region3,
+        userImg: data.userImg,
         deleted: data.deleted
         //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
       };

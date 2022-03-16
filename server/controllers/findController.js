@@ -12,22 +12,23 @@ const db = mysql.createConnection({
 
 exports.findId = async (req, res) => {
   try {
-    // console.log(userName)
     const { userEmail, userName } = req.body;
 
     // 임시 코드 -> 정리 필요 부분
     if (req.body.userEmail === '' || req.body.userName === '') {
       res.send('이메일 또는 이름을 입력해 주세요');
     }
+    // console.log('test'); 확인
 
     // Email 기준 조회
     const query = 'SELECT * FROM usertbl WHERE userEmail = ?;';
-    db.query(query, [userEmail], (err, res) => {
+    db.query(query, [userEmail], (err, result) => {
+      // console.log('test'); 확인
       if (err) {
         console.log(err);
       } else {
-        // 값 db에서 확인하기
-        let userId = res[0].userId;
+        // console.log('test'); 확인
+        const Id = result[0].userId;
 
         // 메일 등록
         const transporter = nodemailer.createTransport({
@@ -56,7 +57,7 @@ exports.findId = async (req, res) => {
             '님 항상 저희 PaP 서비스를 이용해주셔서 감사드립니다.<br>' +
             userName +
             '님의 아이디는 <b>' +
-            userId +
+            Id +
             '</b> 입니다.<br>' +
             '더욱 노력하는 PaP일동이 되겠습니다.',
         };
@@ -74,8 +75,9 @@ exports.findId = async (req, res) => {
         });
       }
     });
-    // 라우터 및 기타 ui등 위치
-    res.send('전송 완료');
+    // console.log('test'); 확인
+    res.json('test');
+    // res.json({ status: 'success' });
   } catch (error) {
     console.log(error);
   }

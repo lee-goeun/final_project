@@ -9,9 +9,9 @@ const mysql = require('mysql');
 
 dotenv.config({ path: './.env' });
 
-var session = require('express-session');                     
-var MySQLStore = require('express-mysql-session')(session);   
-var options ={
+var session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
+var options = {
   host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USER,
   port: process.env.DATABASE_PORT,
@@ -20,14 +20,16 @@ var options ={
 };
 
 // session
-var sessionStore = new MySQLStore(options);                  
+var sessionStore = new MySQLStore(options);
 
-app.use(session({                                              
-  secret:"asdfasffdas",
-  resave:false,
-  saveUninitialized:true,
-  store: sessionStore                                          
-}))
+app.use(
+  session({
+    secret: 'asdfasffdas',
+    resave: false,
+    saveUninitialized: true,
+    store: sessionStore,
+  })
+);
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -54,6 +56,7 @@ require('./routes/postRouter')(app);
 require('./routes/comment')(app);
 
 app.use('/auth', require('./routes/auth'));
+app.use('/find', require('./routes/find'));
 
 db.connect((error) => {
   if (error) {

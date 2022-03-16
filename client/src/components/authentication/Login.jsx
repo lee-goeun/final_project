@@ -15,6 +15,8 @@ const Login = ({ userInfoHandler }) => {
   const [isErrorPw, setIsErrorPw] = useState(false);
   const [userId, setUserId] = useState();
   const [userPw, setUserPw] = useState();
+  const [userName, setUserName] = useState();
+  const [userEmail, setUserEmail] = useState();
 
   const onChangeIdInput = (e) => {
     setUserId(e.target.value);
@@ -23,6 +25,169 @@ const Login = ({ userInfoHandler }) => {
   const onChangePwInput = (e) => {
     setUserPw(e.target.value);
   };
+
+
+  const clickLoginBtn = async (e) => {
+    try {
+      const res = await axios.post('http://localhost:3001/auth/login', {
+        userId,
+        userPw,
+      });
+      console.log(res);
+      if (!res.data.auth) {
+        alert('아이디나 비밀번호가 맞지 않습니다.');
+      } else {
+        userInfoHandler(res);
+        localStorage.setItem('token', res.data.accessToken);
+        navigate('/');
+        alert('로그인 되었습니다.');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const idInput = useRef();
+  const pwInput = useRef();
+  const loginBtn = useRef();
+  const nameInput = useRef();
+  const emailInput = useRef();
+  const userIdInput = useRef();
+
+  const [showFindIdModal, setShowFindIdModal] = useState(false);
+
+  const clickFindId = (e) => {
+    setShowFindIdModal(true);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    clickLoginBtn();
+  };
+
+  // 아이디 찾기 버튼 클릭시 이벤트 처리
+  const clickDuplicateCheckBtn1 = async(e) => {
+    await axios.post('http://localhost:3001/find/findId', {
+      userName:nameInput,
+      userEmail:emailInput,
+    })
+    .then((res) => {
+      if(res.data.status ==='test'){
+        alert('발송에 성공했습니다.');
+      }
+      else{
+        alert('발송에 실패했습니다.')
+      }
+    })
+  };
+
+   // 비밀번호 찾기 버튼 클릭시 이벤트 처리
+   const clickDuplicateCheckBtn2 = async(e) => {
+    await axios.post('http://localhost:3001/find/findPw', {
+      userId : userIdInput,
+      userEmail : emailInput,
+    })
+      .then((res) => {
+        if(res.data.status ==='success'){
+          alert('메일로 아이디를 보내드렸습니다.');
+        }
+      })
+  };
+
+  return (
+    <>
+      <div className="login-container-wrapper">
+        <img src={process.env.PUBLIC_URL + 'img/LogoVertical.png'} />
+        <div className="login-container">
+          <form className="login-form" onSubmit={onSubmit}>
+            <div className="lf1">
+              <label htmlFor="id-input">
+                아이디
+                {isErrorId && <span className="error-text">{errorText}</span>}
+              </label>
+              <input
+                ref={idInput}
+                id="id-input"
+                type="text"
+                placeholder="아이디를 입력하세요"
+                onChange={onChangeIdInput}
+              />
+            </div>
+            <div className="lf2">
+              <label htmlFor="pw-input">
+                비밀번호
+                {isErrorPw && <span className="error-text">{errorText}</span>}
+              </label>
+              <input
+                ref={pwInput}
+                id="pw-input"
+                type="password"
+                placeholder="비밀번호를 입력하세요"
+                // onKeyPress={keyEnter}
+                onChange={onChangePwInput}
+              />
+            </div>
+            <div className="lf3">
+              {/* <Link to="/"> */}
+              <button
+                // ref={loginBtn}
+                // onClick={clickLoginBtn}
+                className="login-btn"
+              >
+                로그인
+              </button>
+              {/* </Link> */}
+            </div>
+          </form>
+        </div>
+        <div className="join-find-container">
+          <p>계정이 없으신가요?</p>
+          <Link to="/join">
+            <p className="go-join">회원가입</p>
+          </Link>
+          <p onClick={clickFindId}>아이디 / 비밀번호를 잊으셨나요?</p>
+        </div>
+      </div>
+
+      {showFindIdModal ? (
+        <div className="find-id-modal-wrapper">
+          <div className="find-id-modal-container">
+            <div>
+              <p>아이디 찾기 입니다.</p>
+              <div className="find-id">
+                <input type="text" ref={nameInput} placeholder="이름을 입력하세요" />
+                <input type="text" ref={emailInput} placeholder="이메일을 입력하세요" />
+                {/* 디자인 수정 필요 */}
+                <button onClick={clickDuplicateCheckBtn1} className="duplicate-check"><small>아이디 찾기</small></button>
+              </div>
+            </div>
+            <div>
+              <p>비밀번호 찾기 입니다.</p>
+              <div className="find-pw">
+                <input type="text" id="userId" name='userId' placeholder="아이디를 입력하세요" />
+                <input type="email"  id="userEmail" name="userEmail" placeholder="이메일을 입력하세요" />
+                {/* 디자인 수정 필요 */}
+                <button onClick={clickDuplicateCheckBtn2} className="duplicate-check"><small>비밀번호 찾기</small></button>
+              </div>
+            </div>
+          </div>
+          <button
+            className="off-modal-btn"
+            onClick={() => {
+              setShowFindIdModal(!showFindIdModal);
+            }}
+          >
+            확인
+          </button>
+        </div>
+      ) : null}
+    </>
+  );
+};
+
+export default Login;
+
+
 
   // const onChangeIdInput = (e) => {
   //   setUserId(e.target.value);
@@ -93,25 +258,13 @@ const Login = ({ userInfoHandler }) => {
   //   [userId, userPw],
   // );
 
-  const clickLoginBtn = async (e) => {
-    try {
-      const res = await axios.post('http://localhost:3001/auth/login', {
-        userId,
-        userPw,
-      });
-      console.log(res);
-      if (!res.data.auth) {
-        alert('아이디나 비밀번호가 맞지 않습니다.');
-      } else {
-        userInfoHandler(res);
-        localStorage.setItem('token', res.data.accessToken);
-        navigate('/');
-        alert('로그인 되었습니다.');
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const keyEnter = (e) => {
+  //   if (e.key === 'Enter') {
+  //     clickLoginBtn();
+  //   }
+  // };
+
+  
 
   // const clickLoginBtn = useCallback(
   //   (e) => {
@@ -148,16 +301,7 @@ const Login = ({ userInfoHandler }) => {
   //   [userId, userPw],
   // );
 
-  const idInput = useRef();
-  const pwInput = useRef();
-  const loginBtn = useRef();
-
-  const [showFindIdModal, setShowFindIdModal] = useState(false);
-
-  const clickFindId = (e) => {
-    setShowFindIdModal(true);
-  };
-
+  
   // useEffect(() => {
   //   idInput.current.focus();
 
@@ -173,107 +317,3 @@ const Login = ({ userInfoHandler }) => {
   //     loginBtn.current.disabled = false;
   //   }
   // }, []);
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    clickLoginBtn();
-  };
-
-  // const keyEnter = (e) => {
-  //   if (e.key === 'Enter') {
-  //     clickLoginBtn();
-  //   }
-  // };
-
-  return (
-    <>
-      <div className="login-container-wrapper">
-        <img src={process.env.PUBLIC_URL + 'img/LogoVertical.png'} />
-        <div className="login-container">
-          <form className="login-form" onSubmit={onSubmit}>
-            <div className="lf1">
-              <label htmlFor="id-input">
-                아이디
-                {isErrorId && <span className="error-text">{errorText}</span>}
-              </label>
-              <input
-                ref={idInput}
-                id="id-input"
-                type="text"
-                placeholder="아이디를 입력하세요"
-                onChange={onChangeIdInput}
-              />
-            </div>
-            <div className="lf2">
-              <label htmlFor="pw-input">
-                비밀번호
-                {isErrorPw && <span className="error-text">{errorText}</span>}
-              </label>
-              <input
-                ref={pwInput}
-                id="pw-input"
-                type="password"
-                placeholder="비밀번호를 입력하세요"
-                // onKeyPress={keyEnter}
-                onChange={onChangePwInput}
-              />
-            </div>
-            <div className="lf3">
-              {/* <Link to="/"> */}
-              <button
-                // ref={loginBtn}
-                // onClick={clickLoginBtn}
-                className="login-btn"
-              >
-                로그인
-              </button>
-              {/* </Link> */}
-            </div>
-          </form>
-        </div>
-        <div className="join-find-container">
-          <p>계정이 없으신가요?</p>
-          <Link to="/join">
-            <p className="go-join">회원가입</p>
-          </Link>
-          <p onClick={clickFindId}>아이디 / 비밀번호를 잊으셨나요?</p>
-        </div>
-      </div>
-
-      {showFindIdModal ? (
-        <div className="find-id-modal-wrapper">
-          <div className="find-id-modal-container">
-            <div>
-              <p>아이디가 기억나지 않습니다.</p>
-              <div className="find-id">
-                <input type="text" placeholder="이름을 입력하세요" />
-                <input type="text" placeholder="이메일을 입력하세요" />
-                <small>아이디 찾기</small>
-                <p>회원님의 아이디는</p>
-              </div>
-            </div>
-            <div>
-              <p>비밀번호가 기억나지 않습니다.</p>
-              <div className="find-pw">
-                <input type="text" placeholder="아이디를 입력하세요" />
-                <input type="text" placeholder="이메일을 입력하세요" />
-                <small>비밀번호 찾기</small>
-                <p>회원님의 비밀번호는</p>
-              </div>
-            </div>
-          </div>
-          <button
-            className="off-modal-btn"
-            onClick={() => {
-              setShowFindIdModal(!showFindIdModal);
-            }}
-          >
-            확인
-          </button>
-        </div>
-      ) : null}
-    </>
-  );
-};
-
-export default Login;
