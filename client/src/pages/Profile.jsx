@@ -16,6 +16,7 @@ const Profile = ({ userInfoProps }) => {
     password: '',
     newPassword: '',
     newPasswordConfirmation: '',
+    
   });
 
   const [newPasswordRegCheck, setNewPasswordRegCheck] = useState(false);
@@ -32,6 +33,7 @@ const Profile = ({ userInfoProps }) => {
     password,
     newPassword,
     newPasswordConfirmation,
+    balance
   } = userInfo;
   const { userId, userNick } = userInfoProps;
 
@@ -96,6 +98,13 @@ const Profile = ({ userInfoProps }) => {
                 onChange={handleInput}
                 value={userNick || ''}
               />
+            </li>
+            <li className={styles.item}></li>
+          </ul>
+          <ul className={styles.container}>
+            <li className={`${styles.item} ${styles.center}`}>잔액</li>
+            <li className={styles.item}>
+              {balance}
             </li>
             <li className={styles.item}></li>
           </ul>
