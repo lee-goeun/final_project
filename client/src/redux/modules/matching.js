@@ -40,7 +40,7 @@ export const changeInputTime = createAction(
   CHANGE_INPUT_TIME,
   ({ form, time }) => ({ form, time }),
 );
-export const changeInputImage = createAction(
+export const changeInputImageMatching = createAction(
   CHANGE_INPUT_IMAGE,
   ({ form, imgUrl, imgName }) => ({ form, imgUrl, imgName }),
 );
