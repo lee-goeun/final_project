@@ -27,7 +27,8 @@ const Post = ({ post, userInfo }) => {
   const bookmarkChk = () =>{
     setIsBookmark(!isBookmark);
     const likeData = {marketId : post.marketId , userId : userInfo.userId};
-     isBookmark? dispatch(addLikeMarketPost(likeData), [dispatch]) : dispatch(delLikeMarketPost(likeData), [dispatch]);
+    console.log('isBookmark',isBookmark);
+     isBookmark? dispatch(delLikeMarketPost(likeData), [dispatch]) : dispatch(addLikeMarketPost(likeData), [dispatch]) ;
 
   }
 
