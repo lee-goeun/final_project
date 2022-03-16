@@ -115,7 +115,7 @@ const MatchingLists = ({ loadingList, list, userInfo }) => {
       <section>
         <h4 style={style1}>시간이 얼마 안남았어요!</h4>
         <h6 style={style2}>1시간 이내 남은 게시물 노출</h6>
-        <Carousel type="matching"/>
+        <Carousel type="matching" userInfo={userInfo}/>
       </section>
       <hr />
       <MiddleSectionWrapper>

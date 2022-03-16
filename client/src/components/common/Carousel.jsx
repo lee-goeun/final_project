@@ -106,21 +106,23 @@ const StyledSlider = styled(Slider)`
   }
 `;
 
-const Carousel = ({type}) => {
-  console.log('type', type);
+const Carousel = ({type, userInfo}) => {
   const [timeoutList, setTimeoutList] = useState([]);
   var nowTime = new Date().getTime();
-  console.log('nowTiem', nowTime);
   const getTimeoutList = async () => {
     let res;
     if(type =='matching'){
       res = await axios.get('http://localhost:3001/match/listLimit1');
+      const data = res.data;
+      for(let i=0; i<data.length; i++){
+        if(data[i].region1 == userInfo.region1 && data[i].region2 == userInfo.region2){
+          setTimeoutList(data);
+        }
+      }
     }else{
       res = await axios.get('http://localhost:3001/market/viewCountList');
+      setTimeoutList(res.data);
     }
-    
-    console.log('res', res);
-    setTimeoutList(res.data);
   };
   // timeoutList.length > 5
   const settings = {
