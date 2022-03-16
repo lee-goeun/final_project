@@ -380,6 +380,8 @@ const MiniPostContainer = ({ postList, loadingPostList }) => {
     console.log('MiniPostContainer 렌더링');
     console.log('미니렌더링', postList);
   }, [postList]);
+
+  console.log('/board 페이지에서 postList 출력', postList);
   return (
     <>
       {loadingPostList && <LoadingCont />}
@@ -410,11 +412,11 @@ const MiniPostContainer = ({ postList, loadingPostList }) => {
                     <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
                   </span>
                 </div>
-                {/* {po.multipleImg && (
-                <div className="imgs-info">
-                  <FontAwesomeIcon icon={faClone} id="multiple-img-icon" />
-                </div>
-              )} */}
+                {post.boardImgList.length > 1 ? (
+                  <div className="imgs-info">
+                    <FontAwesomeIcon icon={faClone} id="multiple-img-icon" />
+                  </div>
+                ) : null}
               </div>
             </Link>
           ))}

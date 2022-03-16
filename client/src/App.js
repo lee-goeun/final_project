@@ -85,7 +85,9 @@ function App() {
       />
       <Route path="/join" element={<Join />} />
       <Route path="/" element={<Home userInfo={userInfo} />} />
-      <Route path="board" element={<PostPage />} />
+
+      {/* 일반게시물 페이지 */}
+      <Route path="board" element={<PostPage userInfo={userInfo} />} />
       <Route
         path="board/:boardId"
         element={<DetailPost userInfo={userInfo} />}
@@ -120,8 +122,11 @@ function App() {
       </Route>
 
       <Route element={<MyPageLayout userInfo={userInfo} />}>
-        <Route path="/mypost/" element={<Mypost  userInfo={userInfo}/>} />
-        <Route path="/mypet/" element={<MyPetListsContainer userInfo={userInfo}/>} />
+        <Route path="/mypost/" element={<Mypost userInfo={userInfo} />} />
+        <Route
+          path="/mypet/"
+          element={<MyPetListsContainer userInfo={userInfo} />}
+        />
         <Route path="/interestingpost/" element={<InterestedPost />} />
         <Route
           path="/profile/"
