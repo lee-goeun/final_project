@@ -61,17 +61,17 @@ function App() {
   };
   const userInfoHandler = ({ data }) => {
     setUserInfo((prevState) => {
-      console.log('ssss',data);
+      console.log('ssss', data);
       return {
         ...prevState,
         auth: data.auth,
         userId: data.userId,
         userNick: data.userNick,
         userName: data.userName,
-        region1 : data.region1,
-        region2 : data.region2,
-        region3 : data.region3,
-        balance : data.balance,
+        region1: data.region1,
+        region2: data.region2,
+        region3: data.region3,
+        balance: data.balance,
         //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
       };
     });
@@ -86,27 +86,45 @@ function App() {
       <Route path="/join" element={<Join />} />
       <Route path="/" element={<Home userInfo={userInfo} />} />
       <Route path="board" element={<PostPage />} />
-      <Route path="board/:boardId" element={<DetailPost />} />
+      <Route
+        path="board/:boardId"
+        element={<DetailPost userInfo={userInfo} />}
+      />
       <Route path="/usedtrade" element={<UsedTrade />} />
-      <Route path="/chatting" element={<Chatting  userInfo={userInfo} />} />
+      <Route path="/chatting" element={<Chatting userInfo={userInfo} />} />
 
       {/* 매칭페이지 */}
       <Route path="match" element={<MatchingPageLayout />}>
-        <Route path="list" element={<MatchingListsContainer userInfo={userInfo}/>} />
-        <Route path="detail/:matchId" element={<MatchingPostContainer userInfo={userInfo}/>} />
+        <Route
+          path="list"
+          element={<MatchingListsContainer userInfo={userInfo} />}
+        />
+        <Route
+          path="detail/:matchId"
+          element={<MatchingPostContainer userInfo={userInfo} />}
+        />
         <Route path="add" element={<WriteMatchingPost userInfo={userInfo} />} />
       </Route>
 
       {/* 중고장터 페이지 */}
       <Route path="market" element={<MarketPageLayout />}>
-        <Route path="list" element={<MarketListsContainer userInfo={userInfo}/>} />
-        <Route path="detail/:marketId" element={<MarketPostContainer userInfo={userInfo}/>} />
+        <Route
+          path="list"
+          element={<MarketListsContainer userInfo={userInfo} />}
+        />
+        <Route
+          path="detail/:marketId"
+          element={<MarketPostContainer userInfo={userInfo} />}
+        />
         <Route path="add" element={<WriteMarketgPost />} />
       </Route>
 
       <Route element={<MyPageLayout userInfo={userInfo} />}>
         <Route path="/mypost/" element={<Mypost />} />
-        <Route path="/mypet/" element={<MyPetListsContainer userInfo={userInfo}/>} />
+        <Route
+          path="/mypet/"
+          element={<MyPetListsContainer userInfo={userInfo} />}
+        />
         <Route path="/interestingpost/" element={<InterestedPost />} />
         <Route
           path="/profile/"

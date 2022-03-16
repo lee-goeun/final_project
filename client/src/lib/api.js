@@ -16,7 +16,7 @@ export const updateMatchPost = (formData) => {
 
 // ------ 중고장터 ---------
 export const getMarketList = (data) =>
-   axios.get(`http://localhost:3001/market/list/`, {params:data});
+  axios.get(`http://localhost:3001/market/list/`, { params: data });
 export const getMarketPost = (marketId) =>
   axios.get(`http://localhost:3001/market/detail/${marketId}`);
 export const deleteMarketPost = (marketId) =>
@@ -41,8 +41,8 @@ export const sellingMarketPost = (data) => {
 
 // ------ 마이페이지 --------
 //나의반려동물
-export const getMyPetList = (userId) => 
-   axios.get(`http://localhost:3001/mypage/mypetList?userId=${userId}`);
+export const getMyPetList = (userId) =>
+  axios.get(`http://localhost:3001/mypage/mypetList?userId=${userId}`);
 export const writeMyPetPost = (formData) => {
   return axios.post('http://localhost:3001/mypage/mypetAdd', formData);
 };
@@ -64,7 +64,6 @@ export const updateMyInfoPost = (formData) => {
   return axios.put('http://localhost:3001/mypage/mypetAdd', formData);
 };
 
-
 // 일반 게시물
 export const getPostList = (boardId) =>
   axios.get('http://localhost:3001/board/');
@@ -74,3 +73,6 @@ export const getPost = (boardId) =>
 
 export const updatePost = (boardId) =>
   axios.post(`http://localhost:3001/board/post/edit/${boardId}`);
+
+export const reportPost = (boardId) =>
+  axios.post(`http://localhost:3001/board/post/${boardId}/report`);
