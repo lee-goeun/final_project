@@ -2,7 +2,6 @@ var mysql = require('mysql');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 const { sign, verify } = require('jsonwebtoken');
-const { body } = require('express-validator');
 
 const db = mysql.createConnection({
   host: process.env.DATABASE_HOST,
