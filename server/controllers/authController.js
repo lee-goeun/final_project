@@ -213,7 +213,8 @@ exports.idCheck = (req, res) => {
       if (err) {
         console.log('존재하는 아이디입니다. test');
       } else {
-        res.json({ status: 'success' });
+        // res.send('사용가능');
+        // res.json({ status: 'success' });
       }
     });
   } catch (err) {

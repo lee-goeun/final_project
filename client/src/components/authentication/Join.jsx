@@ -311,7 +311,24 @@ const Join = () => {
 
   // 아이디 중복확인 버튼
   const clickDuplicateCheckBtn1 = (e) => {
-    alert('아이디 중복확인');
+    axios({
+      method: 'post',
+      url: 'http://localhost:3001/auth/join/idCheck',
+      data: {
+        userId: e.target.value,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.data === '사용가능') {
+          alert('이용 가능한 아이디입니다.');
+        } else {
+          alert('이용 불가능한 아이디입니다.');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   };
 
   // 닉네임 중복확인 버튼
