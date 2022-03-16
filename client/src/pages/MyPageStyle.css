@@ -45,7 +45,7 @@
 .mypost-match-container,
 .mypost-used-container {
   /* background-color: yellow; */
-  overflow: hidden;
+  overflow-y: auto;
   height: 300px;
   height: 0;
   transition: 0.4s;

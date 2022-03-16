@@ -63,12 +63,12 @@ const DetailPost = ({ getPost, post, commentList, loadingPost }) => {
   const [showDeletePostModal, setShowDeletePostModal] = useState();
 
   const deleteComment = (e) => {
-    console.log('클릭한 댓글의 타겟', e.target);
-    console.log('댓글리스트', commentList);
+    console.log('클릭한 댓글의 타겟', e);
+    console.log('댓글리스트', commentList[0]);
     const commentId = commentList.commentId;
     console.log('코멘트ID', commentId);
     axios
-      .delete(`http://localhost:3001/board/comment/${commentId}`, commentId)
+      .delete(`http://localhost:3001/board/comment/1`)
       .then((res) => {
         console.log(`${commentId}번 댓글이 삭제되었습니다.`);
       })
@@ -105,7 +105,7 @@ const DetailPost = ({ getPost, post, commentList, loadingPost }) => {
                 commentList
                   ? commentList.map((com) => (
                       <CommentContainer
-                        key={com.commentCreated}
+                        key={com.commentId}
                         userNick={com.userNick}
                         commentContent={com.commentContent}
                         commentLikeCounting={com.commentLikeCounting}

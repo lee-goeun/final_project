@@ -411,42 +411,37 @@ const MiniPostContainer = ({ postList, loadingPostList }) => {
       {!loadingPostList && postList && (
         <>
           {postList.map((post) => (
-            <>
-              <Link to={`${post.boardId}`}>
-                <div key={post.boardId} className="mini-post-container">
-                  <div className="mpimg-container">
-                    <img
-                      src={
-                        'http://localhost:3001/board/download?boardImgName=' +
-                        post.boardImgList[0]
-                      }
-                      alt="이미지"
+            <Link key={post.boardId} to={`${post.boardId}`}>
+              <div className="mini-post-container">
+                <div className="mpimg-container">
+                  <img
+                    src={
+                      'http://localhost:3001/board/download?boardImgName=' +
+                      post.boardImgList[0]
+                    }
+                    alt="이미지"
+                  />
+                </div>
+                <div className="content-container">
+                  <span>
+                    {post.boardGood}
+                    <FontAwesomeIcon
+                      icon={borderHeart}
+                      id="border-heart-icon"
                     />
-                  </div>
-                  <div className="content-container">
-                    <span>
-                      {post.boardGood}
-                      <FontAwesomeIcon
-                        icon={borderHeart}
-                        id="border-heart-icon"
-                      />
-                    </span>
-                    <span>
-                      {post.boardViews}
-                      <FontAwesomeIcon
-                        icon={borderEye}
-                        id="border-views-icon"
-                      />
-                    </span>
-                  </div>
-                  {/* {po.multipleImg && (
+                  </span>
+                  <span>
+                    {post.boardViews}
+                    <FontAwesomeIcon icon={borderEye} id="border-views-icon" />
+                  </span>
+                </div>
+                {/* {po.multipleImg && (
                 <div className="imgs-info">
                   <FontAwesomeIcon icon={faClone} id="multiple-img-icon" />
                 </div>
               )} */}
-                </div>
-              </Link>
-            </>
+              </div>
+            </Link>
           ))}
         </>
       )}
@@ -588,6 +583,12 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     [postList],
   );
 
+  const [showUploadFormModal, setShowUploadFormModal] = useState(false);
+  const [boardTitle, setBoardTitle] = useState('');
+  const [boardContent, setBoardContent] = useState('');
+  const [imgFiles, setImgFiles] = useState(null);
+  const [showImages, setShowImages] = useState([]);
+
   const uploadDiv = useRef();
 
   const showText = () => {
@@ -597,66 +598,57 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     uploadDiv.current.style.height = '50px';
   };
 
-  const [imgBase64, setImgBase64] = useState([]);
-  const [imgFile, setImgFile] = useState([]);
-  const [boardTitle, setBoardTitle] = useState('');
-  const [boardContent, setBoardContent] = useState('');
-
-  useEffect(() => {}, [imgBase64, imgFile]);
+  // 게시물 올리기 /////////////////////////////////////////////////////////////
   const handleChangeFile = (e) => {
-    console.log(e.target.files);
-    setImgFile(e.target.files);
+    setImgFiles(e.target.files);
+    const imageLists = e.target.files;
+    let imageUrlLists = [...showImages];
 
-    // fd.append("file", e.target.files)
-    setImgBase64([]);
-    for (let i = 0; i < e.target.files.length; i++) {
-      let reader = new FileReader();
-      reader.readAsDataURL(e.target.files[i]);
-
-      reader.onloadend = () => {
-        // 파일 읽기가 완료되면 아래의 코드가 실행
-        const base64 = reader.result;
-        //  console.log(base64);
-        if (base64) {
-          // images.push(base64.toString())
-          let base64Sub = base64.toString();
-
-          setImgBase64([...imgBase64, base64Sub]);
-          // setImgBase64(newObj);
-          // 파일 base64 상태 업데이트
-          // console.log(images)
-        }
-      };
+    for (let i = 0; i < imageLists.length; i++) {
+      const currentImageUrl = URL.createObjectURL(imageLists[i]);
+      imageUrlLists.push(currentImageUrl);
     }
+
+    if (imageUrlLists.length > 10) {
+      imageUrlLists = imageUrlLists.slice(0, 10);
+    }
+    setShowImages(imageUrlLists);
   };
 
   // 게시물 작성시
   const clickPostWrite = (e) => {
     const formData = new FormData();
-    for (let i = 0; i < imgFile.length; i++) {
-      formData.append('img', imgFile[i]);
+
+    for (let i = 0; i < imgFiles.length; i++) {
+      formData.append('img', imgFiles[i]);
     }
-    // formData.append('img', imgFile);
+    // formData.append('img', imgFiles);
     formData.append('boardTitle', boardTitle);
     formData.append('boardContent', boardContent);
     formData.append('categoryIndex', 2);
     formData.append('token', localStorage.getItem('token'));
-    axios.post('http://localhost:3001/board/post', formData).then((res) => {
-      if (res.status == 200) {
-        alert('게시글이 업로드 되었습니다.');
-        getPostList();
-      }
-    });
+    axios
+      .post('http://localhost:3001/board/post', formData)
+      .then((res) => {
+        if (res.status == 200) {
+          alert('게시글이 업로드 되었습니다.');
+          getPostList();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(
+          '오류가 발생했습니다.로그인을 하시거나 잠시후 다시 시도해주세요.',
+        );
+      });
 
     setShowUploadFormModal(!showUploadFormModal);
   };
 
-  const [showUploadFormModal, setShowUploadFormModal] = useState(false);
-
   // 작성 취소시
   const clickUploadFormModal = () => {
-    setImgBase64([]);
-    setImgFile(null);
+    setShowImages([]);
+    // setImgFile(null);
     setShowUploadFormModal(!showUploadFormModal);
   };
 
@@ -699,20 +691,28 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
           <div className="upload-modal-container">
             <div className="post-upload-form-container">
               <label htmlFor="post-img-select">이미지 업로드</label>
+              <button
+                type="button"
+                className="image-delete-btn"
+                onClick={() => {
+                  setShowImages([]);
+                }}
+              >
+                이미지 삭제
+              </button>
               <input
                 type="file"
                 id="post-img-select"
-                multiple
+                accept="image/*"
+                multiple="multiple"
                 onChange={handleChangeFile}
               />
 
-              {imgBase64.map((img) => {
-                return (
-                  <div className="img-preview-container">
-                    <img src={img} alt="업로드할 이미지" />
-                  </div>
-                );
-              })}
+              {showImages.map((img, i) => (
+                <div key={i} className="img-preview-container">
+                  <img src={img} alt="업로드할 이미지" />
+                </div>
+              ))}
               <input
                 className="post-title-input"
                 type="text"

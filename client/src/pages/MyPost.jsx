@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './MyPageStyle.css';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import MyPostCard from '../components/post/MyPostCard';
 
 // 마이페이지 -> 나의 게시물
 const MyPost = () => {
@@ -15,21 +16,21 @@ const MyPost = () => {
 
   const clickShowPost = (e) => {
     setIsPostFold(!isPostFold);
-    postCon.current.style.height = '600px';
+    postCon.current.style.height = '900px';
     if (!isPostFold) {
       postCon.current.style.height = '';
     }
   };
   const clickShowMatch = (e) => {
     setIsMatchFold(!isMatchFold);
-    matchCon.current.style.height = '600px';
+    matchCon.current.style.height = '900px';
     if (!isMatchFold) {
       matchCon.current.style.height = '';
     }
   };
   const clickShowUsed = (e) => {
     setIsUsedFold(!isUsedFold);
-    usedCon.current.style.height = '600px';
+    usedCon.current.style.height = '900px';
     if (!isUsedFold) {
       usedCon.current.style.height = '';
     }
@@ -56,7 +57,7 @@ const MyPost = () => {
       <div className="mypost-post-wrapper">
         <h3 onClick={clickShowPost}>게시물{postFoldBtn}</h3>
         <div className="mypost-post-container" ref={postCon}>
-          a
+          <MyPostCard />
         </div>
       </div>
       <div className="mypost-match-wrapper">
