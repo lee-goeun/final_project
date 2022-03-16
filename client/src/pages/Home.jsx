@@ -63,6 +63,9 @@ const Home = ({
     getPostList();
   }, [getPostList]);
 
+  // 현재 로그인한 유저의 아이디
+  const userId = userInfo.userId;
+
   const [showReportPostModal, setShowReportPostModal] = useState();
   const [showModifyPostModal, setShowModifyPostModal] = useState();
   const [showDeletePostModal, setShowDeletePostModal] = useState();
@@ -91,7 +94,7 @@ const Home = ({
                   <PostContainer
                     key={post.boardId}
                     boardId={post.boardId}
-                    userId={post.userId}
+                    userId={post.userNick}
                     imgListSection={
                       imgList
                         ? imgList.map((img, i) => (
@@ -112,15 +115,34 @@ const Home = ({
                     boardGood={post.boardGood}
                     boardViews={post.boardViews}
                     boardCreated={post.boardCreated}
-                    clickReportPost={() => {
-                      setShowReportPostModal(true);
-                    }}
-                    clickModifyPost={() => {
-                      setShowModifyPostModal(true);
-                    }}
-                    clickDeletePost={() => {
-                      setShowDeletePostModal(true);
-                    }}
+                    postMenuSection={
+                      userId === post.userId ? (
+                        <>
+                          <p
+                            onClick={() => {
+                              setShowModifyPostModal(true);
+                            }}
+                          >
+                            수정하기
+                          </p>
+                          <p
+                            onClick={() => {
+                              setShowDeletePostModal(true);
+                            }}
+                          >
+                            삭제하기
+                          </p>
+                        </>
+                      ) : (
+                        <p
+                          onClick={() => {
+                            setShowReportPostModal(true);
+                          }}
+                        >
+                          신고하기
+                        </p>
+                      )
+                    }
                   />
                 ))}
               </Slider>
