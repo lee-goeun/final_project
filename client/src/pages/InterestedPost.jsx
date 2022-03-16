@@ -58,12 +58,12 @@ const InterestedPost = () => {
           a
         </div>
       </div>
-      <div className="mypost-match-wrapper">
+      {/* <div className="mypost-match-wrapper">
         <h3 onClick={clickShowMatch}>산책메이트 찾기 게시물{matchFoldBtn}</h3>
         <div className="mypost-match-container" ref={matchCon}>
           b
         </div>
-      </div>
+      </div> */}
       <div className="mypost-used-wrapper">
         <h3 onClick={clickShowUsed}>중고거래 게시물{usedFoldBtn}</h3>
         <div className="mypost-used-container" ref={usedCon}>

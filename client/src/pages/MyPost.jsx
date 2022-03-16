@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import MyPostCard from '../components/post/MyPostCard';
 
 // 마이페이지 -> 나의 게시물
-const MyPost = () => {
+const MyPost = ({userInfo}) => {
+  console.log('userInfo', userInfo);
   const postCon = useRef();
   const matchCon = useRef();
   const usedCon = useRef();
@@ -57,19 +58,19 @@ const MyPost = () => {
       <div className="mypost-post-wrapper">
         <h3 onClick={clickShowPost}>게시물{postFoldBtn}</h3>
         <div className="mypost-post-container" ref={postCon}>
-          <MyPostCard />
+          <MyPostCard type="post" userInfo={userInfo}/>
         </div>
       </div>
       <div className="mypost-match-wrapper">
         <h3 onClick={clickShowMatch}>산책메이트 찾기 게시물{matchFoldBtn}</h3>
         <div className="mypost-match-container" ref={matchCon}>
-          b
+        <MyPostCard type="matching" userInfo={userInfo}/>
         </div>
       </div>
       <div className="mypost-used-wrapper">
         <h3 onClick={clickShowUsed}>중고거래 게시물{usedFoldBtn}</h3>
         <div className="mypost-used-container" ref={usedCon}>
-          c
+        <MyPostCard type="market" userInfo={userInfo}/>
         </div>
       </div>
     </div>

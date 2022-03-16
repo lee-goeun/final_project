@@ -1,9 +1,12 @@
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { faEllipsisVertical, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {React, useEffect} from 'react';
 import Slider from 'react-slick';
 import styled from 'styled-components';
+
+import {getMyMarketList, getMyMatchingList} from '../../redux/modules/mypage';
 
 const MyPostCardStyle = styled.div`
   .wrapper {
@@ -176,7 +179,17 @@ const CarouselStyle = styled.div`
   }
 `;
 
-const MyPostCard = () => {
+const MyPostCard = ({type, userInfo}) => {
+  
+  console.log('userInfo', userInfo.userId, type);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getMyMarketList(userInfo.userId));
+    dispatch(getMyMatchingList(userInfo.userId));
+  }, [dispatch]);
+  const myMarketList = useSelector((state) => state.mypage.marketList);
+  const myMatchingList = useSelector((state) => state.mypage.matchList);
+  console.log('marektssssssssss',myMarketList,myMatchingList)
   // 캐로셀 세팅
   const settings = {
     slide: 'div',
@@ -189,8 +202,11 @@ const MyPostCard = () => {
   };
 
   return (
+    
     <MyPostCardStyle>
-      <div className="wrapper">
+      {
+      type == 'market' ? myMarketList.map((item) => (
+        <div className="wrapper">
         <div className="g1">
           <div className="g1-iw">
             <img
@@ -198,7 +214,7 @@ const MyPostCard = () => {
               alt="유저이미지"
             ></img>
           </div>
-          <p>아이디</p>
+          <p>{userInfo.userNick}</p>
         </div>
         <div className="g2">
           <FontAwesomeIcon icon={faEllipsisVertical} className="post-menu" />
@@ -208,13 +224,7 @@ const MyPostCard = () => {
             <Slider {...settings}>
               <div className="slider-wrapper">
                 <img
-                  src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201901/20/28017477-0365-4a43-b546-008b603da621.jpg"
-                  alt="이미지"
-                />
-              </div>
-              <div className="slider-wrapper">
-                <img
-                  src="https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1070042_16367508634846809.jpeg"
+                  src={`http://localhost:3001/market/download?marketId=${item.marketId}&marketImgName=${item.marketImgName}`}
                   alt="이미지"
                 />
               </div>
@@ -222,17 +232,51 @@ const MyPostCard = () => {
           </CarouselStyle>
         </div>
         <div className="g4">
-          <p>제목</p>
-          <p>내용</p>
+          <p>{item.marketTitle}</p>
+          <p>{item.marketContent}</p>
         </div>
         <div className="g5">
-          <FontAwesomeIcon icon={faHeart} className="heart-ic" />
-          좋아요
           <FontAwesomeIcon icon={faEye} className="views-ic" />
-          조회수
+          {item.marketView}
         </div>
-        <div className="g6">날짜</div>
+        <div className="g6">{item.marketCreated}</div>
       </div>
+      )) : type == 'matching' ? myMatchingList.map((item) => (
+        <div className="wrapper">
+        <div className="g1">
+          <div className="g1-iw">
+            <img
+              src="https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg"
+              alt="유저이미지"
+            ></img>
+          </div>
+          <p>{userInfo.userNick}</p>
+        </div>
+        <div className="g2">
+          <FontAwesomeIcon icon={faEllipsisVertical} className="post-menu" />
+        </div>
+        <div className="g3">
+          <CarouselStyle>
+            <Slider {...settings}>
+              <div className="slider-wrapper">
+              <img
+                  src={`http://localhost:3001/match/download?matchId=${item.matchId}&matchImgName=${item.matchImgName}`}
+                  alt="이미지"
+                />
+              </div>
+            </Slider>
+          </CarouselStyle>
+        </div>
+        <div className="g4">
+          <p>{item.matchTitle}</p>
+          <p>{item.matchContent}</p>
+        </div>
+        <div className="g5">
+        </div>
+        <div className="g6">{item.matchCreated}</div>
+      </div>
+      )): ""
+      }
     </MyPostCardStyle>
   );
 };
