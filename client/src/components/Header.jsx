@@ -164,7 +164,7 @@ const Header = () => {
       <HeaderStyle>
         <div className="header-container">
           <div className="header-logo-container">
-            <img src={process.env.PUBLIC_URL + 'img/LogoHorizon.png'} />
+            <img src={process.env.PUBLIC_URL + '/img/LogoHorizon.png'} />
           </div>
 
           <div className="header-icons-container">
