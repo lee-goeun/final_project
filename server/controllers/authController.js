@@ -2,6 +2,7 @@ var mysql = require('mysql');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 const { sign, verify } = require('jsonwebtoken');
+const { body } = require('express-validator');
 
 const db = mysql.createConnection({
   host: process.env.DATABASE_HOST,
@@ -201,4 +202,51 @@ const postLoginModel = (req) => {
       }
     });
   });
+};
+
+exports.idCheck = (req, res) => {
+  console.log(req.body);
+  try {
+    const { userId } = req.body;
+    const query = 'SELECT userId FROM usertbl WHERE userId = ?;';
+    db.query(query, [userId], async (err, res) => {
+      if (err) {
+        console.log('존재하는 아이디입니다. test');
+      } else {
+        res.json({ status: 'success' });
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.ncikCheck = (req, res) => {
+  console.log(req.body);
+  try {
+    const { userNick } = req.body;
+    const query = 'SELECT * FROM usertbl WHERE userNick = ?;';
+    db.query(query, [userNick], async (err, res) => {
+      if (err) {
+        console.log('존재하는 닉네임입니다. test');
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.emailCheck = (req, res) => {
+  console.log(req.body);
+  try {
+    const { userEmail } = req.body;
+    const query = 'SELECT * FROM usertbl WHERE userEmail = ?;';
+    db.query(query, [userEmail], async (err, res) => {
+      if (err) {
+        console.log('존재하는 이메일입니다. test');
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };

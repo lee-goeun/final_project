@@ -71,20 +71,34 @@ const Join = () => {
 
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
   const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,15}$/; // 비밀번호 정규표현식
+  const nickRegex =  /[가-힣a-zA-Z0-9].{2,12}$/;
+  const emailRegex = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
 
   // 아이디, 비밀번호, 비밀번호 재입력 별 유효성 검사 에러문
   const [idRegErrorText, setIdRegErrorText] = useState(
     '영문자(소문자)로 시작하는 6~16자리',
   );
+
   const [pwRegErrorText, setPwRegErrorText] = useState(
     '숫자, 영문(소·대문자), 특수문자를 포함한 8~16자리',
   );
+
+  const [nickRegErrorText, setNickRegErrorText] = useState(
+    '닉네임을 한글, 대소문자, 숫자를 조합해서 2~12자리를 입력하세요',
+  );
+
+  const [emailRegErrorText, setEmailRegErrorText] = useState(
+    '이메일이 작성되지 않았거나 형식이 올바르지 않습니다!',
+  );
+
   const [reCheckPwRegErrorText, setReCheckPwRegErrorText] = useState('');
 
   // 각 유효성 검사 에러문 텍스트 컬러 변경
   const idRegErrorStyle = useRef();
   const pwRegErrorStyle = useRef();
   const reCheckPwRegErrorStyle = useRef();
+  const nickRegErrorStyle = useRef();
+  const emailRegErrorStyle = useRef();
 
   // 유효성 시작
 
@@ -149,7 +163,7 @@ const Join = () => {
 
   // userEamil [이메일 입력 확인] <-완료
   const checkEmail = (userEmail) => {
-    const emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+    const emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
     if (!emailRegExp.test(userEmail)) {
       alert('이메일이 작성되지 않았거나 형식이 올바르지 않습니다!');
       userEmail.focus();
@@ -206,8 +220,6 @@ const Join = () => {
     } else if (idRegex.test(inputId) === true) {
       setIdRegErrorText('올바른 형식의 아이디입니다. 중복을 확인 해주세요.');
       idRegErrorStyle.current.style.color = '#25d039';
-    } else if (checkUserId){
-      
     }
   }, [inputId]);
 
@@ -237,6 +249,34 @@ const Join = () => {
     }
   }, [inputPw, reInputPw]);
 
+  // 닉네임 유효성 검사
+  useEffect(() => {
+    if (inputNick === '' || inputNick === undefined) {
+      setNickRegErrorText('닉네임을 한글, 대소문자, 숫자를 조합해서 2~12자리를 입력하세요');
+      nickRegErrorStyle.current.style.color = '#494949';
+    } else if (nickRegex.test(inputNick) === false) {
+      setNickRegErrorText('닉네임을 한글, 대소문자, 숫자를 조합해서 2~12자리를 입력하세요');
+      nickRegErrorStyle.current.style.color = 'red';
+    } else if (nickRegex.test(inputNick) === true) {
+      setNickRegErrorText('올바른 형식의 닉네임입니다. 중복을 확인 해주세요.');
+      nickRegErrorStyle.current.style.color = '#25d039';
+    }
+  }, [inputNick]);
+
+  // 이메일 유효성 검사
+  useEffect(() => {
+    if (inputEmail === '' || inputEmail === undefined) {
+      setEmailRegErrorText('이메일이 작성되지 않았거나 형식이 올바르지 않습니다!');
+      emailRegErrorStyle.current.style.color = '#494949';
+    } else if (emailRegex.test(inputEmail) === false) {
+      setEmailRegErrorText('이메일이 작성되지 않았거나 형식이 올바르지 않습니다!');
+      emailRegErrorStyle.current.style.color = 'red';
+    } else if (emailRegex.test(inputEmail) === true) {
+      setEmailRegErrorText('올바른 형식의 이메일입니다. 중복을 확인 해주세요.');
+      emailRegErrorStyle.current.style.color = '#25d039';
+    }
+  }, [inputEmail]);
+  
   // 약관보기 1창 show/hide
   const [showTou, setShowTou] = useState(false);
 
@@ -270,9 +310,23 @@ const Join = () => {
   };
 
   // 아이디 중복확인 버튼
-  const clickDuplicateCheckBtn = (e) => {
+  const clickDuplicateCheckBtn1 = (e) => {
     alert('아이디 중복확인');
   };
+
+  // 닉네임 중복확인 버튼
+  const clickDuplicateCheckBtn2 = (e) => {
+    alert('닉네임 중복확인');
+  };
+
+  // 이메일 중복확인 버튼
+  const clickDuplicateCheckBtn3 = (e) => {
+    alert('이메일 중복확인');
+  };
+
+  const clickSubmitBtn2 = (e) =>{
+    
+  }
 
   // 회원가입 동작
   const joinBtn = useRef();
@@ -302,7 +356,7 @@ const Join = () => {
     // checAddress(address)&&
     // checExtarAddress(detailAddress)
     ){
-      
+ 
     }
     axios
       .post('http://localhost:3001/auth/join', {
@@ -334,6 +388,8 @@ const Join = () => {
         }
       });
   };
+  
+  
 
   const touModal = useRef();
 
@@ -351,7 +407,7 @@ const Join = () => {
           }}
           ref={idInput}
         />
-        <button onClick={clickDuplicateCheckBtn} className="duplicate-check">
+        <button onClick={clickDuplicateCheckBtn1} className="duplicate-check">
           중복확인
         </button>
         <p className="idRegError" ref={idRegErrorStyle}>
@@ -407,6 +463,12 @@ const Join = () => {
             setInputNick(e.target.value);
           }}
         />
+        <button onClick={clickDuplicateCheckBtn2} className="duplicate-check">
+          중복확인
+        </button>
+        <p className="nickRegError" ref={nickRegErrorStyle}>
+          {nickRegErrorText}
+        </p>
 
         <p>이메일</p>
         <input
@@ -418,6 +480,12 @@ const Join = () => {
             setInputEmail(e.target.value);
           }}
         />
+        <button onClick={clickDuplicateCheckBtn3} className="duplicate-check">
+          중복확인
+        </button>
+        <p className="emailRegError" ref={emailRegErrorStyle}>
+          {emailRegErrorText}
+        </p>
 
         <p>휴대폰 번호</p>
         <input

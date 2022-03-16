@@ -7,6 +7,9 @@ const { check, validationResult } = require('express-validator');
 router.post('/login', authController.login);
 router.get('/auth', authController.auth);
 router.post('/join', authController.join);
+router.post('/join', authController.idCheck);
+router.post('/join', authController.ncikCheck);
+router.post('/join', authController.emailCheck);
 
 // id, nick, email
 // 로그인 한 경우 -> 쿠키 값
