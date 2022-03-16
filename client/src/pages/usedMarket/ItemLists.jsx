@@ -155,7 +155,7 @@ const ItemLists = ({ loadingList, list, userInfo }) => {
     <>
       <section>
         <h4 style={style1}>지금 가장 HOT한 중고물품</h4>
-        <Carousel />
+        <Carousel type="market"/>
       </section>
       <hr />
       <MiddleSectionWrapper>

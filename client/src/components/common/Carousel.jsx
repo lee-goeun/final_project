@@ -106,12 +106,19 @@ const StyledSlider = styled(Slider)`
   }
 `;
 
-const Carousel = () => {
+const Carousel = ({type}) => {
+  console.log('type', type);
   const [timeoutList, setTimeoutList] = useState([]);
   var nowTime = new Date().getTime();
   console.log('nowTiem', nowTime);
   const getTimeoutList = async () => {
-    let res = await axios.get('http://localhost:3001/match/listLimit1');
+    let res;
+    if(type =='matching'){
+      res = await axios.get('http://localhost:3001/match/listLimit1');
+    }else{
+      res = await axios.get('http://localhost:3001/market/viewCountList');
+    }
+    
     console.log('res', res);
     setTimeoutList(res.data);
   };
@@ -136,22 +143,37 @@ const Carousel = () => {
     <StyledSlider {...settings}>
       {timeoutList.map((timeout) => {
         return (
+          type=='matching' ? 
           <StyledLink
-            to={'/match/detail/' + timeout.matchId}
-            key={timeout.matchId}
-          >
-            {timeout.id}
-            <Image
-              src={
-                'http://localhost:3001/match/download?matchId=' +
-                timeout.matchId +
-                '&matchImgName=' +
-                timeout.matchImgName
-              }
-            />
-            <AccessAlarmIcon/> 
+          to={'/match/detail/' + timeout.matchId}
+          key={timeout.matchId}
+        >
+          {timeout.id}
+          <Image
+            src={
+              'http://localhost:3001/match/download?matchId=' +
+              timeout.matchId +
+              '&matchImgName=' +
+              timeout.matchImgName
+            }
+          />
+            <AccessAlarmIcon/>
             {parseInt((new Date(timeout.matchTime).getTime() - nowTime)/1000/60 + 1)}분 남음
-          </StyledLink>
+        </StyledLink> : 
+        <StyledLink
+          to={'/market/detail/' + timeout.marketId}
+          key={timeout.marketId}
+        >
+          {timeout.id}
+          <Image
+            src={
+              'http://localhost:3001/market/download?marketId=' +
+              timeout.marketId +
+              '&marketImgName=' +
+              timeout.marketImgName
+            }
+          />
+        </StyledLink>
         );
       })}
       {/* 레이아웃 체크용 */}
