@@ -10,6 +10,8 @@ import {
   faBookmark as fullBookmark,
   faSearch,
   faFilter,
+  faImage,
+  faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faHeart as borderHeart,
@@ -670,15 +672,23 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
         <div className="upload-modal-wrapper">
           <div className="upload-modal-container">
             <div className="post-upload-form-container">
-              <label htmlFor="post-img-select">이미지 업로드</label>
+              <label htmlFor="post-img-select" title="이미지 올리기">
+                <FontAwesomeIcon icon={faImage} className="upload-image-btn" />
+                이미지 올리기
+              </label>
               <button
                 type="button"
                 className="image-delete-btn"
+                title="이미지 지우기"
                 onClick={() => {
                   setShowImages([]);
                 }}
               >
-                이미지 삭제
+                <FontAwesomeIcon
+                  icon={faTrashCan}
+                  className="image-reset-btn"
+                />
+                이미지 지우기
               </button>
               <input
                 type="file"
@@ -696,21 +706,31 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
               <input
                 className="post-title-input"
                 type="text"
-                placeholder="제목"
+                placeholder="제목을 입력하세요."
                 onChange={(e) => {
                   setBoardTitle(e.target.value);
                 }}
               />
               <textarea
-                placeholder="내용"
+                placeholder=" 내용을 입력하세요.
+                &#10;
+                
+  
+                이미지는 최대 10장까지 첨부 가능합니다. 
+                &#10;
+                여러장일 경우 한번에 선택해주세요."
                 onChange={(e) => {
                   setBoardContent(e.target.value);
                 }}
               ></textarea>
             </div>
 
-            <button onClick={clickUploadFormModal}>취소</button>
-            <button onClick={clickPostWrite}>작성</button>
+            <button className="upload-cancel" onClick={clickUploadFormModal}>
+              취소
+            </button>
+            <button className="upload-confirm" onClick={clickPostWrite}>
+              작성
+            </button>
           </div>
         </div>
       ) : null}

@@ -770,7 +770,8 @@
 
 /* 게시판별 게시물 작성폼 */
 
-.upload-modal-container button {
+.upload-modal-container .upload-cancel,
+.upload-modal-container .upload-confirm {
   padding: 5px 10px;
   font-size: 20px;
   width: 200px;
@@ -780,7 +781,7 @@
   border: none;
   margin: 30px 0 10px 0;
 }
-.upload-modal-container button:last-child {
+.upload-modal-container .upload-confirm {
   margin-left: 50px;
 }
 
@@ -790,6 +791,7 @@
   min-height: 400px;
   max-height: 800px;
   overflow-y: auto;
+  text-align: center;
 }
 .post-title-input {
   width: 100%;
@@ -812,20 +814,30 @@
 .image-delete-btn {
   display: inline-block;
   padding: 10px;
-  background-color: var(--accent-default);
-  color: white;
+  background-color: white;
+  box-shadow: 0 1px 5px var(--accent-dark);
+  padding: 10px 15px;
+  font-size: 16px;
+  color: var(--accent-default);
+  border: 1px solid var(--accent-default);
+  margin-left: 30px;
   margin-bottom: 20px;
 }
 .post-upload-form-container > label {
-  display: block;
+  display: inline-block;
   width: fit-content;
   background-color: #45e6f2;
   box-shadow: 0 1px 5px var(--accent-dark);
   color: white;
-  padding: 10px;
+  padding: 10px 15px;
   margin: 10px 0 40px 0;
   cursor: pointer;
 }
+.upload-image-btn,
+.image-reset-btn {
+  margin-right: 10px;
+}
+
 .img-preview-container {
   width: 100%;
   margin-bottom: 30px;

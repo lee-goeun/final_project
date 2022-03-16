@@ -88,6 +88,8 @@ const DetailPost = ({
     console.log('댓글리스트', commentList[0]);
     const commentId = commentList.commentId;
     console.log('코멘트ID', commentId);
+
+    // 추후에 삭제해야함
     axios
       .delete(`http://localhost:3001/board/comment/1`)
       .then((res) => {
