@@ -77,7 +77,7 @@ router.get('/list', (req, res) => {
 //조회(조회수 높은순)
 router.get('/viewCountList', (req, res) => {
   var sql =
-    'select * from marketTbl where marketDeleted = 0 ORDER BY marketViews;';
+    'select * from marketTbl where marketDeleted = 0 ORDER BY marketViews DESC;';
   conn.query(sql, (err, results) => {
     if (err) return res.json({ success: false, err });
     else res.json(results);
