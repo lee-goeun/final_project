@@ -67,6 +67,17 @@ router.get('/listLimit1', (req, res) => {
   });
 });
 
+//조회(마이페이지 > 나의 게시물)
+router.get('/myList/:id', (req, res) => {
+  const id = req.params.id;
+  var sql =
+    'select * from matchTbl where userId = ? and matchDeleted = 0;';
+  conn.query(sql, id, (err, results) => {
+    if (err) return res.json({ success: false, err });
+    else res.json(results);
+  });
+});
+
 //추가
 router.post('/add', matchUpload.single('matchImgName'), (req, res) => {
   console.log('req', req.file);
