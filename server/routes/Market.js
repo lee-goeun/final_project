@@ -95,6 +95,18 @@ router.get('/myList/:id', (req, res) => {
   });
 });
 
+//조회(마이페이지 > 관심 게시물)
+router.get('/myLikeList/:id', (req, res) => {
+  const id = req.params.id;
+  var sql =
+    'select m.marketId, m.userId, m.marketTitle, m.marketContent, m.marketImgName '+
+    'from marketTbl m left outer join ( select userId, marketId from marketLikeTbl)as l on m.marketId = l.marketId where l.userId = ? and m.marketDeleted = 0;';
+  conn.query(sql, id, (err, results) => {
+    if (err) return res.json({ success: false, err });
+    else res.json(results);
+  });
+});
+
 //추가
 router.post('/add', upload.single('marketImgName'), (req, res) => {
   console.log('req', req.file);
