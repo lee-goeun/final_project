@@ -10,8 +10,6 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { getMarketList, addLikeMarketPost, delLikeMarketPost } from '../../redux/modules/market'
-import axios from 'axios';
-import { formControlClasses } from '@mui/material';
 
 
 const Post = ({ post, userInfo }) => {
@@ -24,12 +22,13 @@ const Post = ({ post, userInfo }) => {
   //   setModalVisible(false);
   // };
   const dispatch = useDispatch();
-  const [isBookmark, setIsBookmark] = useState(true);
+  const [isBookmark, setIsBookmark] = useState(post.isLike);
 
   const bookmarkChk = () =>{
     setIsBookmark(!isBookmark);
-    const data = {marketId : post.marketId , userId : userInfo.userId};
-    isBookmark? dispatch(addLikeMarketPost(data), [dispatch]) : dispatch(delLikeMarketPost(data), [dispatch]);
+    const likeData = {marketId : post.marketId , userId : userInfo.userId};
+     isBookmark? dispatch(addLikeMarketPost(likeData), [dispatch]) : dispatch(delLikeMarketPost(likeData), [dispatch]);
+
   }
 
   return (
@@ -56,7 +55,7 @@ const Post = ({ post, userInfo }) => {
         <VisibilityIcon/><span>{post.marketViews}</span>
         <Link to="" onClick={bookmarkChk}>
         {
-          post.isLike ? <BookmarkIcon/> : <BookmarkBorderIcon/> 
+          isBookmark? <BookmarkIcon/> : <BookmarkBorderIcon/> 
         }
         </Link>
     </Wrapper>

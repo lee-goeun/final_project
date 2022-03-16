@@ -84,6 +84,16 @@ router.get('/viewCountList', (req, res) => {
   });
 });
 
+//조회(마이페이지 > 나의 게시물)
+router.get('/myList/:id', (req, res) => {
+  const id = req.params.id;
+  var sql =
+    'select * from marketTbl where userId = ? and marketDeleted = 0;';
+  conn.query(sql, id, (err, results) => {
+    if (err) return res.json({ success: false, err });
+    else res.json(results);
+  });
+});
 
 //추가
 router.post('/add', upload.single('marketImgName'), (req, res) => {
@@ -224,9 +234,11 @@ router.post('/like', (req, res) => {
   conn.query(sql1, [body.marketId, body.userId], (err1, results1) => {
     if(err1) return res.json({success:false}, err1);
     else{
+      console.log('resulst2', results1);
       if(results1.length == 0){
         var sql2 = 'INSERT INTO marketLikeTbl(marketId, userId) VALUES(?,?);';
         conn.query(sql2, [body.marketId, body.userId], (err2, results2) => {
+          console.log('restul1', results2);
           if(err2) return res.json({success: false, err2});
           else res.json({status:"success"});
         })
