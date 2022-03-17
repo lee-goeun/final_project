@@ -24,4 +24,7 @@ const StyledButton = styled.button`
 
 const Button = (props) => <StyledButton {...props} />;
 
+const delButton = (props) => <StyledButton {...props} />;
+
+
 export default Button;
