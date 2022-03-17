@@ -239,7 +239,7 @@ const MyLikePostCard = ({ type, userInfo }) => {
               </div>
               <div className="g5">
                 <FontAwesomeIcon icon={faEye} className="views-ic" />
-                {item.marketView}
+                {item.marketViews}
               </div>
               <div className="g6">{item.marketCreated}</div>
             </div>

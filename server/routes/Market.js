@@ -98,10 +98,11 @@ router.get('/myList/:id', (req, res) => {
 //조회(마이페이지 > 관심 게시물)
 router.get('/myLikeList/:id', (req, res) => {
   const id = req.params.id;
+  console.log('id', id);
   var sql =
-    'select m.marketId, m.userId, m.marketTitle, m.marketContent, m.marketImgName '+
-    'from marketTbl m left outer join ( select userId, marketId from marketLikeTbl)as l on m.marketId = l.marketId where l.userId = ? and m.marketDeleted = 0;';
+    'select m.marketId, m.userId, m.marketTitle, m.marketContent, m.marketImgName, m.marketViews from marketTbl m left outer join ( select userId, marketId from marketLikeTbl ) as l on m.marketId = l.marketId where m.marketDeleted = 0 and l.userId = ? ;';
   conn.query(sql, id, (err, results) => {
+    console.log('resssssssssssssss', results);
     if (err) return res.json({ success: false, err });
     else res.json(results);
   });
