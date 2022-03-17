@@ -96,7 +96,7 @@ const Home = ({
                     boardId={post.boardId}
                     userId={post.userNick}
                     imgListSection={
-                      imgList
+                      post.imgList
                         ? imgList.map((img, i) => (
                             <div key={i}>
                               <img

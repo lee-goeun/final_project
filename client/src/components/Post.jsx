@@ -589,8 +589,8 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
       imageUrlLists.push(currentImageUrl);
     }
 
-    if (imageUrlLists.length > 10) {
-      imageUrlLists = imageUrlLists.slice(0, 10);
+    if (imageUrlLists.length > 5) {
+      imageUrlLists = imageUrlLists.slice(0, 5);
     }
     setShowImages(imageUrlLists);
   };
@@ -718,7 +718,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
                 &#10;
                 
   
-                이미지는 최대 10장까지 첨부 가능합니다. 
+                이미지는 최대 5장까지 첨부 가능합니다. 
                 &#10;
                 여러장일 경우 한번에 선택해주세요."
                 onChange={(e) => {
