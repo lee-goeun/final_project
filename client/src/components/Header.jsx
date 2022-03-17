@@ -103,6 +103,7 @@ const HeaderStyle = Styled.div`
     padding: 5px 10px ;
     text-align: center;
     box-shadow: 0 10px 7px #e4e4e467; 
+    z-index: 99;
   }
   .drop-menu > p{
     line-height: 28px;
@@ -111,7 +112,7 @@ const HeaderStyle = Styled.div`
     transition: 0.3s;
   }
   .drop-menu > p:hover{
-    color: var(--accent-default) !important;
+    /* color: var(--accent-dark) !important; */
   }
   #nim{
     margin-left:3px;
@@ -158,7 +159,7 @@ const Header = () => {
         region2: data.region2,
         region3: data.region3,
         userImg: data.userImg,
-        deleted: data.deleted
+        deleted: data.deleted,
         //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
       };
     });
@@ -169,7 +170,9 @@ const Header = () => {
       <HeaderStyle>
         <div className="header-container">
           <div className="header-logo-container">
-            <a href='/'><img src={process.env.PUBLIC_URL + '/img/LogoHorizon.png'} /></a>
+            <a href="/">
+              <img src={process.env.PUBLIC_URL + '/img/LogoHorizon.png'} />
+            </a>
           </div>
           <div className="header-icons-container">
             <NavLink to="/">
