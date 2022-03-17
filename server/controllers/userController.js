@@ -89,19 +89,17 @@ exports.userUpdate = (req, res) => {
   }
 };
 
-// 유저 삭제 버튼 클릭시 deleted 값 부여 로그아웃 이후에 로그인 시 delted이 1이면 로그인 불가 -> 로그인에서 여유되면 데이터 테이블 따로 빼서 보관까지
+// 데이터 옮기기
 exports.userDelete = (req, res) => {
   try {
     const { userId } = req.body;
 
-    const query = 'INSERT INTO usertbl(deleted) VALUES(1)';
+    const query = 'UPDATE usertbl SET deleted=1 WHERE userId=?';
     db.query(query, [userId], (err) => {
       if (err) {
         console.log(err);
       }
     });
-    // logout 처리 해줘야하는 곳
-    res.send('user delete');
   } catch (err) {
     console.log(err);
   }

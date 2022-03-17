@@ -14,12 +14,16 @@ const Profile = ({ userInfoProps }) => {
 
 
   const clickDeleteBtn = async(e) => {
-    await axios.post('http://localhost:3001/user/userDelete', {
-      userId ,
+    await axios.delete('http://localhost:3001/user/userDelete', {
+    }).then((res) => {
+      console.log(res);
+      alert('계정이 삭제되었습니다.');
+      res.redirect('/login')
     })
-    .then((res) => {
-        alert('삭제 되셨습니다!');
-    })
+    .catch((err) => {
+      console.log('계정삭제 에러 : ', err);
+      alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
+    });
   };
 
   // 급하게 만든 디자인 페이지 디테일한 부분은 필요합니다

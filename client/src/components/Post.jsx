@@ -422,7 +422,6 @@ const CommentContainer = ({
   commentLikeCounting,
   commentCreated,
   commentId,
-  clickLikeComment,
 }) => {
   const [showmodifyCommentModal, setShowModifyCommentModal] = useState(false);
 
@@ -529,6 +528,24 @@ useEffect(() => {
 
   // 댓글 좋아요 버튼 클릭시
   const [isLikeComment, setIsLikeComment] = useState(false);
+  
+
+  // 댓글 좋아요 처리
+  const clickLikeComment = async(e) =>{
+    await axios.post(`http://localhost:3001/board/comment/${commentId}/like`, {
+      userId:currentUserId,
+    })
+      .then((res) => {
+        console.log(res);
+        alert('좋아요를 누르셨습니다.');
+      })
+      .catch((err) => {
+        console.log('댓글 좋아요 에러 : ', err);
+        alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
+      });
+  };
+
+
 
   return (
     <>
