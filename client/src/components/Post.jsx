@@ -427,6 +427,7 @@ const CommentContainer = ({
 
   const clickModifyComment = (e) => {
     setShowModifyCommentModal(!showmodifyCommentModal);
+    
   };
 
 
@@ -526,7 +527,7 @@ useEffect(() => {
   const clickReportComment = async(e) => {
     setShowReportCommentModal(true);
 
-    await axios.post(`http://localhost:3001/board/comment/${commentId}/like`, {
+    await axios.post(`http://localhost:3001/board/comment/${commentId}/report`, {
       userId:currentUserId,
     })
     .then((res) => {
