@@ -135,18 +135,11 @@ const CarouselStyle = styled.div`
 
 const PostContainer = ({
   boardId = '',
-  categoryIndex = '',
-  boardImgList = '',
   imgListSection,
   userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
   userId = '',
   boardTitle = '',
   boardContent = '',
-  boardStatus = '',
-  boardMod = '',
-  boardDeleted = '',
-  boardReport = '',
-  boardSearch = '',
   boardGood,
   boardViews,
   boardCreated = 'date',
@@ -158,7 +151,6 @@ const PostContainer = ({
   comment,
   commentSection,
   postMenuSection,
-  postLikeSection,
 }) => {
   const settings = {
     slide: 'div',
@@ -228,6 +220,19 @@ const PostContainer = ({
 
   const clickGoToCommnet = (e) => {
     commentInput.current.focus();
+  };
+
+  // 좋아요 버튼 클릭시
+  const clickLikePost = () => {
+    axios
+      .post(`http://localhost:3001/board/post/${boardId}/like`, {
+        boardId,
+        userId: currentUserId,
+      })
+      .then((res) => {
+        console.log(boardId, '번 게시물 좋아요 클릭', res);
+      })
+      .catch((error) => console.log('좋아요 에러 :', error));
   };
 
   // 관심게시물 등록 버튼 클릭시
@@ -303,7 +308,21 @@ const PostContainer = ({
           </div>
           <div className="pr05">
             <p>
-              {postLikeSection}
+              {goodStatus === 1 ? (
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  id="heart-btn"
+                  title="좋아요 취소"
+                  onClick={clickLikePost}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={borderHeart}
+                  id="border-heart-btn"
+                  title="좋아요"
+                  onClick={clickLikePost}
+                />
+              )}
 
               <span className="counting">{boardGood}</span>
 
