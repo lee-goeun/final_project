@@ -18,18 +18,22 @@ const MyPostCardStyle = styled.div`
     width: 600px;
     height: fit-content;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 60px 2fr 1fr;
     grid-template-rows: 50px 600px 100px 40px;
     grid-template-areas:
-      'g1 g2'
-      'g3 g3'
-      'g4 g4'
-      'g5 g6';
+      'g1 g1n g2'
+      'g3 g3 g3'
+      'g4 g4 g4'
+      'g5 g5 g6';
     box-shadow: 1px 1px 5px rgb(0 0 0 / 20%);
   }
   .g1 {
     grid-area: g1;
     padding: 0 10px;
+  }
+  .g1n {
+    grid-area: g1n;
+    padding-top: 13px;
   }
   .g2 {
     grid-area: g2;
@@ -61,16 +65,12 @@ const MyPostCardStyle = styled.div`
     border-radius: 50px;
     overflow: hidden;
     display: inline-block;
+    margin-top: 5px;
   }
   .g1-iw img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-  .g1 > p {
-    margin-left: 10px;
-    display: inline-block;
-    background: none;
   }
   .post-menu {
     font-size: 35px;
@@ -219,8 +219,8 @@ const MyPostCard = ({ type, userInfo }) => {
                     alt="유저이미지"
                   ></img>
                 </div>
-                <p>{userInfo.userNick}</p>
               </div>
+              <div className="g1n">{userInfo.userNick}</div>
               <div className="g2">
                 <FontAwesomeIcon
                   icon={faEllipsisVertical}
@@ -247,7 +247,10 @@ const MyPostCard = ({ type, userInfo }) => {
                 <FontAwesomeIcon icon={faEye} className="views-ic" />
                 {item.marketView}
               </div>
-              <div className="g6">{item.marketCreated}</div>
+              <div className="g6">
+                {item.marketCreated.substr(2, 8)}　
+                {item.marketCreated.substr(11, 5)}
+              </div>
             </div>
           ))
         : type == 'matching' && myMatchingList != undefined
@@ -260,8 +263,8 @@ const MyPostCard = ({ type, userInfo }) => {
                     alt="유저이미지"
                   ></img>
                 </div>
-                <p>{userInfo.userNick}</p>
               </div>
+              <div className="g1n">{userInfo.userNick}</div>
               <div className="g2">
                 <FontAwesomeIcon
                   icon={faEllipsisVertical}
@@ -285,7 +288,10 @@ const MyPostCard = ({ type, userInfo }) => {
                 <p>{item.matchContent}</p>
               </div>
               <div className="g5"></div>
-              <div className="g6">{item.matchCreated}</div>
+              <div className="g6">
+                {item.matchCreated.substr(2, 8)}　
+                {item.matchCreated.substr(11, 5)}
+              </div>
             </div>
           ))
         : type == 'post' && myPostList != undefined
@@ -298,8 +304,8 @@ const MyPostCard = ({ type, userInfo }) => {
                     alt="유저이미지"
                   ></img>
                 </div>
-                <p>{userInfo.userNick}</p>
               </div>
+              <div className="g1n">{userInfo.userNick}</div>
               <div className="g2">
                 <FontAwesomeIcon
                   icon={faEllipsisVertical}
@@ -323,7 +329,10 @@ const MyPostCard = ({ type, userInfo }) => {
                 <p>{item.boardContent}</p>
               </div>
               <div className="g5"></div>
-              <div className="g6">{item.boardCreated}</div>
+              <div className="g6">
+                {item.boardCreated.substr(2, 8)}　
+                {item.boardCreated.substr(11, 5)}
+              </div>
             </div>
           ))
         : ''}
