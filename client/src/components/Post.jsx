@@ -384,7 +384,6 @@ const MiniPostContainer = ({ postList, loadingPostList }) => {
     console.log('미니렌더링', postList);
   }, [postList]);
 
-  console.log('/board 페이지에서 postList 출력', postList);
   return (
     <>
       {loadingPostList && <LoadingCont />}
