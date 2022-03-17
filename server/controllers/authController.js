@@ -101,7 +101,13 @@ exports.auth = (req, res) => {
               userNick: result[0].userNick,
               userEmail: result[0].userEmail,
               userName: result[0].userName,
+              userPhone: result[0].userPhone,
               //필요한 유저정보 여기다 추가
+              // 정보, 우편번호, 주소, 상세주소
+              info: result[0].info,
+              zonecode: result[0].zonecode,
+              address: result[0].address,
+              detailAddress: result[0].detailAddress,
               region1: result[0].region1,
               region2: result[0].region2,
               region3: result[0].region3,

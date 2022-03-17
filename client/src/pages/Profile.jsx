@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './Profile.module.css';
-import DaumPostHook from '../components/common/DaumPostHook';
 import Button from '../components/common/Button';
 import UserAvatar from '../components/common/UserAvatar';
 import ProfileModalButton from '../components/profile/ProfileModalButton';
@@ -8,16 +7,6 @@ import axios from 'axios';
 
 const Profile = ({ userInfoProps }) => {
   const [userInfo, setUserInfo] = useState({
-    info: '',
-    userEmail: '',
-    zonecode: '',
-    address: '',
-    detailAddress: '',
-    userPhone: '',
-    userPw: '',
-    newPassword: '',
-    newPasswordConfirmation: '',
-    
   });
 
   const [newPasswordRegCheck, setNewPasswordRegCheck] = useState(false);
@@ -25,18 +14,10 @@ const Profile = ({ userInfoProps }) => {
     useState(false);
 
   const {
-    info,
-    userEmail,
-    userPhone,
-    zonecode,
-    address,
-    detailAddress,
-    userPw,
     newPassword,
     newPasswordConfirmation,
-    balance
   } = userInfo;
-  const { userId, userNick } = userInfoProps;
+  const { userId, userNick, zonecode, userEmail, userPhone, address, balance, detailAddress, info } = userInfoProps;
 
   useEffect(() => {
     if (!userId) {
@@ -66,14 +47,6 @@ const Profile = ({ userInfoProps }) => {
 
   const register = () => {};
 
-  const savingAddressInput = (AddressInput) => {
-    setUserInfo((prevProfile) => ({
-      ...prevProfile,
-      zonecode: AddressInput.zonecode,
-      address: AddressInput.address,
-      detailAddress: AddressInput.detailAddress,
-    }));
-  };
 
   const handleInput = (event) => {
     setUserInfo((prevProfile) => ({
@@ -105,21 +78,17 @@ const Profile = ({ userInfoProps }) => {
       <form onSubmit={register}>
         <div className={styles.flex}>
           <ul className={styles.container}>
-            <li className={`${styles.item} ${styles.center}`}>닉네임변경</li>
+            <li className={`${styles.item} ${styles.center}`}>닉네임</li>
             <li className={styles.item}>
-              <input
-                autoFocus
-                name="nickname"
-                onChange={handleInput}
-                value={userNick || ''}
-              />
-            </li>
+              <text>
+                {userNick}
+              </text>
+              </li>
             <li className={styles.item}></li>
           </ul>
           <ul className={styles.container}>
             <li className={`${styles.item} ${styles.center}`}>잔액</li>
             <li className={styles.item}>
-            {/* <div dangerouslySetInnerHTML={ {__html: } }></div> */}
               <text>
               {balance}
               </text>
@@ -127,113 +96,56 @@ const Profile = ({ userInfoProps }) => {
             <li className={styles.item}></li>
           </ul>
           <ul className={styles.container}>
-            <li className={`${styles.item} ${styles.center}`}>소개</li>
-            <li className={styles.item}>
-              <input
-                autoFocus
-                type="text"
-                onChange={handleInput}
-                name="info"
-                value={info || ''}
-              />
-            </li>
-            <li className={styles.item}></li>
-          </ul>
-          <ul className={styles.container}>
             <li className={`${styles.item} ${styles.center}`}>이메일</li>
             <li className={styles.item}>
-              <input
-                type="email"
-                onChange={handleInput}
-                name="email"
-                value={userEmail}
-              />
-            </li>
-            <li className={styles.item}></li>
-          </ul>
-          <ul className={styles.container}>
-            <li className={`${styles.item} ${styles.center}`}>현재 비밀번호</li>
-            <li className={styles.item}>
-              <input
-                type="password"
-                placeholder="현재 비밀번호를 입력하세요."
-                onChange={handleInput}
-                name="password"
-              />
-            </li>
-            <li className={styles.item}></li>
-          </ul>
-          <ul className={styles.container}>
-            <li className={`${styles.item} ${styles.center}`}>비밀번호변경</li>
-            <li className={styles.item}>
-              <input
-                type="password"
-                placeholder="비밀번호변경을 원할 시 입력하세요."
-                name="newPassword"
-                autoComplete="new-password"
-                onChange={handleInput}
-              />
-              <p
-                style={
-                  newPasswordRegCheck ? { color: 'green' } : { color: 'black' }
-                }
-              >
-                {newPasswordRegCheck === true
-                  ? '사용가능합니다'
-                  : '숫자, 영문(소·대문자), 특수문자를 포함한 8~16자리'}
-              </p>
-            </li>
-            <li className={styles.item}></li>
-          </ul>
-          <ul className={styles.container}>
-            <li className={`${styles.item} ${styles.center}`}>
-              비밀번호변경 확인
-            </li>
-            <li className={styles.item}>
-              <input
-                type="password"
-                placeholder="비밀번호변경 확인."
-                name="newPasswordConfirmation"
-                autoComplete="new-password"
-                onChange={handleInput}
-              />
-              <p
-                style={
-                  newPasswordConfirmationCheck
-                    ? { color: 'green' }
-                    : { color: 'black' }
-                }
-              >
-                {newPasswordConfirmationCheck === true
-                  ? '비밀번호가 일치합니다'
-                  : '비밀번호가 일치하지 않습니다.'}
-              </p>
+              <text>
+                {userEmail}
+              </text>
             </li>
             <li className={styles.item}></li>
           </ul>
           <ul className={styles.container}>
             <li className={`${styles.item} ${styles.center}`}>전화번호</li>
             <li className={styles.item}>
-              <input
-                type="tel"
-                placeholder="전화번호를 입력하세요."
-                name="phone"
-                onChange={handleInput}
-                value={userPhone}
-              />
+              <text>
+                {userPhone}
+              </text>
+            </li>
+            <li className={styles.item}></li>
+          </ul>
+          <ul className={styles.container}>
+            <li className={`${styles.item} ${styles.center}`}>우편번호</li>
+            <li className={styles.item}>
+              <text>
+                {zonecode}
+              </text>
             </li>
             <li className={styles.item}></li>
           </ul>
           <ul className={styles.container}>
             <li className={`${styles.item} ${styles.center}`}>주소</li>
             <li className={styles.item}>
-              <DaumPostHook
-                handleInput={handleInput}
-                savingAddressInput={savingAddressInput}
-                zonecode={zonecode}
-                address={address}
-                detailAddress={detailAddress}
-              />
+              <text>
+                {address}
+              </text>
+            </li>
+            <li className={styles.item}></li>
+          </ul>
+          <ul className={styles.container}>
+            <li className={`${styles.item} ${styles.center}`}>상세주소</li>
+            <li className={styles.item}>
+              <text>
+                {detailAddress}
+              </text>
+            </li>
+            <li className={styles.item}></li>
+          </ul>
+          <ul className={styles.container}>
+            <li className={`${styles.item} ${styles.center}`}>소개</li>
+            <li className={styles.item}>
+              <text>
+                {info}
+              </text>
             </li>
             <li className={styles.item}></li>
           </ul>
@@ -250,7 +162,7 @@ const Profile = ({ userInfoProps }) => {
         </div>
       </form>
       {/* 디자인 변경 필요 */}
-      <button onClick={clickDeleteBtn} name="submitChangeInfo">회원탈퇴</button>
+      <delButton type="clickDeleteBtn" name="submitChangeInfo">회원탈퇴</delButton>
     </div>
   );
 };
