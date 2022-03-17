@@ -522,8 +522,21 @@ useEffect(() => {
 
   // 댓글 신고 버튼 클릭시
   const [showReportCommentModal, setShowReportCommentModal] = useState(false);
-  const clickReportComment = (e) => {
+
+  const clickReportComment = async(e) => {
     setShowReportCommentModal(true);
+
+    await axios.post(`http://localhost:3001/board/comment/${commentId}/like`, {
+      userId:currentUserId,
+    })
+    .then((res) => {
+      console.log(res);
+      // alert('신고가 처리됐습니다.');
+    })
+    .catch((err) => {
+      console.log('댓글 신고 에러 : ', err);
+      alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
+    });
   };
 
   // 댓글 좋아요 버튼 클릭시
