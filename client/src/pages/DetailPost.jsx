@@ -140,6 +140,7 @@ const DetailPost = ({
               boardGood={post.boardGood}
               boardViews={post.boardViews}
               boardCreated={post.boardCreated}
+              goodStatus={post.goodStatus}
               clickLikeCancel={null}
               clickLikeConfirm={() => {
                 console.log(userId, boardId);

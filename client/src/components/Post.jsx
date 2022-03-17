@@ -305,7 +305,7 @@ const PostContainer = ({
           </div>
           <div className="pr05">
             <p>
-              {goodStatus !== undefined ? (
+              {goodStatus === 1 ? (
                 <FontAwesomeIcon
                   icon={faHeart}
                   id="heart-btn"
