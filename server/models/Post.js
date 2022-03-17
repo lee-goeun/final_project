@@ -39,23 +39,44 @@ Post.create = (newPost, result) => {
 };
 
 //Post 전체 조회
-Post.getAll = result => {
-    sql.query("SELECT boardId, categoryIndex, boardTbl.userId, boardTitle, boardContent, boardStatus, boardGood, boardCreated, boardMod, boardViews, boardDeleted, boardReport, boardSearch, boardImgList, userNick FROM userTbl JOIN boardTbl ON userTbl.userId=boardTbl.userId WHERE boardDeleted=0", 
-    (err, res) => {
-      if(err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-      
-      for (let i = 0; i < res.length; i++) {
-        var temp = res[i].boardImgList;
-        var templist = temp.split(' ');
-        res[i].boardImgList = templist;
-        console.log("resi", res[i]);
-      }        
-        result(null, res);
-    });
+Post.getAll = (keyword, result) => {
+    if (keyword == 'undefined' || keyword == '' || keyword == null) {
+      sql.query("SELECT boardId, categoryIndex, boardTbl.userId, boardTitle, boardContent, boardStatus, boardGood, boardCreated, boardMod, boardViews, boardDeleted, boardReport, boardSearch, boardImgList, userNick FROM userTbl JOIN boardTbl ON userTbl.userId=boardTbl.userId WHERE boardDeleted=0", 
+      (err, res) => {
+        if(err) {
+              console.log("error: ", err);
+              result(err, null);
+              return;
+          }
+        
+        for (let i = 0; i < res.length; i++) {
+          var temp = res[i].boardImgList;
+          var templist = temp.split(' ');
+          res[i].boardImgList = templist;
+          console.log("resi", res[i]);
+        }        
+          result(null, res);
+      });
+    } else {
+      keyword = '%' + keyword + '%';
+      sql.query("SELECT boardId, categoryIndex, boardTbl.userId, boardTitle, boardContent, boardStatus, boardGood, boardCreated, boardMod, boardViews, boardDeleted, boardReport, boardSearch, boardImgList, userNick FROM userTbl JOIN boardTbl ON userTbl.userId=boardTbl.userId WHERE boardDeleted=0 and (boardTitle like ? or boardContent like ?) ORDER BY boardCreated DESC", 
+      [keyword, keyword], (err, res) => {
+        if(err) {
+              console.log("error: ", err);
+              result(err, null);
+              return;
+          }
+        
+        for (let i = 0; i < res.length; i++) {
+          var temp = res[i].boardImgList;
+          var templist = temp.split(' ');
+          res[i].boardImgList = templist;
+          console.log("resi", res[i]);
+        }        
+          result(null, res);
+      });
+    }
+   
 
 };
 

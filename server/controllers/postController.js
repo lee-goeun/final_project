@@ -112,9 +112,10 @@ exports.create = (req, res) => {
 };
 
 
-//전체 조회
+//전체 조회(검색)
 exports.findAll = (req, res) => {
-    Post.getAll((err, data) => {
+    var keyword = req.query.keyword;
+    Post.getAll(keyword, (err, data) => {
         if(err) {
             res.status(500).send({
                 message:
