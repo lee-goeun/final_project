@@ -13,7 +13,6 @@ import MyPageLayout from './layout/MyPageLayout';
 
 // 게시물 페이지
 import Mypost from './pages/MyPost';
-import { PostContainer, MiniPostContainer } from './components/Post';
 import PostPage from './pages/PostPage';
 import DetailPost from './pages/DetailPost';
 import UsedTrade from './pages/UsedTrade';

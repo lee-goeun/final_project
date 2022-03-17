@@ -32,7 +32,6 @@ import axios from 'axios';
 import LoadingCont from './common/LoadingCont';
 import { connect } from 'react-redux';
 import { getPostList, post } from '../redux/modules/post';
-import loading from '../redux/modules/loading';
 
 const CarouselStyle = styled.div`
   .carousel-img-container {
