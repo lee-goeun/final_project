@@ -146,6 +146,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
                 commentList
                   ? commentList.map((com) => (
                       <CommentContainer
+                        
                         userId={com.userId}
                         commentId={com.commentId}
                         key={com.commentId}
