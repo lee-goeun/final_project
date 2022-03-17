@@ -15,7 +15,7 @@ module.exports = (app) => {
   //댓글 좋아요 [완료]
   commentRouter.post('/comment/:commentId/like', comments.like);
 
-  //댓글 신고
+  //댓글 신고 [완료]
   commentRouter.post('/comment/:postId/report', comments.report);
 
   app.use('/board', commentRouter);

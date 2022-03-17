@@ -421,6 +421,7 @@ const CommentContainer = ({
   commentCreated,
   commentId,
   reportedUserId,
+  commentModify,
 }) => {
   const [showmodifyCommentModal, setShowModifyCommentModal] = useState(false);
 
@@ -496,11 +497,11 @@ useEffect(() => {
       });
   };
 
-  // 댓글 수정
+  // 댓글 수정 [값 전달까지는 성공]
   const clickModifyCommentText =  async(e)=>{
     await axios.post(`http://localhost:3001/board/comment/edit/${commentId}`, {
       userId:currentUserId,
-      commentContent,
+      commentModify,
     })
     .then((res) => {
       console.log(res);
@@ -520,7 +521,7 @@ useEffect(() => {
     setShowReportCommentModal(true);
   };
 
-  // 댓글 신고
+  // 댓글 신고 [완료]
   const clickReportCommentText = async(e)=>{
     await axios.post(`http://localhost:3001/board/comment/${reportedUserId}/report`, {
       userId:currentUserId,

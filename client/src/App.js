@@ -68,6 +68,7 @@ const App = () => {
       console.log(error);
     }
   };
+  // 메인페이지에서도 값이 잡힘
   const userInfoHandler = ({ data }) => {
     setUserInfo((prevState) => {
       console.log('ssss', data);

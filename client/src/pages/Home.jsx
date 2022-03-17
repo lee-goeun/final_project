@@ -99,6 +99,7 @@ const Home = ({
                       post.imgList
                         ? imgList.map((img, i) => (
                             <div key={i}>
+                              {/* 보드 이미지 */}
                               <img
                                 src={
                                   'http://localhost:3001/board/download?boardImgName=' +
@@ -110,6 +111,7 @@ const Home = ({
                           ))
                         : null
                     }
+                    // 값들
                     boardTitle={post.boardTitle}
                     boardContent={post.boardContent}
                     boardGood={post.boardGood}
@@ -150,6 +152,7 @@ const Home = ({
           )}
         </div>
       </MainPageFooterStyle>
+      {/* 신고 */}
       {showReportPostModal && (
         <ReportPostModal
           clickReportPostCancel={() => {
@@ -161,6 +164,7 @@ const Home = ({
           }}
         />
       )}
+      {/* 수정 */}
       {showModifyPostModal && (
         <ModifyPostModal
           clickModifyPostCancel={() => {
@@ -172,6 +176,7 @@ const Home = ({
           }}
         />
       )}
+      {/* 삭제 */}
       {showDeletePostModal && (
         <DeletePostModal
           clickDeletePostCancel={() => {
