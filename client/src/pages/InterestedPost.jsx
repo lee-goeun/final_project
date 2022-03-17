@@ -2,8 +2,9 @@ import './MyPageStyle.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import MyLikePostCard from '../components/post/MyLikePostCard';
 
-const InterestedPost = () => {
+const InterestedPost = ({userInfo}) => {
   const postCon = useRef();
   const matchCon = useRef();
   const usedCon = useRef();
@@ -67,7 +68,7 @@ const InterestedPost = () => {
       <div className="mypost-used-wrapper">
         <h3 onClick={clickShowUsed}>중고거래 게시물{usedFoldBtn}</h3>
         <div className="mypost-used-container" ref={usedCon}>
-          c
+          <MyLikePostCard type="market" userInfo={userInfo}/>
         </div>
       </div>
     </div>
