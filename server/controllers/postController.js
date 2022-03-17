@@ -28,6 +28,7 @@ exports.create = (req, res) => {
         boardTitle : req.body.boardTitle,
         boardContent : req.body.boardContent,
         boardViews : 0,
+        boardDeleted : 0,
         
     });
 
@@ -133,8 +134,8 @@ exports.findAll = (req, res) => {
  
 //게시판 상세보기
 exports.findOne = (req, res) => {
-    console.log("login id: ", req.body.userId);
-    Post.findOne(req.params.postId, req.body.userId, (err, data) => {
+    console.log("login id: ", req.query.userId);
+    Post.findOne(req.params.postId, req.query.userId, (err, data) => {
         if(err) {
             if(err.kind === "not_found") {
                 res.status(404).send({
@@ -146,6 +147,7 @@ exports.findOne = (req, res) => {
                 });
             }
         } else {
+          // console.log("found post: ", data);
           //댓글 보기
           Comment.find(req.params.postId, (err, comment) => {
             if(err) {
@@ -158,9 +160,14 @@ exports.findOne = (req, res) => {
                   });
               }
             } else {
-                data.comment = comment;
-                console.log("found post: ", data);
-                res.send(data);
+                if(comment.length == 0) {
+                  console.log("found post: ", data);
+                  res.send(data);
+                } else {
+                  data.comment = comment;
+                  console.log("found post: ", data);
+                  res.send(data);
+                }
             }
           });
 

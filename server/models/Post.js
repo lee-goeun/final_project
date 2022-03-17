@@ -14,8 +14,7 @@ const Post = function(post) {
     this.boardViews = post.boardViews;
     this.boardImgList = post.boardImgList;
     this.userNick = post.userNick;
-    // this.goodStatus = 0;
-    // this.collectStatus = 0;
+    this.boardDeleted = post.boardDeleted;
 
 };
 
@@ -23,8 +22,8 @@ const Post = function(post) {
 Post.create = (newPost, result) => {
 
 
-    sql.query("INSERT INTO boardTbl(categoryIndex, userId, boardTitle, boardContent, boardViews) VALUES (?, ?, ?, ?, ?)"
-    ,[newPost.categoryIndex, newPost.userId, newPost.boardTitle, newPost.boardContent, newPost.boardViews]
+    sql.query("INSERT INTO boardTbl(categoryIndex, userId, boardTitle, boardContent, boardViews, boardDeleted) VALUES (?, ?, ?, ?, ?, ?)"
+    ,[newPost.categoryIndex, newPost.userId, newPost.boardTitle, newPost.boardContent, newPost.boardViews, newPost.boardDeleted]
     , (err, res) => {
         if(err) {
             console.log("error: ", err);
@@ -41,7 +40,7 @@ Post.create = (newPost, result) => {
 
 //Post 전체 조회
 Post.getAll = result => {
-    sql.query("SELECT boardId, categoryIndex, boardTbl.userId, boardTitle, boardContent, boardStatus, boardGood, boardCreated, boardMod, boardViews, boardDeleted, boardReport, boardSearch, boardImgList, userNick FROM userTbl JOIN boardTbl ON userTbl.userId=boardTbl.userId", 
+    sql.query("SELECT boardId, categoryIndex, boardTbl.userId, boardTitle, boardContent, boardStatus, boardGood, boardCreated, boardMod, boardViews, boardDeleted, boardReport, boardSearch, boardImgList, userNick FROM userTbl JOIN boardTbl ON userTbl.userId=boardTbl.userId WHERE boardDeleted=0", 
     (err, res) => {
       if(err) {
             console.log("error: ", err);
@@ -62,7 +61,7 @@ Post.getAll = result => {
 
 //Post 상세보기(id로 조회)
 Post.findOne = (postID, userID, result) => {
-    sql.query('SELECT * FROM boardTbl WHERE boardId = ?', postID, (err, res) => {
+    sql.query('SELECT * FROM boardTbl WHERE boardId = ? AND boardDeleted=0', postID, (err, res) => {
         if(err) {
             console.log("error: ", err);
             result(err, null);
@@ -117,7 +116,7 @@ Post.findOne = (postID, userID, result) => {
                       res[0].collectStatus = 1;
                     }
 
-                    // console.log("found post: ", res[0]);
+                    console.log("found post: ", res[0]);
                     result(null, res[0]);
 
                   });
@@ -159,7 +158,7 @@ Post.updateById = (id, post, result) => {
 
 //게시물 삭제
 Post.remove = (id, result) => {
-    sql.query('DELETE FROM boardTbl WHERE boardId=?', id, (err, res) => {
+    sql.query('UPDATE boardTbl SET boardDeleted=1 WHERE boardId=?', id, (err, res) => {
         if(err) {
             console.log("error: ", err);
             result(err, null);
