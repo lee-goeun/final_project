@@ -4,16 +4,17 @@ import DaumPostHook from '../components/common/DaumPostHook';
 import Button from '../components/common/Button';
 import UserAvatar from '../components/common/UserAvatar';
 import ProfileModalButton from '../components/profile/ProfileModalButton';
+import axios from 'axios';
 
 const Profile = ({ userInfoProps }) => {
   const [userInfo, setUserInfo] = useState({
-    introduce: '강아지를 좋아하고 산책을 주 5회정도 해요 같이산책 하실분~',
-    user_email: 'aaa@gmail.com',
-    zonecode: '13494',
-    address: '경기 성남시 분당구 판교역로 235',
-    detailAddress: '909호',
-    user_phone: '070-1234-5677',
-    password: '',
+    info: '',
+    userEmail: '',
+    zonecode: '',
+    address: '',
+    detailAddress: '',
+    userPhone: '',
+    userPw: '',
     newPassword: '',
     newPasswordConfirmation: '',
     
@@ -24,13 +25,13 @@ const Profile = ({ userInfoProps }) => {
     useState(false);
 
   const {
-    introduce,
-    user_email,
-    user_phone,
+    info,
+    userEmail,
+    userPhone,
     zonecode,
     address,
     detailAddress,
-    password,
+    userPw,
     newPassword,
     newPasswordConfirmation,
     balance
@@ -81,6 +82,20 @@ const Profile = ({ userInfoProps }) => {
     }));
   };
 
+  const clickDeleteBtn = async(e) => {
+    await axios.post('http://localhost:3001/find/findId', {
+      userId,
+    })
+    .then((res) => {
+      if(res.data.status ==='test'){
+        alert('발송에 성공했습니다.');
+      }
+      else{
+        alert('발송에 실패했습니다.')
+      }
+    })
+  };
+
   return (
     <div className={styles.register}>
       <UserAvatar sx={{ height: '80px', width: '80px' }} />
@@ -104,7 +119,10 @@ const Profile = ({ userInfoProps }) => {
           <ul className={styles.container}>
             <li className={`${styles.item} ${styles.center}`}>잔액</li>
             <li className={styles.item}>
+            {/* <div dangerouslySetInnerHTML={ {__html: } }></div> */}
+              <text>
               {balance}
+              </text>
             </li>
             <li className={styles.item}></li>
           </ul>
@@ -112,10 +130,11 @@ const Profile = ({ userInfoProps }) => {
             <li className={`${styles.item} ${styles.center}`}>소개</li>
             <li className={styles.item}>
               <input
+                autoFocus
                 type="text"
                 onChange={handleInput}
-                name="introduce"
-                value={introduce}
+                name="info"
+                value={info || ''}
               />
             </li>
             <li className={styles.item}></li>
@@ -127,7 +146,7 @@ const Profile = ({ userInfoProps }) => {
                 type="email"
                 onChange={handleInput}
                 name="email"
-                value={user_email}
+                value={userEmail}
               />
             </li>
             <li className={styles.item}></li>
@@ -200,7 +219,7 @@ const Profile = ({ userInfoProps }) => {
                 placeholder="전화번호를 입력하세요."
                 name="phone"
                 onChange={handleInput}
-                value={user_phone}
+                value={userPhone}
               />
             </li>
             <li className={styles.item}></li>
@@ -225,13 +244,13 @@ const Profile = ({ userInfoProps }) => {
               <Button name="submitChangeInfo" type="submit">
                 정보수정
               </Button>
-              <Button name="submitChangeInfo" type="submit">
-                회원탈퇴
-              </Button>
+              
             </li>
           </ul>
         </div>
       </form>
+      {/* 디자인 변경 필요 */}
+      <button onClick={clickDeleteBtn} name="submitChangeInfo">회원탈퇴</button>
     </div>
   );
 };
