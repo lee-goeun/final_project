@@ -168,8 +168,8 @@ router.put('/del/:id', (req, res) => {
 //////////////개시물 페이지/////////////////
 //나의 일반게시물 가져오기
 router.get('/myboard', (req, result) => {
-  var userId = req.body.userId;
-  conn.query("SELECT boardId, categoryIndex, boardTbl.userId, boardTitle, boardContent, boardStatus, boardGood, boardCreated, boardMod, boardViews, boardDeleted, boardReport, boardSearch, boardImgList, userNick FROM userTbl JOIN boardTbl ON userTbl.userId=boardTbl.userId WHERE boardTbl.userId=?",
+  var userId = req.query.userId;
+  conn.query("SELECT boardId, categoryIndex, boardTbl.userId, boardTitle, boardContent, boardStatus, boardGood, boardCreated, boardMod, boardViews, boardDeleted, boardReport, boardSearch, boardImgList, userNick FROM userTbl JOIN boardTbl ON userTbl.userId=boardTbl.userId WHERE boardDeleted=0 AND boardTbl.userId=?",
   userId, (err, res) => {
     if(err) {
       console.log("error: ", err);
@@ -191,8 +191,8 @@ router.get('/myboard', (req, result) => {
 
 //나의 관심 게시물 가져오기
 router.get('/mycollectboard', (req, result) => {
-  var userId = req.body.userId;
-  conn.query("SELECT boardTbl.boardId, categoryIndex, boardTbl.userId, boardTitle, boardContent, boardStatus, boardGood, boardCreated, boardMod, boardViews, boardDeleted, boardReport, boardSearch, boardImgList, userNick FROM boardCollectTbl JOIN (boardTbl JOIN userTbl ON userTbl.userId=boardTbl.userId) ON boardTbl.boardId=boardCollectTbl.boardId WHERE boardTbl.userId=?",
+  var userId = req.query.userId;
+  conn.query("SELECT boardTbl.boardId, categoryIndex, boardTbl.userId, boardTitle, boardContent, boardStatus, boardGood, boardCreated, boardMod, boardViews, boardDeleted, boardReport, boardSearch, boardImgList, userNick FROM boardCollectTbl JOIN (boardTbl JOIN userTbl ON userTbl.userId=boardTbl.userId) ON boardTbl.boardId=boardCollectTbl.boardId WHERE boardDeleted=0 AND boardTbl.userId=?",
   userId, (err, res) => {
     if(err) {
       console.log("error: ", err);
