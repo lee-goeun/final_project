@@ -9,7 +9,7 @@ module.exports = (app) => {
   //댓글 삭제 [완료]
   commentRouter.delete('/comment/:commentId', comments.delete);
 
-  //댓글 수정
+  //댓글 수정 [값만 저장하면 완료]
   commentRouter.post('/comment/edit/:commentId', comments.update);
 
   //댓글 좋아요 [완료]
