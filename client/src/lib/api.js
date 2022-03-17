@@ -48,6 +48,9 @@ export const getMyMarketList = (userId) =>
 export const getMyPostList = (userId) =>
   axios.get(`http://localhost:3001/mypage/myboard`, userId);
 
+// export const getMyProfileUpdate = (userId) =>
+//   axios.get(`http://localhost:3001/Profile/Update`, userId);
+
 //나의반려동물
 export const getMyPetList = (userId) =>
   axios.get(`http://localhost:3001/mypage/mypetList?userId=${userId}`);

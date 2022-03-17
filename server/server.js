@@ -57,6 +57,7 @@ require('./routes/comment')(app);
 
 app.use('/auth', require('./routes/auth'));
 app.use('/find', require('./routes/find'));
+app.use('/user', require('./routes/user'));
 
 db.connect((error) => {
   if (error) {

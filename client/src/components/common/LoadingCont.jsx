@@ -39,7 +39,7 @@ const LoadingCont = () => {
     <LoadingContStyle>
       <div className="in">
         <div className="img-cont">
-          <img src={process.env.PUBLIC_URL + 'img/LogoVertical.png'} />
+          <img src={process.env.PUBLIC_URL + '/img/LogoVertical.png'} />
         </div>
         <p>Loading ...</p>
       </div>

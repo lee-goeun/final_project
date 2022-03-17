@@ -6,7 +6,7 @@ import UserAvatar from '../components/common/UserAvatar';
 import ProfileModalButton from '../components/profile/ProfileModalButton';
 import axios from 'axios';
 
-const Profile = ({ userInfoProps }) => {
+const ProfileUpdate = ({ userInfoProps }) => {
   const [userInfo, setUserInfo] = useState({
     info: '',
     zonecode: '',
@@ -246,10 +246,8 @@ const Profile = ({ userInfoProps }) => {
           </ul>
         </div>
       </form>
-      {/* 디자인 변경 필요 */}
-      <button onClick={clickDeleteBtn} name="submitChangeInfo">회원탈퇴</button>
     </div>
   );
 };
 
-export default Profile;
+export default ProfileUpdate;

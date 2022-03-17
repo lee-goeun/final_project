@@ -1,15 +1,25 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import MyPageLayout from './layout/MyPageLayout';
-import Profile from './pages/Profile';
-import Mypost from './pages/MyPost';
+// 로그인, 회원가입
 import Login from './components/authentication/Login';
 import Join from './components/authentication/Join';
+
+//메인 페이지
+import Home from './pages/Home';
+
+// 마이페이지
+import Profile from './pages/Profile';
+import ProfileUpdate from './pages/ProfileUpdate';
+import MyPageLayout from './layout/MyPageLayout';
+
+// 게시물 페이지
+import Mypost from './pages/MyPost';
 import { PostContainer, MiniPostContainer } from './components/Post';
 import PostPage from './pages/PostPage';
 import DetailPost from './pages/DetailPost';
-import Chatting from './pages/Chatting';
 import UsedTrade from './pages/UsedTrade';
+
+// 채팅 페이지
+import Chatting from './pages/Chatting';
 
 //매칭페이지
 import MatchingPageLayout from './layout/FindingMatesLayout';
@@ -29,7 +39,7 @@ import { useState, useEffect } from 'react';
 import MyPetListsContainer from './redux/containers/MyPetListsContainer';
 import InterestedPost from './pages/InterestedPost';
 
-function App() {
+const App = () => {
   const [userInfo, setUserInfo] = useState({
     auth: false,
     userId: '',
@@ -143,10 +153,14 @@ function App() {
           path="/profile/"
           element={<Profile userInfoProps={userInfo} />}
         />
+        <Route
+          path="/profileUpdate/"
+          element={<ProfileUpdate userInfoProps={userInfo} />}
+        />
         {/* <Route path="profile/:username" element={<Profile />} /> */}
       </Route>
     </Routes>
   );
-}
+};
 
 export default App;

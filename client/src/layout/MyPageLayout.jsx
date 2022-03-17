@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import ProfileNav from '../components/profile/ProfileNav';
-
+import Footer from '../components/Footer'
 const MyPageLayoutWrapper = styled.div``;
 
 const ProfileHeaderBlock = styled.header``;
@@ -33,6 +33,7 @@ const MyPageLayout = ({ userInfo }) => {
           <Outlet />
         </MainWrapper>
       </ProfileBlock>
+      <Footer/>
     </MyPageLayoutWrapper>
   );
 };

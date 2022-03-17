@@ -6,77 +6,42 @@ import ProfileModalButton from '../components/profile/ProfileModalButton';
 import axios from 'axios';
 
 const Profile = ({ userInfoProps }) => {
-  const [userInfo, setUserInfo] = useState({
-  });
 
-  const [newPasswordRegCheck, setNewPasswordRegCheck] = useState(false);
-  const [newPasswordConfirmationCheck, setNewPasswordConfirmationCheck] =
-    useState(false);
-
-  const {
-    newPassword,
-    newPasswordConfirmation,
-  } = userInfo;
   const { userId, userNick, zonecode, userEmail, userPhone, address, balance, detailAddress, info } = userInfoProps;
 
-  useEffect(() => {
-    if (!userId) {
-      alert('로그인 후 이용해주세요');
-    }
-    passwordValidationCheck();
-  }, [newPassword, newPasswordConfirmation]);
-
-  const passwordValidationCheck = () => {
-    const pwRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,15}$/;
-
-    if (pwRegex.test(newPassword) === true) {
-      setNewPasswordRegCheck(true);
-    } else {
-      setNewPasswordRegCheck(false);
-    }
-    if (
-      !(newPassword === '' || newPassword === undefined) &&
-      newPassword === newPasswordConfirmation
-    ) {
-      setNewPasswordConfirmationCheck(true);
-    } else {
-      setNewPasswordConfirmationCheck(false);
-    }
-  };
 
   const register = () => {};
 
 
-  const handleInput = (event) => {
-    setUserInfo((prevProfile) => ({
-      ...prevProfile,
-      [event.target.name]: event.target.value,
-    }));
-  };
-
   const clickDeleteBtn = async(e) => {
-    await axios.post('http://localhost:3001/find/findId', {
-      userId,
+    await axios.post('http://localhost:3001/user/userDelete', {
+      userId ,
     })
     .then((res) => {
-      if(res.data.status ==='test'){
-        alert('발송에 성공했습니다.');
-      }
-      else{
-        alert('발송에 실패했습니다.')
-      }
+        alert('삭제 되셨습니다!');
     })
   };
 
+  // 급하게 만든 디자인 페이지 디테일한 부분은 필요합니다
   return (
     <div className={styles.register}>
-      <UserAvatar sx={{ height: '80px', width: '80px' }} />
-      <p>{userId || ''}</p>
-      <ProfileModalButton buttonName={'프로필 사진 바꾸기'} />
       <h3>프로필</h3>
       <form onSubmit={register}>
         <div className={styles.flex}>
+          <ul className={styles.container}>
+            <li className={`${styles.item} ${styles.center}`}>개인 프로필</li>
+            <li className={styles.item}>
+            <UserAvatar sx={{ height: '70px', width: '70px' }} />
+              </li>
+            <li className={styles.item}></li>
+          </ul>
+          <ul className={styles.container}>
+            <li className={`${styles.item} ${styles.center}`}>아이디</li>
+            <li className={styles.item}>
+              <text>{userId}</text>
+              </li>
+            <li className={styles.item}></li>
+          </ul>
           <ul className={styles.container}>
             <li className={`${styles.item} ${styles.center}`}>닉네임</li>
             <li className={styles.item}>
@@ -153,16 +118,12 @@ const Profile = ({ userInfoProps }) => {
             <li className={`${styles.item} ${styles.center}`}></li>
             <li className={styles.item}></li>
             <li className={styles.item}>
-              <Button name="submitChangeInfo" type="submit">
-                정보수정
-              </Button>
-              
+              <Button name="submitChangeInfo"><a href='./pages/ProfileUpdate'>정보수정</a></Button>
+              <Button onClick={clickDeleteBtn} name="submitChangeInfo">회원탈퇴</Button>
             </li>
           </ul>
         </div>
       </form>
-      {/* 디자인 변경 필요 */}
-      <delButton type="clickDeleteBtn" name="submitChangeInfo">회원탈퇴</delButton>
     </div>
   );
 };

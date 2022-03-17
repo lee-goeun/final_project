@@ -9,7 +9,7 @@ const StyledAvatar = styled(Avatar)`
 `;
 
 const UserAvatar = (props) => {
-  console.log(props.user_img, 'useravaterURL');
+  console.log(props.userImg, 'useravaterURL');
   return (
     <>
       <StyledAvatar
@@ -24,7 +24,7 @@ const UserAvatar = (props) => {
 
 const mapStateToProps = (props) => {
   return {
-    user_url_img: props.profileImgHandler.user_img,
+    user_url_img: props.profileImgHandler.userImg,
   };
 };
 
