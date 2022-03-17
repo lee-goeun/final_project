@@ -85,6 +85,7 @@ const App = () => {
         zonecode: data.zonecode,
         address: data.address,
         detailAddress: data.detailAddress,
+        commentId: data.commentId,
         region1: data.region1,
         region2: data.region2,
         region3: data.region3,

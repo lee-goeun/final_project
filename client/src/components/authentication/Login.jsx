@@ -29,7 +29,7 @@ const Login = ({ userInfoHandler }) => {
 
   const clickLoginBtn = async (e) => {
     try {
-      const res = await axios.post('http://localhost:3001/auth/login', {
+      const res = await axios.post(`http://localhost:3001/auth/login`, {
         userId,
         userPw,
       });

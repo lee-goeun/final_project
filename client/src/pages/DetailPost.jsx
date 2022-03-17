@@ -51,6 +51,7 @@ const DetailStyle = styled.div`
 `;
 
 const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
+  console.log(commentList)
   useEffect(() => {
     console.log(`${boardId}번 게시물 상세보기 렌더링`);
     getPost(boardId);
@@ -145,6 +146,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
                 commentList
                   ? commentList.map((com) => (
                       <CommentContainer
+                        commentId={com.commentId}
                         key={com.commentId}
                         userNick={com.userNick}
                         commentContent={com.commentContent}

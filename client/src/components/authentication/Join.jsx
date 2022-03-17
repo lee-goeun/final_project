@@ -312,7 +312,7 @@ const Join = () => {
 
   // 아이디 중복확인 버튼
   const clickDuplicateCheckBtn1 = async(e) => {
-    await axios.get('http://localhost:3001/auth/join/idCheck', {
+    await axios.get(`http://localhost:3001/auth/join/idCheck`, {
       userId: inputId,
     })
       .then((res) => {

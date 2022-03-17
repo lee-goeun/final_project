@@ -231,6 +231,7 @@ const MyLikePostCard = ({ type, userInfo }) => {
               <div className="g3">
                 <CarouselStyle>
                   <Slider {...settings}>
+                    {/* 무슨 경로지.. */}
                     <div className="slider-wrapper">
                       <img
                         src={`http://localhost:3001/market/download?marketId=${item.marketId}&marketImgName=${item.marketImgName}`}

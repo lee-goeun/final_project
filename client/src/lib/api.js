@@ -78,22 +78,32 @@ export const getMyCollectPostList = (userId) =>
 export const getMyInfoPost = (userId) => {
   return axios.get(`http://localhost:3001/mypage/mypet/${userId}`);
 };
+// 펫 프로필 수정
 export const updateMyInfoPost = (formData) => {
   return axios.put('http://localhost:3001/mypage/mypetAdd', formData);
 };
 
+// 수정 작업 중 주석 처리 [서성조]
 // 일반 게시물
 export const getPostList = (boardId) =>
   axios.get('http://localhost:3001/board/');
 
+// 게시물 요청
 export const getPost = (boardId) =>
   axios.get(`http://localhost:3001/board/post/${boardId}`);
 
+//게시물 갱신
 export const updatePost = (boardId) =>
   axios.post(`http://localhost:3001/board/post/edit/${boardId}`);
 
+// 게시물 신고
 export const reportPost = (boardId) =>
   axios.post(`http://localhost:3001/board/post/${boardId}/report`);
 
+// 게시물 좋아요
 export const likePost = (boardId, userId) =>
+  axios.post(`http://localhost:3001/board/post/${boardId}/like`, userId);
+
+// 댓글 삭제 [redux로 변경시 수정필요]
+export const deleteComment = (boardId, userId) =>
   axios.post(`http://localhost:3001/board/post/${boardId}/like`, userId);

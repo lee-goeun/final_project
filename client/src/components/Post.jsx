@@ -170,7 +170,7 @@ const PostContainer = ({
     slidesToScroll: 1,
     arrows: true,
   };
-
+  
   useEffect(() => {
     getAuth();
   }, []);
@@ -327,6 +327,7 @@ const PostContainer = ({
                 />
               )}
 
+              {/* 댓글 수정/삭제 진행 표기 */}
               <FontAwesomeIcon
                 icon={borderComment}
                 id="border-comment-btn"
@@ -340,6 +341,8 @@ const PostContainer = ({
           </div>
           <div className="pr06">{commentSection}</div>
           <div className="pr07">
+
+            {/* 댓글 수정/삭제 진행 표기 */}
             <input
               type="text"
               maxLength="50"
@@ -419,7 +422,7 @@ const CommentContainer = ({
   commentContent,
   commentLikeCounting,
   commentCreated,
-  clickDeleteComment,
+  commentId,
   clickLikeComment,
 }) => {
   const [showmodifyCommentModal, setShowModifyCommentModal] = useState(false);
@@ -427,6 +430,97 @@ const CommentContainer = ({
   const clickModifyComment = (e) => {
     setShowModifyCommentModal(!showmodifyCommentModal);
   };
+
+
+  // 임시 추가
+
+useEffect(() => {
+    getAuth();
+  }, []);
+
+  const [userInfo, setUserInfo] = useState({
+    auth: false,
+    userId: '',
+    userNick: '',
+    commentId: '',
+    userEmail: '',
+    userName: '',
+    region1: '',
+    region2: '',
+    region3: '',
+    userImg: '',
+  });
+
+  const getAuth = async () => {
+    try {
+      const tokenValidationResponse = await axios({
+        url: 'http://localhost:3001/auth/auth',
+        method: 'get',
+        headers: { 'x-access-token': localStorage.getItem('token') },
+      });
+      // console.log(tokenValidationResponse, 'tokenValidResponse');
+      userInfoHandler(tokenValidationResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const userInfoHandler = ({ data }) => {
+    setUserInfo((prevState) => {
+      return {
+        ...prevState,
+        auth: data.auth,
+        userId: data.userId,
+        commentId: data.commentId,
+        userNick: data.userNick,
+        userName: data.userName,
+        region1: data.region1,
+        region2: data.region2,
+        region3: data.region3,
+        userImg: data.userImg,
+        //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
+      };
+    });
+  };
+
+
+  // 댓글 작성 ENTER 버튼 클릭시 임시 배정
+  // const clickCommentEnter = (e) => {
+  //   axios
+  //     .post(`http://localhost:3001/board/comment/${boardId}`, {
+  //       boardId,
+  //       userId: currentUserId,
+  //       commentContent,
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //       alert('댓글이 작성되었습니다.');
+  //       commentInput.current.value = '';
+  //       window.location.replace(`/board/${boardId}`);
+  //     })
+  //     .catch((error) => {
+  //       console.log('댓글작성 에러 : ', error);
+  //       alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
+  //     });
+  // };
+  const currentUserId = userInfo.userId;
+
+  // 댓글 삭제
+  const clickDeleteComment = async(e) =>{
+    await axios.delete(`http://localhost:3001/board/comment/${commentId}`, {
+    })
+      .then((res) => {
+        console.log(res);
+        alert('댓글이 삭제되었습니다.');
+      })
+      .catch((err) => {
+        console.log('댓글삭제 에러 : ', err);
+        alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
+      });
+  };
+
+  
+  // 임시 추가
+
 
   // 댓글 신고 버튼 클릭시
   const [showReportCommentModal, setShowReportCommentModal] = useState(false);
@@ -449,6 +543,7 @@ const CommentContainer = ({
           <h4>{userNick}</h4>
           <p></p>
         </div>
+        {/* 수정/삭제 존재 */}
         <div className="cc03">
           <FontAwesomeIcon
             icon={faPen}

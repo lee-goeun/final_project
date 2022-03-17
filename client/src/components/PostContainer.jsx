@@ -48,6 +48,7 @@ const PostContainer = () => {
           </div>
           <div className="pr06">댓글창</div>
           <div className="pr07">
+            {/* 댓글 수정/삭제 진행 표기 */}
             <input type="text" placeholder="댓글 남기기" />
             <button>ENTER</button>
           </div>

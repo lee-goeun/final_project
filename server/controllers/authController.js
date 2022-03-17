@@ -112,6 +112,7 @@ exports.auth = (req, res) => {
               region2: result[0].region2,
               region3: result[0].region3,
               userImg: result[0].userImg,
+              commentId: result[0].commentId,
               balance: result[0].balance,
               deleted: result[0].deleted,
             });
