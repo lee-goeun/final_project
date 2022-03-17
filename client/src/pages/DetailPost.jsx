@@ -65,7 +65,6 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
           `따로axios ${boardId}번 관심게시물 상태, ${res.data.collectStatus}`,
         );
         setGoodStatus(res.data.goodStatus);
-        setCollectStatus(res.data.collectStatus);
       })
       .catch((e) => console.log(e));
   }, [getPost]);
@@ -80,6 +79,17 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
   const [showDeletePostModal, setShowDeletePostModal] = useState();
   const [goodStatus, setGoodStatus] = useState();
   const [collectStatus, setCollectStatus] = useState();
+
+  const clickLikePost = () => {
+    console.log(userId, boardId);
+    axios
+      .post(`http://localhost:3001/board/post/${boardId}/like`, {
+        boardId,
+        userId,
+      })
+      .then((res) => console.log(boardId, '번 게시물 좋아요 클릭', res))
+      .catch((error) => console.log('좋아요 에러 :', error));
+  };
 
   return (
     <div>
@@ -112,8 +122,25 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
               boardGood={post.boardGood}
               boardViews={post.boardViews}
               boardCreated={post.boardCreated}
-              goodStatus={goodStatus}
+              goodStatus={post.goodStatus}
               collectStatus={collectStatus}
+              postLikeSection={
+                goodStatus === 1 ? (
+                  <FontAwesomeIcon
+                    icon={faHeart}
+                    id="heart-btn"
+                    title="좋아요 취소"
+                    onClick={clickLikePost}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={borderHeart}
+                    id="border-heart-btn"
+                    title="좋아요"
+                    onClick={clickLikePost}
+                  />
+                )
+              }
               commentSection={
                 commentList
                   ? commentList.map((com) => (
