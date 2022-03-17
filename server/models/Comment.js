@@ -9,12 +9,13 @@ const Comment = function(comment) {
   this.commentContent = comment.commentContent;
   this.userId = comment.userId;
   this.commentLikeCounting = comment.commentLikeCounting;
+  this.commentDeleted = comment.commentDeleted;
 };
 
 //댓글 작성
 Comment.create = (newComment, result) => {
-  sql.query("INSERT INTO boardCommentTbl(categoryIndex, boardId, commentContent, userId) VALUES (?, ?, ?, ?)"
-  ,[newComment.categoryIndex, newComment.boardId, newComment.commentContent, newComment.userId]
+  sql.query("INSERT INTO boardCommentTbl(categoryIndex, boardId, commentContent, userId, commentDeleted) VALUES (?, ?, ?, ?, ?)"
+  ,[newComment.categoryIndex, newComment.boardId, newComment.commentContent, newComment.userId, newComment.commentDeleted]
   , (err, res) => {
     if(err) {
       console.log("error: ", err);
@@ -27,8 +28,9 @@ Comment.create = (newComment, result) => {
   });
 };
 
+//댓글 조회
 Comment.find = (postId, result) => {
-  sql.query('SELECT userNick, commentContent, commentLikeCounting, commentCreated FROM usertbl LEFT JOIN boardCommentTbl ON usertbl.userId= boardCommentTbl.userId WHERE boardCommentTbl.boardId=? ORDER BY commentCreated',
+  sql.query('SELECT userNick, commentContent, commentLikeCounting, commentCreated FROM usertbl LEFT JOIN boardCommentTbl ON usertbl.userId= boardCommentTbl.userId WHERE boardCommentTbl.boardId=? AND boardCommentTbl.commentDeleted=0 ORDER BY commentCreated',
   postId, (err, res) => {
     if(err) {
       console.log("error: ", err);
@@ -68,7 +70,7 @@ Comment.updateById = (id, comment, result) => {
 
 //댓글 삭제
 Comment.remove = (id, result) => {
-  sql.query('DELETE FROM boardCommentTbl WHERE commentId=?', id, (err, res) => {
+  sql.query('UPDATE boardCommentTbl SET commentDeleted=1 WHERE commentId=?', id, (err, res) => {
     if(err) {
       console.log("error: ", err);
       result(err, null);
