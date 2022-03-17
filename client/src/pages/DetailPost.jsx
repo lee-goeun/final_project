@@ -48,7 +48,6 @@ const DetailStyle = styled.div`
   }
 `;
 
-
 const DetailPost = ({
   userInfo,
   getPost,
@@ -62,7 +61,9 @@ const DetailPost = ({
 
     getPost(boardId);
     axios
-      .get(`http://localhost:3001/board/post/${boardId}`, {params:{userId : userInfo.userId}})
+      .get(`http://localhost:3001/board/post/${boardId}`, {
+        params: { userId: userInfo.userId },
+      })
       .then((res) => {
         console.log('따로aixos 찍어본것', res);
         console.log(
@@ -75,7 +76,6 @@ const DetailPost = ({
       .catch((e) => console.log(e));
   }, [getPost]);
 
-  
   const userId = userInfo.userId;
   const navigate = useNavigate();
 
@@ -145,7 +145,8 @@ const DetailPost = ({
                 console.log(userId, boardId);
                 axios
                   .post(`http://localhost:3001/board/post/${boardId}/like`, {
-                    boardId, userId
+                    boardId,
+                    userId,
                   })
                   .then((res) =>
                     console.log(boardId, '번 게시물 좋아요 클릭', res),

@@ -14,6 +14,9 @@ const GET_LIKE_MARKET_LIST_SUCCESS = 'mypage/GET_LIKE_MARKET_LIST_SUCCESS';
 const GET_POST_LIST = 'mypage/GET_POST_LIST';
 const GET_POST_LIST_SUCCESS = 'mypage/GET_POST_LIST_SUCCESS';
 
+const GET_COLLECT_POST_LIST = 'mypage/GET_COLLECT_POST_LIST';
+const GET_COLLECT_POST_LIST_SUCCESS = 'mypage/GET_COLLECT_POST_LIST';
+
 //action creator
 export const getMyMarketList = createRequestThunk(
   GET_MARKET_LIST,
@@ -32,6 +35,11 @@ export const getMyLikeMarketList = createRequestThunk(
 export const getMyPostList = createRequestThunk(
   GET_POST_LIST,
   api.getMyPostList,
+);
+
+export const getMyCollectPostList = createRequestThunk(
+  GET_COLLECT_POST_LIST,
+  api.getMyCollectPostList,
 );
 
 //init state
@@ -78,6 +86,15 @@ const matching = handleActions(
         GET_LIST: false,
       },
       postList: action.payload,
+    }),
+
+    [GET_COLLECT_POST_LIST_SUCCESS]: (state, action) => ({
+      ...state,
+      loading: {
+        ...state.loading,
+        GET_LIST: false,
+      },
+      collectPostList: action.payload,
     }),
   },
 

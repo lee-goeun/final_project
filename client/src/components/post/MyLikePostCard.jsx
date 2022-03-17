@@ -7,7 +7,8 @@ import Slider from 'react-slick';
 import styled from 'styled-components';
 
 import {
-  getMyLikeMarketList
+  getMyLikeMarketList,
+  getMyCollectPostList,
 } from '../../redux/modules/mypage';
 
 const MyPostCardStyle = styled.div`
@@ -186,10 +187,16 @@ const MyLikePostCard = ({ type, userInfo }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getMyLikeMarketList(userInfo.userId));
+    dispatch(getMyCollectPostList(userInfo.userId));
   }, [dispatch]);
-   const myLikeMarketList = useSelector((state) => state.mypage.marketLikeList);
+  const myLikeMarketList = useSelector((state) => state.mypage.marketLikeList);
+  const myCollectPostList = useSelector(
+    (state) => state.mypage.collectPostList,
+  );
 
   console.log('marektssssssssss', myLikeMarketList);
+  console.log('나의 관심게시물 ///', myCollectPostList);
+
   // 캐로셀 세팅
   const settings = {
     slide: 'div',
@@ -244,7 +251,48 @@ const MyLikePostCard = ({ type, userInfo }) => {
               <div className="g6">{item.marketCreated}</div>
             </div>
           ))
-        : ""}
+        : type == 'collectPost' && myCollectPostList != undefined
+        ? myCollectPostList.map((item) => (
+            <div className="wrapper">
+              <div className="g1">
+                <div className="g1-iw">
+                  <img
+                    src="https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg"
+                    alt="유저이미지"
+                  ></img>
+                </div>
+                <p>{userInfo.userNick}</p>
+              </div>
+              <div className="g2">
+                <FontAwesomeIcon
+                  icon={faEllipsisVertical}
+                  className="post-menu"
+                />
+              </div>
+              <div className="g3">
+                <CarouselStyle>
+                  <Slider {...settings}>
+                    <div className="slider-wrapper">
+                      <img
+                        src={`http://localhost:3001/market/download?marketId=${item.marketId}&marketImgName=${item.marketImgName}`}
+                        alt="이미지"
+                      />
+                    </div>
+                  </Slider>
+                </CarouselStyle>
+              </div>
+              <div className="g4">
+                <p>{item.marketTitle}</p>
+                <p>{item.marketContent}</p>
+              </div>
+              <div className="g5">
+                <FontAwesomeIcon icon={faEye} className="views-ic" />
+                {item.marketViews}
+              </div>
+              <div className="g6">{item.marketCreated}</div>
+            </div>
+          ))
+        : ''}
     </MyPostCardStyle>
   );
 };
