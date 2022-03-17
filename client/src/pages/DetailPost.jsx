@@ -1,7 +1,9 @@
 import { PostContainer } from '../components/Post';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
+import { faCircleArrowLeft, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as borderHeart } from '@fortawesome/free-regular-svg-icons';
 import {
   createSearchParams,
   Link,
@@ -48,17 +50,9 @@ const DetailStyle = styled.div`
   }
 `;
 
-const DetailPost = ({
-  userInfo,
-  getPost,
-  post,
-  commentList,
-  imgList,
-  loadingPost,
-}) => {
+const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
   useEffect(() => {
     console.log(`${boardId}번 게시물 상세보기 렌더링`);
-
     getPost(boardId);
     axios
       .get(`http://localhost:3001/board/post/${boardId}`, {
@@ -67,11 +61,10 @@ const DetailPost = ({
       .then((res) => {
         console.log('따로aixos 찍어본것', res);
         console.log(
-          `따로axios ${boardId}번 좋아요 상태, ${res.data.goodStatus}`,
+          `따로axios ${boardId}번 좋아요 상태, ${res.data.goodStatus} /////////////////////`,
+          `따로axios ${boardId}번 관심게시물 상태, ${res.data.collectStatus}`,
         );
-        console.log(
-          `따로axios ${boardId}번 이미지 리스트 ${res.data.boardImgList.length}`,
-        );
+        setGoodStatus(res.data.goodStatus);
       })
       .catch((e) => console.log(e));
   }, [getPost]);
@@ -84,30 +77,19 @@ const DetailPost = ({
   const [showReportPostModal, setShowReportPostModal] = useState();
   const [showModifyPostModal, setShowModifyPostModal] = useState();
   const [showDeletePostModal, setShowDeletePostModal] = useState();
+  const [goodStatus, setGoodStatus] = useState();
+  const [collectStatus, setCollectStatus] = useState();
 
-  const deleteComment = (e) => {
-    console.log('클릭한 댓글의 타겟', e);
-    console.log('댓글리스트', commentList[0]);
-    const commentId = commentList.commentId;
-    console.log('코멘트ID', commentId);
-
-    // 추후에 삭제해야함
+  const clickLikePost = () => {
+    console.log(userId, boardId);
     axios
-      .delete(`http://localhost:3001/board/comment/1`)
-      .then((res) => {
-        console.log(`${commentId}번 댓글이 삭제되었습니다.`);
+      .post(`http://localhost:3001/board/post/${boardId}/like`, {
+        boardId,
+        userId,
       })
-      .catch((error) => console.log(error));
+      .then((res) => console.log(boardId, '번 게시물 좋아요 클릭', res))
+      .catch((error) => console.log('좋아요 에러 :', error));
   };
-
-  // const likeComment = () => {
-
-  //   const likeData = {
-  //     commentId: commentList.commentId
-  //   }
-
-  //   axios.post(`http://localhost:3001/board/comment/${commentId}/like`, )
-  // }
 
   return (
     <div>
@@ -121,8 +103,8 @@ const DetailPost = ({
               boardId={post.boardId}
               userId={post.userNick}
               imgListSection={
-                imgList
-                  ? imgList.map((img, i) => (
+                post
+                  ? post.boardImgList.map((img, i) => (
                       <div key={i}>
                         <img
                           src={
@@ -141,19 +123,24 @@ const DetailPost = ({
               boardViews={post.boardViews}
               boardCreated={post.boardCreated}
               goodStatus={post.goodStatus}
-              clickLikeCancel={null}
-              clickLikeConfirm={() => {
-                console.log(userId, boardId);
-                axios
-                  .post(`http://localhost:3001/board/post/${boardId}/like`, {
-                    boardId,
-                    userId,
-                  })
-                  .then((res) =>
-                    console.log(boardId, '번 게시물 좋아요 클릭', res),
-                  )
-                  .catch((error) => console.log('좋아요 에러 :', error));
-              }}
+              collectStatus={collectStatus}
+              postLikeSection={
+                goodStatus === 1 ? (
+                  <FontAwesomeIcon
+                    icon={faHeart}
+                    id="heart-btn"
+                    title="좋아요 취소"
+                    onClick={clickLikePost}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={borderHeart}
+                    id="border-heart-btn"
+                    title="좋아요"
+                    onClick={clickLikePost}
+                  />
+                )
+              }
               commentSection={
                 commentList
                   ? commentList.map((com) => (
@@ -163,7 +150,7 @@ const DetailPost = ({
                         commentContent={com.commentContent}
                         commentLikeCounting={com.commentLikeCounting}
                         commentCreated={com.commentCreated}
-                        clickDeleteComment={deleteComment}
+                        // clickDeleteComment={null}
                         // clickLikeComment={likeComment}
                       />
                     ))
@@ -254,6 +241,7 @@ const DetailPost = ({
                 console.log(res);
                 if (res.status === 200) {
                   alert('게시물이 삭제되었습니다.');
+                  navigate('/board');
                 }
               })
               .catch((error) => console.log('게시물 삭제 에러: ', error));
@@ -269,7 +257,6 @@ export default connect(
   ({ post }) => ({
     post: post.post,
     commentList: post.commentList,
-    imgList: post.imgList,
     loadingPost: post.loading.GET_POST,
   }),
   {

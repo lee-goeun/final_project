@@ -159,8 +159,7 @@ const PostContainer = ({
   comment,
   commentSection,
   postMenuSection,
-  clickLikeCancel,
-  clickLikeConfirm,
+  postLikeSection,
 }) => {
   const settings = {
     slide: 'div',
@@ -305,28 +304,14 @@ const PostContainer = ({
           </div>
           <div className="pr05">
             <p>
-              {goodStatus === 1 ? (
-                <FontAwesomeIcon
-                  icon={faHeart}
-                  id="heart-btn"
-                  title="좋아요 취소"
-                  onClick={clickLikeCancel}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={borderHeart}
-                  id="border-heart-btn"
-                  title="좋아요"
-                  onClick={clickLikeConfirm}
-                />
-              )}
+              {postLikeSection}
 
               <span className="counting">{boardGood}</span>
 
               <FontAwesomeIcon icon={borderEye} id="viewss" />
               <span className="counting">{boardViews}</span>
 
-              {isFavoritePost ? (
+              {collectStatus === 1 ? (
                 <FontAwesomeIcon
                   icon={fullBookmark}
                   id="fullBookmark-btn"
@@ -743,8 +728,6 @@ export default connect(
   ({ post }) => ({
     postList: post.postList,
     loadingPostList: post.loading.GET_POST_LIST,
-    goodStatus: post.goodStatus,
-    collectStatus: post.collectStatus,
   }),
   {
     getPostList,
