@@ -128,7 +128,10 @@ function App() {
           path="/mypet/"
           element={<MyPetListsContainer userInfo={userInfo} />}
         />
-        <Route path="/interestingpost/" element={<InterestedPost userInfo={userInfo}/>} />
+        <Route
+          path="/interestingpost/"
+          element={<InterestedPost userInfo={userInfo} />}
+        />
         <Route
           path="/profile/"
           element={<Profile userInfoProps={userInfo} />}
