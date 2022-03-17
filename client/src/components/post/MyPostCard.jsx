@@ -205,7 +205,7 @@ const MyPostCard = ({type, userInfo}) => {
     
     <MyPostCardStyle>
       {
-      type == 'market' ? myMarketList.map((item) => (
+      type == 'market' && myMarketList != undefined ? myMarketList.map((item) => (
         <div className="wrapper">
         <div className="g1">
           <div className="g1-iw">
@@ -241,7 +241,7 @@ const MyPostCard = ({type, userInfo}) => {
         </div>
         <div className="g6">{item.marketCreated}</div>
       </div>
-      )) : type == 'matching' ? myMatchingList.map((item) => (
+      )) : type == 'matching' && myMatchingList != undefined ? myMatchingList.map((item) => (
         <div className="wrapper">
         <div className="g1">
           <div className="g1-iw">
