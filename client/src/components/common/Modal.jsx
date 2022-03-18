@@ -58,6 +58,7 @@ export const ModifyPostModal = ({
     <ModalWrapper
       innerModal={
         <div className="edit-post-modal">
+       {/* 게시물 텍스트 들어갈 곳 표기 */}
           <textarea>기존 텍스트</textarea>
           <button className="edit-post-cancel" onClick={clickModifyPostCancel}>
             취소

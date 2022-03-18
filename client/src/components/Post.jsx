@@ -476,12 +476,15 @@ useEffect(() => {
         region2: data.region2,
         region3: data.region3,
         userImg: data.userImg,
+        // commentModify: data.commentModify,
+        // commentContent: data.commentContent,
         //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
       };
     });
   };
 
   const currentUserId = userInfo.userId;
+  const commentText = userInfo.commentContent;
 
   // 댓글 삭제 [완료]
   const clickDeleteComment = async(e) =>{
@@ -499,9 +502,7 @@ useEffect(() => {
 
   // 댓글 수정 [값 전달까지는 성공]
   const clickModifyCommentText =  async(e)=>{
-    await axios.post(`http://localhost:3001/board/comment/edit/${commentId}`, {
-      userId:currentUserId,
-      commentModify,
+    await axios.post(`http://localhost:3001/board/comment/edit/${commentContent}`, {
     })
     .then((res) => {
       console.log(res);
@@ -571,7 +572,7 @@ useEffect(() => {
           <h4>{userNick}</h4>
           <p></p>
         </div>
-        {/* 수정/신고 남음 */}
+        {/* 수정 남음 */}
         <div className="cc03">
           <FontAwesomeIcon
             icon={faPen}
@@ -638,9 +639,10 @@ useEffect(() => {
           </button>
         </div>
       ) : null}
+      {/* 텍스트 값 갖고 오는 곳 */}
       {showmodifyCommentModal && (
         <div className="comment-modal--modify">
-          <textarea>기존 텍스트</textarea>
+          <textarea>{commentContent}</textarea>
           <div>
             <button
               className="modify-comment-cancel"
@@ -650,7 +652,6 @@ useEffect(() => {
             >
               취소
             </button>
-            {/* 함수 걸어서 onclick으로 작업 */}
 
             <button className="modify-comment-yes" onClick={clickModifyCommentText}>수정</button>
           </div>

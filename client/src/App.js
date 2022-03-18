@@ -85,7 +85,9 @@ const App = () => {
         zonecode: data.zonecode,
         address: data.address,
         detailAddress: data.detailAddress,
-        commentId: data.commentId,
+        // commentId: data.commentId,
+        // commentModify: data.commentModify, // 삭제해도 될듯
+        commentContent: data.commentContent,
         region1: data.region1,
         region2: data.region2,
         region3: data.region3,
