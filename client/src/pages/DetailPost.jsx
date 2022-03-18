@@ -46,12 +46,8 @@ const DetailStyle = styled.div`
 
 const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
   console.log(post); // 게시물 정리할 때 참조 콘솔 값
-<<<<<<< HEAD
   console.log(commentList) //댓글 정리할 때 사용했음
 
-=======
-  // console.log(commentList) 댓글 정리할 때 사용했음
->>>>>>> 275e008dcdc4336fbba3ad76f20327c6ee050108
   useEffect(() => {
     console.log(`${boardId}번 게시물 상세보기 렌더링`);
     getPost(boardId);
