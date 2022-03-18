@@ -15,7 +15,7 @@ const GET_POST_LIST = 'mypage/GET_POST_LIST';
 const GET_POST_LIST_SUCCESS = 'mypage/GET_POST_LIST_SUCCESS';
 
 const GET_COLLECT_POST_LIST = 'mypage/GET_COLLECT_POST_LIST';
-const GET_COLLECT_POST_LIST_SUCCESS = 'mypage/GET_COLLECT_POST_LIST';
+const GET_COLLECT_POST_LIST_SUCCESS = 'mypage/GET_COLLECT_POST_LIST_SUCCESS';
 
 //action creator
 export const getMyMarketList = createRequestThunk(

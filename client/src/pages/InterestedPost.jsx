@@ -56,7 +56,7 @@ const InterestedPost = ({ userInfo }) => {
       <div className="mypost-post-wrapper">
         <h3 onClick={clickShowPost}>게시물{postFoldBtn}</h3>
         <div className="mypost-post-container" ref={postCon}>
-          a
+        <MyLikePostCard type="collectPost" userInfo={userInfo} />
         </div>
       </div>
       {/* <div className="mypost-match-wrapper">

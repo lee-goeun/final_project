@@ -411,9 +411,9 @@ const CommentContainer = ({
 
   const [CommentModal, setCommentModal] = useState('');
 
-  useEffect(()=>{
-    setCommentModal(commentContent)
-  },[commentContent]);
+  useEffect(() => {
+    setCommentModal(commentContent);
+  }, [commentContent]);
 
   const clickModifyComment = (e) => {
     setShowModifyCommentModal(!showmodifyCommentModal);
@@ -469,7 +469,6 @@ const CommentContainer = ({
 
   const currentUserId = userInfo.userId;
 
-
   // 댓글 삭제 [완료]
   const clickDeleteComment = async (e) => {
     await axios
@@ -483,11 +482,11 @@ const CommentContainer = ({
         alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
       });
   };
-  
 
   // 댓글 수정 [값 전달까지는 가능 commentContent값]
   const clickModifyCommentText = async (e) => {
-    await axios.put(`http://localhost:3001/board/comment/edit/${commentId}`, {
+    await axios
+      .put(`http://localhost:3001/board/comment/edit/${commentId}`, {
         userId: currentUserId,
         commentContent: CommentModal,
       })
@@ -510,7 +509,8 @@ const CommentContainer = ({
 
   // 댓글 신고 [완료]
   const clickReportCommentText = async (e) => {
-    await axios.post(`http://localhost:3001/board/comment/${reportedUserId}/report`, {
+    await axios
+      .post(`http://localhost:3001/board/comment/${reportedUserId}/report`, {
         userId: currentUserId,
         commentId,
       })
@@ -626,7 +626,10 @@ const CommentContainer = ({
       {/* 텍스트 값 갖고 오는 곳 */}
       {showmodifyCommentModal && (
         <div className="comment-modal--modify">
-          <textarea onChange={(e)=>setCommentModal(e.target.value)} value={CommentModal}></textarea>
+          <textarea
+            onChange={(e) => setCommentModal(e.target.value)}
+            value={CommentModal}
+          ></textarea>
           <div>
             <button
               className="modify-comment-cancel"
