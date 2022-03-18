@@ -46,7 +46,7 @@ export const getMyMatchingList = (userId) =>
 export const getMyMarketList = (userId) =>
   axios.get(`http://localhost:3001/market/myList/${userId}`);
 export const getMyPostList = (userId) =>
-  axios.get(`http://localhost:3001/mypage/myboard`, userId);
+  axios.get(`http://localhost:3001/mypage/myboard`, {params: { userId: userId }});
 
 // export const getMyProfileUpdate = (userId) =>
 //   axios.get(`http://localhost:3001/Profile/Update`, userId);

@@ -315,12 +315,14 @@ const MyPostCard = ({ type, userInfo }) => {
               <div className="g3">
                 <CarouselStyle>
                   <Slider {...settings}>
-                    <div className="slider-wrapper">
-                      <img
-                        src={`http://localhost:3001/match/download?matchId=${item.boardId}&matchImgName=${item.boardImgList}`}
-                        alt="이미지"
-                      />
-                    </div>
+                      {item.boardImgList ? item.boardImgList.map((v) => (
+                        <div className="slider-wrapper">
+                        <img
+                          src={'http://localhost:3001/board/download?boardImgName=' + v}
+                          alt="이미지"
+                        />
+                        </div>
+                      )) : ""}
                   </Slider>
                 </CarouselStyle>
               </div>
