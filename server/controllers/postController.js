@@ -132,7 +132,7 @@ exports.findAll = (req, res) => {
 
 //게시판 상세보기
 exports.findOne = (req, res) => {
-  console.log('login id: ', req.query.userId);
+  console.log('board login id: ', req.query.userId);
   Post.findOne(req.params.postId, req.query.userId, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
@@ -145,9 +145,8 @@ exports.findOne = (req, res) => {
         });
       }
     } else {
-      // console.log("found post: ", data);
       //댓글 보기
-      Comment.find(req.params.postId, (err, comment) => {
+      Comment.find(req.query.userId, req.params.postId, (err, comment) => {
         if (err) {
           if (err.kind === 'not_found') {
             data.comment = null;
@@ -158,14 +157,18 @@ exports.findOne = (req, res) => {
             });
           }
         } else {
-          if (comment.length == 0) {
-            console.log('found post: ', data);
-            res.send(data);
-          } else {
-            data.comment = comment;
-            console.log('found post: ', data);
-            res.send(data);
-          }
+          // if (comment.length == 0) {
+          //   console.log('found post: ', data);
+          //   res.send(data);
+          // } else {
+          //   data.comment = comment;
+          //   console.log('found post: ', data);
+          //   res.send(data);
+          // }
+
+          data.comment = comment;
+          console.log('found post: ', data);
+          res.send(data);
         }
       });
     }

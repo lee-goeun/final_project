@@ -137,7 +137,6 @@ Post.findOne = (postID, userID, result) => {
                       res[0].collectStatus = 1;
                     }
 
-                    console.log("found post: ", res[0]);
                     result(null, res[0]);
 
                   });

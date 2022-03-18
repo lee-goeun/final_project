@@ -10,18 +10,20 @@ const Comment = function (comment) {
   this.userId = comment.userId;
   this.commentLikeCounting = comment.commentLikeCounting;
   this.commentDeleted = comment.commentDeleted;
+  this.cgoodStatus = comment.cgoodStatus
 };
 
 //댓글 작성
 Comment.create = (newComment, result) => {
   sql.query(
-    'INSERT INTO boardCommentTbl(categoryIndex, boardId, commentContent, userId, commentDeleted) VALUES (?, ?, ?, ?, ?)',
+    'INSERT INTO boardCommentTbl(categoryIndex, boardId, commentContent, userId, commentDeleted, cgoodStatus) VALUES (?, ?, ?, ?, ?, ?)',
     [
       newComment.categoryIndex,
       newComment.boardId,
       newComment.commentContent,
       newComment.userId,
       newComment.commentDeleted,
+      newComment.cgoodStatus
     ],
     (err, res) => {
       if (err) {
@@ -37,9 +39,9 @@ Comment.create = (newComment, result) => {
 };
 
 //댓글 조회
-Comment.find = (postId, result) => {
+Comment.find = (userId, postId, result) => {
   sql.query(
-    'SELECT userNick, commentContent, commentLikeCounting, commentCreated, commentId FROM usertbl LEFT JOIN boardCommentTbl ON usertbl.userId= boardCommentTbl.userId WHERE boardCommentTbl.boardId=? AND boardCommentTbl.commentDeleted=0 ORDER BY commentCreated',
+    'SELECT userNick, commentContent, commentLikeCounting, commentCreated, commentId, cgoodStatus FROM usertbl LEFT JOIN boardCommentTbl ON usertbl.userId= boardCommentTbl.userId WHERE boardCommentTbl.boardId=? AND boardCommentTbl.commentDeleted=0 ORDER BY commentCreated',
     postId,
     (err, res) => {
       if (err) {
@@ -49,6 +51,34 @@ Comment.find = (postId, result) => {
       }
 
       if (res.length) {
+        for(var i = 0; i < res.length; i++) {
+          console.log("comment res[i]", res[i].commentId);
+          var commentId = res[i].commentId;
+          sql.query('SELECT commentLikeId, commentId FROM commentLikeTbl WHERE userId=? AND commentId=?',
+          [userId, res[i].commentId], (err, cgood) => {
+            console.log("cgood", cgood);
+            if(err) {
+              console.log("err", err);
+            }
+            if(cgood.length == 0) {
+              sql.query('UPDATE boardCommentTbl SET cgoodStatus=0 WHERE commentId=?', commentId, (err, status) => {
+                if(err) {
+                  console.log(err)
+                } else {
+                  console.log("댓글 좋아요 상태 0으로 바뀜")
+                }
+              })
+            } else {
+              sql.query('UPDATE boardCommentTbl SET cgoodStatus=1 WHERE commentId=?', cgood[0].commentId, (err, status) => {
+                if(err) {
+                  console.log(err)
+                } else {
+                  console.log("댓글 좋아요 상태 1으로 바뀜")
+                }
+              })
+            }
+          });
+        }
         result(null, res);
         return;
       }
@@ -127,6 +157,17 @@ Comment.like = (commentID, userID, result) => {
             }
 
             //commentTbl의 좋아요 개수 증가
+
+            //좋아요 상태 변화
+            sql.query('UPDATE boardCommentTbl SET cgoodStatus = 1 WHERE commentId=?',
+            commentID,
+            (err, cgood) => {
+              if(err) {
+                console.log(err)
+              };
+            })
+
+            
             sql.query(
               'SELECT commentLikeCounting FROM boardCommentTbl WHERE commentId=?',
               commentID,
@@ -143,6 +184,7 @@ Comment.like = (commentID, userID, result) => {
                   return;
                 }
 
+                
                 sql.query(
                   'UPDATE boardCommentTbl SET commentLikeCounting=? WHERE commentId=?',
                   [commentgood[0].commentLikeCounting + 1, commentID],
@@ -171,6 +213,15 @@ Comment.like = (commentID, userID, result) => {
         );
       } else {
         //좋아요한 댓글일 경우(좋아요 취소)
+
+        sql.query('UPDATE boardCommentTbl SET cgoodStatus = 0 WHERE commentId=?',
+            commentID,
+            (err, cgood) => {
+              if(err) {
+                console.log(err)
+              };
+          });
+
         sql.query(
           'DELETE FROM commentLikeTbl WHERE commentLikeId=?',
           good[0].commentLikeId,
