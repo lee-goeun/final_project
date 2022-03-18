@@ -257,7 +257,6 @@ const PostContainer = ({
       })
       .then((res) => {
         console.log(res);
-        alert('댓글이 작성되었습니다.');
         commentInput.current.value = '';
         // window.location.replace(`/board/${boardId}`);
       })
@@ -527,8 +526,7 @@ const CommentContainer = ({
       })
       .then((res) => {
         console.log(res);
-        alert('신고가 처리됐습니다.');
-        alert('운영진이 검토후 처리될 예정입니다.');
+        alert('신고가 완료되었습니다. 운영진이 검토후 처리될 예정입니다.');
       })
       .catch((err) => {
         console.log('댓글 신고 에러 : ', err);
@@ -628,7 +626,7 @@ const CommentContainer = ({
             취소
           </button>
           <button
-            className="report-comment-yes"
+            className="report-comment-confirm"
             onClick={clickReportCommentText}
           >
             신고

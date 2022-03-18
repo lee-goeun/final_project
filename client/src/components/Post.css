@@ -574,7 +574,7 @@
   width: 300px;
   height: 150px;
   background-color: var(--bgcolor-default);
-  box-shadow: 3px 3px 20px #797979;
+  box-shadow: 1px 1px 5px rgb(0 0 0 / 20%);
 }
 .report-comment-modal > p {
   padding-top: 30px;
@@ -597,7 +597,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: var(--bgcolor-default);
-  box-shadow: 3px 3px 20px #c2c2c2;
+  box-shadow: 1px 1px 5px rgb(0 0 0 / 20%);
 }
 .comment-modal--modify textarea {
   width: 300px;
