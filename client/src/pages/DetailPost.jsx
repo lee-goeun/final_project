@@ -139,21 +139,19 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
                   />
                 )
               }
-              commentSection={
-                commentList || post.map(post)
+                commentSection={
+                  commentList || post.map(post)
                   ? commentList.map((com) => (
-                      <CommentContainer
-                        reportedUserId={post.reportedUserId}
-                        commentModify ={com.commentModify}
-                        userId={com.userId}
-                        commentId={com.commentId}
-                        key={com.commentId}
-                        userNick={com.userNick}
-                        commentContent={com.commentContent}
-                        commentLikeCounting={com.commentLikeCounting}
-                        commentCreated={com.commentCreated}
-                        // clickDeleteComment={null}
-                        // clickLikeComment={likeComment}
+                    <CommentContainer
+                      reportedUserId={post.reportedUserId}
+                      commentModify ={com.commentModify}
+                      userId={com.userId}
+                      commentId={com.commentId}
+                      key={com.commentId}
+                      userNick={com.userNick}
+                      commentContent={com.commentContent}
+                      commentLikeCounting={com.commentLikeCounting}
+                      commentCreated={com.commentCreated}
                       />
                     ))
                   : null
@@ -266,3 +264,6 @@ export default connect(
     likePost,
   },
 )(DetailPost);
+
+// clickDeleteComment={null}
+// clickLikeComment={likeComment}
