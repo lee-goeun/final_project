@@ -1,18 +1,16 @@
-import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AImageFIleInput from '../../components/common/AImageFileInput';
 import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {
+  getMyPetList,
   changeInput,
   initializeForm,
   unloadPost,
   updateMyPetPost,
   writeMyPetPost,
 } from '../../redux/modules/mypet';
-import { formControlClasses } from '@mui/material';
 
 const FormStyle = styled.form`
   .add-pet-form-wrapper {
@@ -94,7 +92,8 @@ const FormStyle = styled.form`
   }
 `;
 
-const AddPetForm = ({ clickAddCancel, clickAddConfirm, userInfo }) => {
+const AddPetForm = ({ clickAddCancel, userInfo }) => {
+  console.log('click', clickAddCancel);
   const [selectOther, setSelectOther] = useState(false);
 
   const [content, setContent] = useState('');
@@ -130,9 +129,10 @@ const AddPetForm = ({ clickAddCancel, clickAddConfirm, userInfo }) => {
   //write/update후처리
   const res = useSelector((state) => state.mypet.res);
   if (res) {
-    console.log('rrrrrrrrrrrr', res);
     if (res.status === 'success') {
       alert('새 반려동물이 등록되었습니다.');
+      clickAddCancel();
+      dispatch(getMyPetList(userInfo.userId), [dispatch]);
       res.status = '';
     }
   }
@@ -165,7 +165,7 @@ const AddPetForm = ({ clickAddCancel, clickAddConfirm, userInfo }) => {
     setContent(receivedFormData);
   };
 
-  clickAddConfirm = async (e) => {
+  const clickAddConfirm = async (e) => {
     e.preventDefault();
     if (!post.petId) {
       for (const [key, value] of Object.entries(contents)) {
@@ -189,6 +189,9 @@ const AddPetForm = ({ clickAddCancel, clickAddConfirm, userInfo }) => {
     console.log('formData', formData);
     if (!post.petId) dispatch(writeMyPetPost(formData), [dispatch]);
     else dispatch(updateMyPetPost(formData), [dispatch]);
+
+    
+    
   };
 
   const imgText = useRef();

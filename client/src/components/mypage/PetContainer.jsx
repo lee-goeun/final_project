@@ -172,9 +172,6 @@ const MyPet = ({ list, loadingList, userInfo }) => {
           clickAddCancel={() => {
             setShowAddForm(!showAddForm);
           }}
-          clickAddConfirm={() => {
-            setShowAddForm(!showAddForm);
-          }}
         />
       )}
     </>
