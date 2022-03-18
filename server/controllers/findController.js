@@ -12,7 +12,6 @@ const db = mysql.createConnection({
 
 exports.findId = async (req, res) => {
   try {
-    console.log('test');
     const { userEmail, userName } = req.body;
     // 임시 코드 -> 정리 필요 부분
     if (req.body.userEmail === '' || req.body.userName === '') {
@@ -22,7 +21,6 @@ exports.findId = async (req, res) => {
     // Email 기준 조회
     const query = 'SELECT * FROM usertbl WHERE userEmail = ? AND userName=?;';
     db.query(query, [userEmail, userName], (err, result) => {
-      // console.log('test');
       if (err) {
         console.log(err);
       } else {
@@ -74,9 +72,7 @@ exports.findId = async (req, res) => {
         });
       }
     });
-    // console.log('test'); // 확인
     return res.json('test');
-    // res.json({ status: 'success' });
   } catch (error) {
     console.log(error);
   }
@@ -98,10 +94,9 @@ const texts = () => {
 // 비밀번호 찾기
 exports.findPw = async (req, res) => {
   try {
-    // console.log('test'); // 넘어옴 확인
     const { userId, userEmail } = req.body;
 
-    // 임시 코드 -> 정리 필요 부분 ID email 입력칸
+    // 정리 필요 부분 ID email 입력칸
     if (req.body.userEmail === '' || req.body.userId === '') {
       res.send('이메일 또는 아이디를 입력해 주세요.');
     }
@@ -116,7 +111,6 @@ exports.findPw = async (req, res) => {
       if (err) {
         console.log(err);
       }
-      // console.log('test'); // 넘어옴
     });
 
     // Email 확인 및 메일 발송
@@ -125,8 +119,6 @@ exports.findPw = async (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        // console.log('test'); // 넘어옴
-        // 이름 값 db에서 확인
         let userName = res[0].userName;
 
         // 메일 옵션

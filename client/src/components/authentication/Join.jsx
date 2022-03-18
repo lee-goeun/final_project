@@ -28,7 +28,7 @@ const DaumPostStyle = styled.div`
 const Join = () => {
   const navigate = useNavigate();
 
-  const idInput = useRef();
+  const idInput = useRef('');
 
   const [userInfo, setUserInfo] = useState({
     address: '',
@@ -67,7 +67,7 @@ const Join = () => {
   const [inputAge, setInputAge] = useState();
   const [inputSex, setInputSex] = useState();
 
-  const [isActive, setIsActive] = useState(false);
+
 
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
   const pwRegex =
@@ -78,7 +78,7 @@ const Join = () => {
 
   // 아이디, 비밀번호, 비밀번호 재입력 별 유효성 검사 에러문
   const [idRegErrorText, setIdRegErrorText] = useState(
-    '영문자(소문자)로 시작하는 6~16자리',
+    '영문자(소문자) 또는 영문자(소문자)+숫자로 시작하는 6~16자리',
   );
 
   const [pwRegErrorText, setPwRegErrorText] = useState(
@@ -108,7 +108,7 @@ const Join = () => {
   const checkUserId = (userId) => {
     const idRegExp = /^[a-z]{1}[a-z0-9]{5,15}$/;
     if (!idRegExp.test(userId)) {
-      alert('영문자(소문자)로 시작하는 6~16자리 아이디를 입력하세요!');
+      alert('영문자(소문자) 또는 영문자(소문자)+숫자로 시작하는 6~16자리 아이디를 입력하세요!');
       userId.focus();
       return false;
     }
@@ -125,13 +125,13 @@ const Join = () => {
       return false;
     }
     //비밀번호와 비밀번호 확인이 맞지 않다면.
-    if (userPw != checkPw) {
+    if (userPw !== checkPw) {
       alert('두 비밀번호가 맞지 않습니다.');
       checkPw.focus();
       return false;
     }
     //아이디와 비밀번호가 같을 때.
-    if (userId == userPw) {
+    if (userId === userPw) {
       alert('아이디와 비밀번호는 같을 수 없습니다!');
       checkPw.focus();
       return false;
@@ -215,10 +215,10 @@ const Join = () => {
   // 아이디 유효성 검사
   useEffect(() => {
     if (inputId === '' || inputId === undefined) {
-      setIdRegErrorText('영문자(소문자)로 시작하는 6~16자리');
+      setIdRegErrorText('영문자(소문자) 또는 영문자(소문자)+숫자로 시작하는 6~16자리');
       idRegErrorStyle.current.style.color = '#494949';
     } else if (idRegex.test(inputId) === false) {
-      setIdRegErrorText('영문자(소문자)로 시작하는 6~16자리');
+      setIdRegErrorText('영문자(소문자) 또는 영문자(소문자)+숫자로 시작하는 6~16자리');
       idRegErrorStyle.current.style.color = 'red';
     } else if (idRegex.test(inputId) === true) {
       setIdRegErrorText('올바른 형식의 아이디입니다. 중복을 확인 해주세요.');
@@ -319,15 +319,22 @@ const Join = () => {
       joinBtn.current.disabled = true;
     }
   };
+  // const inputId = useRef(''); userId
+  // const checkId = useState('');
 
   // 아이디 중복확인 버튼
   const clickDuplicateCheckBtn1 = async (e) => {
-    await axios.get(`http://localhost:3001/auth/join/idCheck`, {
-        userId: inputId,
+    e.preventDefault();
+    console.log(idInput);
+    await axios.post(`http://localhost:3001/auth/join/idCheck`, {
+        userId: idInput.current.value,
       })
       .then((res) => {
-        console.log(res);
-        alert('사용 가능한 아이디입니다.');
+        if(res.data === false){
+          alert('사용 가능한 아이디입니다.');
+        }else if (res.data===true){
+          alert('이미 존재하는 아이디입니다.')
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -368,7 +375,7 @@ const Join = () => {
       checkName(inputName) &&
       checkNick(inputNick) &&
       checkEmail(inputEmail)
-      // 미완
+      // 주소 값 전달 미완
       // checUserPhone(inputPhone)&&
       // checAddress(address)&&
       // checExtarAddress(detailAddress)
@@ -416,10 +423,10 @@ const Join = () => {
           type="text"
           name="userId"
           placeholder="아이디를 입력하세요"
+          ref={idInput}
           onChange={(e) => {
             setInputId(e.target.value);
           }}
-          ref={idInput}
         />
         <button onClick={clickDuplicateCheckBtn1} className="duplicate-check">
           중복확인

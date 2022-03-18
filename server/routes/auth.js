@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/login', authController.login);
 router.get('/auth', authController.auth);
 router.post('/join', authController.join);
-router.get('/join/idCheck', authController.idCheck);
+router.post('/join/idCheck', authController.idCheck);
 router.post('/join/nickCheck', authController.ncikCheck);
 router.post('/join/emailCheck', authController.emailCheck);
 

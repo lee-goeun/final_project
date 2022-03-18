@@ -213,22 +213,29 @@ const postLoginModel = (req) => {
   });
 };
 
-exports.idCheck = (req, res) => {
-  console.log(req.body);
+exports.idCheck = async (req, res, callback) => {
   try {
     const { userId } = req.body;
+    let idCheck;
     const query = 'SELECT userId FROM usertbl WHERE userId = ?;';
-    db.query(query, [userId], async (err, res) => {
+    await db.query(query, [userId], async (err, res) => {
       if (err) {
-        console.log('존재하는 아이디입니다. test');
-      } else {
-        console.log(res);
+        console.log(err);
       }
-      // else {
-      // res.send('사용가능');
-      // res.json({ status: 'success' });
-      // }
+      if (res[0] != undefined) {
+        idCheck = true;
+      } else {
+        idCheck = false;
+      }
+      callback(idCheck);
     });
+    console.log(idCheck); // undefined 이고 callback 함수로 순차 호출 받은 값이 true
+
+    if (idCheck === false) {
+      return res.json(true);
+    } else {
+      return res.json(false);
+    }
   } catch (err) {
     console.log(err);
   }
