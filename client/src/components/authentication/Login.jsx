@@ -7,8 +7,7 @@ const Login = ({ userInfoHandler }) => {
   const navigate = useNavigate();
 
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
-  const pwRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,15}$/; // 비밀번호 정규표현식
+  const userPWRegExp = /^(?=.*[a-zA-Z])(?=.*[#?!@$%^&*-])(?=.*[0-9]).{8,16}$/; // 비밀번호 정규표현식
 
   const errorText = '올바른 형식이 아닙니다.';
   const [isErrorId, setIsErrorId] = useState(false);
@@ -38,13 +37,13 @@ const Login = ({ userInfoHandler }) => {
   };
   const onChangePwInput = (e) => {
     setUserPw(e.target.value);
-    if (pwRegex.test(e.target.value) === false) {
+    if (userPWRegExp.test(e.target.value) === false) {
       setIsErrorPw(true);
     } else {
       setIsErrorPw(false);
     }
 
-    if (isErrorId === false && pwRegex.test(e.target.value) === true) {
+    if (isErrorId === false && userPWRegExp.test(e.target.value) === true) {
       loginBtn.current.readOnly = false;
     } else {
       loginBtn.current.readOnly = true;
