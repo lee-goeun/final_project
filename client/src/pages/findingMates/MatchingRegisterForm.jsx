@@ -114,6 +114,15 @@ const MatchingRegisterForm = ({userInfo}) => {
   };
 
   const submitPost = async (e) => {
+   console.log('contents', contents);
+   if(petList.length == 0){
+     alert('반려동물을 등록해주세요');
+     return false;
+   }
+   if(contents.selectPet == ''){
+     alert('반려동물을 선택해주세요.')
+     return false;
+   }
     e.preventDefault();
     if (!post.matchId) {
       for (const [key, value] of Object.entries(contents)) {

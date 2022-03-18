@@ -313,22 +313,36 @@ router.post('/selling', (req, res) => {
   })
 })
 
+const address = (id) => {
+  conn.query('select address from userTbl where userId=?', id,(err, result) => {
+    if(err) return err;
+    else
+      return result[0].address;
+  })
+}
+
+
 //배송조회(관리자용)
 router.get('/delivery', (req, res) => {
     var sql = 'select * from marketSaleTbl';
     conn.query(sql,(err, results) => {
       if(err) return res.json({success:false,err});
       else{
+        console.log('ssss', address(results[0].userId));
         results.forEach(item => {
-          const userAddress = conn.query('select address from userTbl where userId=?', item.userId);
-          const sellerAddress = conn.query('select address from userTbl where userId=?', item.sellerId);
-
+          console.log('itme', item.userId);
+          console.log('ddddd', address(item.userId));
+          var userAddress = address(item.userId);
+          var sellerAddress = address(item.sellerId);
+          console.log('ssssssssssssssssss', userAddress, sellerAddress);
           item.userAddress = userAddress;
           item.sellerAddress = sellerAddress;
         })
+        console.log('result', results);
         res.json(results);
       };
     })
 })
+
 
 module.exports = router;
