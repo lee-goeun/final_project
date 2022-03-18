@@ -37,7 +37,7 @@ const ChattingPageStyle = styled.div`
     text-align: center;
   }
 `;
-const socket = io.connect('localhost:3002');
+const socket = io.connect('localhost:3002', { transports: ['websocket'] } );
 socket.emit('msg', { name: '홍길동', message: '테스트' });
 const Chatting = ({ userInfo }) => {
   useEffect(() => {
