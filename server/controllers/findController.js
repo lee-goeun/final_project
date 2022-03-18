@@ -12,22 +12,20 @@ const db = mysql.createConnection({
 
 exports.findId = async (req, res) => {
   try {
+    console.log('test');
     const { userEmail, userName } = req.body;
-
     // 임시 코드 -> 정리 필요 부분
     if (req.body.userEmail === '' || req.body.userName === '') {
       res.send('이메일 또는 이름을 입력해 주세요');
     }
-    // console.log('test'); 확인
 
     // Email 기준 조회
-    const query = 'SELECT * FROM usertbl WHERE userEmail = ?;';
-    db.query(query, [userEmail], (err, result) => {
-      // console.log('test'); 확인
+    const query = 'SELECT * FROM usertbl WHERE userEmail = ? AND userName=?;';
+    db.query(query, [userEmail, userName], (err, result) => {
+      // console.log('test');
       if (err) {
         console.log(err);
       } else {
-        // console.log('test'); 확인
         const Id = result[0].userId;
 
         // 메일 등록
@@ -61,22 +59,23 @@ exports.findId = async (req, res) => {
             '</b> 입니다.<br>' +
             '더욱 노력하는 PaP일동이 되겠습니다.',
         };
-
+        console.log(message);
         // 보내기
         transporter.sendMail(message, (err, res) => {
+          console.log('test', res);
           if (err) {
             res.json(err);
             return false;
           } else {
-            res.json(sucess);
+            res.json('sucess');
             transporter.close();
             return true;
           }
         });
       }
     });
-    // console.log('test'); 확인
-    res.json('test');
+    // console.log('test'); // 확인
+    return res.json('test');
     // res.json({ status: 'success' });
   } catch (error) {
     console.log(error);
@@ -99,6 +98,7 @@ const texts = () => {
 // 비밀번호 찾기
 exports.findPw = async (req, res) => {
   try {
+    // console.log('test'); // 넘어옴 확인
     const { userId, userEmail } = req.body;
 
     // 임시 코드 -> 정리 필요 부분 ID email 입력칸
@@ -116,14 +116,16 @@ exports.findPw = async (req, res) => {
       if (err) {
         console.log(err);
       }
+      // console.log('test'); // 넘어옴
     });
 
     // Email 확인 및 메일 발송
-    const query2 = 'SELECT * FROM usertbl WHERE userEmail = ?;';
-    db.query(query2, [userEmail], (err, res) => {
+    const query2 = 'SELECT * FROM usertbl WHERE userEmail = ? AND userId=?;';
+    db.query(query2, [userEmail, userId], (err, res) => {
       if (err) {
         console.log(err);
       } else {
+        // console.log('test'); // 넘어옴
         // 이름 값 db에서 확인
         let userName = res[0].userName;
 
@@ -152,28 +154,26 @@ exports.findPw = async (req, res) => {
             '안녕하세요 ' +
             userName +
             '님 항상 저희 PaP 서비스를 이용해주셔서 감사드립니다.<br>' +
-            '비밀번호 초기화 인증번호를 다음과 같이 보내드립니다.<br> 인증번호 유효 시간은 1시간 입니다.<br>' +
+            '비밀번호 초기화 인증번호를 다음과 같이 보내드립니다.<br> 인증번호를 절대 공유하지 말아주세요.<br>' +
             '인증번호 : <b>' +
             config +
             '</b>',
         };
-
         // [보내기]
         transporter.sendMail(message, (err, res) => {
           if (err) {
             res.json(err);
             return false;
           } else {
-            res.json(sucess);
+            res.json('sucess');
             transporter.close();
             return true;
           }
         });
       }
     });
-
-    // 라우터 및 기타 ui등 위치
-    res.send('전송 완료');
+    return res.json('test');
+    // res.send('전송 완료');
   } catch (error) {
     console.log(error);
   }

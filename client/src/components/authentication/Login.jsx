@@ -31,9 +31,9 @@ const Login = ({ userInfoHandler }) => {
       isErrorPw === false &&
       pwInput.current.value >= 8
     ) {
-      loginBtn.current.disabled = false;
+      loginBtn.current.readOnly = false;
     } else if (idRegex.test(e.target.value) === false) {
-      loginBtn.current.disabled = true;
+      loginBtn.current.readOnly = true;
     }
   };
   const onChangePwInput = (e) => {
@@ -45,9 +45,9 @@ const Login = ({ userInfoHandler }) => {
     }
 
     if (isErrorId === false && pwRegex.test(e.target.value) === true) {
-      loginBtn.current.disabled = false;
+      loginBtn.current.readOnly = false;
     } else {
-      loginBtn.current.disabled = true;
+      loginBtn.current.readOnly = true;
     }
   };
 
@@ -74,9 +74,11 @@ const Login = ({ userInfoHandler }) => {
   const idInput = useRef();
   const pwInput = useRef();
   const loginBtn = useRef();
-  const nameInput = useRef();
-  const emailInput = useRef();
-  const userIdInput = useRef();
+  
+  // 이메일 보낼 때 필요한 값
+  const nameInput = useRef('');
+  const emailInput = useRef('');
+  const userIdInput = useRef('');
 
   const [showFindIdModal, setShowFindIdModal] = useState(false);
 
@@ -88,34 +90,32 @@ const Login = ({ userInfoHandler }) => {
     e.preventDefault();
     clickLoginBtn();
   };
-
+  
   // 아이디 찾기 버튼 클릭시 이벤트 처리
   const clickDuplicateCheckBtn1 = async (e) => {
-    await axios
-      .post('http://localhost:3001/find/findId', {
-        userName: nameInput,
-        userEmail: emailInput,
+    e.preventDefault();
+    console.log(nameInput);
+    await axios.post('http://localhost:3001/find/findId', {
+        userName: nameInput.current.value,
+        userEmail: emailInput.current.value,
       })
       .then((res) => {
-        if (res.data.status === 'test') {
+        console.log(res)
           alert('발송에 성공했습니다.');
-        } else {
-          alert('발송에 실패했습니다.');
-        }
       });
   };
 
   // 비밀번호 찾기 버튼 클릭시 이벤트 처리
   const clickDuplicateCheckBtn2 = async (e) => {
-    await axios
-      .post('http://localhost:3001/find/findPw', {
-        userId: userIdInput,
-        userEmail: emailInput,
+    e.preventDefault();
+    console.log(userIdInput);
+    await axios.post('http://localhost:3001/find/findPw', {
+        userId: userIdInput.current.value,
+        userEmail: emailInput.current.value,
       })
       .then((res) => {
-        if (res.data.status === 'success') {
-          alert('메일로 아이디를 보내드렸습니다.');
-        }
+        console.log(res)
+          alert('메일로 인증번호를 보내드렸습니다.');
       });
   };
 
@@ -201,15 +201,13 @@ const Login = ({ userInfoHandler }) => {
                 <p>비밀번호 찾기</p>
                 <div className="find-pw">
                   <input
-                    type="text"
-                    id="userId"
-                    name="userId"
+                    type="text"                    
+                    ref={userIdInput}
                     placeholder="아이디를 입력하세요"
                   />
                   <input
-                    type="email"
-                    id="userEmail"
-                    name="userEmail"
+                    type="text"
+                    ref={emailInput}
                     placeholder="이메일을 입력하세요"
                   />
                   {/* 디자인 수정 필요 */}
