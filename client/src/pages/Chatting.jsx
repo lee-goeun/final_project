@@ -11,7 +11,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTelegram } from '@fortawesome/free-brands-svg-icons';
 import axios from 'axios';
-import socketio from "socket.io-client";
+import io from "socket.io-client";
 
 
 const ChattingPageStyle = styled.div`
@@ -38,9 +38,14 @@ const ChattingPageStyle = styled.div`
     text-align: center;
   }
 `;
-const socket = socketio('localhost:3002');
-console.log('socket', socket)
+const socket = io.connect('localhost:3002');
+socket.emit('msg', {name : '홍길동',message:'테스트'});
 const Chatting = ({userInfo}) => {
+  useEffect(() => {
+    return () => {
+      socket.close();
+    }
+  })
   const [chatUserList, setChatUserList] = useState([]);
   
   console.log(chatUserList);
@@ -49,7 +54,7 @@ const Chatting = ({userInfo}) => {
   }
   const clickTest = (e) =>{
     e.preventDefault();
-    socket.emit('send message', {name : '홍길동',message:'테스트'});
+    
   }
   const msgClick = (e) => {
   }

@@ -4,31 +4,19 @@ const app = express();
 const http = require('http').createServer(app);
 const conn = require("../db/index");
 const router = express.Router();
-const { json } = require("body-parser");
-const { emit } = require("process");
 const io = require('socket.io')(http);
 
 
 //웹소켓관련
-io.on('connection', socket => {
-  //console.log("user Connected");
-  socket.on('disconnect',()=>{
-   // console.log('user Disconnect');
-  })
-})
 
 http.listen(3002, () => console.log('listing on port 3002'));
 
 io.on('connection', socket => {
-  //console.log('sssss');
-  socket.on('send message', (item) => {
-    const msg = item.name + ":" + item.message;
-    console.log(msg);
-    io.emit('receive message', {name:item.name,message:item.message});
+ // console.log('conection');
+  socket.on('msg', (item) => {
+    console.log(item);
+    // io.emit('receive message', {name:item.name,message:item.message});
   });
-  socket.on('disconnect', function(){
-   // console.log('user disconnected', socket.id);
-  })
 })
 
 //조회
