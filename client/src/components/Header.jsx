@@ -103,7 +103,7 @@ const HeaderStyle = Styled.div`
     padding: 5px 10px ;
     text-align: center;
     box-shadow: 0 10px 7px #e4e4e467; 
-    z-index: 99;
+    z-index: 3;
   }
   .drop-menu > p{
     line-height: 28px;
