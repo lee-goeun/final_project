@@ -51,36 +51,88 @@ const Post = ({ post, userInfo }) => {
           />
         </DisplayWrapper>
       </StyledLink>
-      {post.isSale ? <SoldOut>판매완료</SoldOut> : ''}
-      <h3>{`${post.marketTitle}`}</h3>
-      <h6>{`${post.price}`} 원</h6>
-
-      <VisibilityIcon />
-      <span>{post.marketViews}</span>
-      <Link to="" onClick={bookmarkChk}>
-        {isBookmark ? <BookmarkIcon /> : <BookmarkBorderIcon />}
-      </Link>
+      {post.isSale ? (
+        <SoldOut>
+          <span>판매완료</span>
+        </SoldOut>
+      ) : (
+        ''
+      )}
+      <div className="mntit">
+        <h3>{`${post.marketTitle}`}</h3>
+      </div>
+      <div className="mncoc">
+        <div>
+          <small>판매금액 </small>
+          {`${post.price}`} 원
+        </div>
+        <div className="mncocicons">
+          <span>
+            <p className="pppppp">{post.marketViews}</p>
+          </span>
+          <VisibilityIcon />
+          <Link to="" onClick={bookmarkChk}>
+            {isBookmark ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+          </Link>
+        </div>
+      </div>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  width: 500px;
-  height: 300px;
-  margin: 20px auto 70px;
+  transition: 0.3s;
+  cursor: pointer;
+  box-shadow: 1px 1px 5px rgb(0 0 0 / 20%);
+  width: 400px;
+  height: 500px;
+  margin: 30px 30px;
   position: relative;
+  overflow: hidden;
+  .mntit {
+    padding: 5px 10px;
+    height: 70px;
+  }
+  .mncoc {
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    line-height: 30px;
+  }
+  .mncocicons {
+    padding-top: 3px;
+  }
+  .pppppp {
+    display: inline-block;
+    position: relative;
+    bottom: 5px;
+    right: 5px;
+  }
+  :hover {
+    transform: translateY(-5px);
+    box-shadow: 2px 2px 10px rgb(0 0 0 / 50%);
+  }
 `;
 const SoldOut = styled.div`
-  width: 500px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
   margin: 20px auto;
   position: absolute;
-  top: 0;
+  top: -20px;
   left: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  span {
+    border: 2px solid white;
+    color: white;
+    font-size: 20px;
+    padding: 5px 10px;
+    position: relative;
+    top: 45%;
+    left: 39%;
+  }
 `;
 const StyledLink = styled(Link)`
-  width: 500px;
+  width: 400px;
   height: 300px;
   margin: 20px auto;
 `;
@@ -88,11 +140,16 @@ const DisplayWrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  width: 400px;
+  height: 400px;
+  overflow: hidden;
 `;
 
 const ImgInner = styled.img`
-  width: 500px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const MiddleSectionWrapper = styled.section`
@@ -122,7 +179,7 @@ const ItemListWrapper = styled.section`
   display: grid;
   max-width: 1300px;
   margin: 20px auto;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 `;
 
 const ItemLists = ({ loadingList, list, userInfo }) => {
