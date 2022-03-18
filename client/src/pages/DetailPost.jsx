@@ -4,13 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faCircleArrowLeft, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as borderHeart } from '@fortawesome/free-regular-svg-icons';
-import {
-  createSearchParams,
-  Link,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { getPost, likePost } from '../redux/modules/post';
