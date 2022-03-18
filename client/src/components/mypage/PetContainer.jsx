@@ -5,7 +5,7 @@ import React, { useRef, useState } from 'react';
 import '../../pages/MyPageStyle.css';
 import { faSquarePlus } from '@fortawesome/free-regular-svg-icons';
 import AddPetForm from './AddPetForm';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getMyPetList, deleteMyPetPost } from '../../redux/modules/mypet';
 
 const PCStyle = styled.div`
@@ -76,13 +76,23 @@ const PetContainer = ({ post, userInfo }) => {
   var nowYear = new Date().getFullYear();
   const dispatch = useDispatch();
 
+  
+
   const delMyPet = () => {
     const cnfrm = window.confirm('삭제하시겠습니까?');
     if (cnfrm) {
       dispatch(deleteMyPetPost(post.petId), [dispatch]);
-      dispatch(getMyPetList(userInfo.userId), [dispatch]);
     }
   };
+
+  const res = useSelector((state) => state.mypet.post);
+  if (res) {
+    if (res.status === 'success') {
+      alert('삭제되었습니다.');
+      dispatch(getMyPetList(userInfo.userId), [dispatch]);
+      res.status = '';
+    }
+  }
 
   return (
     <PCStyle>
