@@ -6,7 +6,7 @@ import '../../pages/MyPageStyle.css';
 import { faSquarePlus } from '@fortawesome/free-regular-svg-icons';
 import AddPetForm from './AddPetForm';
 import { useDispatch } from 'react-redux';
-import { deleteMyPetPost } from '../../redux/modules/mypet';
+import { getMyPetList, deleteMyPetPost } from '../../redux/modules/mypet';
 
 const PCStyle = styled.div`
   .pet-container {
@@ -72,7 +72,7 @@ const PCStyle = styled.div`
   }
 `;
 
-const PetContainer = ({ post }) => {
+const PetContainer = ({ post, userInfo }) => {
   var nowYear = new Date().getFullYear();
   const dispatch = useDispatch();
 
@@ -80,7 +80,7 @@ const PetContainer = ({ post }) => {
     const cnfrm = window.confirm('삭제하시겠습니까?');
     if (cnfrm) {
       dispatch(deleteMyPetPost(post.petId), [dispatch]);
-      window.location.replace('/mypet');
+      dispatch(getMyPetList(userInfo.userId), [dispatch]);
     }
   };
 
@@ -146,7 +146,7 @@ const MyPet = ({ list, loadingList, userInfo }) => {
         {!loadingList && list && (
           <div>
             {list.map((post) => (
-              <PetContainer key={post.petId} post={post} />
+              <PetContainer key={post.petId} post={post} userInfo={userInfo}/>
             ))}
           </div>
         )}
