@@ -6,11 +6,10 @@ import {
   faCameraRetro,
   faCircleUser,
   faHouse,
-  faMagnifyingGlass,
   faMessage,
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
-import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 

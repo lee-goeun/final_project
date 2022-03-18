@@ -21,6 +21,10 @@ const categories = [
     name: 'profile',
     text: '프로필 관리',
   },
+  {
+    name: 'adminpage',
+    text: '관리자 페이지',
+  },
 ];
 
 const Nav = styled.nav`

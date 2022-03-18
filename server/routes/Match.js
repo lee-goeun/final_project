@@ -229,7 +229,7 @@ router.get('/detail/:id', (req, res) => {
       //선택한 반려동물
       const selectPet = results[0].selectPet;
       console.log('see', selectPet);
-      var sql2 = "select * from mypetTbl where petDeleted = 0 and petId in (?)";
+      var sql2 = "select * from mypetTbl where petId in (?)";
         conn.query(sql2,selectPet,(err2, results2) => {
             if(err2) return res.json({success:false, err});
             else{

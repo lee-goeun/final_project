@@ -31,11 +31,14 @@ import MarketListsContainer from './redux/containers/MarketListsContainer';
 import WriteMarketgPost from './pages/usedMarket/ItemRegisterForm';
 import MarketPostContainer from './redux/containers/MarketPostContainer';
 
-import axios from 'axios';
-import { useState, useEffect } from 'react';
+//관리자페이지
+import AdminPage from './pages/AdminPage';
 
 import MyPetListsContainer from './redux/containers/MyPetListsContainer';
 import InterestedPost from './pages/InterestedPost';
+
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 const App = () => {
   const [userInfo, setUserInfo] = useState({
@@ -158,6 +161,7 @@ const App = () => {
           path="/profileUpdate/"
           element={<ProfileUpdate userInfoProps={userInfo} />}
         />
+        <Route path="/adminpage/" element={<AdminPage />} />
         {/* <Route path="profile/:username" element={<Profile />} /> */}
       </Route>
     </Routes>
