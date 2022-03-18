@@ -51,13 +51,9 @@ const DetailStyle = styled.div`
 `;
 
 const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
-<<<<<<< HEAD
-  // console.log(post) // 게시물 정리할 때 참조 콘솔 값
-  console.log(commentList ) // 댓글 정리할 때 사용했음
-=======
   console.log(post); // 게시물 정리할 때 참조 콘솔 값
   // console.log(commentList) 댓글 정리할 때 사용했음
->>>>>>> bc7f6909c61fc7bae5664e7c1605996241e66eea
+
   useEffect(() => {
     console.log(`${boardId}번 게시물 상세보기 렌더링`);
     getPost(boardId);
@@ -153,13 +149,8 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
                 commentList || post.map(post)
                   ? commentList.map((com) => (
                       <CommentContainer
-                      
                         reportedUserId={post.reportedUserId}
-<<<<<<< HEAD
                         commentModify ={com.commentModify}
-=======
-                        commentModify={post.commentModify}
->>>>>>> bc7f6909c61fc7bae5664e7c1605996241e66eea
                         userId={com.userId}
                         commentId={com.commentId}
                         key={com.commentId}
