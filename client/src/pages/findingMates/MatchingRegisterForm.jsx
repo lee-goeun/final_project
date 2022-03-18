@@ -119,10 +119,18 @@ const MatchingRegisterForm = ({userInfo}) => {
      alert('반려동물을 등록해주세요');
      return false;
    }
-   if(contents.selectPet == ''){
-     alert('반려동물을 선택해주세요.')
-     return false;
+   if(!post.matchId){
+    if(contents.selectPet == ''){
+      alert('반려동물을 선택해주세요.')
+      return false;
+    }
+   }else{
+    if(post.selectPet == ''){
+      alert('반려동물을 선택해주세요.')
+      return false;
+    }
    }
+   
     e.preventDefault();
     if (!post.matchId) {
       for (const [key, value] of Object.entries(contents)) {
@@ -180,7 +188,7 @@ const MatchingRegisterForm = ({userInfo}) => {
                   label="selectPet"
                   name="selectPet"
                   onChange={handleChange}
-                  value={useSelector((state) => state.matching.write.selectPet)}
+                  value={useSelector((state) => (!state.matching.post==null ? state.matching.write.selectPet : state.matching.update.selectPet))}
                 >
                   {petList ? petList.map((val) => (
                     <MenuItem value={val.petId}>{val.petName}</MenuItem>
