@@ -51,7 +51,7 @@ const DetailStyle = styled.div`
 `;
 
 const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
-  console.log(post) // 게시물 정리할 때 참조 콘솔 값
+  console.log(post); // 게시물 정리할 때 참조 콘솔 값
   // console.log(commentList) 댓글 정리할 때 사용했음
   useEffect(() => {
     console.log(`${boardId}번 게시물 상세보기 렌더링`);
@@ -67,6 +67,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
           `따로axios ${boardId}번 관심게시물 상태, ${res.data.collectStatus}`,
         );
         setGoodStatus(res.data.goodStatus);
+        setCollectStatus(res.data.collectStatus);
       })
       .catch((e) => console.log(e));
   }, [getPost]);
@@ -148,7 +149,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
                   ? commentList.map((com) => (
                       <CommentContainer
                         reportedUserId={post.reportedUserId}
-                        commentModify ={post.commentModify}
+                        commentModify={post.commentModify}
                         userId={com.userId}
                         commentId={com.commentId}
                         key={com.commentId}
