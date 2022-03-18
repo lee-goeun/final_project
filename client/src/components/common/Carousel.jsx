@@ -6,39 +6,27 @@ import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import Slider from 'react-slick';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-// 레이아웃 체크용
-// const items = [
-//   {
-//     id: 1,
-//     url: 'https://media.istockphoto.com/photos/dog-napping-with-baby-picture-id1287317675?k=20&m=1287317675&s=612x612&w=0&h=8JrDNntBc5iYZ_RY9dOfvoVNaGVozW1sRMt-ZoTQh7U=',
-//   },
-//   {
-//     id: 2,
-//     url: 'https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGV0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60',
-//   },
-//   {
-//     id: 3,
-//     url: 'https://media.istockphoto.com/photos/dog-napping-with-baby-picture-id1287317675?k=20&m=1287317675&s=612x612&w=0&h=8JrDNntBc5iYZ_RY9dOfvoVNaGVozW1sRMt-ZoTQh7U=',
-//   },
-//   {
-//     id: 4,
-//     url: 'https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGV0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60',
-//   },
-//   {
-//     id: 5,
-//     url: 'https://media.istockphoto.com/photos/chihuahua-dog-sleep-on-bed-picture-id958839274?k=20&m=958839274&s=612x612&w=0&h=9ZlWCfYGdVSf7PhaqyeqC79vznWXSDb9LJAWv7rxHQU=',
-//   },
-// ];
 
 const StyledLink = styled(Link)`
   margin: 0 8px;
   width: 150px;
   height: 150px;
+  .iw {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+  }
 `;
 
 const Image = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: 1px 1px 5px rgb(0 0 0 / 20%);
+  transition: 0.3s;
+  :hover {
+    transform: scale(1.03);
+  }
 `;
 
 function SampleNextArrow(props) {
@@ -106,20 +94,23 @@ const StyledSlider = styled(Slider)`
   }
 `;
 
-const Carousel = ({type, userInfo}) => {
+const Carousel = ({ type, userInfo }) => {
   const [timeoutList, setTimeoutList] = useState([]);
   var nowTime = new Date().getTime();
   const getTimeoutList = async () => {
     let res;
-    if(type =='matching'){
+    if (type == 'matching') {
       res = await axios.get('http://localhost:3001/match/listLimit1');
       const data = res.data;
-      for(let i=0; i<data.length; i++){
-        if(data[i].region1 == userInfo.region1 && data[i].region2 == userInfo.region2){
+      for (let i = 0; i < data.length; i++) {
+        if (
+          data[i].region1 == userInfo.region1 &&
+          data[i].region2 == userInfo.region2
+        ) {
           setTimeoutList(data);
         }
       }
-    }else{
+    } else {
       res = await axios.get('http://localhost:3001/market/viewCountList');
       setTimeoutList(res.data);
     }
@@ -144,38 +135,43 @@ const Carousel = ({type, userInfo}) => {
   return (
     <StyledSlider {...settings}>
       {timeoutList.map((timeout) => {
-        return (
-          type=='matching' ? 
+        return type == 'matching' ? (
           <StyledLink
-          to={'/match/detail/' + timeout.matchId}
-          key={timeout.matchId}
-        >
-          {timeout.id}
-          <Image
-            src={
-              'http://localhost:3001/match/download?matchId=' +
-              timeout.matchId +
-              '&matchImgName=' +
-              timeout.matchImgName
-            }
-          />
-            <AccessAlarmIcon/>
-            {parseInt((new Date(timeout.matchTime).getTime() - nowTime)/1000/60 + 1)}분 남음
-        </StyledLink> : 
-        <StyledLink
-          to={'/market/detail/' + timeout.marketId}
-          key={timeout.marketId}
-        >
-          {timeout.id}
-          <Image
-            src={
-              'http://localhost:3001/market/download?marketId=' +
-              timeout.marketId +
-              '&marketImgName=' +
-              timeout.marketImgName
-            }
-          />
-        </StyledLink>
+            to={'/match/detail/' + timeout.matchId}
+            key={timeout.matchId}
+          >
+            {timeout.id}
+            <div className="iw">
+              <Image
+                src={
+                  'http://localhost:3001/match/download?matchId=' +
+                  timeout.matchId +
+                  '&matchImgName=' +
+                  timeout.matchImgName
+                }
+              />
+            </div>
+            <AccessAlarmIcon />
+            {parseInt(
+              (new Date(timeout.matchTime).getTime() - nowTime) / 1000 / 60 + 1,
+            )}
+            분 남음
+          </StyledLink>
+        ) : (
+          <StyledLink
+            to={'/market/detail/' + timeout.marketId}
+            key={timeout.marketId}
+          >
+            {timeout.id}
+            <Image
+              src={
+                'http://localhost:3001/market/download?marketId=' +
+                timeout.marketId +
+                '&marketImgName=' +
+                timeout.marketImgName
+              }
+            />
+          </StyledLink>
         );
       })}
       {/* 레이아웃 체크용 */}
