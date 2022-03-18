@@ -30,13 +30,11 @@ module.exports = (app) => {
 
   const upload = multer({ storage: storage });
 
-
   //모든 게시글 조회 GET
   postRouter.get('/', posts.findAll);
 
   //게시글 작성 POST
   postRouter.post('/post', upload.array('img', 5), posts.create);
-
 
   //게시글 상세보기
   postRouter.get('/post/:postId', posts.findOne);
@@ -44,8 +42,8 @@ module.exports = (app) => {
   //게시글 삭제
   postRouter.delete('/post/:postId', posts.delete);
 
-  //게시글 수정 POST
-  postRouter.post('/post/edit/:postId', posts.update);
+  //게시글 수정
+  postRouter.put('/post/edit/:postId', posts.update);
 
   //게시글 좋아요
   postRouter.post('/post/:postId/like', posts.like);
@@ -55,6 +53,6 @@ module.exports = (app) => {
 
   //게시물 신고
   postRouter.post('/post/:postId/report', posts.report);
-  
+
   app.use('/board', postRouter);
 };

@@ -9,8 +9,8 @@ module.exports = (app) => {
   //댓글 삭제 [완료]
   commentRouter.delete('/comment/:commentId', comments.delete);
 
-  //댓글 수정 [값만 저장하면 완료]
-  commentRouter.post('/comment/edit/:commentId', comments.update);
+  //댓글 수정 [완료] post[데이터 등록 및 전송]-> put[수정]
+  commentRouter.put('/comment/edit/:commentId', comments.update);
 
   //댓글 좋아요 [완료]
   commentRouter.post('/comment/:commentId/like', comments.like);

@@ -222,9 +222,12 @@ exports.idCheck = (req, res) => {
       if (err) {
         console.log('존재하는 아이디입니다. test');
       } else {
-        // res.send('사용가능');
-        // res.json({ status: 'success' });
+        console.log(res);
       }
+      // else {
+      // res.send('사용가능');
+      // res.json({ status: 'success' });
+      // }
     });
   } catch (err) {
     console.log(err);

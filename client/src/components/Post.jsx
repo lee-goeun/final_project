@@ -419,9 +419,14 @@ const CommentContainer = ({
   commentCreated,
   commentId,
   reportedUserId,
-  commentModify,
 }) => {
   const [showmodifyCommentModal, setShowModifyCommentModal] = useState(false);
+
+  const [CommentModal, setCommentModal] = useState('');
+
+  useEffect(()=>{
+    setCommentModal(commentContent)
+  },[commentContent]);
 
   const clickModifyComment = (e) => {
     setShowModifyCommentModal(!showmodifyCommentModal);
@@ -437,7 +442,6 @@ const CommentContainer = ({
     auth: false,
     userId: '',
     userNick: '',
-    commentId: '',
     userEmail: '',
     userName: '',
     region1: '',
@@ -453,7 +457,6 @@ const CommentContainer = ({
         method: 'get',
         headers: { 'x-access-token': localStorage.getItem('token') },
       });
-      // console.log(tokenValidationResponse, 'tokenValidResponse');
       userInfoHandler(tokenValidationResponse);
     } catch (error) {
       console.log(error);
@@ -472,15 +475,13 @@ const CommentContainer = ({
         region2: data.region2,
         region3: data.region3,
         userImg: data.userImg,
-        // commentModify: data.commentModify,
-        // commentContent: data.commentContent,
         //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
       };
     });
   };
 
   const currentUserId = userInfo.userId;
-  const commentText = userInfo.commentContent;
+
 
   // 댓글 삭제 [완료]
   const clickDeleteComment = async (e) => {
@@ -495,13 +496,13 @@ const CommentContainer = ({
         alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
       });
   };
+  
 
-  // 댓글 수정 [값 전달까지는 성공]
+  // 댓글 수정 [값 전달까지는 가능 commentContent값]
   const clickModifyCommentText = async (e) => {
-    await axios
-      .post(`http://localhost:3001/board/comment/edit/${commentId}`, {
+    await axios.put(`http://localhost:3001/board/comment/edit/${commentId}`, {
         userId: currentUserId,
-        commentModify,
+        commentContent: CommentModal,
       })
       .then((res) => {
         console.log(res);
@@ -522,8 +523,7 @@ const CommentContainer = ({
 
   // 댓글 신고 [완료]
   const clickReportCommentText = async (e) => {
-    await axios
-      .post(`http://localhost:3001/board/comment/${reportedUserId}/report`, {
+    await axios.post(`http://localhost:3001/board/comment/${reportedUserId}/report`, {
         userId: currentUserId,
         commentId,
       })
@@ -639,7 +639,7 @@ const CommentContainer = ({
       {/* 텍스트 값 갖고 오는 곳 */}
       {showmodifyCommentModal && (
         <div className="comment-modal--modify">
-          <textarea>{commentContent}</textarea>
+          <textarea onChange={(e)=>setCommentModal(e.target.value)} value={CommentModal}></textarea>
           <div>
             <button
               className="modify-comment-cancel"

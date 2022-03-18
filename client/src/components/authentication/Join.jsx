@@ -322,16 +322,12 @@ const Join = () => {
 
   // 아이디 중복확인 버튼
   const clickDuplicateCheckBtn1 = async (e) => {
-    await axios
-      .get(`http://localhost:3001/auth/join/idCheck`, {
+    await axios.get(`http://localhost:3001/auth/join/idCheck`, {
         userId: inputId,
       })
       .then((res) => {
-        if (res.data == true) {
-          alert('사용 가능한 아이디입니다.');
-        } else {
-          alert('사용 불가능한 아이디입니다.');
-        }
+        console.log(res);
+        alert('사용 가능한 아이디입니다.');
       })
       .catch((err) => {
         console.log(err);
