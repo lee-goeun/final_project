@@ -72,7 +72,7 @@ export const delMyPetPost = (petId) => {
 export const getMyLikeMarketList = (userId) =>
   axios.get(`http://localhost:3001/market/myLikeList/${userId}`);
 export const getMyCollectPostList = (userId) =>
-  axios.get(`http://localhost:3001/mypage/mycollectboard`, userId);
+  axios.get(`http://localhost:3001/mypage/mycollectboard`, {params: { userId: userId }});
 
 //프로필관리(임시)
 export const getMyInfoPost = (userId) => {

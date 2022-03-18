@@ -140,7 +140,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
                 )
               }
                 commentSection={
-                  commentList || post.map(post)
+                  commentList && post.map(post)
                   ? commentList.map((com) => (
                     <CommentContainer
                       reportedUserId={post.reportedUserId}
