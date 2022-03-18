@@ -167,6 +167,21 @@ const AddPetForm = ({ clickAddCancel, userInfo }) => {
 
   const clickAddConfirm = async (e) => {
     e.preventDefault();
+    console.log('sssss', content);
+    if(content == ''){
+      alert('반려동물 사진을 넣어주세요.')
+      return false;
+    }
+    if(contents.petName == ''){
+      alert('반려동물 이름을 작성해주세요');
+      return false;
+    }
+
+    if(contents.petBirth == ''){
+      alert('반려동물 생년월일을 작성해주세요');
+      return false;
+    }
+    
     if (!post.petId) {
       for (const [key, value] of Object.entries(contents)) {
         if (`${key}` == 'petImgName') {
@@ -183,6 +198,9 @@ const AddPetForm = ({ clickAddCancel, userInfo }) => {
           formData.append(`${key}`, `${value}`);
         }
       }
+    }
+    for(var pair of formData.entries()){
+      console.log('ssssss' ,pair[0], pair[1]);
     }
 
     formData.append('userId', userInfo.userId);
