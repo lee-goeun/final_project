@@ -169,7 +169,7 @@ const PostContainer = ({
     slidesToScroll: 1,
     arrows: true,
   };
-  
+
   useEffect(() => {
     getAuth();
   }, []);
@@ -259,7 +259,7 @@ const PostContainer = ({
         console.log(res);
         alert('댓글이 작성되었습니다.');
         commentInput.current.value = '';
-        window.location.replace(`/board/${boardId}`);
+        // window.location.replace(`/board/${boardId}`);
       })
       .catch((error) => {
         console.log('댓글작성 에러 : ', error);
@@ -339,7 +339,6 @@ const PostContainer = ({
           </div>
           <div className="pr06">{commentSection}</div>
           <div className="pr07">
-
             <input
               type="text"
               maxLength="50"
@@ -429,11 +428,9 @@ const CommentContainer = ({
     setShowModifyCommentModal(!showmodifyCommentModal);
   };
 
-  
-
   // 임시 추가
 
-useEffect(() => {
+  useEffect(() => {
     getAuth();
   }, []);
 
@@ -484,9 +481,9 @@ useEffect(() => {
   const currentUserId = userInfo.userId;
 
   // 댓글 삭제 [완료]
-  const clickDeleteComment = async(e) =>{
-    await axios.delete(`http://localhost:3001/board/comment/${commentId}`, {
-    })
+  const clickDeleteComment = async (e) => {
+    await axios
+      .delete(`http://localhost:3001/board/comment/${commentId}`, {})
       .then((res) => {
         console.log(res);
         alert('댓글이 삭제되었습니다.');
@@ -498,21 +495,21 @@ useEffect(() => {
   };
 
   // 댓글 수정 [값 전달까지는 성공]
-  const clickModifyCommentText =  async(e)=>{
-    await axios.post(`http://localhost:3001/board/comment/edit/${commentId}`, {
-      userId:currentUserId,
-      commentModify,
-    })
-    .then((res) => {
-      console.log(res);
-      alert('댓글이 수정되었습니다.');
-    })
-    .catch((err) => {
-      console.log('댓글 수정 에러 : ', err);
-      alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
-    });
+  const clickModifyCommentText = async (e) => {
+    await axios
+      .post(`http://localhost:3001/board/comment/edit/${commentId}`, {
+        userId: currentUserId,
+        commentModify,
+      })
+      .then((res) => {
+        console.log(res);
+        alert('댓글이 수정되었습니다.');
+      })
+      .catch((err) => {
+        console.log('댓글 수정 에러 : ', err);
+        alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
+      });
   };
-
 
   // 댓글 신고 버튼
   const [showReportCommentModal, setShowReportCommentModal] = useState(false);
@@ -522,31 +519,33 @@ useEffect(() => {
   };
 
   // 댓글 신고 [완료]
-  const clickReportCommentText = async(e)=>{
-    await axios.post(`http://localhost:3001/board/comment/${reportedUserId}/report`, {
-      userId:currentUserId,
-      commentId,
-    })
-    .then((res) => {
-      console.log(res);
-      alert('신고가 처리됐습니다.');
-      alert('운영진이 검토후 처리될 예정입니다.');
-    })
-    .catch((err) => {
-      console.log('댓글 신고 에러 : ', err);
-      alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
-    });
-  }
+  const clickReportCommentText = async (e) => {
+    await axios
+      .post(`http://localhost:3001/board/comment/${reportedUserId}/report`, {
+        userId: currentUserId,
+        commentId,
+      })
+      .then((res) => {
+        console.log(res);
+        alert('신고가 처리됐습니다.');
+        alert('운영진이 검토후 처리될 예정입니다.');
+      })
+      .catch((err) => {
+        console.log('댓글 신고 에러 : ', err);
+        alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
+      });
+    setShowReportCommentModal(false);
+  };
 
   // 댓글 좋아요 버튼 클릭시
   const [isLikeComment, setIsLikeComment] = useState(false);
-  
 
   // 댓글 좋아요 처리 [완료]
-  const clickLikeComment = async(e) =>{
-    await axios.post(`http://localhost:3001/board/comment/${commentId}/like`, {
-      userId:currentUserId,
-    })
+  const clickLikeComment = async (e) => {
+    await axios
+      .post(`http://localhost:3001/board/comment/${commentId}/like`, {
+        userId: currentUserId,
+      })
       .then((res) => {
         console.log(res);
         alert('좋아요를 누르셨습니다.');
@@ -556,8 +555,6 @@ useEffect(() => {
         alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
       });
   };
-
-
 
   return (
     <>
@@ -652,7 +649,12 @@ useEffect(() => {
             </button>
             {/* 함수 걸어서 onclick으로 작업 */}
 
-            <button className="modify-comment-yes" onClick={clickModifyCommentText}>수정</button>
+            <button
+              className="modify-comment-yes"
+              onClick={clickModifyCommentText}
+            >
+              수정
+            </button>
           </div>
         </div>
       )}

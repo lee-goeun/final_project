@@ -26,7 +26,6 @@ const Login = ({ userInfoHandler }) => {
     setUserPw(e.target.value);
   };
 
-
   const clickLoginBtn = async (e) => {
     try {
       const res = await axios.post(`http://localhost:3001/auth/login`, {
@@ -66,32 +65,33 @@ const Login = ({ userInfoHandler }) => {
   };
 
   // 아이디 찾기 버튼 클릭시 이벤트 처리
-  const clickDuplicateCheckBtn1 = async(e) => {
-    await axios.post('http://localhost:3001/find/findId', {
-      userName:nameInput,
-      userEmail:emailInput,
-    })
-    .then((res) => {
-      if(res.data.status ==='test'){
-        alert('발송에 성공했습니다.');
-      }
-      else{
-        alert('발송에 실패했습니다.')
-      }
-    })
+  const clickDuplicateCheckBtn1 = async (e) => {
+    await axios
+      .post('http://localhost:3001/find/findId', {
+        userName: nameInput,
+        userEmail: emailInput,
+      })
+      .then((res) => {
+        if (res.data.status === 'test') {
+          alert('발송에 성공했습니다.');
+        } else {
+          alert('발송에 실패했습니다.');
+        }
+      });
   };
 
-   // 비밀번호 찾기 버튼 클릭시 이벤트 처리
-   const clickDuplicateCheckBtn2 = async(e) => {
-    await axios.post('http://localhost:3001/find/findPw', {
-      userId : userIdInput,
-      userEmail : emailInput,
-    })
+  // 비밀번호 찾기 버튼 클릭시 이벤트 처리
+  const clickDuplicateCheckBtn2 = async (e) => {
+    await axios
+      .post('http://localhost:3001/find/findPw', {
+        userId: userIdInput,
+        userEmail: emailInput,
+      })
       .then((res) => {
-        if(res.data.status ==='success'){
+        if (res.data.status === 'success') {
           alert('메일로 아이디를 보내드렸습니다.');
         }
-      })
+      });
   };
 
   return (
@@ -152,33 +152,57 @@ const Login = ({ userInfoHandler }) => {
       {showFindIdModal ? (
         <div className="find-id-modal-wrapper">
           <div className="find-id-modal-container">
-            <div>
-              <p>아이디 찾기 입니다.</p>
-              <div className="find-id">
-                <input type="text" ref={nameInput} placeholder="이름을 입력하세요" />
-                <input type="text" ref={emailInput} placeholder="이메일을 입력하세요" />
-                {/* 디자인 수정 필요 */}
-                <button onClick={clickDuplicateCheckBtn1} className="duplicate-check"><small>아이디 찾기</small></button>
+            <div style={{ display: 'flex' }}>
+              <div className="idbox">
+                <p>아이디 찾기</p>
+                <div className="find-id">
+                  <input
+                    type="text"
+                    ref={nameInput}
+                    placeholder="이름을 입력하세요"
+                  />
+                  <input
+                    type="text"
+                    ref={emailInput}
+                    placeholder="이메일을 입력하세요"
+                  />
+                  {/* 디자인 수정 필요 */}
+                  <button onClick={clickDuplicateCheckBtn1} className="btn__st">
+                    아이디 찾기
+                  </button>
+                </div>
+              </div>
+              <div className="pwbox">
+                <p>비밀번호 찾기</p>
+                <div className="find-pw">
+                  <input
+                    type="text"
+                    id="userId"
+                    name="userId"
+                    placeholder="아이디를 입력하세요"
+                  />
+                  <input
+                    type="email"
+                    id="userEmail"
+                    name="userEmail"
+                    placeholder="이메일을 입력하세요"
+                  />
+                  {/* 디자인 수정 필요 */}
+                  <button onClick={clickDuplicateCheckBtn2} className="btn__st">
+                    비밀번호 찾기
+                  </button>
+                </div>
               </div>
             </div>
-            <div>
-              <p>비밀번호 찾기 입니다.</p>
-              <div className="find-pw">
-                <input type="text" id="userId" name='userId' placeholder="아이디를 입력하세요" />
-                <input type="email"  id="userEmail" name="userEmail" placeholder="이메일을 입력하세요" />
-                {/* 디자인 수정 필요 */}
-                <button onClick={clickDuplicateCheckBtn2} className="duplicate-check"><small>비밀번호 찾기</small></button>
-              </div>
-            </div>
+            <button
+              className="off-modal-btn"
+              onClick={() => {
+                setShowFindIdModal(!showFindIdModal);
+              }}
+            >
+              확인
+            </button>
           </div>
-          <button
-            className="off-modal-btn"
-            onClick={() => {
-              setShowFindIdModal(!showFindIdModal);
-            }}
-          >
-            확인
-          </button>
         </div>
       ) : null}
     </>
@@ -187,133 +211,128 @@ const Login = ({ userInfoHandler }) => {
 
 export default Login;
 
+// const onChangeIdInput = (e) => {
+//   setUserId(e.target.value);
+//   if (idRegex.test(e.target.value) === false) {
+//     setIsErrorId(true);
+//   } else {
+//     setIsErrorId(false);
+//   }
 
+//   if (
+//     idRegex.test(e.target.value) === true &&
+//     isErrorPw === false &&
+//     pwInput.current.value >= 8
+//   ) {
+//     loginBtn.current.disabled = false;
+//   } else if (idRegex.test(e.target.value) === false) {
+//     loginBtn.current.disabled = true;
+//   }
+// };
+// const onChangePwInput = (e) => {
+//   setUserPw(e.target.value);
+//   if (pwRegex.test(e.target.value) === false) {
+//     setIsErrorPw(true);
+//   } else {
+//     setIsErrorPw(false);
+//   }
 
-  // const onChangeIdInput = (e) => {
-  //   setUserId(e.target.value);
-  //   if (idRegex.test(e.target.value) === false) {
-  //     setIsErrorId(true);
-  //   } else {
-  //     setIsErrorId(false);
-  //   }
+//   if (isErrorId === false && pwRegex.test(e.target.value) === true) {
+//     loginBtn.current.disabled = false;
+//   } else {
+//     loginBtn.current.disabled = true;
+//   }
+// };
 
-  //   if (
-  //     idRegex.test(e.target.value) === true &&
-  //     isErrorPw === false &&
-  //     pwInput.current.value >= 8
-  //   ) {
-  //     loginBtn.current.disabled = false;
-  //   } else if (idRegex.test(e.target.value) === false) {
-  //     loginBtn.current.disabled = true;
-  //   }
-  // };
-  // const onChangePwInput = (e) => {
-  //   setUserPw(e.target.value);
-  //   if (pwRegex.test(e.target.value) === false) {
-  //     setIsErrorPw(true);
-  //   } else {
-  //     setIsErrorPw(false);
-  //   }
+// 로그인 동작
+// const clickLoginBtn = useCallback(
+//   (e) => {
+//     // e.preventDefault();
+//     axios
+//       .post('http://localhost:3001/auth/login', {
+//         userId,
+//         userPw,
+//       })
+//       .then((res) => {
+//         console.log(res);
+//         if (res.status === 200) {
+//           localStorage.setItem('token', res.data.token);
 
-  //   if (isErrorId === false && pwRegex.test(e.target.value) === true) {
-  //     loginBtn.current.disabled = false;
-  //   } else {
-  //     loginBtn.current.disabled = true;
-  //   }
-  // };
+//           axios
+//             .get('http://localhost:3001/auth/auth', {
+//               params: { token: res.data.token },
+//             })
+//             .then((response) => {
+//               console.log('response', response);
+//               localStorage.setItem('userNick', response.data.userNick);
+//               localStorage.setItem('userId', response.data.userId);
+//               // return {
+//               //   type:"AUTH_USER",
+//               //   payload : response.data
+//               // }
+//             });
+//           alert('로그인 되었습니다.');
+//           navigate('/');
+//         }
+//       })
+//       .catch(() => alert('아이디나 비밀번호가 맞지 않습니다.'));
+//   },
+//   [userId, userPw],
+// );
 
-  // 로그인 동작
-  // const clickLoginBtn = useCallback(
-  //   (e) => {
-  //     // e.preventDefault();
-  //     axios
-  //       .post('http://localhost:3001/auth/login', {
-  //         userId,
-  //         userPw,
-  //       })
-  //       .then((res) => {
-  //         console.log(res);
-  //         if (res.status === 200) {
-  //           localStorage.setItem('token', res.data.token);
+// const keyEnter = (e) => {
+//   if (e.key === 'Enter') {
+//     clickLoginBtn();
+//   }
+// };
 
-  //           axios
-  //             .get('http://localhost:3001/auth/auth', {
-  //               params: { token: res.data.token },
-  //             })
-  //             .then((response) => {
-  //               console.log('response', response);
-  //               localStorage.setItem('userNick', response.data.userNick);
-  //               localStorage.setItem('userId', response.data.userId);
-  //               // return {
-  //               //   type:"AUTH_USER",
-  //               //   payload : response.data
-  //               // }
-  //             });
-  //           alert('로그인 되었습니다.');
-  //           navigate('/');
-  //         }
-  //       })
-  //       .catch(() => alert('아이디나 비밀번호가 맞지 않습니다.'));
-  //   },
-  //   [userId, userPw],
-  // );
+// const clickLoginBtn = useCallback(
+//   (e) => {
+//     // e.preventDefault();
+//     axios
+//       .post('http://localhost:3001/auth/login', {
+//         userId,
+//         userPw,
+//       })
+//       .then((res) => {
+//         console.log(res);
+//         if (res.status === 200) {
+//           localStorage.setItem('token', res.data.token);
 
-  // const keyEnter = (e) => {
-  //   if (e.key === 'Enter') {
-  //     clickLoginBtn();
-  //   }
-  // };
+//           axios
+//             .get('http://localhost:3001/auth/auth', {
+//               params: { token: res.data.token },
+//             })
+//             .then((response) => {
+//               console.log('response', response);
+//               localStorage.setItem('userNick', response.data.userNick);
+//               localStorage.setItem('userId', response.data.userId);
+//               // return {
+//               //   type:"AUTH_USER",
+//               //   payload : response.data
+//               // }
+//             });
+//           alert('로그인 되었습니다.');
+//           navigate('/');
+//         }
+//       })
+//       .catch(() => alert('아이디나 비밀번호가 맞지 않습니다.'));
+//   },
+//   [userId, userPw],
+// );
 
-  
+// useEffect(() => {
+//   idInput.current.focus();
 
-  // const clickLoginBtn = useCallback(
-  //   (e) => {
-  //     // e.preventDefault();
-  //     axios
-  //       .post('http://localhost:3001/auth/login', {
-  //         userId,
-  //         userPw,
-  //       })
-  //       .then((res) => {
-  //         console.log(res);
-  //         if (res.status === 200) {
-  //           localStorage.setItem('token', res.data.token);
-
-  //           axios
-  //             .get('http://localhost:3001/auth/auth', {
-  //               params: { token: res.data.token },
-  //             })
-  //             .then((response) => {
-  //               console.log('response', response);
-  //               localStorage.setItem('userNick', response.data.userNick);
-  //               localStorage.setItem('userId', response.data.userId);
-  //               // return {
-  //               //   type:"AUTH_USER",
-  //               //   payload : response.data
-  //               // }
-  //             });
-  //           alert('로그인 되었습니다.');
-  //           navigate('/');
-  //         }
-  //       })
-  //       .catch(() => alert('아이디나 비밀번호가 맞지 않습니다.'));
-  //   },
-  //   [userId, userPw],
-  // );
-
-  
-  // useEffect(() => {
-  //   idInput.current.focus();
-
-  //   if (
-  //     idInput.current.value === undefined ||
-  //     pwInput.current.value === undefined
-  //   ) {
-  //     loginBtn.current.disabled = true;
-  //   } else if (
-  //     idInput.current.value.length >= 6 &&
-  //     pwInput.current.value.length >= 8
-  //   ) {
-  //     loginBtn.current.disabled = false;
-  //   }
-  // }, []);
+//   if (
+//     idInput.current.value === undefined ||
+//     pwInput.current.value === undefined
+//   ) {
+//     loginBtn.current.disabled = true;
+//   } else if (
+//     idInput.current.value.length >= 6 &&
+//     pwInput.current.value.length >= 8
+//   ) {
+//     loginBtn.current.disabled = false;
+//   }
+// }, []);
