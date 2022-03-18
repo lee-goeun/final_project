@@ -9,6 +9,7 @@ import {
   faBullhorn,
   faBookmark as fullBookmark,
   faSearch,
+  faFilter,
   faImage,
   faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
@@ -30,7 +31,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import LoadingCont from './common/LoadingCont';
 import { connect } from 'react-redux';
-import { getPostList } from '../redux/modules/post';
+import { getPostList, post } from '../redux/modules/post';
 
 const CarouselStyle = styled.div`
   .carousel-img-container {
@@ -134,15 +135,27 @@ const CarouselStyle = styled.div`
 
 const PostContainer = ({
   boardId = '',
+  categoryIndex = '',
+  boardImgList = '',
   imgListSection,
   userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
   userId = '',
   boardTitle = '',
   boardContent = '',
+  boardStatus = '',
+  boardMod = '',
+  boardDeleted = '',
+  boardReport = '',
+  boardSearch = '',
   boardGood,
   boardViews,
   boardCreated = 'date',
+  goodStatus,
   collectStatus,
+  clickReportPost,
+  clickModifyPost,
+  clickDeletePost,
+  comment,
   commentSection,
   postMenuSection,
   postLikeSection,
@@ -206,9 +219,12 @@ const PostContainer = ({
   const currentUserId = userInfo.userId;
 
   const [showPostMenu, setShowPostMenu] = useState(false);
+  const [isLike, setIsLike] = useState(false);
   const [commentContent, setCommentContent] = useState();
 
   const commentInput = useRef();
+
+  const navigate = useNavigate();
 
   const clickGoToCommnet = (e) => {
     commentInput.current.focus();
@@ -456,12 +472,15 @@ const CommentContainer = ({
         region2: data.region2,
         region3: data.region3,
         userImg: data.userImg,
+        // commentModify: data.commentModify,
+        // commentContent: data.commentContent,
         //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
       };
     });
   };
 
   const currentUserId = userInfo.userId;
+  const commentText = userInfo.commentContent;
 
   // 댓글 삭제 [완료]
   const clickDeleteComment = async (e) => {
@@ -478,6 +497,19 @@ const CommentContainer = ({
   };
 
   // 댓글 수정 [값 전달까지는 성공]
+<<<<<<< HEAD
+  const clickModifyCommentText =  async(e)=>{
+    await axios.post(`http://localhost:3001/board/comment/edit/${commentContent}`, {
+    })
+    .then((res) => {
+      console.log(res);
+      alert('댓글이 수정되었습니다.');
+    })
+    .catch((err) => {
+      console.log('댓글 수정 에러 : ', err);
+      alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
+    });
+=======
   const clickModifyCommentText = async (e) => {
     await axios
       .post(`http://localhost:3001/board/comment/edit/${commentId}`, {
@@ -492,6 +524,7 @@ const CommentContainer = ({
         console.log('댓글 수정 에러 : ', err);
         alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
       });
+>>>>>>> bc7f6909c61fc7bae5664e7c1605996241e66eea
   };
 
   // 댓글 신고 버튼
@@ -550,8 +583,7 @@ const CommentContainer = ({
           <h4>{userNick}</h4>
           <p></p>
         </div>
-        {/* 수정/신고 남음 */}
-
+        {/* 수정 남음 */}
         <div className="cc03">
           <FontAwesomeIcon
             icon={faPen}
@@ -572,7 +604,6 @@ const CommentContainer = ({
             onClick={clickReportComment}
           />
         </div>
-
         <div className="cc04">
           <p>
             {commentContent}
@@ -619,9 +650,10 @@ const CommentContainer = ({
           </button>
         </div>
       ) : null}
+      {/* 텍스트 값 갖고 오는 곳 */}
       {showmodifyCommentModal && (
         <div className="comment-modal--modify">
-          <textarea>기존 텍스트</textarea>
+          <textarea>{commentContent}</textarea>
           <div>
             <button
               className="modify-comment-cancel"
@@ -631,7 +663,6 @@ const CommentContainer = ({
             >
               취소
             </button>
-            {/* 함수 걸어서 onclick으로 작업 */}
 
             <button
               className="modify-comment-yes"
