@@ -497,19 +497,7 @@ const CommentContainer = ({
   };
 
   // 댓글 수정 [값 전달까지는 성공]
-<<<<<<< HEAD
-  const clickModifyCommentText =  async(e)=>{
-    await axios.post(`http://localhost:3001/board/comment/edit/${commentContent}`, {
-    })
-    .then((res) => {
-      console.log(res);
-      alert('댓글이 수정되었습니다.');
-    })
-    .catch((err) => {
-      console.log('댓글 수정 에러 : ', err);
-      alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
-    });
-=======
+
   const clickModifyCommentText = async (e) => {
     await axios
       .post(`http://localhost:3001/board/comment/edit/${commentId}`, {
@@ -524,7 +512,6 @@ const CommentContainer = ({
         console.log('댓글 수정 에러 : ', err);
         alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
       });
->>>>>>> bc7f6909c61fc7bae5664e7c1605996241e66eea
   };
 
   // 댓글 신고 버튼
