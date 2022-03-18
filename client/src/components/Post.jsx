@@ -9,7 +9,6 @@ import {
   faBullhorn,
   faBookmark as fullBookmark,
   faSearch,
-  faFilter,
   faImage,
   faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
@@ -31,7 +30,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import LoadingCont from './common/LoadingCont';
 import { connect } from 'react-redux';
-import { getPostList, post } from '../redux/modules/post';
+import { getPostList } from '../redux/modules/post';
 
 const CarouselStyle = styled.div`
   .carousel-img-container {
@@ -135,27 +134,15 @@ const CarouselStyle = styled.div`
 
 const PostContainer = ({
   boardId = '',
-  categoryIndex = '',
-  boardImgList = '',
   imgListSection,
   userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
   userId = '',
   boardTitle = '',
   boardContent = '',
-  boardStatus = '',
-  boardMod = '',
-  boardDeleted = '',
-  boardReport = '',
-  boardSearch = '',
   boardGood,
   boardViews,
   boardCreated = 'date',
-  goodStatus,
   collectStatus,
-  clickReportPost,
-  clickModifyPost,
-  clickDeletePost,
-  comment,
   commentSection,
   postMenuSection,
   postLikeSection,
@@ -727,7 +714,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
       .catch((error) => {
         console.log(error);
         alert(
-          '오류가 발생했습니다.로그인을 하시거나 잠시후 다시 시도해주세요.',
+          '오류가 발생했습니다. 로그인을 하시거나 잠시후 다시 시도해주세요.',
         );
       });
 
@@ -825,8 +812,6 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
               <textarea
                 placeholder=" 내용을 입력하세요.
                 &#10;
-                
-  
                 이미지는 최대 5장까지 첨부 가능합니다. 
                 &#10;
                 여러장일 경우 한번에 선택해주세요."
