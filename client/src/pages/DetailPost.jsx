@@ -4,13 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faCircleArrowLeft, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as borderHeart } from '@fortawesome/free-regular-svg-icons';
-import {
-  createSearchParams,
-  Link,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { getPost, likePost } from '../redux/modules/post';
@@ -51,8 +45,14 @@ const DetailStyle = styled.div`
 `;
 
 const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
-  console.log(post) // 게시물 정리할 때 참조 콘솔 값
+<<<<<<< HEAD
+  console.log(post); // 게시물 정리할 때 참조 콘솔 값
   // console.log(commentList) 댓글 정리할 때 사용했음
+
+=======
+  console.log(commentList); // 댓글 정리할 때 사용했음
+  console.log(post); // 게시물 정리할 때 참조 콘솔 값
+>>>>>>> 4b926d2b886faa1f03da5f2f26730785b3d26f8c
   useEffect(() => {
     console.log(`${boardId}번 게시물 상세보기 렌더링`);
     getPost(boardId);
@@ -67,6 +67,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
           `따로axios ${boardId}번 관심게시물 상태, ${res.data.collectStatus}`,
         );
         setGoodStatus(res.data.goodStatus);
+        setCollectStatus(res.data.collectStatus);
       })
       .catch((e) => console.log(e));
   }, [getPost]);
@@ -148,7 +149,11 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
                   ? commentList.map((com) => (
                       <CommentContainer
                         reportedUserId={post.reportedUserId}
-                        commentModify ={post.commentModify}
+<<<<<<< HEAD
+                        commentModify ={com.commentModify}
+=======
+                        commentModify={post.commentModify}
+>>>>>>> 4b926d2b886faa1f03da5f2f26730785b3d26f8c
                         userId={com.userId}
                         commentId={com.commentId}
                         key={com.commentId}

@@ -257,7 +257,6 @@ const PostContainer = ({
       })
       .then((res) => {
         console.log(res);
-        alert('댓글이 작성되었습니다.');
         commentInput.current.value = '';
         // window.location.replace(`/board/${boardId}`);
       })
@@ -473,12 +472,15 @@ const CommentContainer = ({
         region2: data.region2,
         region3: data.region3,
         userImg: data.userImg,
+        // commentModify: data.commentModify,
+        // commentContent: data.commentContent,
         //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
       };
     });
   };
 
   const currentUserId = userInfo.userId;
+  const commentText = userInfo.commentContent;
 
   // 댓글 삭제 [완료]
   const clickDeleteComment = async (e) => {
@@ -527,8 +529,7 @@ const CommentContainer = ({
       })
       .then((res) => {
         console.log(res);
-        alert('신고가 처리됐습니다.');
-        alert('운영진이 검토후 처리될 예정입니다.');
+        alert('신고가 완료되었습니다. 운영진이 검토후 처리될 예정입니다.');
       })
       .catch((err) => {
         console.log('댓글 신고 에러 : ', err);
@@ -568,7 +569,7 @@ const CommentContainer = ({
           <h4>{userNick}</h4>
           <p></p>
         </div>
-        {/* 수정/신고 남음 */}
+        {/* 수정 남음 */}
         <div className="cc03">
           <FontAwesomeIcon
             icon={faPen}
@@ -628,16 +629,17 @@ const CommentContainer = ({
             취소
           </button>
           <button
-            className="report-comment-yes"
+            className="report-comment-confirm"
             onClick={clickReportCommentText}
           >
             신고
           </button>
         </div>
       ) : null}
+      {/* 텍스트 값 갖고 오는 곳 */}
       {showmodifyCommentModal && (
         <div className="comment-modal--modify">
-          <textarea>기존 텍스트</textarea>
+          <textarea>{commentContent}</textarea>
           <div>
             <button
               className="modify-comment-cancel"
@@ -647,7 +649,6 @@ const CommentContainer = ({
             >
               취소
             </button>
-            {/* 함수 걸어서 onclick으로 작업 */}
 
             <button
               className="modify-comment-yes"

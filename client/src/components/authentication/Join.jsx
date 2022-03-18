@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './Authentication.css';
 import Footer from '../Footer';
 import { Link, useNavigate } from 'react-router-dom';
@@ -70,9 +70,11 @@ const Join = () => {
   const [isActive, setIsActive] = useState(false);
 
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
-  const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,15}$/; // 비밀번호 정규표현식
-  const nickRegex =  /[가-힣a-zA-Z0-9].{2,12}$/;
-  const emailRegex = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
+  const pwRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,15}$/; // 비밀번호 정규표현식
+  const nickRegex = /[가-힣a-zA-Z0-9].{2,12}$/;
+  const emailRegex =
+    /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
 
   // 아이디, 비밀번호, 비밀번호 재입력 별 유효성 검사 에러문
   const [idRegErrorText, setIdRegErrorText] = useState(
@@ -104,7 +106,7 @@ const Join = () => {
 
   // userId [유저 아이디] <-완료
   const checkUserId = (userId) => {
-    const idRegExp = /^[a-z]{1}[a-z0-9]{5,15}$/;        
+    const idRegExp = /^[a-z]{1}[a-z0-9]{5,15}$/;
     if (!idRegExp.test(userId)) {
       alert('영문자(소문자)로 시작하는 6~16자리 아이디를 입력하세요!');
       userId.focus();
@@ -134,7 +136,7 @@ const Join = () => {
       checkPw.focus();
       return false;
     }
-  return true; //확인이 완료되었을 때
+    return true; //확인이 완료되었을 때
   };
 
   // userName [이름 입력 확인] <-완료
@@ -163,7 +165,8 @@ const Join = () => {
 
   // userEamil [이메일 입력 확인] <-완료
   const checkEmail = (userEmail) => {
-    const emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
+    const emailRegExp =
+      /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
     if (!emailRegExp.test(userEmail)) {
       alert('이메일이 작성되지 않았거나 형식이 올바르지 않습니다!');
       userEmail.focus();
@@ -197,17 +200,17 @@ const Join = () => {
 
   // extraAddress [상세주소]
   const checExtarAddress = (extraAddress) => {
-    const ExtarAddressRegExp = /^[가-힣a-zA-z0-9]{2,11}-[가-힣a-zA-z0-9]{2,11}$/;
+    const ExtarAddressRegExp =
+      /^[가-힣a-zA-z0-9]{2,11}-[가-힣a-zA-z0-9]{2,11}$/;
     if (!ExtarAddressRegExp.test(extraAddress)) {
       alert('상세 주소를 입력해야합니다!');
       extraAddress.focus();
       return false;
     }
     return true; //확인이 완료되었을 때
-  }; 
-  
-  // 유효성 끝
+  };
 
+  // 유효성 끝
 
   // 아이디 유효성 검사
   useEffect(() => {
@@ -252,10 +255,14 @@ const Join = () => {
   // 닉네임 유효성 검사
   useEffect(() => {
     if (inputNick === '' || inputNick === undefined) {
-      setNickRegErrorText('닉네임을 한글, 대소문자, 숫자를 조합해서 2~12자리를 입력하세요');
+      setNickRegErrorText(
+        '닉네임을 한글, 대소문자, 숫자를 조합해서 2~12자리를 입력하세요',
+      );
       nickRegErrorStyle.current.style.color = '#494949';
     } else if (nickRegex.test(inputNick) === false) {
-      setNickRegErrorText('닉네임을 한글, 대소문자, 숫자를 조합해서 2~12자리를 입력하세요');
+      setNickRegErrorText(
+        '닉네임을 한글, 대소문자, 숫자를 조합해서 2~12자리를 입력하세요',
+      );
       nickRegErrorStyle.current.style.color = 'red';
     } else if (nickRegex.test(inputNick) === true) {
       setNickRegErrorText('올바른 형식의 닉네임입니다. 중복을 확인 해주세요.');
@@ -266,17 +273,21 @@ const Join = () => {
   // 이메일 유효성 검사
   useEffect(() => {
     if (inputEmail === '' || inputEmail === undefined) {
-      setEmailRegErrorText('이메일이 작성되지 않았거나 형식이 올바르지 않습니다!');
+      setEmailRegErrorText(
+        '이메일이 작성되지 않았거나 형식이 올바르지 않습니다!',
+      );
       emailRegErrorStyle.current.style.color = '#494949';
     } else if (emailRegex.test(inputEmail) === false) {
-      setEmailRegErrorText('이메일이 작성되지 않았거나 형식이 올바르지 않습니다!');
+      setEmailRegErrorText(
+        '이메일이 작성되지 않았거나 형식이 올바르지 않습니다!',
+      );
       emailRegErrorStyle.current.style.color = 'red';
     } else if (emailRegex.test(inputEmail) === true) {
       setEmailRegErrorText('올바른 형식의 이메일입니다. 중복을 확인 해주세요.');
       emailRegErrorStyle.current.style.color = '#25d039';
     }
   }, [inputEmail]);
-  
+
   // 약관보기 1창 show/hide
   const [showTou, setShowTou] = useState(false);
 
@@ -309,21 +320,21 @@ const Join = () => {
     }
   };
 
-
   // 아이디 중복확인 버튼
-  const clickDuplicateCheckBtn1 = async(e) => {
-    await axios.get(`http://localhost:3001/auth/join/idCheck`, {
-      userId: inputId,
-    })
+  const clickDuplicateCheckBtn1 = async (e) => {
+    await axios
+      .get(`http://localhost:3001/auth/join/idCheck`, {
+        userId: inputId,
+      })
       .then((res) => {
-        if (res.data == true ) {
+        if (res.data == true) {
           alert('사용 가능한 아이디입니다.');
         } else {
           alert('사용 불가능한 아이디입니다.');
         }
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
       });
   };
 
@@ -355,17 +366,17 @@ const Join = () => {
       alert('빈칸이 존재합니다. 빠짐없이 입력해주세요.');
     }
     // join 유효성 검사
-    if(checkUserId(inputId) &&
-    checkUserPw(inputId, inputPw, reInputPw) &&
-    checkName(inputName)&&
-    checkNick(inputNick)&&
-    checkEmail(inputEmail)
-    // 미완
-    // checUserPhone(inputPhone)&&
-    // checAddress(address)&&
-    // checExtarAddress(detailAddress)
-    ){
- 
+    if (
+      checkUserId(inputId) &&
+      checkUserPw(inputId, inputPw, reInputPw) &&
+      checkName(inputName) &&
+      checkNick(inputNick) &&
+      checkEmail(inputEmail)
+      // 미완
+      // checUserPhone(inputPhone)&&
+      // checAddress(address)&&
+      // checExtarAddress(detailAddress)
+    ) {
     }
     axios
       .post('http://localhost:3001/auth/join', {
@@ -397,8 +408,6 @@ const Join = () => {
         }
       });
   };
-  
-  
 
   const touModal = useRef();
 

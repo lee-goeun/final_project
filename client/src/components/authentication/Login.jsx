@@ -1,6 +1,6 @@
 import './Authentication.css';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = ({ userInfoHandler }) => {

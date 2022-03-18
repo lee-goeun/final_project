@@ -15,7 +15,6 @@ import MyPageLayout from './layout/MyPageLayout';
 import Mypost from './pages/MyPost';
 import PostPage from './pages/PostPage';
 import DetailPost from './pages/DetailPost';
-import UsedTrade from './pages/UsedTrade';
 
 // 채팅 페이지
 import Chatting from './pages/Chatting';
@@ -85,7 +84,9 @@ const App = () => {
         zonecode: data.zonecode,
         address: data.address,
         detailAddress: data.detailAddress,
-        commentId: data.commentId,
+        // commentId: data.commentId,
+        // commentModify: data.commentModify, // 삭제해도 될듯
+        commentContent: data.commentContent,
         region1: data.region1,
         region2: data.region2,
         region3: data.region3,
@@ -111,7 +112,6 @@ const App = () => {
         path="board/:boardId"
         element={<DetailPost userInfo={userInfo} />}
       />
-      <Route path="/usedtrade" element={<UsedTrade />} />
       <Route path="/chatting" element={<Chatting userInfo={userInfo} />} />
 
       {/* 매칭페이지 */}
