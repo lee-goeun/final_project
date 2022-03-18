@@ -155,7 +155,14 @@ const ImgInner = styled.img`
 const MiddleSectionWrapper = styled.section`
   display: flex;
   justify-content: space-between;
-  margin: 10px 20px;
+  max-width: 100vw;
+  width: 100%;
+  margin: 10px auto;
+  padding: 10px 50px;
+  box-shadow: 10px 10px 20px #e9e9e9, -10px -10px 20px #f0f0f0;
+  border: 1px solid var(--bordercolor-default);
+  border-left: none;
+  border-right: none;
 `;
 
 const SearchWrapper = styled.div`
@@ -173,6 +180,7 @@ const MiddleInnerSearch = styled.input.attrs({
   height: 35px;
   padding: 10px 30px;
   opacity: 0.5;
+  background-color: white;
 `;
 
 const ItemListWrapper = styled.section`
@@ -218,7 +226,7 @@ const ItemLists = ({ loadingList, list, userInfo }) => {
         <h4 style={style1}>지금 가장 🔥 HOT한 중고물품</h4>
         <Carousel type="market" />
       </section>
-      <hr />
+
       <MiddleSectionWrapper>
         <Link to="" onClick={likeCount}>
           {'관심도 높은순'}
@@ -230,10 +238,10 @@ const ItemLists = ({ loadingList, list, userInfo }) => {
         </SearchWrapper>
         <Link to="/market/add">
           {'중고거래 올리기'}
-          <CreateIcon sx={{ position: 'relative', top: '11%', mx: 2 }} />
+          <CreateIcon sx={{ position: 'relative', top: '11%', mx: 1 }} />
         </Link>
       </MiddleSectionWrapper>
-      <hr />
+
       {loadingList && 'loading...'}
       {!loadingList && list && (
         <ItemListWrapper>

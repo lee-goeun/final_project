@@ -7,7 +7,9 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import moment from 'moment';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getMatchList } from '../../redux/modules/matching'
+import { getMatchList } from '../../redux/modules/matching';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMap, faMapPin } from '@fortawesome/free-solid-svg-icons';
 
 const Post = ({ post }) => {
   // 모달형식으로 링크작업 추후
@@ -23,16 +25,19 @@ const Post = ({ post }) => {
   return (
     <StyledLink to={'/match/detail/' + post.matchId}>
       <DisplayWrapper>
-        {post.matchImgName != null ? <ImgInner
-          src={
-            'http://localhost:3001/match/download?matchId=' +
-            post.matchId +
-            '&matchImgName=' +
-            post.matchImgName
-          }
-        /> : <ImgInner src={process.env.PUBLIC_URL + '/img/LogoHorizon.png'}/>
-        }
-        
+        {post.matchImgName != null ? (
+          <ImgInner
+            src={
+              'http://localhost:3001/match/download?matchId=' +
+              post.matchId +
+              '&matchImgName=' +
+              post.matchImgName
+            }
+          />
+        ) : (
+          <ImgInner src={process.env.PUBLIC_URL + '/img/LogoHorizon.png'} />
+        )}
+
         <h5>
           {`산책 예정 시간: ${moment(korTime)
             .format('YYYY-MM-DD HH:mm')
@@ -67,7 +72,25 @@ const ImgInner = styled.img`
 const MiddleSectionWrapper = styled.section`
   display: flex;
   justify-content: space-between;
-  margin: 10px 20px;
+  max-width: 100vw;
+  width: 100%;
+  margin: 10px auto;
+  padding: 10px 50px;
+  box-shadow: 10px 10px 20px #e9e9e9, -10px -10px 20px #f0f0f0;
+  border: 1px solid var(--bordercolor-default);
+  border-left: none;
+  border-right: none;
+  .hd-left {
+    margin-top: 7px;
+  }
+  .map-icn {
+    color: var(--font-light);
+  }
+  .mappin-icn {
+    position: relative;
+    right: 15px;
+    bottom: 7px;
+  }
 `;
 
 const SearchWrapper = styled.div`
@@ -95,13 +118,13 @@ const MatchingListWrapper = styled.section`
 const MatchingLists = ({ loadingList, list, userInfo }) => {
   console.log('user', list, userInfo);
   const dispatch = useDispatch();
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState('');
   const searchKeyword = (e) => {
     setKeyword(e.target.value);
-    if(e.code == 'Enter'){
+    if (e.code == 'Enter') {
       dispatch(getMatchList(keyword), [dispatch]);
     }
-  }
+  };
   const style1 = {
     display: 'inline-block',
     marginLeft: 50,
@@ -116,35 +139,37 @@ const MatchingLists = ({ loadingList, list, userInfo }) => {
       <section>
         <h4 style={style1}>시간이 얼마 안남았어요!</h4>
         <h6 style={style2}>1시간 이내 남은 게시물 노출</h6>
-        <Carousel type="matching" userInfo={userInfo}/>
+        <Carousel type="matching" userInfo={userInfo} />
       </section>
-      <hr />
       <MiddleSectionWrapper>
-        <div>
+        <div className="hd-left">
           {/* {'검색필터'}
           <FilterAltIcon sx={{ position: 'relative', top: '15%', mx: 1 }} /> */}
+          <FontAwesomeIcon icon={faMap} className="map-icn" />
+          <FontAwesomeIcon icon={faMapPin} className="mappin-icn" />
+          {userInfo.region1} {userInfo.region2}
         </div>
         <SearchWrapper>
           <SearchIcon sx={{ position: 'absolute', left: '2%', top: '18%' }} />
-          <MiddleInnerSearch onKeyUp={searchKeyword}/>
+          <MiddleInnerSearch onKeyUp={searchKeyword} />
         </SearchWrapper>
         <Link to="/match/add">
           {'게시글 올리기'}
           <CreateIcon sx={{ position: 'relative', top: '11%', mx: 2 }} />
         </Link>
       </MiddleSectionWrapper>
-      <div style={{textAlign:'center'}}>
-        {userInfo.region1} {userInfo.region2}
-      </div>
-      <hr />
-      
+
       {loadingList && 'loading...'}
       {!loadingList && list && (
         <MatchingListWrapper>
-          {list.map((post) => (
-            post.region1 == userInfo.region1 && post.region2 == userInfo.region2 ?
-              <Post key={post.matchId} post={post} /> : ""
-          ))}
+          {list.map((post) =>
+            post.region1 == userInfo.region1 &&
+            post.region2 == userInfo.region2 ? (
+              <Post key={post.matchId} post={post} />
+            ) : (
+              ''
+            ),
+          )}
         </MatchingListWrapper>
       )}
     </>
