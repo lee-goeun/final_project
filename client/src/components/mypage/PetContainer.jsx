@@ -170,10 +170,10 @@ const MyPet = ({ list, loadingList, userInfo }) => {
         <AddPetForm
           userInfo={userInfo}
           clickAddCancel={() => {
-            setShowAddForm(!showAddForm);
+            setShowAddForm(false);
           }}
           clickAddConfirm={() => {
-            setShowAddForm(!showAddForm);
+            setShowAddForm(false);
           }}
         />
       )}

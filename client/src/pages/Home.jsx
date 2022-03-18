@@ -13,7 +13,6 @@ import {
   ModifyPostModal,
   DeletePostModal,
 } from '../components/common/Modal';
-import { alertTitleClasses } from '@mui/material';
 import axios from 'axios';
 
 const MainPageFooterStyle = styled.div`
