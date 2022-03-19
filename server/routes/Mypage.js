@@ -216,4 +216,37 @@ router.get('/mycollectboard', (req, result) => {
   })
 })
 
+//신고 게시물 가져오기
+router.get('/reportboard', (req, result) => {
+  var userId = req.query.userId;
+  conn.query("SELECT * FROM boardReportTbl",
+  (err, res) => {
+    if(err) {
+      console.log("error: ", err);
+      result.status(500).send({
+        message:
+        err.message || "Some error occurred while retrieving posts."
+      });
+    } else {
+      result.send(res);
+    }
+  });
+});
+
+//신고 댓글 가져오기
+router.get('/reportcomment', (req, result) => {
+  conn.query("SELECT * FROM commentReportTbl",
+  (err, res) => {
+    if(err) {
+      console.log("error: ", err);
+      result.status(500).send({
+        message:
+        err.message || "Some error occurred while retrieving posts."
+      });
+    } else {
+      result.send(res);
+    }
+  });
+});
+
 module.exports = router;
