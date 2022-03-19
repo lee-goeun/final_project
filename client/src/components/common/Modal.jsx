@@ -3,7 +3,6 @@ import { useRef, useState, useEffect } from 'react';
 // import { getPostList, post } from '../redux/modules/post';
 import axios from 'axios';
 
-
 const ModalWrapperStyle = styled.div`
   .mwapper {
     position: fixed;
@@ -12,7 +11,6 @@ const ModalWrapperStyle = styled.div`
     width: 100%;
     height: 100%;
     background-color: rgb(0 0 0 / 50%);
-    backdrop-filter: blur(5px);
   }
 `;
 
@@ -53,16 +51,10 @@ export const ReportPostModal = ({
   );
 };
 
-
-
 // 일반게시물 수정 모달창
-export const ModifyPostModal = ({
-  clickModifyPostCancel,
-  boardId,
-}) => {
-
+export const ModifyPostModal = ({ clickModifyPostCancel, boardId }) => {
   // 로그인 임시 추가
-    useEffect(() => {
+  useEffect(() => {
     getAuth();
   }, []);
 
@@ -109,39 +101,35 @@ export const ModifyPostModal = ({
   };
 
   const currentUserId = userInfo.userId;
-  
+
   // 로그인 임시 추가
 
-
- // 게시글 수정 :postId
- const boardModify = async (e) => {
-  await axios.post(`http://localhost:3001/board/edit/${boardId}`, {
-    })
-    .then((res) => {
-      console.log(res);
-      alert('수정되셨습니다.');
-    })
-    .catch((err) => {
-      console.log('게시글 수정 에러 : ', err);
-      alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
-    });
-};
+  // 게시글 수정 :postId
+  const boardModify = async (e) => {
+    await axios
+      .post(`http://localhost:3001/board/edit/${boardId}`, {})
+      .then((res) => {
+        console.log(res);
+        alert('수정되셨습니다.');
+      })
+      .catch((err) => {
+        console.log('게시글 수정 에러 : ', err);
+        alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
+      });
+  };
 
   return (
     <ModalWrapper
       innerModal={
         <div className="edit-post-modal">
           {/* 게시물 제목 */}
-          <input type='text'>{}</input>
+          <input type="text">{}</input>
           {/* 게시물 텍스트 들어갈 곳 표기 */}
           <textarea>기존 텍스트</textarea>
           <button className="edit-post-cancel" onClick={clickModifyPostCancel}>
             취소
           </button>
-          <button
-            className="edit-post-confirm"
-            onClick={boardModify}
-          >
+          <button className="edit-post-confirm" onClick={boardModify}>
             수정
           </button>
         </div>

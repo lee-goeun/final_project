@@ -15,7 +15,6 @@ const ProfileUpdate = ({ userInfoProps }) => {
     userPw: '',
     newPassword: '',
     newPasswordConfirmation: '',
-    
   });
 
   const [newPasswordRegCheck, setNewPasswordRegCheck] = useState(false);
@@ -30,7 +29,7 @@ const ProfileUpdate = ({ userInfoProps }) => {
     userPw,
     newPassword,
     newPasswordConfirmation,
-    balance
+    balance,
   } = userInfo;
   const { userId, userNick, userEmail, userPhone } = userInfoProps;
 
@@ -78,18 +77,18 @@ const ProfileUpdate = ({ userInfoProps }) => {
     }));
   };
 
-  const clickDeleteBtn = async(e) => {
-    await axios.post('http://localhost:3001/find/findId', {
-      userId,
-    })
-    .then((res) => {
-      if(res.data.status ==='test'){
-        alert('발송에 성공했습니다.');
-      }
-      else{
-        alert('발송에 실패했습니다.')
-      }
-    })
+  const clickDeleteBtn = async (e) => {
+    await axios
+      .post('http://localhost:3001/find/findId', {
+        userId,
+      })
+      .then((res) => {
+        if (res.data.status === 'test') {
+          alert('발송에 성공했습니다.');
+        } else {
+          alert('발송에 실패했습니다.');
+        }
+      });
   };
 
   return (
@@ -116,7 +115,7 @@ const ProfileUpdate = ({ userInfoProps }) => {
           <ul className={styles.container}>
             <li className={`${styles.item} ${styles.center}`}>잔액</li>
             <li className={styles.item}>
-            {/* <div dangerouslySetInnerHTML={ {__html: } }></div> */}
+              {/* <div dangerouslySetInnerHTML={ {__html: } }></div> */}
               {/* <text>
               {balance}
               </text> */}
@@ -241,7 +240,6 @@ const ProfileUpdate = ({ userInfoProps }) => {
               <Button name="submitChangeInfo" type="submit">
                 정보수정
               </Button>
-              
             </li>
           </ul>
         </div>

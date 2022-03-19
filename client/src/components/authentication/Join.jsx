@@ -69,10 +69,8 @@ const Join = () => {
   const [inputAge, setInputAge] = useState();
   const [inputSex, setInputSex] = useState();
 
-  
-
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
-  const pwRegex =/^(?=.*[a-zA-Z])(?=.*[#?!@$%^&*-])(?=.*[0-9]).{8,16}$/; // 비밀번호 정규표현식
+  const pwRegex = /^(?=.*[a-zA-Z])(?=.*[#?!@$%^&*-])(?=.*[0-9]).{8,16}$/; // 비밀번호 정규표현식
   const nickRegex = /[가-힣a-zA-Z0-9].{2,12}$/;
   const emailRegex =
     /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
@@ -109,7 +107,9 @@ const Join = () => {
   const checkUserId = (userId) => {
     const idRegExp = /^[a-z]{1}[a-z0-9]{5,15}$/;
     if (!idRegExp.test(userId)) {
-      alert('영문자(소문자) 또는 영문자(소문자)+숫자로 시작하는 6~16자리 아이디를 입력하세요!');
+      alert(
+        '영문자(소문자) 또는 영문자(소문자)+숫자로 시작하는 6~16자리 아이디를 입력하세요!',
+      );
       userId.focus();
       return false;
     }
@@ -216,10 +216,14 @@ const Join = () => {
   // 아이디 유효성 검사
   useEffect(() => {
     if (inputId === '' || inputId === undefined) {
-      setIdRegErrorText('영문자(소문자) 또는 영문자(소문자)+숫자로 시작하는 6~16자리');
+      setIdRegErrorText(
+        '영문자(소문자) 또는 영문자(소문자)+숫자로 시작하는 6~16자리',
+      );
       idRegErrorStyle.current.style.color = '#494949';
     } else if (idRegex.test(inputId) === false) {
-      setIdRegErrorText('영문자(소문자) 또는 영문자(소문자)+숫자로 시작하는 6~16자리');
+      setIdRegErrorText(
+        '영문자(소문자) 또는 영문자(소문자)+숫자로 시작하는 6~16자리',
+      );
       idRegErrorStyle.current.style.color = 'red';
     } else if (idRegex.test(inputId) === true) {
       setIdRegErrorText('올바른 형식의 아이디입니다. 중복을 확인 해주세요.');
@@ -327,14 +331,15 @@ const Join = () => {
   const clickDuplicateCheckBtn1 = async (e) => {
     e.preventDefault();
     console.log(idInput);
-    await axios.post(`http://localhost:3001/auth/join/idCheck`, {
+    await axios
+      .post(`http://localhost:3001/auth/join/idCheck`, {
         userId: idInput.current.value,
       })
       .then((res) => {
-        if(res.data === false){
+        if (res.data === false) {
           alert('사용 가능한 아이디입니다.');
-        }else if (res.data===true){
-          alert('이미 존재하는 아이디입니다.')
+        } else if (res.data === true) {
+          alert('이미 존재하는 아이디입니다.');
         }
       })
       .catch((err) => {
@@ -348,14 +353,15 @@ const Join = () => {
     console.log(nickInput);
 
     alert('닉네임 중복확인');
-    await axios.post(`http://localhost:3001/auth/join/nickCheck`, {
+    await axios
+      .post(`http://localhost:3001/auth/join/nickCheck`, {
         userId: nickInput.current.value,
       })
       .then((res) => {
-        if(res.data === false){
+        if (res.data === false) {
           alert('사용 가능한 닉네임입니다.');
-        }else if (res.data===true){
-          alert('이미 존재하는 닉네임입니다.')
+        } else if (res.data === true) {
+          alert('이미 존재하는 닉네임입니다.');
         }
       })
       .catch((err) => {
@@ -370,14 +376,15 @@ const Join = () => {
     console.log(emailInput);
 
     alert('닉네임 중복확인');
-    await axios.post(`http://localhost:3001/auth/join/emailCheck`, {
+    await axios
+      .post(`http://localhost:3001/auth/join/emailCheck`, {
         userId: emailInput.current.value,
       })
       .then((res) => {
-        if(res.data === false){
+        if (res.data === false) {
           alert('사용 가능한 이메일입니다.');
-        }else if (res.data===true){
-          alert('이미 존재하는 이메일입니다.')
+        } else if (res.data === true) {
+          alert('이미 존재하는 이메일입니다.');
         }
       })
       .catch((err) => {
