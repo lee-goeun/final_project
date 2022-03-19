@@ -69,11 +69,10 @@ const Join = () => {
   const [inputAge, setInputAge] = useState();
   const [inputSex, setInputSex] = useState();
 
-
+  
 
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
-  const pwRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,15}$/; // 비밀번호 정규표현식
+  const pwRegex =/^(?=.*[a-zA-Z])(?=.*[#?!@$%^&*-])(?=.*[0-9]).{8,16}$/; // 비밀번호 정규표현식
   const nickRegex = /[가-힣a-zA-Z0-9].{2,12}$/;
   const emailRegex =
     /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
