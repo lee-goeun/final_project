@@ -227,7 +227,7 @@ exports.idCheck = async (req, res, callback) => {
       } else {
         idCheck = false;
       }
-      callback(idCheck);
+      await callback(idCheck);
     });
     console.log(idCheck); // undefined 이고 callback 함수로 순차 호출 받은 값이 true
 

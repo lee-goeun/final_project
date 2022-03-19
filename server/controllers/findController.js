@@ -13,18 +13,20 @@ const db = mysql.createConnection({
 exports.findId = async (req, res) => {
   try {
     const { userEmail, userName } = req.body;
+
     // 임시 코드 -> 정리 필요 부분
     if (req.body.userEmail === '' || req.body.userName === '') {
       res.send('이메일 또는 이름을 입력해 주세요');
     }
 
     // Email 기준 조회
-    const query = 'SELECT * FROM usertbl WHERE userEmail = ? AND userName=?;';
-    db.query(query, [userEmail, userName], (err, result) => {
+    const query =
+      'SELECT userId FROM usertbl WHERE userEmail = ? AND userName=?;';
+    db.query(query, [userEmail, userName], (err, res) => {
       if (err) {
         console.log(err);
       } else {
-        const Id = result[0].userId;
+        const Id = res[0];
 
         // 메일 등록
         const transporter = nodemailer.createTransport({
@@ -165,7 +167,6 @@ exports.findPw = async (req, res) => {
       }
     });
     return res.json('test');
-    // res.send('전송 완료');
   } catch (error) {
     console.log(error);
   }

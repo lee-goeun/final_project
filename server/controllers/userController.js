@@ -94,12 +94,15 @@ exports.userDelete = (req, res) => {
   try {
     const { userId } = req.body;
 
+    // const userDelete = true;
+
     const query = 'UPDATE usertbl SET deleted=1 WHERE userId=?';
     db.query(query, [userId], (err) => {
       if (err) {
         console.log(err);
       }
     });
+    return res.json('deleted');
   } catch (err) {
     console.log(err);
   }

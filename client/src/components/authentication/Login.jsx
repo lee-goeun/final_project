@@ -78,7 +78,8 @@ const Login = ({ userInfoHandler }) => {
 
   // 이메일 보낼 때 필요한 값
   const nameInput = useRef('');
-  const emailInput = useRef('');
+  const idEmailInput = useRef('');
+  const pwEmailInput = useRef('');
   const userIdInput = useRef('');
 
   const [showFindIdModal, setShowFindIdModal] = useState(false);
@@ -99,11 +100,11 @@ const Login = ({ userInfoHandler }) => {
     await axios
       .post('http://localhost:3001/find/findId', {
         userName: nameInput.current.value,
-        userEmail: emailInput.current.value,
+        userEmail: idEmailInput.current.value,
       })
       .then((res) => {
         console.log(res);
-        alert('발송에 성공했습니다.');
+        alert('메일로 아이디를 보내드렸습니다.');
       });
   };
 
@@ -114,7 +115,7 @@ const Login = ({ userInfoHandler }) => {
     await axios
       .post('http://localhost:3001/find/findPw', {
         userId: userIdInput.current.value,
-        userEmail: emailInput.current.value,
+        userEmail: pwEmailInput.current.value,
       })
       .then((res) => {
         console.log(res);
@@ -192,7 +193,7 @@ const Login = ({ userInfoHandler }) => {
                   />
                   <input
                     type="text"
-                    ref={emailInput}
+                    ref={idEmailInput}
                     placeholder="이메일을 입력하세요"
                   />
                   {/* 디자인 수정 필요 */}
@@ -211,7 +212,7 @@ const Login = ({ userInfoHandler }) => {
                   />
                   <input
                     type="text"
-                    ref={emailInput}
+                    ref={pwEmailInput}
                     placeholder="이메일을 입력하세요"
                   />
                   {showInput ? (

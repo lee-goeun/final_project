@@ -29,6 +29,8 @@ const Join = () => {
   const navigate = useNavigate();
 
   const idInput = useRef('');
+  const nickInput = useRef('');
+  const emailInput = useRef('');
 
   const [userInfo, setUserInfo] = useState({
     address: '',
@@ -67,11 +69,10 @@ const Join = () => {
   const [inputAge, setInputAge] = useState();
   const [inputSex, setInputSex] = useState();
 
-
+  
 
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
-  const pwRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,15}$/; // 비밀번호 정규표현식
+  const pwRegex =/^(?=.*[a-zA-Z])(?=.*[#?!@$%^&*-])(?=.*[0-9]).{8,16}$/; // 비밀번호 정규표현식
   const nickRegex = /[가-힣a-zA-Z0-9].{2,12}$/;
   const emailRegex =
     /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
@@ -342,13 +343,46 @@ const Join = () => {
   };
 
   // 닉네임 중복확인 버튼
-  const clickDuplicateCheckBtn2 = (e) => {
+  const clickDuplicateCheckBtn2 = async (e) => {
+    e.preventDefault();
+    console.log(nickInput);
+
     alert('닉네임 중복확인');
+    await axios.post(`http://localhost:3001/auth/join/nickCheck`, {
+        userId: nickInput.current.value,
+      })
+      .then((res) => {
+        if(res.data === false){
+          alert('사용 가능한 닉네임입니다.');
+        }else if (res.data===true){
+          alert('이미 존재하는 닉네임입니다.')
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // 이메일 중복확인 버튼
-  const clickDuplicateCheckBtn3 = (e) => {
+  const clickDuplicateCheckBtn3 = async (e) => {
     alert('이메일 중복확인');
+    e.preventDefault();
+    console.log(emailInput);
+
+    alert('닉네임 중복확인');
+    await axios.post(`http://localhost:3001/auth/join/emailCheck`, {
+        userId: emailInput.current.value,
+      })
+      .then((res) => {
+        if(res.data === false){
+          alert('사용 가능한 이메일입니다.');
+        }else if (res.data===true){
+          alert('이미 존재하는 이메일입니다.')
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // 회원가입 동작
@@ -479,6 +513,7 @@ const Join = () => {
           className="nick-input"
           type="text"
           name="userNick"
+          ref={nickInput}
           placeholder="닉네임을 입력하세요"
           onChange={(e) => {
             setInputNick(e.target.value);
@@ -496,6 +531,7 @@ const Join = () => {
           className="email-input"
           type="email"
           name="userEmail"
+          ref={emailInput}
           placeholder="이메일을 입력하세요"
           onChange={(e) => {
             setInputEmail(e.target.value);
