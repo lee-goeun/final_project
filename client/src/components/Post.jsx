@@ -212,7 +212,7 @@ const PostContainer = ({
 
   const commentInput = useRef();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const clickGoToCommnet = (e) => {
     commentInput.current.focus();
@@ -229,6 +229,7 @@ const PostContainer = ({
       .then((res) =>
         console.log(
           `${userId}님께서 ${boardId}번 게시물을 관심 게시물로 등록하였습니다.`,
+          setIsFavoritePost(true)
         ),
       )
       .catch((error) => console.log(error));
@@ -509,6 +510,7 @@ const CommentContainer = ({
     setShowReportCommentModal(true);
   };
 
+  
   // 댓글 신고 [완료]
   const clickReportCommentText = async (e) => {
     await axios
@@ -519,6 +521,7 @@ const CommentContainer = ({
       .then((res) => {
         console.log(res);
         alert('신고가 완료되었습니다. 운영진이 검토후 처리될 예정입니다.');
+
       })
       .catch((err) => {
         console.log('댓글 신고 에러 : ', err);
@@ -526,12 +529,23 @@ const CommentContainer = ({
       });
     setShowReportCommentModal(false);
   };
+  
+  // const navigate = useNavigate('');
+  // navigate(`/board/${commentId}`);
 
   // 댓글 좋아요 버튼 클릭시
   const [isLikeComment, setIsLikeComment] = useState(false);
+        // setIsLikeComment (true)
+  
+  // const useLikeComment = ()=>{};
 
   // 댓글 좋아요 처리 [완료]
+  // useEffect(()=>{
+  //   clickLikeComment()
+  // },[])
+
   const clickLikeComment = async (e) => {
+
     await axios
       .post(`http://localhost:3001/board/comment/${commentId}/like`, {
         userId: currentUserId,
@@ -539,6 +553,11 @@ const CommentContainer = ({
       .then((res) => {
         console.log(res);
         alert('좋아요를 누르셨습니다.');
+        setIsLikeComment (true)
+        // 좋아요 활성화
+        // let newLike = isLikeComment;
+        // newLike = true;
+        // setIsLikeComment (newLike)
       })
       .catch((err) => {
         console.log('댓글 좋아요 에러 : ', err);
@@ -748,14 +767,18 @@ const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
     setShowUploadFormModal(!showUploadFormModal);
   };
 
+
+  const textInput = useRef('')
   // 게시물 검색 API
   const searchPost = (e) => {
-    axios
-      .post('http://localhost:3001/board/post/like',)
+    axios.get('http://localhost:3001/board/',)
       .then((res) => {
+        console.log(res);
+        // alert('검색 끝 test');
       })
       .catch((error) => {
-        console.log(error);alert(
+        console.log(error);
+        alert(
           '오류가 발생했습니다. 잠시후 다시 시도해주세요.',
         );
       });
@@ -780,6 +803,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
       });
   };
 
+  // 참조 자료
   // const clickReportCommentText = async (e) => {
   //   await axios
   //     .post(`http://localhost:3001/board/comment/${reportedUserId}/report`, {
@@ -812,9 +836,9 @@ const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
               <input
                 className="post-search-input"
                 type="text"
-                // her={userI}
+                // her={textInput}
                 placeholder="검색하기.."
-                // onChange={(e) => setSearchModal(e.target.value)}
+                onChange={searchPost}
                 // value={CommentModal}
               />
             </form>

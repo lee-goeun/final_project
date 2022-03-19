@@ -24,6 +24,7 @@ exports.join = (req, res) => {
     region2,
     region3,
     detailAddress,
+    deatilJusoData,
     extraAddress,
     userName,
     userEmail,
@@ -55,8 +56,9 @@ exports.join = (req, res) => {
         region1: region1,
         region2: region2,
         region3: region3,
-        detailAddress: detailAddress,
+        detailAddress: deatilJusoData,
         extraAddress: extraAddress,
+        // query: detailAddress,
         userName: userName,
         userEmail: userEmail,
         userPw: hashedPasword,
@@ -72,6 +74,7 @@ exports.join = (req, res) => {
         if (err) {
           console.log(err);
         } else {
+          // console.log(results[0].detailAddress);
           console.log(results);
           res.json({ status: 'success' });
         }
@@ -108,6 +111,7 @@ exports.auth = (req, res) => {
               zonecode: result[0].zonecode,
               address: result[0].address,
               detailAddress: result[0].detailAddress,
+              extraAddress: result[0].extraAddress,
               region1: result[0].region1,
               region2: result[0].region2,
               region3: result[0].region3,
@@ -212,7 +216,7 @@ const postLoginModel = (req) => {
     });
   });
 };
-
+// undefined 이고 callback 함수로 순차 호출 받은 값이 true
 exports.idCheck = async (req, res, callback) => {
   try {
     const { userId } = req.body;
@@ -229,7 +233,7 @@ exports.idCheck = async (req, res, callback) => {
       }
       await callback(idCheck);
     });
-    console.log(idCheck); // undefined 이고 callback 함수로 순차 호출 받은 값이 true
+    console.log(idCheck);
 
     if (idCheck === false) {
       return res.json(true);
