@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+
 import styles from './Profile.module.css';
 import Button from '../components/common/Button';
 import UserAvatar from '../components/common/UserAvatar';
@@ -11,14 +13,21 @@ const Profile = ({ userInfoProps }) => {
 
 
   const register = () => {};
-
+  const navigate = useNavigate('');
 
   const clickDeleteBtn = async(e) => {
+    e.preventDefault();
+    // console.log('test')
     await axios.delete('http://localhost:3001/user/userDelete', {
+      userId:userId,
     }).then((res) => {
       console.log(res);
-      alert('계정이 삭제되었습니다.');
-      res.redirect('/login')
+      if(res.data ==='deleted'){
+        alert('계정이 삭제되셨습니다.');
+        localStorage.removeItem('token');
+        alert('로그아웃 되었습니다.');
+        navigate('/login');
+      }
     })
     .catch((err) => {
       console.log('계정삭제 에러 : ', err);
@@ -122,7 +131,7 @@ const Profile = ({ userInfoProps }) => {
             <li className={`${styles.item} ${styles.center}`}></li>
             <li className={styles.item}></li>
             <li className={styles.item}>
-              <Button name="submitChangeInfo"><a href='./pages/ProfileUpdate'>정보수정</a></Button>
+              <Button name="submitChangeInfo">정보수정</Button>
               <Button onClick={clickDeleteBtn} name="submitChangeInfo">회원탈퇴</Button>
             </li>
           </ul>
