@@ -241,31 +241,54 @@ exports.idCheck = async (req, res, callback) => {
   }
 };
 
-exports.ncikCheck = (req, res) => {
-  console.log(req.body);
+exports.ncikCheck = (req, res, callback) => {
   try {
     const { userNick } = req.body;
-    const query = 'SELECT * FROM usertbl WHERE userNick = ?;';
+    let nickCheck;
+    const query = 'SELECT userNick FROM usertbl WHERE userNick = ?;';
     db.query(query, [userNick], async (err, res) => {
       if (err) {
-        console.log('존재하는 닉네임입니다. test');
+        console.log(err);
       }
+      if (res[0] != undefined) {
+        nickCheck = true;
+      } else {
+        nickCheck = false;
+      }
+      await callback(nickCheck);
     });
+    if (nickCheck === false) {
+      return res.json(true);
+    } else {
+      return res.json(false);
+    }
   } catch (err) {
     console.log(err);
   }
 };
 
-exports.emailCheck = (req, res) => {
-  console.log(req.body);
+exports.emailCheck = (req, res, callback) => {
   try {
     const { userEmail } = req.body;
-    const query = 'SELECT * FROM usertbl WHERE userEmail = ?;';
+    let emailCheck;
+    const query = 'SELECT userEmail FROM usertbl WHERE userEmail = ?;';
     db.query(query, [userEmail], async (err, res) => {
       if (err) {
-        console.log('존재하는 이메일입니다. test');
+        console.log(err);
       }
+      if (res[0] != undefined) {
+        emailCheck = true;
+      } else {
+        emailCheck = false;
+      }
+      await callback(emailCheck);
     });
+
+    if (emailCheck === false) {
+      return res.json(true);
+    } else {
+      return res.json(false);
+    }
   } catch (err) {
     console.log(err);
   }

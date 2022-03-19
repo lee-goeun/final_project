@@ -77,10 +77,16 @@ const Login = ({ userInfoHandler }) => {
   const loginBtn = useRef();
 
   // 이메일 보낼 때 필요한 값
+  // ID 찾기
   const nameInput = useRef('');
   const idEmailInput = useRef('');
-  const pwEmailInput = useRef('');
+  // 비밀번호 찾기
   const userIdInput = useRef('');
+  const pwEmailInput = useRef('');
+  // 인증번호를 활용한 계정 값 변경
+  const userIdReInput =useRef('');
+  const pwEmailReInput = useRef('');
+
 
   const [showFindIdModal, setShowFindIdModal] = useState(false);
 
@@ -112,6 +118,7 @@ const Login = ({ userInfoHandler }) => {
   const clickDuplicateCheckBtn2 = async (e) => {
     e.preventDefault();
     console.log(userIdInput);
+
     await axios
       .post('http://localhost:3001/find/findPw', {
         userId: userIdInput.current.value,
@@ -123,6 +130,25 @@ const Login = ({ userInfoHandler }) => {
         setShowInput(true);
       });
   };
+  
+  // newPw
+  // 비밀번호 찾기 변경 이벤트 처리
+  const clickDuplicateCheckBtn3 = async (e) => {
+    e.preventDefault();
+    console.log(userIdReInput);
+
+    await axios
+      .put('http://localhost:3001/find/PwRe', {
+        userId: userIdReInput.current.value,
+        userEmail: pwEmailReInput.current.value,
+      })
+      .then((res) => {
+        console.log(res);
+        alert('메일로 인증번호를 보내드렸습니다.');
+        setShowInput(true);
+      });
+  };
+
 
   return (
     <>
@@ -220,6 +246,7 @@ const Login = ({ userInfoHandler }) => {
                       <input
                         className="certification-input"
                         type="text"
+                        ref={pwEmailReInput}
                         placeholder="인증번호 8자리"
                       />{' '}
                       <button className="certification-btn">확인</button>
