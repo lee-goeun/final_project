@@ -69,6 +69,7 @@ exports.join = (req, res) => {
         regDate,
         userImg: '/defaultPhoto/defalut.png',
         pwAuth: hashedPasword,
+        delete: 0,
       },
       (err, results) => {
         if (err) {
@@ -116,11 +117,10 @@ exports.auth = (req, res) => {
               region2: result[0].region2,
               region3: result[0].region3,
               userImg: result[0].userImg,
-              commentContent: result[0].commentContent,
-              // commentId: result[0].commentId,
-              // commentModify: result[0].commentModify,
+              // commentContent: result[0].commentContent,
               balance: result[0].balance,
               deleted: result[0].deleted,
+              info: result[0].info,
             });
           }
         });
@@ -130,17 +130,28 @@ exports.auth = (req, res) => {
 };
 
 exports.login = (req, res) => {
+  console.log('test');
+  // if (req[0].deleted === true) {
+  //   return false;
+  // }
   postLoginModel(req)
+    // 여기에 값 넣어야함
     .then(
       ({
         accessToken,
         userId,
         userNick,
         userEmail,
+        balance,
+        zonecode,
+        address,
+        detailAddress,
         userName,
+        userPhone,
         region1,
         region2,
         region3,
+        info,
       }) => {
         res.send({
           auth: true,
@@ -148,10 +159,16 @@ exports.login = (req, res) => {
           userId,
           userNick,
           userEmail,
+          balance,
+          zonecode,
+          address,
+          detailAddress,
           userName,
+          userPhone,
           region1,
           region2,
           region3,
+          info,
         });
       }
     )
@@ -187,10 +204,16 @@ const postLoginModel = (req) => {
               userId,
               userNick,
               userEmail,
+              balance,
+              address,
+              zonecode,
+              detailAddress,
               userName,
+              userPhone,
               region1,
               region2,
               region3,
+              info,
             } = result[0];
             const accessToken = createToken({
               userId,
@@ -201,10 +224,16 @@ const postLoginModel = (req) => {
               userId,
               userNick,
               userEmail,
+              balance,
+              address,
+              zonecode,
+              detailAddress,
               userName,
+              userPhone,
               region1,
               region2,
               region3,
+              info,
             });
           } else {
             reject(new Error('Wrong password'));
