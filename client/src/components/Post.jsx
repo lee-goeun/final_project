@@ -157,6 +157,7 @@ const PostContainer = ({
     arrows: true,
   };
 
+
   useEffect(() => {
     getAuth();
   }, []);
@@ -398,6 +399,7 @@ const MiniPostContainer = ({ postList, loadingPostList }) => {
   );
 };
 
+// 댓글 API 종합
 const CommentContainer = ({
   userNick,
   userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
@@ -653,7 +655,12 @@ const CommentContainer = ({
   );
 };
 
-const PostBackground = ({ postList, loadingPostList, getPostList }) => {
+const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
+
+// , boardTitle,  추가 필요 위치  boardTitle,
+
+
+
   useEffect(
     () => {
       getPostList();
@@ -661,6 +668,16 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     [getPostList],
     [postList],
   );
+
+  // [서성조 추가] 작업 필요함
+  
+  // const [postModal, setpostModal] = useState('');
+
+  // useEffect(() => {
+  //   setpostModal(boardTitle);
+  // }, [boardTitle]);
+
+
 
   const [showUploadFormModal, setShowUploadFormModal] = useState(false);
   const [boardTitle, setBoardTitle] = useState('');
@@ -677,7 +694,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     uploadDiv.current.style.height = '50px';
   };
 
-  // 게시물 올리기 /////////////////////////////////////////////////////////////
+  // 게시물 업로드 [정상 완료]
   const handleChangeFile = (e) => {
     setImgFiles(e.target.files);
     const imageLists = e.target.files;
@@ -694,7 +711,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     setShowImages(imageUrlLists);
   };
 
-  // 게시물 작성시
+  // 게시물 작성시 [정상 완료]
   const clickPostWrite = (e) => {
     const formData = new FormData();
 
@@ -724,29 +741,86 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     setShowUploadFormModal(!showUploadFormModal);
   };
 
-  // 작성 취소시
+  // 작성 취소시 [정상]
   const clickUploadFormModal = () => {
     setShowImages([]);
     // setImgFile(null);
     setShowUploadFormModal(!showUploadFormModal);
   };
 
+  // 게시물 검색 API
+  const searchPost = (e) => {
+    axios
+      .post('http://localhost:3001/board/post/like',)
+      .then((res) => {
+      })
+      .catch((error) => {
+        console.log(error);alert(
+          '오류가 발생했습니다. 잠시후 다시 시도해주세요.',
+        );
+      });
+  };
+
+
+  // 게시물 내용 수정
+  const clickPostModify = (e) => {
+    axios
+      .put('http://localhost:3001/board/post',)
+      .then((res) => {
+        if (res.status == 200) {
+          alert('게시글이 업로드 되었습니다.');
+          getPostList();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(
+          '오류가 발생했습니다. 로그인을 하시거나 잠시후 다시 시도해주세요.',
+        );
+      });
+  };
+
+  // const clickReportCommentText = async (e) => {
+  //   await axios
+  //     .post(`http://localhost:3001/board/comment/${reportedUserId}/report`, {
+  //       userId: currentUserId,
+  //       commentId,
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //       alert('신고가 완료되었습니다. 운영진이 검토후 처리될 예정입니다.');
+  //     })
+  //     .catch((err) => {
+  //       console.log('댓글 신고 에러 : ', err);
+  //       alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
+  //     });
+  //   setShowReportCommentModal(false);
+  // };
+
+
+
+
   return (
     <>
       <div className="post-background">
         <div className="post-filter">
           {/* <div className="pf-left"></div> */}
+          {/* 게시물 페이지 검색 값 갖고 오는 곳 */}
           <div>
             <form className="post-search-form">
               <FontAwesomeIcon icon={faSearch} className="post-search-icon" />
               <input
                 className="post-search-input"
                 type="text"
+                // her={userI}
                 placeholder="검색하기.."
+                // onChange={(e) => setSearchModal(e.target.value)}
+                // value={CommentModal}
               />
             </form>
           </div>
         </div>
+
 
         <div className="upload-post-div" ref={uploadDiv}>
           <div>게시물 올리기</div>
