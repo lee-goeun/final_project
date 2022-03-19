@@ -26,7 +26,7 @@ exports.findId = async (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        const Id = res[0];
+        const Id = res[0].userId;
 
         // 메일 등록
         const transporter = nodemailer.createTransport({
