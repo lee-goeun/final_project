@@ -191,7 +191,6 @@
   border: 1px solid var(--accent-default);
   color: var(--accent-default);
   background-color: white;
-  font-weight: bold;
   transition: 0.3s;
 }
 .btn__st:hover,
