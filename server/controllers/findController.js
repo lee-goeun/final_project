@@ -121,7 +121,7 @@ exports.findPw = async (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        let userName = res[0].userName;
+        const userNameSend = res[0].userName;
 
         // 메일 옵션
         const transporter = nodemailer.createTransport({
@@ -143,10 +143,11 @@ exports.findPw = async (req, res) => {
           from: process.env.EMAIL_ID,
           to: userEmail,
           subject:
-            userName + '님 안녕하세요! PaP에서 PW 초기화 메일 보내드립니다!',
+            userNameSend +
+            '님 안녕하세요! PaP에서 PW 초기화 메일 보내드립니다!',
           html:
             '안녕하세요 ' +
-            userName +
+            userNameSend +
             '님 항상 저희 PaP 서비스를 이용해주셔서 감사드립니다.<br>' +
             '비밀번호 초기화 인증번호를 다음과 같이 보내드립니다.<br> 인증번호를 절대 공유하지 말아주세요.<br>' +
             '인증번호 : <b>' +
