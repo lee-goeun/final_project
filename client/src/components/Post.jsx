@@ -157,7 +157,6 @@ const PostContainer = ({
     arrows: true,
   };
 
-
   useEffect(() => {
     getAuth();
   }, []);
@@ -207,7 +206,6 @@ const PostContainer = ({
   const currentUserId = userInfo.userId;
 
   const [showPostMenu, setShowPostMenu] = useState(false);
-  const [isLike, setIsLike] = useState(false);
   const [commentContent, setCommentContent] = useState();
 
   const commentInput = useRef();
@@ -655,11 +653,8 @@ const CommentContainer = ({
   );
 };
 
-const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
-
-// , boardTitle,  추가 필요 위치  boardTitle,
-
-
+const PostBackground = ({ postList, loadingPostList, getPostList }) => {
+  // , boardTitle,  추가 필요 위치  boardTitle,
 
   useEffect(
     () => {
@@ -670,14 +665,12 @@ const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
   );
 
   // [서성조 추가] 작업 필요함
-  
+
   // const [postModal, setpostModal] = useState('');
 
   // useEffect(() => {
   //   setpostModal(boardTitle);
   // }, [boardTitle]);
-
-
 
   const [showUploadFormModal, setShowUploadFormModal] = useState(false);
   const [boardTitle, setBoardTitle] = useState('');
@@ -751,21 +744,18 @@ const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
   // 게시물 검색 API
   const searchPost = (e) => {
     axios
-      .post('http://localhost:3001/board/post/like',)
-      .then((res) => {
-      })
+      .post('http://localhost:3001/board/post/like')
+      .then((res) => {})
       .catch((error) => {
-        console.log(error);alert(
-          '오류가 발생했습니다. 잠시후 다시 시도해주세요.',
-        );
+        console.log(error);
+        alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
       });
   };
-
 
   // 게시물 내용 수정
   const clickPostModify = (e) => {
     axios
-      .put('http://localhost:3001/board/post',)
+      .put('http://localhost:3001/board/post')
       .then((res) => {
         if (res.status == 200) {
           alert('게시글이 업로드 되었습니다.');
@@ -797,9 +787,6 @@ const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
   //   setShowReportCommentModal(false);
   // };
 
-
-
-
   return (
     <>
       <div className="post-background">
@@ -820,7 +807,6 @@ const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
             </form>
           </div>
         </div>
-
 
         <div className="upload-post-div" ref={uploadDiv}>
           <div>게시물 올리기</div>
