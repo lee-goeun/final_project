@@ -11,6 +11,7 @@ import ProfileUpdateModal from '../components/profile/ProfileUpdateModal';
 const Profile = ({ userInfoProps }) => {
   const {
     userId,
+    userName,
     userNick,
     zonecode,
     userEmail,
@@ -21,16 +22,17 @@ const Profile = ({ userInfoProps }) => {
     info,
   } = userInfoProps;
 
+  console.log(userId)
   const register = () => {};
   const navigate = useNavigate('');
 
   const [showUpdateModal, setShowUpdateModal] = useState(false);
 
+  // 로그인 불가 처리 하면 탈퇴 [완료]
   const clickDeleteBtn = async (e) => {
     e.preventDefault();
-    // console.log('test')
     await axios
-      .delete('http://localhost:3001/user/userDelete', {
+      .put('http://localhost:3001/user/userDelete', {
         userId: userId,
       })
       .then((res) => {
@@ -65,6 +67,13 @@ const Profile = ({ userInfoProps }) => {
             <li className={`${styles.item} ${styles.center}`}>아이디</li>
             <li className={styles.item}>
               <text>{userId}</text>
+            </li>
+            <li className={styles.item}></li>
+          </ul>
+          <ul className={styles.container}>
+            <li className={`${styles.item} ${styles.center}`}>이름</li>
+            <li className={styles.item}>
+              <text>{userName}</text>
             </li>
             <li className={styles.item}></li>
           </ul>

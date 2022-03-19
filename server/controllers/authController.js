@@ -24,6 +24,7 @@ exports.join = (req, res) => {
     region2,
     region3,
     detailAddress,
+    deatilJusoData,
     extraAddress,
     userName,
     userEmail,
@@ -55,8 +56,9 @@ exports.join = (req, res) => {
         region1: region1,
         region2: region2,
         region3: region3,
-        detailAddress: detailAddress,
+        detailAddress: deatilJusoData,
         extraAddress: extraAddress,
+        // query: detailAddress,
         userName: userName,
         userEmail: userEmail,
         userPw: hashedPasword,
@@ -67,11 +69,13 @@ exports.join = (req, res) => {
         regDate,
         userImg: '/defaultPhoto/defalut.png',
         pwAuth: hashedPasword,
+        delete: 0,
       },
       (err, results) => {
         if (err) {
           console.log(err);
         } else {
+          // console.log(results[0].detailAddress);
           console.log(results);
           res.json({ status: 'success' });
         }
@@ -108,15 +112,15 @@ exports.auth = (req, res) => {
               zonecode: result[0].zonecode,
               address: result[0].address,
               detailAddress: result[0].detailAddress,
+              extraAddress: result[0].extraAddress,
               region1: result[0].region1,
               region2: result[0].region2,
               region3: result[0].region3,
               userImg: result[0].userImg,
-              commentContent: result[0].commentContent,
-              // commentId: result[0].commentId,
-              // commentModify: result[0].commentModify,
+              // commentContent: result[0].commentContent,
               balance: result[0].balance,
               deleted: result[0].deleted,
+              info: result[0].info,
             });
           }
         });
@@ -126,17 +130,28 @@ exports.auth = (req, res) => {
 };
 
 exports.login = (req, res) => {
+  console.log('test');
+  // if (req[0].deleted === true) {
+  //   return false;
+  // }
   postLoginModel(req)
+    // 여기에 값 넣어야함
     .then(
       ({
         accessToken,
         userId,
         userNick,
         userEmail,
+        balance,
+        zonecode,
+        address,
+        detailAddress,
         userName,
+        userPhone,
         region1,
         region2,
         region3,
+        info,
       }) => {
         res.send({
           auth: true,
@@ -144,10 +159,16 @@ exports.login = (req, res) => {
           userId,
           userNick,
           userEmail,
+          balance,
+          zonecode,
+          address,
+          detailAddress,
           userName,
+          userPhone,
           region1,
           region2,
           region3,
+          info,
         });
       }
     )
@@ -183,10 +204,16 @@ const postLoginModel = (req) => {
               userId,
               userNick,
               userEmail,
+              balance,
+              address,
+              zonecode,
+              detailAddress,
               userName,
+              userPhone,
               region1,
               region2,
               region3,
+              info,
             } = result[0];
             const accessToken = createToken({
               userId,
@@ -197,10 +224,16 @@ const postLoginModel = (req) => {
               userId,
               userNick,
               userEmail,
+              balance,
+              address,
+              zonecode,
+              detailAddress,
               userName,
+              userPhone,
               region1,
               region2,
               region3,
+              info,
             });
           } else {
             reject(new Error('Wrong password'));
@@ -212,7 +245,7 @@ const postLoginModel = (req) => {
     });
   });
 };
-
+// undefined 이고 callback 함수로 순차 호출 받은 값이 true
 exports.idCheck = async (req, res, callback) => {
   try {
     const { userId } = req.body;
@@ -229,7 +262,7 @@ exports.idCheck = async (req, res, callback) => {
       }
       await callback(idCheck);
     });
-    console.log(idCheck); // undefined 이고 callback 함수로 순차 호출 받은 값이 true
+    console.log(idCheck);
 
     if (idCheck === false) {
       return res.json(true);

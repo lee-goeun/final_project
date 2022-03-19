@@ -68,6 +68,7 @@ const Join = () => {
   const [inputPhone, setInputPhone] = useState();
   const [inputAge, setInputAge] = useState();
   const [inputSex, setInputSex] = useState();
+  const [deatilJusoData, setInputJusoData] = useState('');
 
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
   const pwRegex = /^(?=.*[a-zA-Z])(?=.*[#?!@$%^&*-])(?=.*[0-9]).{8,16}$/; // 비밀번호 정규표현식
@@ -441,6 +442,7 @@ const Join = () => {
         userSex: inputSex,
         location_agree: true,
         service_agree: true,
+        deatilJusoData : deatilJusoData,
       })
       .then((res) => {
         console.log(res);
@@ -562,6 +564,7 @@ const Join = () => {
           }}
         />
 
+{/* deatilJusoData */}
         <p>주소</p>
         <DaumPostStyle>
           <DaumPostHook
@@ -571,6 +574,16 @@ const Join = () => {
             detailAddress={detailAddress}
           />
         </DaumPostStyle>
+
+        <input type="text"
+        className="ages-select"
+        name="deatilJusoData"
+        placeholder='상세 주소를 입력하세요'
+        onChange={(e) => {
+          setInputJusoData(e.target.value);
+        }}
+        />
+
 
         <p>연령대</p>
         <select

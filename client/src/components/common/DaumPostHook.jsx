@@ -28,13 +28,12 @@ const DaumPostHook = ({
       />
       <input
         name="address"
-        placeholder="주소를 입력하세요"
+        placeholder="주소가 입력됩니다."
         value={address}
         onChange={handleInput}
       ></input>
       <input
-        type="text"
-        placeholder="상세주소를 입력하세요"
+        type="hidden"
         name="detailAddress"
         value={detailAddress}
         onChange={handleInput}
