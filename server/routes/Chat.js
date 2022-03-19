@@ -10,12 +10,20 @@ const io = require('socket.io')(http);
 //웹소켓관련
 
 http.listen(3002, () => console.log('listing on port 3002'));
+let roomName;
 
 io.on('connection', socket => {
  // console.log('conection');
-  socket.on('send msg', (item) => {
-    console.log('ttt', item);
-     io.emit('receive msg', {name:item.name,message:item.message});
+
+  socket.on('joinRoom', (item) => {
+    console.log('item,,,, ', item)
+    socket.join(item.chatroomId);
+    roomName = item.roomName;
+    console.log('itemmmmm', roomName);
+  })
+  socket.on('sendMsg', (item) => {
+    console.log('ttttttt', item);
+     io.on(roomName).emit('receiveMsg', {chatroomId:item.chatroomId, name:item.name, message:item.message});
   });
 })
 
