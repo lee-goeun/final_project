@@ -22,16 +22,22 @@ const AdminPageStyle = styled.div`
     margin: 30px auto;
     width: 95%;
     min-height: fit-content;
-    height: 1000px;
+    max-height: fit-content;
     max-height: 1000px;
   }
   header {
     text-align: right;
     border-bottom: 1px solid black;
     height: 55px;
+    display: flex;
+    justify-content: space-between;
 
     button {
-      margin-right: 10px;
+      height: fit-content;
+    }
+    p {
+      margin-top: 15px;
+      font-size: 20px;
     }
   }
 `;
@@ -39,7 +45,7 @@ const AdminPageStyle = styled.div`
 const TableHeaderStyle = styled.div`
   .co {
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 30px;
     width: 100%;
     height: 30px;
@@ -86,6 +92,7 @@ const AdminPage = () => {
       <div className="admin-wrapper">
         <div className="cont">
           <header>
+            <p>중고거래 관리</p>
             <button className="btn__st">기능버튼</button>
           </header>
           <TableHeaderStyle>
@@ -114,11 +121,89 @@ const AdminPage = () => {
             </div>
           </TableHeaderStyle>
           <TableContainer
-            prdno="1"
-            buyerID="abc100"
-            buyerAddr="경기도 안양시"
-            sellerId="sellerking"
-            sellerAddr="서울시 논현동"
+            col1="1"
+            col2="abc100"
+            col3="경기도 안양시"
+            col4="sellerking"
+            col5="서울시 논현동"
+          />
+        </div>
+
+        <div className="cont">
+          <header>
+            <p>신고된 게시글 관리</p>
+            <button className="btn__st">기능버튼</button>
+          </header>
+          <TableHeaderStyle>
+            <div className="co">
+              <div className="ct1">체크</div>
+              <div className="ct2">
+                글번호
+                <FontAwesomeIcon icon={faSort} className="sort-btn" />
+              </div>
+              <div className="ct3">
+                작성자 아이디
+                <FontAwesomeIcon icon={faSort} className="sort-btn" />
+              </div>
+              <div className="ct4">
+                신고 일시
+                <FontAwesomeIcon icon={faSort} className="sort-btn" />
+              </div>
+              <div className="ct5">
+                신고자 아이디
+                <FontAwesomeIcon icon={faSort} className="sort-btn" />
+              </div>
+              <div className="ct6">
+                처리여부
+                <FontAwesomeIcon icon={faSort} className="sort-btn" />
+              </div>
+            </div>
+          </TableHeaderStyle>
+          <TableContainer
+            col1="1"
+            col2="abc100"
+            col3="22-03-19"
+            col4="sellerking"
+            col5="미처리"
+          />
+        </div>
+
+        <div className="cont">
+          <header>
+            <p>신고된 댓글 관리</p>
+            <button className="btn__st">기능버튼</button>
+          </header>
+          <TableHeaderStyle>
+            <div className="co">
+              <div className="ct1">체크</div>
+              <div className="ct2">
+                댓글번호
+                <FontAwesomeIcon icon={faSort} className="sort-btn" />
+              </div>
+              <div className="ct3">
+                작성자 아이디
+                <FontAwesomeIcon icon={faSort} className="sort-btn" />
+              </div>
+              <div className="ct4">
+                신고 일시
+                <FontAwesomeIcon icon={faSort} className="sort-btn" />
+              </div>
+              <div className="ct5">
+                신고자 아이디
+                <FontAwesomeIcon icon={faSort} className="sort-btn" />
+              </div>
+              <div className="ct6">
+                처리여부
+                <FontAwesomeIcon icon={faSort} className="sort-btn" />
+              </div>
+            </div>
+          </TableHeaderStyle>
+          <TableContainer
+            col1="1"
+            col2="abc100"
+            col3="22-03-19"
+            col4="sellerking"
+            col5="미처리"
           />
         </div>
       </div>

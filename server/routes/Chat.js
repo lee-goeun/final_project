@@ -13,18 +13,21 @@ http.listen(3002, () => console.log('listing on port 3002'));
 
 io.on('connection', socket => {
  // console.log('conection');
-  socket.on('msg', (item) => {
-    console.log(item);
-    // io.emit('receive message', {name:item.name,message:item.message});
+  socket.on('send msg', (item) => {
+    console.log('ttt', item);
+     io.emit('receive msg', {name:item.name,message:item.message});
   });
 })
 
 //조회
-router.get('/list', (req, res) => {
-    var sql = "select * from chatroomTbl where chatroomDeleted = 0";
-        conn.query(sql,(err, results) => {
+router.get('/list/:id', (req, res) => {
+  console.log('req,', req.params.id, req.query);
+  const id = req.params.id;
+    var sql = "select c.chatroomId, c.userId, c.participant, c.chatroomCreated, c.chatroomDeleted, u1.userImg, u1.userNick, u2.userImg as participantImg, u2.userNick as participantNick from chatroomTbl c left outer join userTbl u1 on u1.userId = c.userId left outer join userTbl u2 on u2.userId = c.participant where c.chatroomDeleted = 0 and (c.participant = ? or c.userId =?);";
+        conn.query(sql, [id, id] , (err, results) => {
             if(err) return res.json({success:false, err});
             else{
+              console.log('ersul', results);
               chatList = results;
               return res.json(results);
             } 
