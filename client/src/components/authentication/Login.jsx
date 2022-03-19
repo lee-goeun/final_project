@@ -17,6 +17,8 @@ const Login = ({ userInfoHandler }) => {
   const [userName, setUserName] = useState();
   const [userEmail, setUserEmail] = useState();
 
+  const [showInput, setShowInput] = useState(false);
+
   const onChangeIdInput = (e) => {
     setUserId(e.target.value);
     if (idRegex.test(e.target.value) === false) {
@@ -73,7 +75,7 @@ const Login = ({ userInfoHandler }) => {
   const idInput = useRef();
   const pwInput = useRef();
   const loginBtn = useRef();
-  
+
   // 이메일 보낼 때 필요한 값
   const nameInput = useRef('');
   const emailInput = useRef('');
@@ -89,18 +91,19 @@ const Login = ({ userInfoHandler }) => {
     e.preventDefault();
     clickLoginBtn();
   };
-  
+
   // 아이디 찾기 버튼 클릭시 이벤트 처리
   const clickDuplicateCheckBtn1 = async (e) => {
     e.preventDefault();
     console.log(nameInput);
-    await axios.post('http://localhost:3001/find/findId', {
+    await axios
+      .post('http://localhost:3001/find/findId', {
         userName: nameInput.current.value,
         userEmail: emailInput.current.value,
       })
       .then((res) => {
-        console.log(res)
-          alert('발송에 성공했습니다.');
+        console.log(res);
+        alert('발송에 성공했습니다.');
       });
   };
 
@@ -108,13 +111,15 @@ const Login = ({ userInfoHandler }) => {
   const clickDuplicateCheckBtn2 = async (e) => {
     e.preventDefault();
     console.log(userIdInput);
-    await axios.post('http://localhost:3001/find/findPw', {
+    await axios
+      .post('http://localhost:3001/find/findPw', {
         userId: userIdInput.current.value,
         userEmail: emailInput.current.value,
       })
       .then((res) => {
-        console.log(res)
-          alert('메일로 인증번호를 보내드렸습니다.');
+        console.log(res);
+        alert('메일로 인증번호를 보내드렸습니다.');
+        setShowInput(true);
       });
   };
 
@@ -200,7 +205,7 @@ const Login = ({ userInfoHandler }) => {
                 <p>비밀번호 찾기</p>
                 <div className="find-pw">
                   <input
-                    type="text"                    
+                    type="text"
                     ref={userIdInput}
                     placeholder="아이디를 입력하세요"
                   />
@@ -209,6 +214,16 @@ const Login = ({ userInfoHandler }) => {
                     ref={emailInput}
                     placeholder="이메일을 입력하세요"
                   />
+                  {showInput ? (
+                    <div className="certification-cont">
+                      <input
+                        className="certification-input"
+                        type="text"
+                        placeholder="인증번호 8자리"
+                      />{' '}
+                      <button className="certification-btn">확인</button>
+                    </div>
+                  ) : null}
                   {/* 디자인 수정 필요 */}
                   <button onClick={clickDuplicateCheckBtn2} className="btn__st">
                     비밀번호 찾기
@@ -220,6 +235,7 @@ const Login = ({ userInfoHandler }) => {
               className="off-modal-btn"
               onClick={() => {
                 setShowFindIdModal(!showFindIdModal);
+                setShowInput(false);
               }}
             >
               확인

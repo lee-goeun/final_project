@@ -168,6 +168,23 @@
 .find-pw > input:focus {
   border: 1px solid var(--accent-default);
 }
+.certification-cont {
+  margin-bottom: 10px;
+}
+.certification-input {
+  height: 40px;
+  width: 130px;
+  margin-right: 10px;
+  padding: 0 10px;
+}
+.certification-btn {
+  height: 40px;
+  width: 55px;
+  border: 1px solid var(--accent-default);
+  color: var(--accent-default);
+  background-color: white;
+  transition: 0.3s;
+}
 .btn__st {
   padding: 5px 10px;
   margin-top: 10px;
@@ -177,7 +194,8 @@
   font-weight: bold;
   transition: 0.3s;
 }
-.btn__st:hover {
+.btn__st:hover,
+.certification-btn:hover {
   background-color: var(--accent-default);
   color: white;
 }
