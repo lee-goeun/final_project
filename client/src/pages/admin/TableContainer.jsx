@@ -40,24 +40,18 @@ const TableContainerStyle = styled.div`
   }
 `;
 
-const TableContainer = ({
-  prdno,
-  buyerID,
-  buyerAddr,
-  sellerId,
-  sellerAddr,
-}) => {
+const TableContainer = ({ col1, col2, col3, col4, col5 }) => {
   return (
     <TableContainerStyle>
       <div className="co">
         <div className="ct1">
           <input type="checkbox" />
         </div>
-        <div className="ct2">{prdno}</div>
-        <div className="ct3">{buyerID}</div>
-        <div className="ct4">{buyerAddr}</div>
-        <div className="ct5">{sellerId}</div>
-        <div className="ct6">{sellerAddr}</div>
+        <div className="ct2">{col1}</div>
+        <div className="ct3">{col2}</div>
+        <div className="ct4">{col3}</div>
+        <div className="ct5">{col4}</div>
+        <div className="ct6">{col5}</div>
       </div>
     </TableContainerStyle>
   );
