@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { faSort } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TableContainer from './admin/TableContainer';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const AdminPageStyle = styled.div`
   .admin-wrapper {
@@ -87,17 +89,25 @@ const TableHeaderStyle = styled.div`
 `;
 
 const AdminPage = () => {
+  const [deliveryArr, setDeliveryArr] = useState([]);
+
+  useEffect(() => {
+    axios.get(`http://localhost:3001/market/delivery`).then((res) => {
+      setDeliveryArr(res.data);
+    });
+  }, []);
+
   return (
     <AdminPageStyle>
       <div className="admin-wrapper">
         <div className="cont">
           <header>
-            <p>중고거래 관리</p>
-            <button className="btn__st">기능버튼</button>
+            <p>배송관리</p>
+            {/* <button className="btn__st">기능버튼</button> */}
           </header>
           <TableHeaderStyle>
             <div className="co">
-              <div className="ct1">체크</div>
+              {/* <div className="ct1">체크</div> */}
               <div className="ct2">
                 물품번호
                 <FontAwesomeIcon icon={faSort} className="sort-btn" />
@@ -120,13 +130,17 @@ const AdminPage = () => {
               </div>
             </div>
           </TableHeaderStyle>
-          <TableContainer
-            col1="1"
-            col2="abc100"
-            col3="경기도 안양시"
-            col4="sellerking"
-            col5="서울시 논현동"
-          />
+          {
+            deliveryArr.map((item) => (
+              <TableContainer
+                col1={item.marketId}
+                col2={item.userId}
+                col3={item.userAddress}
+                col4={item.sellerId}
+                col5={item.sellerAddress}
+              />
+            ))
+          }
         </div>
 
         <div className="cont">

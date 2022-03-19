@@ -44,9 +44,9 @@ const TableContainer = ({ col1, col2, col3, col4, col5 }) => {
   return (
     <TableContainerStyle>
       <div className="co">
-        <div className="ct1">
+        {/* <div className="ct1">
           <input type="checkbox" />
-        </div>
+        </div> */}
         <div className="ct2">{col1}</div>
         <div className="ct3">{col2}</div>
         <div className="ct4">{col3}</div>
