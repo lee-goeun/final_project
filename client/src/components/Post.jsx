@@ -21,7 +21,7 @@ import {
   faClone,
 } from '@fortawesome/free-regular-svg-icons';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -758,8 +758,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     setShowUploadFormModal(!showUploadFormModal);
   };
 
-
-  const textInput = useRef('')
+  const textInput = useRef('');
 
   // 게시물 검색 API가 뭐징
   const searchPost = (e) => {
