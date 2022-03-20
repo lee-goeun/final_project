@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react'; // , useRef
 import styles from './Profile.module.css';
 import DaumPostHook from '../components/common/DaumPostHook';
 import Button from '../components/common/Button';
 import UserAvatar from '../components/common/UserAvatar';
 import ProfileModalButton from '../components/profile/ProfileModalButton';
-import axios from 'axios';
+// import axios from 'axios';
 
 const ProfileUpdate = ({ userInfoProps }) => {
   const [userInfo, setUserInfo] = useState({
@@ -26,10 +26,10 @@ const ProfileUpdate = ({ userInfoProps }) => {
     zonecode,
     address,
     detailAddress,
-    userPw,
+    // userPw,
     newPassword,
     newPasswordConfirmation,
-    balance,
+    // balance,
   } = userInfo;
   const { userId, userNick, userEmail, userPhone } = userInfoProps;
 
@@ -38,7 +38,7 @@ const ProfileUpdate = ({ userInfoProps }) => {
       alert('로그인 후 이용해주세요');
     }
     passwordValidationCheck();
-  }, [newPassword, newPasswordConfirmation]);
+  }); //, [newPassword, newPasswordConfirmation]
 
   const passwordValidationCheck = () => {
     const pwRegex =
@@ -77,19 +77,19 @@ const ProfileUpdate = ({ userInfoProps }) => {
     }));
   };
 
-  const clickDeleteBtn = async (e) => {
-    await axios
-      .post('http://localhost:3001/find/findId', {
-        userId,
-      })
-      .then((res) => {
-        if (res.data.status === 'test') {
-          alert('발송에 성공했습니다.');
-        } else {
-          alert('발송에 실패했습니다.');
-        }
-      });
-  };
+  // const clickDeleteBtn = async (e) => {
+  //   await axios
+  //     .post('http://localhost:3001/find/findId', {
+  //       userId,
+  //     })
+  //     .then((res) => {
+  //       if (res.data.status === 'test') {
+  //         alert('발송에 성공했습니다.');
+  //       } else {
+  //         alert('발송에 실패했습니다.');
+  //       }
+  //     });
+  // };
 
   return (
     <div className={styles.register}>

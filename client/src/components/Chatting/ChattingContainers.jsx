@@ -26,7 +26,7 @@ const ChattingUserContainers = ({
         </div>
       </div>
       <div className="culc02">
-        <h3>{userInfo.userNick == userNick ? participantNick : userNick }</h3>
+        <h3>{userInfo.userNick === userNick ? participantNick : userNick }</h3>
       </div>
       <div className="culc03">
         <div className="culc03-left">{lastChat}</div>

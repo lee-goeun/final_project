@@ -121,7 +121,7 @@ const HeaderStyle = Styled.div`
 const Header = () => {
   useEffect(() => {
     getAuth();
-  }, []);
+  });
 
   const navigate = useNavigate();
   const [showDropMenu, setShowDropMenu] = useState(false);

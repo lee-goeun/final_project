@@ -51,11 +51,11 @@ const App = () => {
     region2: '',
     region3: '',
   });
-  console.log(userInfo, '33333333333333333333333');
+  console.log(userInfo, 'test');
 
   useEffect(() => {
     getAuth();
-  }, []);
+  }, []); //
 
   const getAuth = async () => {
     try {

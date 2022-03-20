@@ -160,7 +160,7 @@ const PostContainer = ({
 
   useEffect(() => {
     getAuth();
-  }, []);
+  });
 
   const [userInfo, setUserInfo] = useState({
     auth: false,

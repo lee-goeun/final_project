@@ -22,25 +22,3 @@ export function auth() {
     payload: request,
   };
 }
-
-export function signupUser(dataToSubmit) {
-  const request = axios
-    .post('http://localhost:3001/auth/join', dataToSubmit)
-    .then((response) => response.data);
-
-  return {
-    type: FIND_ID,
-    payload: request,
-  };
-}
-
-export function findPw(dataToSubmit) {
-  const request = axios
-    .post('http://localhost:3001/find/findPw', dataToSubmit)
-    .then((response) => response.data);
-
-  return {
-    type: FIND_PW,
-    payload: request,
-  };
-}
