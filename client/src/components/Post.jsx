@@ -174,7 +174,7 @@ const PostContainer = ({
     userImg: '',
   });
 
-  console.log('boardImgListboardImgList',boardImgList);
+  console.log('boardImgListboardImgList', boardImgList);
 
   const getAuth = async () => {
     try {
@@ -263,17 +263,7 @@ const PostContainer = ({
         <div className="pc-left">
           <CarouselStyle>
             <div className="carousel-img-container">
-              <Slider {...settings}>
-                {boardImgList.map((item) => (
-                  <img
-                      src={
-                        'http://localhost:3001/board/download?boardImgName=' +
-                        item
-                      }
-                      alt="이미지"
-                    />
-                ))}
-              </Slider>
+              <Slider {...settings}>{imgListSection}</Slider>
             </div>
           </CarouselStyle>
         </div>
@@ -580,7 +570,7 @@ const CommentContainer = ({
       <div className="comment-container">
         <div className="cc01">
           <div className="cc01-img-container">
-            <img src={process.env.PUBLIC_URL + `${userImg}` } alt='' />
+            <img src={process.env.PUBLIC_URL + `${userImg}`} alt="" />
           </div>
         </div>
         <div className="cc02">
