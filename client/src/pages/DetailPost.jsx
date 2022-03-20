@@ -72,6 +72,8 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
 
   const { boardId } = useParams();
 
+  console.log('파람값으로 넘겨받은 게시물아이디값 : ', boardId);
+
   const [showReportPostModal, setShowReportPostModal] = useState();
   const [showModifyPostModal, setShowModifyPostModal] = useState();
   const [showDeletePostModal, setShowDeletePostModal] = useState();

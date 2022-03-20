@@ -21,7 +21,7 @@ import {
   faClone,
 } from '@fortawesome/free-regular-svg-icons';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -771,8 +771,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     setShowUploadFormModal(!showUploadFormModal);
   };
 
-
-  const textInput = useRef('')
+  const textInput = useRef('');
 
   // 게시물 검색 API가 뭐징
   const searchPost = (e) => {
@@ -815,25 +814,24 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
 
   return (
     <>
-      <div className="post-background">
-        <div className="post-filter">
-          {/* <div className="pf-left"></div> */}
-          {/* 게시물 페이지 검색 값 갖고 오는 곳 */}
-          <div>
-            <form className="post-search-form">
-              <FontAwesomeIcon icon={faSearch} className="post-search-icon" />
-              <input
-                className="post-search-input"
-                type="text"
-                // her={textInput}
-                placeholder="검색하기.."
-                onChange={searchPost}
-                // value={CommentModal}
-              />
-            </form>
-          </div>
+      <div className="post-filter">
+        {/* <div className="pf-left"></div> */}
+        {/* 게시물 페이지 검색 값 갖고 오는 곳 */}
+        <div>
+          <form className="post-search-form">
+            <FontAwesomeIcon icon={faSearch} className="post-search-icon" />
+            <input
+              className="post-search-input"
+              type="text"
+              // her={textInput}
+              placeholder="검색하기.."
+              onChange={searchPost}
+              // value={CommentModal}
+            />
+          </form>
         </div>
-
+      </div>
+      <div className="post-background">
         <div className="upload-post-div" ref={uploadDiv}>
           <div>게시물 올리기</div>
           <div onMouseOver={showText} onMouseOut={hideText}>
