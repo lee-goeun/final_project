@@ -1,16 +1,15 @@
 import styled from 'styled-components';
 
 const FooterStyle = styled.div`
-  margin: 50px auto 0 auto;
-  height: 100px;
+  margin: 0 auto;
+  height: fit-content;
   width: 100%;
-  color: var(--font-dark);
-  border-top: 1px solid var(--bordercolor-default);
-  /* background-color: #e6e6e6; */
+  color: white;
+  background-color: rgb(50, 50, 50);
   text-align: center;
-
-  p {
-    padding-top: 40px;
+  padding: 50px 0;
+  h3 {
+    margin-bottom: 20px;
   }
 `;
 
@@ -18,7 +17,8 @@ const Footer = () => {
   return (
     <FooterStyle>
       <div className="footer">
-        <p>ⓒ PET＆PET ALL RIGHTS RESERVED</p>
+        <h3>ⓒ PET＆PET ALL RIGHTS RESERVED</h3>
+        <p>반려인들을 위한 온라인 커뮤니티</p>
       </div>
     </FooterStyle>
   );
