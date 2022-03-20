@@ -73,8 +73,7 @@ const Join = () => {
   const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
   const pwRegex = /^(?=.*[a-zA-Z])(?=.*[#?!@$%^&*-])(?=.*[0-9]).{8,16}$/; // 비밀번호 정규표현식
   const nickRegex = /[가-힣a-zA-Z0-9].{2,12}$/;
-  const emailRegex =
-    /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
+  const emailRegex = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
 
   // 아이디, 비밀번호, 비밀번호 재입력 별 유효성 검사 에러문
   const [idRegErrorText, setIdRegErrorText] = useState(
@@ -178,39 +177,39 @@ const Join = () => {
   };
 
   // userPhone [핸드폰 번호] <-완료
-  const checUserPhone = (userPhone) => {
-    //핸드폰 번호가 제대로 입력되었는지 확인하기
-    const userPhoneRegExp = /^[0-9]{3}[0-9]{4}[0-9]{4}$/;
-    if (!userPhoneRegExp.test(userPhone)) {
-      alert('핸드폰 번호를 -과 공백 없이 입력해야 합니다!');
-      userPhone.focus();
-      return false;
-    }
-    return true; //확인이 완료되었을 때
-  };
+  // const checUserPhone = (userPhone) => {
+  //   //핸드폰 번호가 제대로 입력되었는지 확인하기
+  //   const userPhoneRegExp = /^[0-9]{3}[0-9]{4}[0-9]{4}$/;
+  //   if (!userPhoneRegExp.test(userPhone)) {
+  //     alert('핸드폰 번호를 -과 공백 없이 입력해야 합니다!');
+  //     userPhone.focus();
+  //     return false;
+  //   }
+  //   return true; //확인이 완료되었을 때
+  // };
 
   // address [주소]
-  const checAddress = (address) => {
-    const AddressRegExp = /^[가-힣a-zA-z0-9]{1,20}$/;
-    if (!AddressRegExp.test(address)) {
-      alert('주소를 입력해야합니다!');
-      address.focus();
-      return false;
-    }
-    return true; //확인이 완료되었을 때
-  };
+  // const checAddress = (address) => {
+  //   const AddressRegExp = /^[가-힣a-zA-z0-9]{1,20}$/;
+  //   if (!AddressRegExp.test(address)) {
+  //     alert('주소를 입력해야합니다!');
+  //     address.focus();
+  //     return false;
+  //   }
+  //   return true; //확인이 완료되었을 때
+  // };
 
   // extraAddress [상세주소]
-  const checExtarAddress = (extraAddress) => {
-    const ExtarAddressRegExp =
-      /^[가-힣a-zA-z0-9]{2,11}-[가-힣a-zA-z0-9]{2,11}$/;
-    if (!ExtarAddressRegExp.test(extraAddress)) {
-      alert('상세 주소를 입력해야합니다!');
-      extraAddress.focus();
-      return false;
-    }
-    return true; //확인이 완료되었을 때
-  };
+  // const checExtarAddress = (extraAddress) => {
+  //   const ExtarAddressRegExp =
+  //     /^[가-힣a-zA-z0-9]{2,11}-[가-힣a-zA-z0-9]{2,11}$/;
+  //   if (!ExtarAddressRegExp.test(extraAddress)) {
+  //     alert('상세 주소를 입력해야합니다!');
+  //     extraAddress.focus();
+  //     return false;
+  //   }
+  //   return true; //확인이 완료되었을 때
+  // };
 
   // 유효성 끝
 
