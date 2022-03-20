@@ -174,7 +174,7 @@ const PostContainer = ({
     userImg: '',
   });
 
-  console.log('boardImgListboardImgList', boardImgList);
+  // console.log('boardImgListboardImgList', boardImgList);
 
   const getAuth = async () => {
     try {

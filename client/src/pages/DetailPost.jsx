@@ -93,6 +93,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
       .catch((error) => console.log('좋아요 에러 :', error));
   }, []);
 
+
   return (
     <div>
       <DetailStyle>
@@ -237,6 +238,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
             setShowModifyPostModal(!showModifyPostModal);
             alert('게시물이 수정되었습니다.');
           }}
+          post={post}
         />
       )}
       {showDeletePostModal && (

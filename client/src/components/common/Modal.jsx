@@ -61,21 +61,26 @@ export const ModifyPostModal = ({
   boardId,
   userNick,
   userId,
+  post
 }) => {
 
-  const [postModifyModal, setPostModifyModal] = useState('');
-
+  const [postModifyTitle, setPostModifyTitle] = useState('');
+  const [postModifyContent, setPostModifyContent] = useState('');
+  console.log('post',post, clickModifyPostCancel);
   useEffect(() => {
     getPost(boardId);
-    axios.get(`http://localhost:3001/board/post/${boardId}`, {
+    axios.get(`http://localhost:3001/board/post/${post.boardId}`, {
       params: { userId: userInfo.userId },
     })
     .then((res) => {
+      setPostModifyTitle(res.data.boardTitle);
+      setPostModifyContent(res.data.boardContent);
       console.log('따로aixos 찍어본것', res);
     })
     .catch((e) => console.log(e));
-    setPostModifyModal(boardContent);
-  }, [boardContent]);
+    
+
+  }, [boardTitle, boardContent]);
 
   // 임시 추가
   useEffect(() => {
@@ -129,14 +134,19 @@ export const ModifyPostModal = ({
 
   const postModify= async(e)=>{
     console.log(boardId)
-    await axios
-    .put(`http://localhost:3001/board/edit/${boardId}`, {
+    const param = {
+      boardId : post.boardId,
       userId:currentUserId,
-      boardContent:postModifyModal,
-    })
+      boardTitle:postModifyTitle,
+      boardContent:postModifyContent,
+    };
+    console.log('param', param);
+    await axios
+    .put(`http://localhost:3001/board/post/edit/${post.boardId}`, param)
     .then((res) => {
       console.log(res);
-      alert('수정되셨습니다.');
+      alert('수정되었습니다.');
+      clickModifyPostCancel();
     })
     .catch((err) => {
       console.log('게시글 수정 에러 : ', err);
@@ -150,12 +160,12 @@ export const ModifyPostModal = ({
     <ModalWrapper
       innerModal={
         <div className="edit-post-modal">
-          {/* 게시물 제목 */}
-          <input type="text">{}</input>
+          
+          <input type="text" value={postModifyTitle}/>
           {/* 게시물 텍스트 들어갈 곳 표기 */}
           <textarea
-          onChange = {(e)=> setPostModifyModal(e.target.value)}
-          value={postModifyModal}></textarea>
+          onChange = {(e)=> setPostModifyContent(e.target.value)}
+          value={postModifyContent}></textarea>
           <button className="edit-post-cancel" onClick={clickModifyPostCancel}>
             취소
           </button>
