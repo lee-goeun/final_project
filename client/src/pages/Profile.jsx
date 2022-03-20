@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './Profile.module.css';
 import Button from '../components/common/Button';
 import UserAvatar from '../components/common/UserAvatar';
-import ProfileModalButton from '../components/profile/ProfileModalButton';
 import axios from 'axios';
 import ProfileUpdateModal from '../components/profile/ProfileUpdateModal';
 

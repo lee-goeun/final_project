@@ -1,8 +1,7 @@
-import React, { useState, useCallback } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/Header';
-import Footer from '../components/Footer'
+import Footer from '../components/Footer';
 
 const MatchingPageLayoutWrapper = styled.div``;
 const MainWrapper = styled.main``;
@@ -14,7 +13,7 @@ const MatchingPageLayout = () => {
       <MainWrapper>
         <Outlet />
       </MainWrapper>
-      <Footer/>
+      <Footer />
     </MatchingPageLayoutWrapper>
   );
 };
