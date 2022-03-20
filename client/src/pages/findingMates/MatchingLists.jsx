@@ -20,11 +20,11 @@ const Post = ({ post }) => {
   //   setModalVisible(false);
   // };
 
-  console.log('img', post.matchImgName);
+  console.log('img', post);
   const korTime = new Date(post.matchTime);
   const dispatch = useDispatch();
 
-  dispatch(getMatchPost(post.matchId), [dispatch]);
+  // dispatch(getMatchPost(post.matchId), [dispatch]);
 
   return (
     <StyledLink to={'/match/detail/' + post.matchId}>
