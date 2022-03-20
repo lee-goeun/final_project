@@ -93,7 +93,7 @@ const HeaderStyle = Styled.div`
   }
   .drop-menu{
     display: inline-block;
-    top: 65px;
+    top: 75px;
     transform: translate(-77.2px);
     position: absolute;
     width: fit-content;
@@ -170,7 +170,10 @@ const Header = () => {
         <div className="header-container">
           <div className="header-logo-container">
             <a href="/">
-              <img src={process.env.PUBLIC_URL + `/img/LogoHorizon.png`} alt='' />
+              <img
+                src={process.env.PUBLIC_URL + `/img/LogoHorizon.png`}
+                alt=""
+              />
             </a>
           </div>
           <div className="header-icons-container">
