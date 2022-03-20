@@ -85,7 +85,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
     axios
       .post(`http://localhost:3001/board/post/${boardId}/like`, {
         boardId,
-        userId,
+        userId: localStorage.getItem('token'),
       })
       .then((res) => {
         console.log(boardId, '번 게시물 좋아요 클릭', res);
