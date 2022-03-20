@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import AImageFIleInput from '../../components/common/AImageFileInput';
 import React, { useRef, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   getMyPetList,
@@ -101,7 +101,7 @@ const AddPetForm = ({ clickAddCancel, userInfo }) => {
   const post = useSelector((state) => state.mypet.update);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const formData = new FormData();
   // form 초기화 정보 가져오기(글쓰기시에만 write가 사용)
   const { form } = useSelector(({ mypet }) => ({
@@ -111,11 +111,7 @@ const AddPetForm = ({ clickAddCancel, userInfo }) => {
   const {
     petName,
     petTypeDetail,
-    petType,
     petBirth,
-    petSex,
-    petImgName,
-    imageUrl,
   } = form;
 
   useEffect(() => {
@@ -168,23 +164,23 @@ const AddPetForm = ({ clickAddCancel, userInfo }) => {
   const clickAddConfirm = async (e) => {
     e.preventDefault();
     console.log('sssss', content);
-    if(content == ''){
+    if(content === ''){
       alert('반려동물 사진을 넣어주세요.')
       return false;
     }
-    if(contents.petName == ''){
+    if(contents.petName === ''){
       alert('반려동물 이름을 작성해주세요');
       return false;
     }
 
-    if(contents.petBirth == ''){
+    if(contents.petBirth === ''){
       alert('반려동물 생년월일을 작성해주세요');
       return false;
     }
     
     if (!post.petId) {
       for (const [key, value] of Object.entries(contents)) {
-        if (`${key}` == 'petImgName') {
+        if (`${key}` === 'petImgName') {
           formData.append(`${key}`, content);
         } else {
           formData.append(`${key}`, `${value}`);
@@ -192,7 +188,7 @@ const AddPetForm = ({ clickAddCancel, userInfo }) => {
       }
     } else {
       for (const [key, value] of Object.entries(post)) {
-        if (`${key}` == 'petImgName') {
+        if (`${key}` === 'petImgName') {
           formData.append(`${key}`, content);
         } else {
           formData.append(`${key}`, `${value}`);
@@ -214,12 +210,12 @@ const AddPetForm = ({ clickAddCancel, userInfo }) => {
 
   const imgText = useRef();
 
-  const showImgText = () => {
-    imgText.current.style.bottom = '30px';
-  };
-  const hideImgText = () => {
-    imgText.current.style.bottom = '60px';
-  };
+  // const showImgText = () => {
+  //   imgText.current.style.bottom = '30px';
+  // };
+  // const hideImgText = () => {
+  //   imgText.current.style.bottom = '60px';
+  // };
 
   return (
     <FormStyle encType="multipart/form-data">

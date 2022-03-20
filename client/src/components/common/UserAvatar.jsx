@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const StyledAvatar = styled(Avatar)`
   margin: 8px;

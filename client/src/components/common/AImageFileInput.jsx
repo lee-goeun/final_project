@@ -20,7 +20,7 @@ const AImageFIleInput = (props) => {
     const uploaded = event.target.files[0];
     props.appendingFormData(uploaded);
     if (uploaded) {
-      if(props.type =='matching'){
+      if(props.type ==='matching'){
         if (props.post.matchId) {
           dispatch(
             changeInputImageMatching({

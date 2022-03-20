@@ -1,5 +1,5 @@
 import { faEye } from '@fortawesome/free-regular-svg-icons';
-import { faEllipsisVertical, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { React, useEffect } from 'react';
@@ -209,7 +209,7 @@ const MyPostCard = ({ type, userInfo }) => {
 
   return (
     <MyPostCardStyle>
-      {type == 'market' && myMarketList != undefined
+      {type === 'market' && myMarketList !== undefined
         ? myMarketList.map((item) => (
             <div className="wrapper">
               <div className="g1">
@@ -253,7 +253,7 @@ const MyPostCard = ({ type, userInfo }) => {
               </div>
             </div>
           ))
-        : type == 'matching' && myMatchingList != undefined
+        : type === 'matching' && myMatchingList !== undefined
         ? myMatchingList.map((item) => (
             <div className="wrapper">
               <div className="g1">
@@ -294,7 +294,7 @@ const MyPostCard = ({ type, userInfo }) => {
               </div>
             </div>
           ))
-        : type == 'post' && myPostList != undefined
+        : type === 'post' && myPostList !== undefined
         ? myPostList.map((item) => (
             <div className="wrapper">
               <div className="g1">

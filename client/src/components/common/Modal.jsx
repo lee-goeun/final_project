@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 // import { getPostList, post } from '../redux/modules/post';
 import axios from 'axios';
 import { getPost } from '../../lib/api';

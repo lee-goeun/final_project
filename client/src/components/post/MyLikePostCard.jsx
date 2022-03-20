@@ -1,5 +1,5 @@
 import { faEye } from '@fortawesome/free-regular-svg-icons';
-import { faEllipsisVertical, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { React, useEffect } from 'react';
@@ -208,7 +208,7 @@ const MyLikePostCard = ({ type, userInfo }) => {
 
   return (
     <MyPostCardStyle>
-      {type == 'market' && myLikeMarketList != undefined
+      {type === 'market' && myLikeMarketList !== undefined
         ? myLikeMarketList.map((item) => (
             <div className="wrapper">
               <div className="g1">
@@ -250,7 +250,7 @@ const MyLikePostCard = ({ type, userInfo }) => {
               <div className="g6">{item.marketCreated}</div>
             </div>
           ))
-        : type == 'collectPost' && myCollectPostList != undefined
+        : type === 'collectPost' && myCollectPostList !== undefined
         ? myCollectPostList.map((item) => (
           <div className="wrapper">
             <div className="g1">
