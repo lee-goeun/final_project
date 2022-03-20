@@ -7,7 +7,7 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import {
   getMarketList,
@@ -201,7 +201,7 @@ const ItemLists = ({ loadingList, list, userInfo }) => {
       order: 'created',
       keyword: keyword,
     };
-    if (e.code == 'Enter') {
+    if (e.code === 'Enter') {
       dispatch(getMarketList(data), [dispatch]);
     }
   };
@@ -215,11 +215,11 @@ const ItemLists = ({ loadingList, list, userInfo }) => {
     display: 'inline-block',
     marginLeft: 50,
   };
-  const style2 = {
-    display: 'inline-block',
-    marginLeft: 30,
-    color: 'red',
-  };
+  // const style2 = {
+  //   display: 'inline-block',
+  //   marginLeft: 30,
+  //   color: 'red',
+  // };
   return (
     <>
       <section>

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import Carousel from '../../components/common/Carousel';
 import SearchIcon from '@mui/icons-material/Search';
 import CreateIcon from '@mui/icons-material/Create';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import moment from 'moment';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -141,7 +140,7 @@ const MatchingLists = ({ loadingList, list, userInfo }) => {
   const [keyword, setKeyword] = useState('');
   const searchKeyword = (e) => {
     setKeyword(e.target.value);
-    if (e.code == 'Enter') {
+    if (e.code === 'Enter') {
       dispatch(getMatchList(keyword), [dispatch]);
     }
   };
@@ -183,8 +182,8 @@ const MatchingLists = ({ loadingList, list, userInfo }) => {
       {!loadingList && list && (
         <MatchingListWrapper>
           {list.map((post) =>
-            post.region1 == userInfo.region1 &&
-            post.region2 == userInfo.region2 ? (
+            post.region1 === userInfo.region1 &&
+            post.region2 === userInfo.region2 ? (
               <Post key={post.matchId} post={post} />
             ) : (
               ''

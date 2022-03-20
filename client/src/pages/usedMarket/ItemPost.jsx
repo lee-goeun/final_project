@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import UserAvatar from '../../components/common/UserAvatar';
 import MarketModalButton from '../../components/common/MarketModalButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { sellingMarketPost } from '../../redux/modules/market';
 

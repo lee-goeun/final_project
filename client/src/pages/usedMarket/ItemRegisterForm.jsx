@@ -3,11 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import Box from '@mui/material/Box';
-import FormControl from '@mui/material/FormControl';
 import AImageFIleInput from '../../components/common/AImageFileInput';
 import AImageViewer from '../../components/common/AImageViewer';
 import Button from '../../components/common/Button';
@@ -61,7 +56,7 @@ const ItemRegisterForm = () => {
     return () => {
       dispatch(unloadPost());
     };
-  }, [dispatch]);
+  },[]);
 
   //write/update후처리
   const res = useSelector((state) => state.market.res);
@@ -106,7 +101,7 @@ const ItemRegisterForm = () => {
     e.preventDefault();
     if (!post.marketId) {
       for (const [key, value] of Object.entries(contents)) {
-        if (`${key}` == 'marketImgName') {
+        if (`${key}` === 'marketImgName') {
           formData.append(`${key}`, content);
         } else {
           formData.append(`${key}`, `${value}`);
@@ -114,7 +109,7 @@ const ItemRegisterForm = () => {
       }
     } else {
       for (const [key, value] of Object.entries(post)) {
-        if (`${key}` == 'marketImgName') {
+        if (`${key}` === 'marketImgName') {
           formData.append(`${key}`, content);
         } else {
           formData.append(`${key}`, `${value}`);

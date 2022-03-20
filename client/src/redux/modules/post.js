@@ -1,5 +1,4 @@
 import { handleActions } from 'redux-actions';
-import { isDoStatement } from 'typescript';
 import * as api from '../../lib/api';
 
 const GET_POST_LIST = 'post/GET_POST_LIST';

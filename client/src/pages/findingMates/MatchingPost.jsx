@@ -100,7 +100,7 @@ const MatchingPost = ({ post, loadingPost, userInfo }) => {
         participant: userInfo.userId,
       })
       .then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           navigate('/chatting');
           console.log('re', res);
         }
@@ -143,7 +143,7 @@ const MatchingPost = ({ post, loadingPost, userInfo }) => {
             </h6>
             <h6 style={marginStyle2}>
               {post[0].userAge}대 |{' '}
-              {post[0].userSex == 'male' ? '남자' : '여자'} |
+              {post[0].userSex === 'male' ? '남자' : '여자'} |
               {`${post[0].region1} ${post[0].region2}  ${post[0].region3}`}
             </h6>
             <br />

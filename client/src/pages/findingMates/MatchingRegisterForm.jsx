@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createStore } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -57,7 +57,7 @@ const MatchingRegisterForm = ({userInfo}) => {
   const { form } = useSelector(({ matching }) => ({
     form: matching.write,
   }));
-  const { matchTitle, matchContent, matchTime, selectPet, imageUrl } = form;
+  const { matchTitle, matchContent, matchTime, imageUrl } = form;
   console.log('imageUrl', imageUrl);
   useEffect(() => {
     if (!post.matchId) dispatch(initializeForm('write'));
@@ -68,7 +68,7 @@ const MatchingRegisterForm = ({userInfo}) => {
     return () => {
       dispatch(unloadPost());
     };
-  }, [dispatch]);
+  },[]);
 
   
   const petList = useSelector((state) => state.mypet.list);
@@ -115,17 +115,17 @@ const MatchingRegisterForm = ({userInfo}) => {
 
   const submitPost = async (e) => {
    console.log('contents', contents);
-   if(petList.length == 0){
+   if(petList.length === 0){
      alert('반려동물을 등록해주세요');
      return false;
    }
    if(!post.matchId){
-    if(contents.selectPet == ''){
+    if(contents.selectPet === ''){
       alert('반려동물을 선택해주세요.')
       return false;
     }
    }else{
-    if(post.selectPet == ''){
+    if(post.selectPet === ''){
       alert('반려동물을 선택해주세요.')
       return false;
     }
@@ -134,7 +134,7 @@ const MatchingRegisterForm = ({userInfo}) => {
     e.preventDefault();
     if (!post.matchId) {
       for (const [key, value] of Object.entries(contents)) {
-        if (`${key}` == 'matchImgName') {
+        if (`${key}` === 'matchImgName') {
           formData.append(`${key}`, content);
         } else {
           formData.append(`${key}`, `${value}`);
@@ -142,7 +142,7 @@ const MatchingRegisterForm = ({userInfo}) => {
       }
     } else {
       for (const [key, value] of Object.entries(post)) {
-        if (`${key}` == 'matchImgName') {
+        if (`${key}` === 'matchImgName') {
           formData.append(`${key}`, content);
         } else {
           formData.append(`${key}`, `${value}`);
@@ -188,7 +188,7 @@ const MatchingRegisterForm = ({userInfo}) => {
                   label="selectPet"
                   name="selectPet"
                   onChange={handleChange}
-                  value={useSelector((state) => (!state.matching.post==null ? state.matching.write.selectPet : state.matching.update.selectPet))}
+                  value={useSelector((state) => (!state.matching.post===null ? state.matching.write.selectPet : state.matching.update.selectPet))}
                 >
                   {petList ? petList.map((val) => (
                     <MenuItem value={val.petId}>{val.petName}</MenuItem>

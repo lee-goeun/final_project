@@ -2,7 +2,6 @@ import { createAction, handleActions } from 'redux-actions';
 import produce from 'immer';
 import * as api from '../../lib/api';
 import createRequestThunk from '../../lib/createRequestThunk';
-import moment from 'moment';
 
 //action type
 const CHANGE_INPUT = 'market/CHANGE_INPUT';
