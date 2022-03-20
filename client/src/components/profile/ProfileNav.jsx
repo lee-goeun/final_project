@@ -20,6 +20,25 @@ const categories = [
     name: 'profile',
     text: '프로필 관리',
   },
+];
+
+const adminCategories = [
+  {
+    name: 'mypost',
+    text: '나의 게시물',
+  },
+  {
+    name: 'mypet',
+    text: '나의 반려동물',
+  },
+  {
+    name: 'interestingpost',
+    text: '관심 게시물',
+  },
+  {
+    name: 'profile',
+    text: '프로필 관리',
+  },
   {
     name: 'adminpage',
     text: '관리자 페이지',
@@ -62,6 +81,7 @@ const StyledLink = styled(Link)`
 
 const ProfileNav = ({ category, onSelect, userInfo }) => {
   const { userNick } = userInfo || '';
+  const userRole = userInfo.userNick;
 
   return (
     <Nav>
@@ -71,15 +91,25 @@ const ProfileNav = ({ category, onSelect, userInfo }) => {
       </AvatarBlock>
       <hr />
       <CategoriesBlock>
-        {categories.map((c) => (
-          <Category
-            key={c.name}
-            active={category === c.name}
-            onClick={() => onSelect(c.name)}
-          >
-            <StyledLink to={`${c.name}`}>{c.text}</StyledLink>
-          </Category>
-        ))}
+        {userInfo && userRole === '관리자'
+          ? adminCategories.map((c) => (
+              <Category
+                key={c.name}
+                active={category === c.name}
+                onClick={() => onSelect(c.name)}
+              >
+                <StyledLink to={`${c.name}`}>{c.text}</StyledLink>
+              </Category>
+            ))
+          : categories.map((c) => (
+              <Category
+                key={c.name}
+                active={category === c.name}
+                onClick={() => onSelect(c.name)}
+              >
+                <StyledLink to={`${c.name}`}>{c.text}</StyledLink>
+              </Category>
+            ))}
       </CategoriesBlock>
     </Nav>
   );
