@@ -258,7 +258,7 @@ exports.idCheck = async (req, result, callback) => {
         idCheck = false;
       }
       // console.log(res);
-      console.log("idcheck", idCheck);
+      console.log('idcheck', idCheck);
       if (idCheck === false) {
         return result.json(false);
       } else if (idCheck === undefined) {
@@ -300,7 +300,6 @@ exports.ncikCheck = (req, result, callback) => {
       }
       // await callback(nickCheck);
     });
-    
   } catch (err) {
     console.log(err);
   }
@@ -328,8 +327,6 @@ exports.emailCheck = (req, result, callback) => {
       }
       // await callback(emailCheck);
     });
-
-    
   } catch (err) {
     console.log(err);
   }
