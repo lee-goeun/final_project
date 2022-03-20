@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import { faSort } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TableContainer from './admin/TableContainer';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import DeliveryTableContainer from './admin/DeliveryTableContainer';
 
 const AdminPageStyle = styled.div`
   .admin-wrapper {
@@ -64,19 +67,52 @@ const TableHeaderStyle = styled.div`
   }
   .ct3 {
     grid-area: ct3;
-    /* background-color: rgb(230, 230, 230); */
   }
   .ct4 {
     grid-area: ct4;
-    /* background-color: rgb(230, 230, 230); */
   }
   .ct5 {
     grid-area: ct5;
-    /* background-color: rgb(245, 245, 245); */
   }
   .ct6 {
     grid-area: ct6;
-    /* background-color: rgb(245, 245, 245); */
+  }
+  .sort-btn {
+    color: var(--font-light);
+    margin-left: 5px;
+    padding: 0 3px;
+    cursor: pointer;
+  }
+`;
+
+const DeliveryTableStyle = styled.div`
+  .co {
+    text-align: center;
+    font-size: 13px;
+    line-height: 30px;
+    width: 100%;
+    height: 30px;
+    display: grid;
+    background-color: var(--bgcolor-default);
+    grid-template-columns: 80px 1fr 1.5fr 1fr 1.5fr;
+    grid-template-rows: 30px;
+    grid-template-areas: ' ct2 ct3 ct4 ct5 ct6';
+    border-bottom: 1px solid var(--bordercolor-default);
+  }
+  .ct2 {
+    grid-area: ct2;
+  }
+  .ct3 {
+    grid-area: ct3;
+  }
+  .ct4 {
+    grid-area: ct4;
+  }
+  .ct5 {
+    grid-area: ct5;
+  }
+  .ct6 {
+    grid-area: ct6;
   }
   .sort-btn {
     color: var(--font-light);
@@ -87,17 +123,24 @@ const TableHeaderStyle = styled.div`
 `;
 
 const AdminPage = () => {
+  const [deliveryArr, setDeliveryArr] = useState([]);
+
+  useEffect(() => {
+    axios.get(`http://localhost:3001/market/delivery`).then((res) => {
+      setDeliveryArr(res.data);
+    });
+  }, []);
+
   return (
     <AdminPageStyle>
       <div className="admin-wrapper">
         <div className="cont">
           <header>
-            <p>중고거래 관리</p>
-            <button className="btn__st">기능버튼</button>
+            <p>배송관리</p>
+            {/* <button className="btn__st">기능버튼</button> */}
           </header>
-          <TableHeaderStyle>
+          <DeliveryTableStyle>
             <div className="co">
-              <div className="ct1">체크</div>
               <div className="ct2">
                 물품번호
                 <FontAwesomeIcon icon={faSort} className="sort-btn" />
@@ -119,14 +162,16 @@ const AdminPage = () => {
                 <FontAwesomeIcon icon={faSort} className="sort-btn" />
               </div>
             </div>
-          </TableHeaderStyle>
-          <TableContainer
-            col1="1"
-            col2="abc100"
-            col3="경기도 안양시"
-            col4="sellerking"
-            col5="서울시 논현동"
-          />
+          </DeliveryTableStyle>
+          {deliveryArr.map((item) => (
+            <DeliveryTableContainer
+              col1={item.marketId}
+              col2={item.userId}
+              col3={item.userAddress}
+              col4={item.sellerId}
+              col5={item.sellerAddress}
+            />
+          ))}
         </div>
 
         <div className="cont">

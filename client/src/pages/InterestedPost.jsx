@@ -15,21 +15,21 @@ const InterestedPost = ({ userInfo }) => {
 
   const clickShowPost = (e) => {
     setIsPostFold(!isPostFold);
-    postCon.current.style.height = '600px';
+    postCon.current.style.height = '900px';
     if (!isPostFold) {
       postCon.current.style.height = '';
     }
   };
   const clickShowMatch = (e) => {
     setIsMatchFold(!isMatchFold);
-    matchCon.current.style.height = '600px';
+    matchCon.current.style.height = '900px';
     if (!isMatchFold) {
       matchCon.current.style.height = '';
     }
   };
   const clickShowUsed = (e) => {
     setIsUsedFold(!isUsedFold);
-    usedCon.current.style.height = '600px';
+    usedCon.current.style.height = '900px';
     if (!isUsedFold) {
       usedCon.current.style.height = '';
     }
@@ -56,7 +56,7 @@ const InterestedPost = ({ userInfo }) => {
       <div className="mypost-post-wrapper">
         <h3 onClick={clickShowPost}>게시물{postFoldBtn}</h3>
         <div className="mypost-post-container" ref={postCon}>
-        <MyLikePostCard type="collectPost" userInfo={userInfo} />
+          <MyLikePostCard type="collectPost" userInfo={userInfo} />
         </div>
       </div>
       {/* <div className="mypost-match-wrapper">

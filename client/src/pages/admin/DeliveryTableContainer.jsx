@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const TableContainerStyle = styled.div`
+const DeliveryTableContainerStyle = styled.div`
   .co {
     text-align: center;
     font-size: 13px;
@@ -9,9 +9,9 @@ const TableContainerStyle = styled.div`
     width: 100%;
     height: 30px;
     display: grid;
-    grid-template-columns: 50px 80px 1fr 1fr 1fr 1fr;
+    grid-template-columns: 80px 1fr 1.5fr 1fr 1.5fr;
     grid-template-rows: 30px;
-    grid-template-areas: 'ct1 ct2 ct3 ct4 ct5 ct6';
+    grid-template-areas: 'ct1 ct2 ct3 ct4 ct5';
     border-bottom: 1px solid var(--bordercolor-default);
   }
   .ct1 {
@@ -29,9 +29,6 @@ const TableContainerStyle = styled.div`
   .ct5 {
     grid-area: ct5;
   }
-  .ct6 {
-    grid-area: ct6;
-  }
   .sort-btn {
     color: var(--font-light);
     margin-left: 5px;
@@ -40,21 +37,18 @@ const TableContainerStyle = styled.div`
   }
 `;
 
-const TableContainer = ({ col1, col2, col3, col4, col5 }) => {
+const DeliveryTableContainer = ({ col1, col2, col3, col4, col5 }) => {
   return (
-    <TableContainerStyle>
+    <DeliveryTableContainerStyle>
       <div className="co">
-        {/* <div className="ct1">
-          <input type="checkbox" />
-        </div> */}
-        <div className="ct2">{col1}</div>
-        <div className="ct3">{col2}</div>
-        <div className="ct4">{col3}</div>
-        <div className="ct5">{col4}</div>
-        <div className="ct6">{col5}</div>
+        <div className="ct1">{col1}</div>
+        <div className="ct2">{col2}</div>
+        <div className="ct3">{col3}</div>
+        <div className="ct4">{col4}</div>
+        <div className="ct5">{col5}</div>
       </div>
-    </TableContainerStyle>
+    </DeliveryTableContainerStyle>
   );
 };
 
-export default TableContainer;
+export default DeliveryTableContainer;

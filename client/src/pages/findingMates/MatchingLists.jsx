@@ -37,36 +37,54 @@ const Post = ({ post }) => {
         ) : (
           <ImgInner src={process.env.PUBLIC_URL + '/img/LogoHorizon.png'} />
         )}
-
-        <h5>
-          {`산책 예정 시간: ${moment(korTime)
-            .format('YYYY-MM-DD HH:mm')
-            .substring(0, 10)} ${moment(korTime)
-            .format('YYYY-MM-DD HH:mm')
-            .substring(11, 13)}시${moment(korTime)
-            .format('YYYY-MM-DD HH:mm')
-            .substring(14, 16)}분`}
-        </h5>
-        <h6>{`${post.region1} ${post.region2} ${post.region3}`}</h6>
+        <div>
+          <h4 className="matcon">
+            {`산책 예정 시간 : ${moment(korTime)
+              .format('YYYY-MM-DD HH:mm')
+              .substring(0, 10)} ${moment(korTime)
+              .format('YYYY-MM-DD HH:mm')
+              .substring(11, 13)}시${moment(korTime)
+              .format('YYYY-MM-DD HH:mm')
+              .substring(14, 16)}분`}
+          </h4>
+          <h4>{`${post.region1} ${post.region2} ${post.region3}`}</h4>
+        </div>
       </DisplayWrapper>
     </StyledLink>
   );
 };
 
 const StyledLink = styled(Link)`
-  width: 500px;
-  height: 300px;
-  margin: 20px auto;
+  width: 400px;
+  height: 500px;
+  margin: 30px 30px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 1px 1px 5px rgb(0 0 0 / 20%);
+  transition: 0.3s;
+
+  .matcon {
+    width: 400px;
+    height: 30px;
+    padding: 2px 10px;
+  }
+  :hover {
+    transform: translateY(-5px);
+    box-shadow: 2px 2px 10px rgb(0 0 0 / 50%);
+  }
 `;
 const DisplayWrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 400px;
+  height: 400px;
 `;
 
 const ImgInner = styled.img`
-  width: 500px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const MiddleSectionWrapper = styled.section`
@@ -112,7 +130,9 @@ const MiddleInnerSearch = styled.input.attrs({
 
 const MatchingListWrapper = styled.section`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  max-width: 1300px;
+  margin: 20px auto;
+  grid-template-columns: 1fr 1fr 1fr;
 `;
 
 const MatchingLists = ({ loadingList, list, userInfo }) => {

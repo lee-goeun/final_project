@@ -22,7 +22,7 @@ const Profile = ({ userInfoProps }) => {
     info,
   } = userInfoProps;
 
-  console.log(userId)
+  console.log(userId);
   const register = () => {};
   const navigate = useNavigate('');
 

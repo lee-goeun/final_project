@@ -33,7 +33,6 @@
   width: fit-content;
   height: fit-content;
   box-shadow: 3px 3px 20px #c2c2c2;
-  animation: showing 0.5s;
 }
 .pc-left {
   background-color: rgb(30, 30, 30);

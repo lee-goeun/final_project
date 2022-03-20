@@ -78,7 +78,7 @@ const Join = () => {
 
   // 아이디, 비밀번호, 비밀번호 재입력 별 유효성 검사 에러문
   const [idRegErrorText, setIdRegErrorText] = useState(
-    '영문자(소문자) 또는 영문자(소문자)+숫자로 시작하는 6~16자리',
+    '영문자(소문자)로 시작하는 영문자 + 숫자 6~16자리',
   );
 
   const [pwRegErrorText, setPwRegErrorText] = useState(
@@ -86,7 +86,7 @@ const Join = () => {
   );
 
   const [nickRegErrorText, setNickRegErrorText] = useState(
-    '닉네임을 한글, 대소문자, 숫자를 조합해서 2~12자리를 입력하세요',
+    '한글, 대소문자, 숫자를 조합한 2~12자리',
   );
 
   const [emailRegErrorText, setEmailRegErrorText] = useState(
@@ -109,7 +109,7 @@ const Join = () => {
     const idRegExp = /^[a-z]{1}[a-z0-9]{5,15}$/;
     if (!idRegExp.test(userId)) {
       alert(
-        '영문자(소문자) 또는 영문자(소문자)+숫자로 시작하는 6~16자리 아이디를 입력하세요!',
+        '영문자(소문자)로 시작하는 영문자 + 숫자 6~16자리 아이디를 입력하세요!',
       );
       userId.focus();
       return false;
@@ -146,7 +146,7 @@ const Join = () => {
     // 2~6글자 한글 또는 영문 대소문자 이름
     const nameRegExp = /^[가-힣a-zA-Z]{2,12}$/;
     if (!nameRegExp.test(userName)) {
-      alert('한글 또는 영어 이름을 공백 없이 2~12자리로 입력하세요!');
+      alert('한글, 대소문자, 숫자를 조합한 2~12자리로 입력하세요!');
       userName.focus();
       return false;
     }
@@ -158,7 +158,7 @@ const Join = () => {
     // 한글, 영어 숫자 섞어서 닉네임 가능
     const nickRegExp = /[가-힣a-zA-Z0-9].{2,12}$/;
     if (!nickRegExp.test(userNick)) {
-      alert('닉네임을 한글, 대소문자, 숫자를 조합해서 2~12자리를 입력하세요!');
+      alert('한글, 대소문자, 숫자를 조합한 2~12자리를 입력하세요!');
       userNick.focus();
       return false;
     }
@@ -217,14 +217,10 @@ const Join = () => {
   // 아이디 유효성 검사
   useEffect(() => {
     if (inputId === '' || inputId === undefined) {
-      setIdRegErrorText(
-        '영문자(소문자) 또는 영문자(소문자)+숫자로 시작하는 6~16자리',
-      );
+      setIdRegErrorText('영문자(소문자)로 시작하는 영문자 + 숫자 6~16자리');
       idRegErrorStyle.current.style.color = '#494949';
     } else if (idRegex.test(inputId) === false) {
-      setIdRegErrorText(
-        '영문자(소문자) 또는 영문자(소문자)+숫자로 시작하는 6~16자리',
-      );
+      setIdRegErrorText('영문자(소문자)로 시작하는 영문자 + 숫자 6~16자리');
       idRegErrorStyle.current.style.color = 'red';
     } else if (idRegex.test(inputId) === true) {
       setIdRegErrorText('올바른 형식의 아이디입니다. 중복을 확인 해주세요.');
@@ -262,12 +258,12 @@ const Join = () => {
   useEffect(() => {
     if (inputNick === '' || inputNick === undefined) {
       setNickRegErrorText(
-        '닉네임을 한글, 대소문자, 숫자를 조합해서 2~12자리를 입력하세요',
+        '한글, 대소문자, 숫자를 조합한 2~12자리를 입력하세요',
       );
       nickRegErrorStyle.current.style.color = '#494949';
     } else if (nickRegex.test(inputNick) === false) {
       setNickRegErrorText(
-        '닉네임을 한글, 대소문자, 숫자를 조합해서 2~12자리를 입력하세요',
+        '한글, 대소문자, 숫자를 조합한 2~12자리를 입력하세요',
       );
       nickRegErrorStyle.current.style.color = 'red';
     } else if (nickRegex.test(inputNick) === true) {
@@ -442,7 +438,7 @@ const Join = () => {
         userSex: inputSex,
         location_agree: true,
         service_agree: true,
-        deatilJusoData : deatilJusoData,
+        deatilJusoData: deatilJusoData,
       })
       .then((res) => {
         console.log(res);
@@ -564,7 +560,7 @@ const Join = () => {
           }}
         />
 
-{/* deatilJusoData */}
+        {/* deatilJusoData */}
         <p>주소</p>
         <DaumPostStyle>
           <DaumPostHook
@@ -575,15 +571,15 @@ const Join = () => {
           />
         </DaumPostStyle>
 
-        <input type="text"
-        className="ages-select"
-        name="deatilJusoData"
-        placeholder='상세 주소를 입력하세요'
-        onChange={(e) => {
-          setInputJusoData(e.target.value);
-        }}
+        <input
+          type="text"
+          className="ages-select"
+          name="deatilJusoData"
+          placeholder="상세 주소를 입력하세요"
+          onChange={(e) => {
+            setInputJusoData(e.target.value);
+          }}
         />
-
 
         <p>연령대</p>
         <select

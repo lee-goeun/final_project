@@ -324,21 +324,10 @@ const address = (id) => {
 
 //배송조회(관리자용)
 router.get('/delivery', (req, res) => {
-    var sql = 'select * from marketSaleTbl';
+    var sql = 'select  m.saleId, m.marketId, m.userId, m.sellerId, u1.address as userAddress, u2.address as sellerAddress from marketSaleTbl m left outer join userTbl u1 on u1.userId = m.userId left outer join userTbl u2 on u2.userId = m.sellerId;';
     conn.query(sql,(err, results) => {
       if(err) return res.json({success:false,err});
       else{
-        console.log('ssss', address(results[0].userId));
-        results.forEach(item => {
-          console.log('itme', item.userId);
-          console.log('ddddd', address(item.userId));
-          var userAddress = address(item.userId);
-          var sellerAddress = address(item.sellerId);
-          console.log('ssssssssssssssssss', userAddress, sellerAddress);
-          item.userAddress = userAddress;
-          item.sellerAddress = sellerAddress;
-        })
-        console.log('result', results);
         res.json(results);
       };
     })

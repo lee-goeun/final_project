@@ -10,7 +10,7 @@ import { getMyPetList, deleteMyPetPost } from '../../redux/modules/mypet';
 
 const PCStyle = styled.div`
   .pet-container {
-    margin: 10px auto;
+    margin: 20px auto;
     width: 600px;
     height: 200px;
     background-color: var(--bgcolor-default);
@@ -76,8 +76,6 @@ const PetContainer = ({ post, userInfo }) => {
   var nowYear = new Date().getFullYear();
   const dispatch = useDispatch();
 
-  
-
   const delMyPet = () => {
     const cnfrm = window.confirm('삭제하시겠습니까?');
     if (cnfrm) {
@@ -111,11 +109,11 @@ const PetContainer = ({ post, userInfo }) => {
         <div className="pet02">
           {post.petName}
           <div>
-            <FontAwesomeIcon
+            {/* <FontAwesomeIcon
               icon={faImage}
               className="pet-img-edit-btn"
               title="사진 수정하기"
-            />
+            /> */}
             <FontAwesomeIcon
               icon={faSquareXmark}
               className="pet-delete-btn"
@@ -156,7 +154,7 @@ const MyPet = ({ list, loadingList, userInfo }) => {
         {!loadingList && list && (
           <div>
             {list.map((post) => (
-              <PetContainer key={post.petId} post={post} userInfo={userInfo}/>
+              <PetContainer key={post.petId} post={post} userInfo={userInfo} />
             ))}
           </div>
         )}
