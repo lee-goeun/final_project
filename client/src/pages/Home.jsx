@@ -12,7 +12,7 @@ const MainPageFooterStyle = styled.div`
     height: 1000px;
     background: linear-gradient(#f5f5f5, #dffffd);
     .home__section01__inner {
-      padding-top: 250px;
+      padding-top: 300px;
       margin: 0 auto;
       max-width: 1300px;
       height: fit-content;
@@ -20,8 +20,6 @@ const MainPageFooterStyle = styled.div`
       justify-content: space-around;
     }
     .left-fm {
-      /* position: relative;
-      top: 300px; */
       overflow: visible;
       z-index: 1;
     }
@@ -36,9 +34,6 @@ const MainPageFooterStyle = styled.div`
       margin: 30px 0 50px 0;
     }
     .img_sam01 {
-      /* position: relative;
-      left: 710px;
-      top: -60px; */
       width: 600px;
     }
     .to-login-btn {
@@ -83,9 +78,11 @@ const MainPageFooterStyle = styled.div`
       font-size: 24px;
     }
     .to-board-btn {
+      display: inline-block;
       color: var(--font-light);
       text-align: right;
       transition: 0.3s;
+      margin-left: 220px;
       :hover {
         transform: translateX(-5px);
         color: black;
@@ -121,12 +118,53 @@ const MainPageFooterStyle = styled.div`
       color: white;
     }
     .to-matching-btn {
+      display: inline-block;
       color: #e1e1e1;
       cursor: pointer;
       transition: 0.3s;
       :hover {
         transform: translateX(5px);
         color: white;
+      }
+    }
+  }
+
+  .home__section04 {
+    width: 100%;
+    height: 1000px;
+    background-color: white;
+
+    .home__section04__inner {
+      max-width: 1300px;
+      height: 100%;
+      margin: 0 auto;
+      text-align: center;
+      padding-top: 120px;
+    }
+    .hs07 {
+      display: block;
+      width: 400px;
+      margin: 0 auto;
+    }
+    .buy {
+      display: block;
+      margin: -400px auto;
+      transform: translateX(170px);
+      width: 110px;
+    }
+    .hs04__pp {
+      transform: translateY(700px);
+      font-size: 24px;
+    }
+    .hs04__p {
+      display: inline-block;
+      color: var(--font-light);
+      transform: translateY(720px);
+      transition: 0.3s;
+      cursor: pointer;
+      :hover {
+        color: black;
+        transform: translate(5px, 720px);
       }
     }
   }
@@ -199,11 +237,6 @@ const Home = () => {
 
         {/* 섹션 03 */}
         <div className="home__section03">
-          {/* <img
-            className="hs06"
-            src={process.env.PUBLIC_URL + '/img/home_sam06.jpg'}
-            alt="홈이미지"
-          /> */}
           <div className="home__section03_inner">
             <h1 className="hs03__h1">
               산책메이트 찾기를 통해
@@ -214,6 +247,32 @@ const Home = () => {
             <br />
             <Link to="match/list">
               <p className="to-matching-btn">산책메이트 찾으러 가기 ＞</p>
+            </Link>
+          </div>
+        </div>
+
+        {/* 섹션 04 */}
+        <div className="home__section04">
+          <div className="home__section04__inner">
+            <div>
+              <img
+                className="hs07"
+                src={process.env.PUBLIC_URL + '/img/home_sam07.png'}
+                alt="홈이미지"
+              />
+            </div>
+            <div>
+              <img
+                className="buy"
+                src={process.env.PUBLIC_URL + '/img/buy.png'}
+                alt="홈이미지"
+              />
+            </div>
+            <p className="hs04__pp">
+              중고장터를 통해 반려인들 끼리 편하게 거래를 시작하세요!
+            </p>
+            <Link to="market/list">
+              <p className="hs04__p">물건 구매하러 가기 ＞</p>
             </Link>
           </div>
         </div>
