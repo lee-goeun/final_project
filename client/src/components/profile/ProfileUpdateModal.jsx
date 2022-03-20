@@ -78,6 +78,55 @@ const ProfileUpdateModal = ({ clickCancel }) => {
     buildingName: '',
   });
 
+  // 하드코딩 노가다 시작
+
+  // 이름
+  // const [CommentModal, setCommentModal] = useState('');
+
+  // useEffect(() => {
+  //   setCommentModal(commentContent);
+  // }, [commentContent]);
+
+
+  // 닉네임
+  // const [CommentModal, setCommentModal] = useState('');
+  // useEffect(() => {
+  //   setCommentModal(commentContent);
+  // }, [commentContent]);
+
+
+  // 이메일
+  // const [CommentModal, setCommentModal] = useState('');
+  // useEffect(() => {
+  //   setCommentModal(commentContent);
+  // }, [commentContent]);
+  // const [CommentModal, setCommentModal] = useState('');
+
+
+  // 전화번호
+  // useEffect(() => {
+  //   setCommentModal(commentContent);
+  // }, [commentContent]);
+  // const [CommentModal, setCommentModal] = useState('');
+
+  // 상세 주소 값만
+  // useEffect(() => {
+  //   setCommentModal(commentContent);
+  // }, [commentContent]);
+  // const [CommentModal, setCommentModal] = useState('');
+
+
+  // 소개
+
+
+
+
+
+
+
+
+  // 하드 코딩 노가다 종료
+
   const { zonecode, address, detailAddress } = userAddrInfo;
 
   const savingAddressInput = (input) => {
@@ -114,9 +163,12 @@ const ProfileUpdateModal = ({ clickCancel }) => {
               type="file"
             />
             <br />
-            <label>닉네임</label>
+            <label>이름 </label>
             <input type="text" />
             <br />
+            <label>닉네임</label>
+            <input type="text" />
+            <br/>
             <label>이메일</label>
             <input type="text" />
             <br />
@@ -135,6 +187,9 @@ const ProfileUpdateModal = ({ clickCancel }) => {
               />
             </AddrInputStyle>
             <br/>
+            <label>비밀번호</label>
+            <input type="text" />
+            <br/>
             <label>소개</label>
             <input type="text" />
             <br />
@@ -142,6 +197,7 @@ const ProfileUpdateModal = ({ clickCancel }) => {
               <button onClick={clickCancel} className="btn__style">
                 취소
               </button>
+              {/* 이파트에 온클릭 들어감 */}
               <button className="btn__style">수정</button>
             </div>
           </div>

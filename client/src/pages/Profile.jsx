@@ -145,7 +145,6 @@ const Profile = ({ userInfoProps }) => {
               >
                 수정하기
               </Button>
-              {/* <Button name="submitChangeInfo">정보수정</Button> */}
               <Button onClick={clickDeleteBtn} name="submitChangeInfo">
                 회원탈퇴
               </Button>
