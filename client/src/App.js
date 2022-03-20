@@ -55,7 +55,7 @@ const App = () => {
 
   useEffect(() => {
     getAuth();
-  });
+  }, []);
 
   const getAuth = async () => {
     try {
