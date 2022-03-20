@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteMatchPost } from '../../redux/modules/matching';
+import { getMatchPost, deleteMatchPost } from '../../redux/modules/matching';
 import { useNavigate } from 'react-router-dom';
 import { setOriginalPost } from '../../redux/modules/matching';
 
@@ -75,10 +75,24 @@ const MatchingModal = ({
     navigate('/match/add');
   };
 
+  // const onDelete = () => {
+  //   dispatch(deleteMatchPost(post[0].matchId), [dispatch]);
+  //   if(post.status == 'success'){
+  //     dispatch(getMatchList(post[0].matchId), [dispatch]);
+  //   }
+  //   navigate('/match/list');
+  // };
+
   const onDelete = () => {
-    dispatch(deleteMatchPost(post[0].matchId), [dispatch]);
-    navigate('/match/list');
+    const cnfrm = window.confirm('삭제하시겠습니까?');
+    if (cnfrm) {
+      dispatch(deleteMatchPost(post[0].matchId), [dispatch]);
+      navigate('/match/list');
+    }
   };
+  
+  
+  
 
   return (
     <>
