@@ -84,7 +84,7 @@ const Login = ({ userInfoHandler }) => {
   const userIdInput = useRef('');
   const pwEmailInput = useRef('');
   // 인증번호를 활용한 계정 값 변경
-  const userIdReInput =useRef(''); // 임시 킵
+  const userIdReInput = useRef(''); // 임시 킵
   const pwEmailReInput = useRef('');
   const certificationInput = useRef(''); // 인증 번호
   const newPasswordInput = useRef(''); // 새로운 비밀번호
@@ -114,8 +114,8 @@ const Login = ({ userInfoHandler }) => {
         console.log(res);
         alert('메일로 아이디를 보내드렸습니다.');
       })
-      .catch((err)=>{
-        console.log( '다음의 에러가 발생했습니다.'+ err);
+      .catch((err) => {
+        console.log('다음의 에러가 발생했습니다.' + err);
         alert('없는 정보를 입력하셨습니다.');
       });
   };
@@ -135,12 +135,12 @@ const Login = ({ userInfoHandler }) => {
         alert('메일로 인증번호를 보내드렸습니다.');
         setShowInput(true);
       })
-      .catch((err)=>{
-        console.log( '다음의 에러가 발생했습니다.'+ err);
+      .catch((err) => {
+        console.log('다음의 에러가 발생했습니다.' + err);
         alert('없는 정보를 입력하셨습니다.');
       });
   };
-  
+
   // newPw
   // 비밀번호 찾기 변경 이벤트 처리
   const clickDuplicateCheckBtn3 = async (e) => {
@@ -155,17 +155,15 @@ const Login = ({ userInfoHandler }) => {
         PwCheck: checkPasswordInput.current.value,
       })
       .then((res) => {
-        if(res.data){
+        if (res.data) {
           console.log(res);
           alert('비밀번호가 변경됐습니다.');
         }
       })
-      .catch((err)=>{
-        console.log( '다음의 에러가 발생했습니다.'+ err);
+      .catch((err) => {
+        console.log('다음의 에러가 발생했습니다.' + err);
       });
-
   };
-
 
   return (
     <>
@@ -264,9 +262,16 @@ const Login = ({ userInfoHandler }) => {
                   </button>
                 </div>
               </div>
+            </div>
+
+            {/* 비밀번호 찾기 클릭시 나타나는 비번 변경 영역 */}
+            <div className="pw-change-div">
               {/* 확인 버튼 */}
-              
-                    <div className = "idbox">
+              {showInput ? (
+                <>
+                  <p>비밀번호 변경하기</p>
+                  <div className="pw-change-box">
+                    <div className="input-grid1">
                       <input
                         type="text"
                         className="certification-input"
@@ -279,14 +284,15 @@ const Login = ({ userInfoHandler }) => {
                         ref={pwEmailReInput}
                         placeholder="이메일 확인"
                       />
-                      <div className="certification-cont">
                       <input
                         className="certification-input"
                         type="text"
                         ref={certificationInput}
                         placeholder="인증번호 8자리"
                       />
-                      <br/>
+                    </div>
+                    <br />
+                    <div className="input-grid2">
                       <input
                         type="password"
                         className="certification-input"
@@ -299,9 +305,16 @@ const Login = ({ userInfoHandler }) => {
                         ref={checkPasswordInput}
                         placeholder="비밀번호 확인"
                       />
-                      <button onClick={clickDuplicateCheckBtn3} className="certification-btn">변경</button>
                     </div>
-                    </div>
+                    <button
+                      onClick={clickDuplicateCheckBtn3}
+                      className="change-pw-btn"
+                    >
+                      변경
+                    </button>
+                  </div>
+                </>
+              ) : null}
             </div>
             <button
               className="off-modal-btn"

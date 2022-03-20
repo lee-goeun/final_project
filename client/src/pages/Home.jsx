@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { getPostList, getPost, likePost, post } from '../redux/modules/post';
 import LoadingCont from '../components/common/LoadingCont';
 
-
 // 아이콘
 import {
   faHeart,
@@ -32,8 +31,6 @@ import {
   faSquarePlus,
   faClone,
 } from '@fortawesome/free-regular-svg-icons';
-
-
 
 import {
   ReportPostModal,
@@ -89,7 +86,6 @@ const Home = ({
 
   userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
 }) => {
-  
   const settings = {
     slide: 'div',
     dots: true,
@@ -128,7 +124,6 @@ const Home = ({
     getPostList();
   }, [getPostList]);
 
-
   // 현재 로그인한 유저의 아이디
   const userId = userInfo.userId;
 
@@ -147,26 +142,22 @@ const Home = ({
 
   // console.log('정상 test code 입니다.') // 정상 작동중
 
-  // 시작 
+  // 시작
   return (
     // <> 감싼 영역에서 출력 아래에서부터 괄호 처리
     <>
-    {/* 헤더 */}
-    <Header />
+      {/* 헤더 */}
+      <Header />
       {loadingPostList && <LoadingCont />}
       <MainPageFooterStyle>
         <div className="main-body-div">
-          
-          {!loadingPostList && postList  && (
+          {!loadingPostList && postList && (
             <>
-            {/* 좋아요 버튼 && post */}
-            <FontAwesomeIcon
-                icon={borderHeart}
-                id="border-heart-icon"
-                />
+              {/* 좋아요 버튼 && post */}
+              <FontAwesomeIcon icon={borderHeart} id="border-heart-icon" />
 
-                {/* {...centerModeSettings} 슬라이더 바 아래에 Slider에 넣어줘야 함 */}
-              <Slider >
+              {/* {...centerModeSettings} 슬라이더 바 아래에 Slider에 넣어줘야 함 */}
+              <Slider>
                 {postList.map((post) => (
                   <PostContainer
                     key={post.boardId}
@@ -180,13 +171,15 @@ const Home = ({
                             <div key={i}>
                               <div>sadasdtest</div>
                               {/* 보드 이미지 */}
-                              <img src={ process.env.PUBLIC_URL + `board/${img}`}/>
+                              <img
+                                src={process.env.PUBLIC_URL + `board/${img}`}
+                              />
                             </div>
                           ))
                         : null
                     }
                     // 값들 좋아요 버튼 갖고오기
-                    
+
                     boardTitle={post.boardTitle}
                     boardContent={post.boardContent}
                     boardGood={post.boardGood}
@@ -211,12 +204,12 @@ const Home = ({
                             삭제하기
                           </p>
                           <p
-                          onClick={() => {
-                            setShowReportPostModal(true);
-                          }}
-                        >
-                           신고하기
-                        </p>
+                            onClick={() => {
+                              setShowReportPostModal(true);
+                            }}
+                          >
+                            신고하기
+                          </p>
                         </>
                       ) : (
                         <p
@@ -229,7 +222,6 @@ const Home = ({
                       )
                     }
                   />
-                  
                 ))}
               </Slider>
             </>
@@ -274,7 +266,6 @@ const Home = ({
                 if (res.status === 200) {
                   alert('게시물이 삭제되었습니다.');
                 }
-
               })
               .catch((error) => console.log('게시물 삭제 에러: ', error));
             setShowDeletePostModal(false);
