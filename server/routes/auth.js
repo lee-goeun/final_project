@@ -10,6 +10,5 @@ router.post('/join/idCheck', authController.idCheck);
 router.post('/join/nickCheck', authController.ncikCheck);
 router.post('/join/emailCheck', authController.emailCheck);
 
-// id, nick, email
 // 로그인 한 경우 -> 쿠키 값
 module.exports = router;

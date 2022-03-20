@@ -58,6 +58,7 @@ require('./routes/comment')(app);
 app.use('/auth', require('./routes/auth'));
 app.use('/find', require('./routes/find'));
 app.use('/user', require('./routes/user'));
+app.use('/main', require('./routes/main')); // main 미완
 
 db.connect((error) => {
   if (error) {
