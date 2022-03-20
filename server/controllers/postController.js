@@ -223,7 +223,14 @@ exports.delete = (req, res) => {
 
 //게시글 좋아요
 exports.like = (req, res) => {
-  Post.like(req.params.postId, req.body.userId, (err, data) => {
+
+  var userId = '';
+  jwt.verify(req.body.userId, process.env.JWT_SECRET, function (err, decode) {
+    console.log('ssss', decode);
+    userId = decode.userId;
+  });
+
+  Post.like(req.params.postId, userId, (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
