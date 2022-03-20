@@ -161,7 +161,10 @@ const App = () => {
           path="/profileUpdate/"
           element={<ProfileUpdate userInfoProps={userInfo} />}
         />
-        <Route path="/adminpage/" element={<AdminPage />} />
+        <Route
+          path="/adminpage/"
+          element={<AdminPage userInfoProps={userInfo} />}
+        />
         {/* <Route path="profile/:username" element={<Profile />} /> */}
       </Route>
     </Routes>
