@@ -243,7 +243,7 @@ const postLoginModel = (req, callback) => {
   });
 };
 
-exports.idCheck = async (req, res, callback) => {
+exports.idCheck = async (req, result, callback) => {
   try {
     const { userId } = req.body;
     let idCheck;
@@ -257,23 +257,28 @@ exports.idCheck = async (req, res, callback) => {
       } else {
         idCheck = false;
       }
-      console.log(res);
-
-      await callback(idCheck);
+      // console.log(res);
+      console.log("idcheck", idCheck);
+      if (idCheck === false) {
+        return result.json(false);
+      } else if (idCheck === undefined) {
+        return result.json(true);
+      }
+      // await callback(idCheck);
     });
-    console.log(idCheck);
+    // console.log(idCheck);
 
-    if (idCheck === false) {
-      return res.json(true);
-    } else if (idCheck === undefined) {
-      return res.json(false);
-    }
+    // if (idCheck === false) {
+    //   return res.json(true);
+    // } else if (idCheck === undefined) {
+    //   return res.json(false);
+    // }
   } catch (err) {
     console.log(err);
   }
 };
 
-exports.ncikCheck = (req, res, callback) => {
+exports.ncikCheck = (req, result, callback) => {
   try {
     const { userNick } = req.body;
     let nickCheck;
@@ -287,19 +292,21 @@ exports.ncikCheck = (req, res, callback) => {
       } else {
         nickCheck = false;
       }
-      await callback(nickCheck);
+
+      if (nickCheck === false) {
+        return result.json(false);
+      } else {
+        return result.json(true);
+      }
+      // await callback(nickCheck);
     });
-    if (nickCheck === false) {
-      return res.json(true);
-    } else {
-      return res.json(false);
-    }
+    
   } catch (err) {
     console.log(err);
   }
 };
 
-exports.emailCheck = (req, res, callback) => {
+exports.emailCheck = (req, result, callback) => {
   try {
     const { userEmail } = req.body;
     let emailCheck;
@@ -313,14 +320,16 @@ exports.emailCheck = (req, res, callback) => {
       } else {
         emailCheck = false;
       }
-      await callback(emailCheck);
+
+      if (emailCheck === false) {
+        return result.json(false);
+      } else {
+        return result.json(true);
+      }
+      // await callback(emailCheck);
     });
 
-    if (emailCheck === false) {
-      return res.json(true);
-    } else {
-      return res.json(false);
-    }
+    
   } catch (err) {
     console.log(err);
   }

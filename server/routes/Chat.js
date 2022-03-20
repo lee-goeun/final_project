@@ -5,6 +5,7 @@ const http = require('http').createServer(app);
 const conn = require("../db/index");
 const router = express.Router();
 const io = require('socket.io')(http);
+const jwt = require('jsonwebtoken');
 
 
 //웹소켓관련
@@ -13,7 +14,7 @@ http.listen(3002, () => console.log('listing on port 3002'));
 let roomName;
 
 io.on('connection', socket => {
- // console.log('conection');
+  console.log('conection');
 
   socket.on('joinRoom', (item) => {
     console.log('item,,,, ', item)
@@ -23,14 +24,25 @@ io.on('connection', socket => {
   })
   socket.on('sendMsg', (item) => {
     console.log('ttttttt', item);
-     io.on(roomName).emit('receiveMsg', {chatroomId:item.chatroomId, name:item.name, message:item.message});
+    console.log("roomName", roomName);
+    var sql = "insert into chatTbl(chatroomId, userId, chatMessage) VALUES(?, ?, ?)";
+    conn.query(sql, [item.chatroomId, item.userId, body.chatMessage],(err, results) => {
+        if(err) return res.json({success:false, err});
+        else   res.json({status:"success"});
+    })
+    socket.emit('receiveMsg', {chatroomId:item.chatroomId, name:item.name, message:item.message});
+    // socket.emit
   });
 })
 
 //조회
 router.get('/list/:id', (req, res) => {
   console.log('req,', req.params.id, req.query);
-  const id = req.params.id;
+  var id = '';
+  jwt.verify(req.params.id, process.env.JWT_SECRET, function (err, decode) {
+    console.log('ssss', decode);
+    id = decode.userId;
+  });
     var sql = "select c.chatroomId, c.userId, c.participant, c.chatroomCreated, c.chatroomDeleted, u1.userImg, u1.userNick, u2.userImg as participantImg, u2.userNick as participantNick from chatroomTbl c left outer join userTbl u1 on u1.userId = c.userId left outer join userTbl u2 on u2.userId = c.participant where c.chatroomDeleted = 0 and (c.participant = ? or c.userId =?);";
         conn.query(sql, [id, id] , (err, results) => {
             if(err) return res.json({success:false, err});
