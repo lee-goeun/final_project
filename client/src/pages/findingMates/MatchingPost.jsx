@@ -8,6 +8,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
 
+
 const MatchingPostWrapper = styled.section`
   display: flex;
   width: 600px;
@@ -89,7 +90,7 @@ const marginStyle2 = {
 };
 
 const MatchingPost = ({ post, loadingPost, userInfo }) => {
-  console.log('pst', userInfo);
+  console.log('pst', userInfo, post);
   const navigate = useNavigate();
 
   const addChat = () => {

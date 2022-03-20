@@ -6,7 +6,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import moment from 'moment';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getMatchList } from '../../redux/modules/matching';
+import { getMatchList, getMatchPost } from '../../redux/modules/matching';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMap, faMapPin } from '@fortawesome/free-solid-svg-icons';
 
@@ -19,8 +19,13 @@ const Post = ({ post }) => {
   // const closeModal = () => {
   //   setModalVisible(false);
   // };
-  console.log('img', post.matchImgName);
+
+  console.log('img', post);
   const korTime = new Date(post.matchTime);
+  const dispatch = useDispatch();
+
+  // dispatch(getMatchPost(post.matchId), [dispatch]);
+
   return (
     <StyledLink to={'/match/detail/' + post.matchId}>
       <DisplayWrapper>
@@ -136,6 +141,7 @@ const MatchingListWrapper = styled.section`
 
 const MatchingLists = ({ loadingList, list, userInfo }) => {
   console.log('user', list, userInfo);
+  // dispatch(getMatchList(list[0].matchId), [dispatch]);
   const dispatch = useDispatch();
   const [keyword, setKeyword] = useState('');
   const searchKeyword = (e) => {
