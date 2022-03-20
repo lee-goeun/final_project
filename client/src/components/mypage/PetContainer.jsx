@@ -10,7 +10,7 @@ import { getMyPetList, deleteMyPetPost } from '../../redux/modules/mypet';
 
 const PCStyle = styled.div`
   .pet-container {
-    margin: 10px auto;
+    margin: 20px auto;
     width: 600px;
     height: 200px;
     background-color: var(--bgcolor-default);
