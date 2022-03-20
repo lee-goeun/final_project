@@ -259,16 +259,15 @@ exports.idCheck = async (req, res, callback) => {
       if (err) {
         console.log(err);
       }
+      idCheck = false;
       if (res[0] != undefined) {
         idCheck = true;
-      } else {
-        idCheck = false;
       }
       await callback(idCheck);
     });
-    console.log(!!idCheck);
+    // console.log(callback(idCheck));
 
-    if (idCheck === false) {
+    if (idCheck == false) {
       return res.json(true);
     } else {
       return res.json(false);

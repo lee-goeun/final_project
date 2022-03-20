@@ -324,6 +324,11 @@ const Join = () => {
   // const inputId = useRef(''); userId
   // const checkId = useState('');
 
+
+  // if (res.data === true && res.data === false ) {
+  //   alert('이미 존재하는 아이디입니다.');
+
+
   // 아이디 중복확인 버튼
   const clickDuplicateCheckBtn1 = async (e) => {
     e.preventDefault();
@@ -335,8 +340,8 @@ const Join = () => {
       .then((res) => {
         if (res.data === false) {
           alert('사용 가능한 아이디입니다.');
-        } else if (res.data === true) {
-          alert('이미 존재하는 아이디입니다.');
+        } else if (res.data === true){
+          alert('pass');
         }
       })
       .catch((err) => {
@@ -349,10 +354,9 @@ const Join = () => {
     e.preventDefault();
     console.log(nickInput);
 
-    alert('닉네임 중복확인');
     await axios
       .post(`http://localhost:3001/auth/join/nickCheck`, {
-        userId: nickInput.current.value,
+        userNick: nickInput.current.value,
       })
       .then((res) => {
         if (res.data === false) {
@@ -368,14 +372,12 @@ const Join = () => {
 
   // 이메일 중복확인 버튼
   const clickDuplicateCheckBtn3 = async (e) => {
-    alert('이메일 중복확인');
+    // alert('이메일 중복확인');
     e.preventDefault();
     console.log(emailInput);
-
-    alert('닉네임 중복확인');
     await axios
       .post(`http://localhost:3001/auth/join/emailCheck`, {
-        userId: emailInput.current.value,
+        userEmail: emailInput.current.value,
       })
       .then((res) => {
         if (res.data === false) {
