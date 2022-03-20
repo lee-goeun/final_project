@@ -811,25 +811,24 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
 
   return (
     <>
-      <div className="post-background">
-        <div className="post-filter">
-          {/* <div className="pf-left"></div> */}
-          {/* 게시물 페이지 검색 값 갖고 오는 곳 */}
-          <div>
-            <form className="post-search-form">
-              <FontAwesomeIcon icon={faSearch} className="post-search-icon" />
-              <input
-                className="post-search-input"
-                type="text"
-                // her={textInput}
-                placeholder="검색하기.."
-                onChange={searchPost}
-                // value={CommentModal}
-              />
-            </form>
-          </div>
+      <div className="post-filter">
+        {/* <div className="pf-left"></div> */}
+        {/* 게시물 페이지 검색 값 갖고 오는 곳 */}
+        <div>
+          <form className="post-search-form">
+            <FontAwesomeIcon icon={faSearch} className="post-search-icon" />
+            <input
+              className="post-search-input"
+              type="text"
+              // her={textInput}
+              placeholder="검색하기.."
+              onChange={searchPost}
+              // value={CommentModal}
+            />
+          </form>
         </div>
-
+      </div>
+      <div className="post-background">
         <div className="upload-post-div" ref={uploadDiv}>
           <div>게시물 올리기</div>
           <div onMouseOver={showText} onMouseOut={hideText}>

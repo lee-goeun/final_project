@@ -21,7 +21,7 @@ const HeaderStyle = Styled.div`
   background-color: #ffffff;
   box-shadow: 10px 10px 20px #e9e9e9, -10px -10px 20px #f0f0f0;
   border-radius: 5px;
-  margin: 20px auto 20px auto;
+  margin: 30px auto 20px auto;
   padding: 0 10px;
   display: flex;
   justify-content: space-between;
