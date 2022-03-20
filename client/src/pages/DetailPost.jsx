@@ -16,19 +16,6 @@ import {
   ModifyPostModal,
   ReportPostModal,
 } from '../components/common/Modal';
-import create from 'zustand';
-
-const useStore = create((set) => ({
-  count: 0,
-  isLike: false,
-  inc: () =>
-    set((state) => ({ count: state.count + 1, isLike: (state.isLike = true) })),
-  dec: () =>
-    set((state) => ({
-      count: state.count - 1,
-      isLike: (state.isLike = false),
-    })),
-}));
 
 const DetailStyle = styled.div`
   .post-container {
@@ -58,10 +45,6 @@ const DetailStyle = styled.div`
 `;
 
 const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
-  const inc = useStore((state) => state.inc);
-  const dec = useStore((state) => state.dec);
-  const isLike = useStore((state) => state.isLike);
-  const count = useStore((state) => state.count);
   console.log(post); // 게시물 정리할 때 참조 콘솔 값
   // console.log(commentList) //댓글 정리할 때 사용했음
 
@@ -96,11 +79,6 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
   const [collectStatus, setCollectStatus] = useState();
 
   const clickLikePost = useCallback(() => {
-    if (isLike) {
-      dec();
-    } else {
-      inc();
-    }
     console.log(userId, boardId);
     axios
       .post(`http://localhost:3001/board/post/${boardId}/like`, {
@@ -141,7 +119,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
               }
               boardTitle={post.boardTitle}
               boardContent={post.boardContent}
-              boardGood={post.boardGood + count}
+              boardGood={post.boardGood}
               boardViews={post.boardViews}
               boardCreated={post.boardCreated}
               goodStatus={post.goodStatus}
@@ -197,8 +175,8 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
                       삭제하기
                     </p>
                     <p
-                    onClick={() => {
-                      setShowReportPostModal(true);
+                      onClick={() => {
+                        setShowReportPostModal(true);
                       }}
                     >
                       신고하기
@@ -254,8 +232,8 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
             setShowModifyPostModal(!showModifyPostModal);
           }}
           clickModifyPostConfirm={async () => {
-              setShowModifyPostModal(!showModifyPostModal);
-              alert('게시물이 수정되었습니다.');
+            setShowModifyPostModal(!showModifyPostModal);
+            alert('게시물이 수정되었습니다.');
           }}
         />
       )}
