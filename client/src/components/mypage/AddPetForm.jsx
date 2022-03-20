@@ -120,7 +120,7 @@ const AddPetForm = ({ clickAddCancel, userInfo }) => {
     return () => {
       dispatch(unloadPost());
     };
-  }, [dispatch]);
+  }, [dispatch, post.petId]);
 
   //write/update후처리
   const res = useSelector((state) => state.mypet.res);

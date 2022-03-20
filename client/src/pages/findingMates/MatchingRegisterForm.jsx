@@ -48,7 +48,7 @@ const MatchingRegisterForm = ({userInfo}) => {
   const [content, setContent] = useState('');
   const contents = useSelector((state) => state.matching.write);
   const post = useSelector((state) => state.matching.update);
-  console.log('pppppppost', post);
+  console.log('pppppppost', post.matchId);
   const navigate = useNavigate();
   const dispatch = useDispatch();
  
@@ -68,7 +68,7 @@ const MatchingRegisterForm = ({userInfo}) => {
     return () => {
       dispatch(unloadPost());
     };
-  },[dispatch]);
+  },[dispatch, post.matchId, userInfo.userId]);
 
   
   const petList = useSelector((state) => state.mypet.list);
@@ -188,7 +188,7 @@ const MatchingRegisterForm = ({userInfo}) => {
                   label="selectPet"
                   name="selectPet"
                   onChange={handleChange}
-                  value={useSelector((state) => (!state.matching.post===null ? state.matching.write.selectPet : state.matching.update.selectPet))}
+                  value={useSelector((state) => (post.matchId === '' ? state.matching.write.selectPet : state.matching.update.selectPet))}
                 >
                   {petList ? petList.map((val) => (
                     <MenuItem value={val.petId}>{val.petName}</MenuItem>
