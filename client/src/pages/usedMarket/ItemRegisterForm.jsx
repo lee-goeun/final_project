@@ -56,7 +56,7 @@ const ItemRegisterForm = () => {
     return () => {
       dispatch(unloadPost());
     };
-  },[]);
+  },[dispatch]);
 
   //write/update후처리
   const res = useSelector((state) => state.market.res);
