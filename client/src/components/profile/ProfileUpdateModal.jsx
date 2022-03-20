@@ -201,7 +201,7 @@ const ProfileUpdateModal = ({
         userId: currentUserId,
         userName: nameModal,
         userNick: nickModal,
-        userEmail: nickModal,
+        userEmail: emailModal,
         userPhone: phoneModal,
         zonecode: zonecode,
         address: address,
@@ -261,7 +261,7 @@ const ProfileUpdateModal = ({
             />
             <br/>
             <label>이메일</label>
-            <input type="text"
+            <input type="email"
               onChange={(e) => setEmailModal(e.target.value)}
               value={emailModal}
             />
