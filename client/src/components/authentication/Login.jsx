@@ -14,8 +14,8 @@ const Login = ({ userInfoHandler }) => {
   const [isErrorPw, setIsErrorPw] = useState(false);
   const [userId, setUserId] = useState();
   const [userPw, setUserPw] = useState();
-  const [userName, setUserName] = useState();
-  const [userEmail, setUserEmail] = useState();
+  // const [userName, setUserName] = useState();
+  // const [userEmail, setUserEmail] = useState();
 
   const [showInput, setShowInput] = useState();
 
@@ -168,7 +168,7 @@ const Login = ({ userInfoHandler }) => {
   return (
     <>
       <div className="login-container-wrapper">
-        <img src={process.env.PUBLIC_URL + 'img/LogoVertical.png'} />
+        <img src={process.env.PUBLIC_URL + 'img/LogoVertical.png'} alt='' />
         <div className="login-container">
           <form className="login-form" onSubmit={onSubmit}>
             <div className="lf1">

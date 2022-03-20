@@ -121,7 +121,7 @@ const HeaderStyle = Styled.div`
 const Header = () => {
   useEffect(() => {
     getAuth();
-  }, []);
+  });
 
   const navigate = useNavigate();
   const [showDropMenu, setShowDropMenu] = useState(false);
@@ -170,10 +170,7 @@ const Header = () => {
         <div className="header-container">
           <div className="header-logo-container">
             <a href="/">
-              <img
-                src={process.env.PUBLIC_URL + '/img/LogoHorizon.png'}
-                alt="로고"
-              />
+              <img src={process.env.PUBLIC_URL + `/img/LogoHorizon.png`} alt='' />
             </a>
           </div>
           <div className="header-icons-container">

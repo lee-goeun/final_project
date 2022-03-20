@@ -160,7 +160,7 @@ const PostContainer = ({
 
   useEffect(() => {
     getAuth();
-  }, []);
+  });
 
   const [userInfo, setUserInfo] = useState({
     auth: false,
@@ -209,7 +209,7 @@ const PostContainer = ({
   const currentUserId = userInfo.userId;
 
   const [showPostMenu, setShowPostMenu] = useState(false);
-  const [isLike, setIsLike] = useState(false);
+  // const [isLike, setIsLike] = useState(false);
   const [commentContent, setCommentContent] = useState();
 
   const commentInput = useRef();
@@ -439,7 +439,7 @@ const CommentContainer = ({
 
   useEffect(() => {
     getAuth();
-  }, []);
+  });
 
   const [userInfo, setUserInfo] = useState({
     auth: false,
@@ -580,7 +580,7 @@ const CommentContainer = ({
       <div className="comment-container">
         <div className="cc01">
           <div className="cc01-img-container">
-            <img src={process.env.PUBLIC_URL + `${userImg}`} />
+            <img src={process.env.PUBLIC_URL + `${userImg}` } alt='' />
           </div>
         </div>
         <div className="cc02">
@@ -749,7 +749,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     axios
       .post('http://localhost:3001/board/post', formData)
       .then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           alert('게시글이 업로드 되었습니다.');
           getPostList();
         }
@@ -771,7 +771,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     setShowUploadFormModal(!showUploadFormModal);
   };
 
-  const textInput = useRef('');
+  // const textInput = useRef('');
 
   // 게시물 검색 API가 뭐징
   const searchPost = (e) => {
@@ -788,22 +788,22 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
   };
 
   // 게시물 내용 수정
-  const clickPostModify = (e) => {
-    axios
-      .put('http://localhost:3001/board/post')
-      .then((res) => {
-        if (res.status == 200) {
-          alert('게시글이 업로드 되었습니다.');
-          getPostList();
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        alert(
-          '오류가 발생했습니다. 로그인을 하시거나 잠시후 다시 시도해주세요.',
-        );
-      });
-  };
+  // const clickPostModify = (e) => {
+  //   axios
+  //     .put('http://localhost:3001/board/post')
+  //     .then((res) => {
+  //       if (res.status == 200) {
+  //         alert('게시글이 업로드 되었습니다.');
+  //         getPostList();
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       alert(
+  //         '오류가 발생했습니다. 로그인을 하시거나 잠시후 다시 시도해주세요.',
+  //       );
+  //     });
+  // };
 
   // 참조 자료
   //   await axios
