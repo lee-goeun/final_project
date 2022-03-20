@@ -44,7 +44,6 @@ exports.join = (req, res) => {
     const hashedPasword = await bcrypt.hash(userPw, 8);
     const regDate = new Date();
 
-    // 아이디, 닉네임, 핸드폰 번호, 우편번호, 주소, 지역(시도), 지역(구), 지역(동), 상세주소, 추가주소, 이름, 이메일, 암호화 비밀번호[기존 비밀번호랑 대조], 체크박스 유효성 검사 필요합니다
     db.query(
       'INSERT INTO usertbl set ?',
       {
@@ -58,7 +57,6 @@ exports.join = (req, res) => {
         region3: region3,
         detailAddress: deatilJusoData,
         extraAddress: extraAddress,
-        // query: detailAddress,
         userName: userName,
         userEmail: userEmail,
         userPw: hashedPasword,
@@ -69,13 +67,12 @@ exports.join = (req, res) => {
         regDate,
         userImg: '/defaultPhoto/defalut.png',
         pwAuth: hashedPasword,
-        delete: 0,
+        deleted: 0,
       },
       (err, results) => {
         if (err) {
           console.log(err);
         } else {
-          // console.log(results[0].detailAddress);
           console.log(results);
           res.json({ status: 'success' });
         }
@@ -245,7 +242,7 @@ const postLoginModel = (req, callback) => {
     });
   });
 };
-// undefined 이고 callback 함수로 순차 호출 받은 값이 true
+
 exports.idCheck = async (req, res, callback) => {
   try {
     const { userId } = req.body;
@@ -255,17 +252,20 @@ exports.idCheck = async (req, res, callback) => {
       if (err) {
         console.log(err);
       }
-      idCheck = false;
       if (res[0] != undefined) {
         idCheck = true;
+      } else {
+        idCheck = false;
       }
+      console.log(res);
+
       await callback(idCheck);
     });
-    // console.log(callback(idCheck));
+    console.log(idCheck);
 
-    if (idCheck == false) {
+    if (idCheck === false) {
       return res.json(true);
-    } else {
+    } else if (idCheck === undefined) {
       return res.json(false);
     }
   } catch (err) {
