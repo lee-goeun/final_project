@@ -148,21 +148,6 @@ const ProfileUpdateModal = ({ clickCancel }) => {
         <ProfileUpdateModalStyle>
           <div className="inner__cont">
             <h3>프로필 수정</h3>
-            <div className="imgwrapper">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Ma_Dong-seok.png/250px-Ma_Dong-seok.png"
-                alt="유저이미지"
-              />
-            </div>
-            <label className="img__label" htmlFor="user-img__input">
-              사진 변경
-            </label>
-            <input
-              style={{ display: 'none' }}
-              id="user-img__input"
-              type="file"
-            />
-            <br />
             <label>이름 </label>
             <input type="text" />
             <br />
