@@ -68,7 +68,7 @@ const MatchingRegisterForm = ({userInfo}) => {
     return () => {
       dispatch(unloadPost());
     };
-  },[]);
+  },[dispatch]);
 
   
   const petList = useSelector((state) => state.mypet.list);
