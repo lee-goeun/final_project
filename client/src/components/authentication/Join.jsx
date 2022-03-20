@@ -333,7 +333,7 @@ const Join = () => {
         if (res.data === false) {
           alert('사용 가능한 아이디입니다.');
         } else if (res.data === true){
-          alert('pass');
+          alert('이미 등록된 아이디입니다.');
         }
       })
       .catch((err) => {

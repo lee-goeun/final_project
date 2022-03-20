@@ -26,25 +26,17 @@ exports.userUpdate = (req, res) => {
     } = req.body;
     // ID 확인 쿼리
 
-    const query = 'SELECT * FROM usertbl WHERE userId = ?';
-    db.query(query, [userId], async (err, res) => {
-      // ID가 없으면 에러
+    const update = new Date();
+    console.log(update);
+    const query = 'UPDATE usertbl SET update=? WHERE userId = ?;';
+    db.query(query, [update, userId], async (err, res) => {
       if (err) {
         console.log(err);
       }
-      // console.log(userId); // 됨
-
-      // console.log('test'); //
-
-      // 비밀번호 + 정보 업데이트 시간
       const hashedPasword = await bcrypt.hash(userPw, 8);
-      const update = new Date();
 
-      console.log('test'); // 여기까지 진입됨
-
-      // 조건문으로 값 대칭 해주면 전체 입력 받는 값들 쿼리로 저장
       const query =
-        'UPDATE usertbl SET userPw=?, userEmail=?, userPhone=?, userName=?, userNick=?, zonecode=?, address=?, detailAddress=? , info=? WHERE userId=?;';
+        'UPDATE usertbl SET userPw=?, userEmail=?, userPhone=?, userName=?, userNick=?, zonecode=?, address=?, detailAddress=?, info=? WHERE userId=?;';
       db.query(
         query,
         [
@@ -57,7 +49,6 @@ exports.userUpdate = (req, res) => {
           address,
           detailAddress,
           info,
-          // update,
           userId,
         ],
         (err, res) => {

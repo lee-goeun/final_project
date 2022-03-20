@@ -106,7 +106,7 @@ exports.findPw = async (req, res) => {
     // 인증 번호, 번호 생성 날짜
     const config = texts(1);
     const pwDate = new Date();
-
+    console.log(pwDate);
     // ID에 매칭해서 값
     const query1 = 'UPDATE usertbl SET pwDate=?, pwAuth =? WHERE userId = ?';
     db.query(query1, [pwDate, config, userId], (err, res) => {
