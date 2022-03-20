@@ -130,10 +130,6 @@ exports.auth = (req, res) => {
 };
 
 exports.login = (req, res) => {
-  console.log('test');
-  // if (req[0].deleted === true) {
-  //   return false;
-  // }
   postLoginModel(req)
     // 여기에 값 넣어야함
     .then(
@@ -198,7 +194,6 @@ const postLoginModel = (req, callback) => {
       if (error) {
         throw error;
       }
-      console.log(result[0]);
 
       if (result.length > 0 && result[0].deleted != 1) {
         bcrypt.compare(userPw, result[0].userPw, (err, match) => {

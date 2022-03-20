@@ -321,13 +321,6 @@ const Join = () => {
       joinBtn.current.disabled = true;
     }
   };
-  // const inputId = useRef(''); userId
-  // const checkId = useState('');
-
-
-  // if (res.data === true && res.data === false ) {
-  //   alert('이미 존재하는 아이디입니다.');
-
 
   // 아이디 중복확인 버튼
   const clickDuplicateCheckBtn1 = async (e) => {
