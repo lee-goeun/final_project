@@ -75,9 +75,8 @@ const MainPageFooterStyle = styled.div`
       }
     }
     .dogcat {
-      display: block;
+      transform: translateX(300px);
       width: 100px;
-      z-index: 1;
     }
     .hs02__p {
       text-align: right;
@@ -93,20 +92,42 @@ const MainPageFooterStyle = styled.div`
       }
     }
     .inner02__right {
-      padding-top: 260px;
+      padding-top: 200px;
     }
   }
   .home__section03 {
     width: 100%;
     height: 1000px;
     background-color: white;
+    background-image: url(${process.env.PUBLIC_URL + '/img/home_sam06.jpg'});
+    background-repeat: no-repeat;
+    background-size: cover;
     overflow: hidden;
+
+    .home__section03_inner {
+      padding: 350px 100px;
+      max-width: 1300px;
+
+      margin: 0 auto;
+    }
     .hs06 {
       display: block;
       margin: 0 auto;
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    .hs03__h1 {
+      color: white;
+    }
+    .to-matching-btn {
+      color: #e1e1e1;
+      cursor: pointer;
+      transition: 0.3s;
+      :hover {
+        transform: translateX(5px);
+        color: white;
+      }
     }
   }
 `;
@@ -116,6 +137,7 @@ const Home = () => {
     <>
       <Header />
       <MainPageFooterStyle>
+        {/* 섹션 01 */}
         <div className="home__section01">
           <div className="home__section01__inner">
             <div className="left-fm">
@@ -144,6 +166,8 @@ const Home = () => {
             </div>
           </div>
         </div>
+
+        {/* 섹션 02 */}
         <div className="home__section02">
           <div className="home__section02__inner">
             <div>
@@ -152,13 +176,13 @@ const Home = () => {
                 src={process.env.PUBLIC_URL + '/img/home_sam05.png'}
                 alt="홈이미지"
               />
+            </div>
+            <div className="inner02__right">
               <img
                 className="dogcat"
                 src={process.env.PUBLIC_URL + '/img/dogcat.png'}
                 alt="홈이미지"
               />
-            </div>
-            <div className="inner02__right">
               <p className="hs02__p">
                 PET ＆ PET의 소셜 미디어를 통해
                 <br />
@@ -172,12 +196,26 @@ const Home = () => {
             </div>
           </div>
         </div>
+
+        {/* 섹션 03 */}
         <div className="home__section03">
-          <img
+          {/* <img
             className="hs06"
             src={process.env.PUBLIC_URL + '/img/home_sam06.jpg'}
             alt="홈이미지"
-          />
+          /> */}
+          <div className="home__section03_inner">
+            <h1 className="hs03__h1">
+              산책메이트 찾기를 통해
+              <br />
+              동네 주민과 함께 즐거운 산책을 즐겨보세요!
+            </h1>
+            <br />
+            <br />
+            <Link to="match/list">
+              <p className="to-matching-btn">산책메이트 찾으러 가기 ＞</p>
+            </Link>
+          </div>
         </div>
       </MainPageFooterStyle>
       <Footer />
