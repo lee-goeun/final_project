@@ -22,7 +22,7 @@ const Profile = ({ userInfoProps }) => {
     info,
   } = userInfoProps;
 
-  console.log(userId)
+  console.log(userId);
   const register = () => {};
   const navigate = useNavigate('');
 
@@ -138,6 +138,7 @@ const Profile = ({ userInfoProps }) => {
             <li className={styles.item}></li>
             <li className={styles.item}>
               <button
+                className="edit-b"
                 type="button"
                 onClick={() => {
                   setShowUpdateModal(true);
