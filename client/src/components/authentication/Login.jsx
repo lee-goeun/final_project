@@ -262,49 +262,59 @@ const Login = ({ userInfoHandler }) => {
                   </button>
                 </div>
               </div>
-              {/* 확인 버튼 */}
+            </div>
 
-              <div className="pw-change-box">
-                <input
-                  type="text"
-                  className="certification-input"
-                  ref={userIdReInput}
-                  placeholder="아이디 확인"
-                />
-                <input
-                  type="email"
-                  className="certification-input"
-                  ref={pwEmailReInput}
-                  placeholder="이메일 확인"
-                />
-                <div className="certification-pw-cont">
-                  <input
-                    className="certification-input"
-                    type="text"
-                    ref={certificationInput}
-                    placeholder="인증번호 8자리"
-                  />
-                  <br />
-                  <input
-                    type="password"
-                    className="certification-input"
-                    ref={newPasswordInput}
-                    placeholder="새로운 비밀번호"
-                  />
-                  <input
-                    type="password"
-                    className="certification-input"
-                    ref={checkPasswordInput}
-                    placeholder="비밀번호 확인"
-                  />
-                  <button
-                    onClick={clickDuplicateCheckBtn3}
-                    className="change-pw-btn"
-                  >
-                    변경
-                  </button>
-                </div>
-              </div>
+            {/* 비밀번호 찾기 클릭시 나타나는 비번 변경 영역 */}
+            <div className="pw-change-div">
+              {/* 확인 버튼 */}
+              {showInput ? (
+                <>
+                  <p>비밀번호 변경하기</p>
+                  <div className="pw-change-box">
+                    <div className="input-grid1">
+                      <input
+                        type="text"
+                        className="certification-input"
+                        ref={userIdReInput}
+                        placeholder="아이디 확인"
+                      />
+                      <input
+                        type="email"
+                        className="certification-input"
+                        ref={pwEmailReInput}
+                        placeholder="이메일 확인"
+                      />
+                      <input
+                        className="certification-input"
+                        type="text"
+                        ref={certificationInput}
+                        placeholder="인증번호 8자리"
+                      />
+                    </div>
+                    <br />
+                    <div className="input-grid2">
+                      <input
+                        type="password"
+                        className="certification-input"
+                        ref={newPasswordInput}
+                        placeholder="새로운 비밀번호"
+                      />
+                      <input
+                        type="password"
+                        className="certification-input"
+                        ref={checkPasswordInput}
+                        placeholder="비밀번호 확인"
+                      />
+                    </div>
+                    <button
+                      onClick={clickDuplicateCheckBtn3}
+                      className="change-pw-btn"
+                    >
+                      변경
+                    </button>
+                  </div>
+                </>
+              ) : null}
             </div>
             <button
               className="off-modal-btn"
