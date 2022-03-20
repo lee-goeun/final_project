@@ -770,7 +770,8 @@ const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
 
 
   const textInput = useRef('')
-  // 게시물 검색 API
+
+  // 게시물 검색 API가 뭐징
   const searchPost = (e) => {
     axios.get('http://localhost:3001/board/',)
       .then((res) => {
@@ -805,22 +806,11 @@ const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
   };
 
   // 참조 자료
-  // const clickReportCommentText = async (e) => {
   //   await axios
   //     .post(`http://localhost:3001/board/comment/${reportedUserId}/report`, {
   //       userId: currentUserId,
   //       commentId,
   //     })
-  //     .then((res) => {
-  //       console.log(res);
-  //       alert('신고가 완료되었습니다. 운영진이 검토후 처리될 예정입니다.');
-  //     })
-  //     .catch((err) => {
-  //       console.log('댓글 신고 에러 : ', err);
-  //       alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
-  //     });
-  //   setShowReportCommentModal(false);
-  // };
 
 
 
