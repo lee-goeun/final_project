@@ -1,5 +1,4 @@
 import { faEye } from '@fortawesome/free-regular-svg-icons';
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { React, useEffect } from 'react';
@@ -221,12 +220,7 @@ const MyPostCard = ({ type, userInfo }) => {
                 </div>
               </div>
               <div className="g1n">{userInfo.userNick}</div>
-              <div className="g2">
-                <FontAwesomeIcon
-                  icon={faEllipsisVertical}
-                  className="post-menu"
-                />
-              </div>
+              <div className="g2"></div>
               <div className="g3">
                 <CarouselStyle>
                   <Slider {...settings}>
@@ -265,12 +259,7 @@ const MyPostCard = ({ type, userInfo }) => {
                 </div>
               </div>
               <div className="g1n">{userInfo.userNick}</div>
-              <div className="g2">
-                <FontAwesomeIcon
-                  icon={faEllipsisVertical}
-                  className="post-menu"
-                />
-              </div>
+              <div className="g2"></div>
               <div className="g3">
                 <CarouselStyle>
                   <Slider {...settings}>
@@ -306,23 +295,23 @@ const MyPostCard = ({ type, userInfo }) => {
                 </div>
               </div>
               <div className="g1n">{userInfo.userNick}</div>
-              <div className="g2">
-                <FontAwesomeIcon
-                  icon={faEllipsisVertical}
-                  className="post-menu"
-                />
-              </div>
+              <div className="g2"></div>
               <div className="g3">
                 <CarouselStyle>
                   <Slider {...settings}>
-                      {item.boardImgList ? item.boardImgList.map((v) => (
-                        <div className="slider-wrapper">
-                        <img
-                          src={'http://localhost:3001/board/download?boardImgName=' + v}
-                          alt="이미지"
-                        />
-                        </div>
-                      )) : ""}
+                    {item.boardImgList
+                      ? item.boardImgList.map((v) => (
+                          <div className="slider-wrapper">
+                            <img
+                              src={
+                                'http://localhost:3001/board/download?boardImgName=' +
+                                v
+                              }
+                              alt="이미지"
+                            />
+                          </div>
+                        ))
+                      : ''}
                   </Slider>
                 </CarouselStyle>
               </div>

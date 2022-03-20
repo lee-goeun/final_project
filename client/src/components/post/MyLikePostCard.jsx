@@ -1,5 +1,4 @@
 import { faEye } from '@fortawesome/free-regular-svg-icons';
-import { faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { React, useEffect } from 'react';
@@ -190,7 +189,9 @@ const MyLikePostCard = ({ type, userInfo }) => {
     dispatch(getMyCollectPostList(userInfo.userId));
   }, [dispatch]);
   const myLikeMarketList = useSelector((state) => state.mypage.marketLikeList);
-  const myCollectPostList = useSelector((state) => state.mypage.collectPostList);
+  const myCollectPostList = useSelector(
+    (state) => state.mypage.collectPostList,
+  );
 
   console.log('marektssssssssss', myLikeMarketList);
   console.log('나의 관심게시물 ///', myCollectPostList);
@@ -220,12 +221,7 @@ const MyLikePostCard = ({ type, userInfo }) => {
                 </div>
                 <p>{userInfo.userNick}</p>
               </div>
-              <div className="g2">
-                <FontAwesomeIcon
-                  icon={faEllipsisVertical}
-                  className="post-menu"
-                />
-              </div>
+              <div className="g2"></div>
               <div className="g3">
                 <CarouselStyle>
                   <Slider {...settings}>
@@ -252,47 +248,47 @@ const MyLikePostCard = ({ type, userInfo }) => {
           ))
         : type === 'collectPost' && myCollectPostList !== undefined
         ? myCollectPostList.map((item) => (
-          <div className="wrapper">
-            <div className="g1">
-              <div className="g1-iw">
-                <img
-                  src="https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg"
-                  alt="유저이미지"
-                ></img>
+            <div className="wrapper">
+              <div className="g1">
+                <div className="g1-iw">
+                  <img
+                    src="https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg"
+                    alt="유저이미지"
+                  ></img>
+                </div>
+              </div>
+              <div className="g1n">{userInfo.userNick}</div>
+              <div className="g2"></div>
+              <div className="g3">
+                <CarouselStyle>
+                  <Slider {...settings}>
+                    {item.boardImgList
+                      ? item.boardImgList.map((v) => (
+                          <div className="slider-wrapper">
+                            <img
+                              src={
+                                'http://localhost:3001/board/download?boardImgName=' +
+                                v
+                              }
+                              alt="이미지"
+                            />
+                          </div>
+                        ))
+                      : ''}
+                  </Slider>
+                </CarouselStyle>
+              </div>
+              <div className="g4">
+                <p>{item.boardTitle}</p>
+                <p>{item.boardContent}</p>
+              </div>
+              <div className="g5"></div>
+              <div className="g6">
+                {item.boardCreated.substr(2, 8)}　
+                {item.boardCreated.substr(11, 5)}
               </div>
             </div>
-            <div className="g1n">{userInfo.userNick}</div>
-            <div className="g2">
-              <FontAwesomeIcon
-                icon={faEllipsisVertical}
-                className="post-menu"
-              />
-            </div>
-            <div className="g3">
-              <CarouselStyle>
-                <Slider {...settings}>
-                    {item.boardImgList ? item.boardImgList.map((v) => (
-                      <div className="slider-wrapper">
-                      <img
-                        src={'http://localhost:3001/board/download?boardImgName=' + v}
-                        alt="이미지"
-                      />
-                      </div>
-                    )) : ""}
-                </Slider>
-              </CarouselStyle>
-            </div>
-            <div className="g4">
-              <p>{item.boardTitle}</p>
-              <p>{item.boardContent}</p>
-            </div>
-            <div className="g5"></div>
-            <div className="g6">
-              {item.boardCreated.substr(2, 8)}　
-              {item.boardCreated.substr(11, 5)}
-            </div>
-          </div>
-        ))
+          ))
         : ''}
     </MyPostCardStyle>
   );
