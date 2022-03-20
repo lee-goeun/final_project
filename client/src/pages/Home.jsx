@@ -131,6 +131,8 @@ const Home = ({
   const [showModifyPostModal, setShowModifyPostModal] = useState();
   const [showDeletePostModal, setShowDeletePostModal] = useState();
 
+  console.log('postLisssssssssss',postList);
+
   const centerModeSettings = {
     className: 'center',
     centerMode: true,
@@ -165,19 +167,17 @@ const Home = ({
                     boardId={post.boardId} // 없는 값으로 잡힘
                     userId={post.userNick}
                     // 이 값들 안잡히는 빈값
-                    imgListSection={
-                      post.imgList
-                        ? imgList.map((img, i) => (
-                            <div key={i}>
-                              <div>sadasdtest</div>
-                              {/* 보드 이미지 */}
-                              <img
-                                src={process.env.PUBLIC_URL + `board/${img}`}
-                              />
-                            </div>
-                          ))
-                        : null
-                    }
+                    // imgListSection={
+                    //   post.imgList
+                    //     ? <img
+                    //         src={
+                    //           'http://localhost:3001/board/download?boardImgName=' +
+                    //           post.imgList[0]
+                    //         }
+                    //         alt="이미지"
+                    //   />
+                    //     : null
+                    // }
                     // 값들 좋아요 버튼 갖고오기
 
                     boardTitle={post.boardTitle}

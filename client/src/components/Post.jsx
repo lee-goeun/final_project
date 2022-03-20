@@ -135,6 +135,7 @@ const CarouselStyle = styled.div`
 const PostContainer = ({
   boardId = '',
   imgListSection,
+  boardImgList,
   userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
   userId = '',
   boardTitle = '',
@@ -172,6 +173,8 @@ const PostContainer = ({
     region3: '',
     userImg: '',
   });
+
+  console.log('boardImgListboardImgList',boardImgList);
 
   const getAuth = async () => {
     try {
@@ -260,7 +263,17 @@ const PostContainer = ({
         <div className="pc-left">
           <CarouselStyle>
             <div className="carousel-img-container">
-              <Slider {...settings}>{imgListSection}</Slider>
+              <Slider {...settings}>
+                {boardImgList.map((item) => (
+                  <img
+                      src={
+                        'http://localhost:3001/board/download?boardImgName=' +
+                        item
+                      }
+                      alt="이미지"
+                    />
+                ))}
+              </Slider>
             </div>
           </CarouselStyle>
         </div>
