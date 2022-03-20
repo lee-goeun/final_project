@@ -169,7 +169,7 @@ const matching = handleActions(
         ...state.loading,
         DELETE_POST: false,
       },
-      post: action.payload,
+      res: action.payload,
     }),
   },
 
