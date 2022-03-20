@@ -149,7 +149,8 @@ const MatchingPost = ({ post, loadingPost, userInfo }) => {
             <br />
 
             <h5 style={marginStyle2}>
-              {post[0].userNick}님의 반려동물
+              {post[0].userNick}
+              <small> 님의 반려동물</small>
               <FontAwesomeIcon icon={faPaw} className="petsinfo" />
             </h5>
             <h6 style={marginStyle2}>
