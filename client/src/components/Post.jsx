@@ -157,7 +157,6 @@ const PostContainer = ({
     arrows: true,
   };
 
-
   useEffect(() => {
     getAuth();
   }, []);
@@ -229,7 +228,7 @@ const PostContainer = ({
       .then((res) =>
         console.log(
           `${userId}님께서 ${boardId}번 게시물을 관심 게시물로 등록하였습니다.`,
-          setIsFavoritePost(true)
+          setIsFavoritePost(true),
         ),
       )
       .catch((error) => console.log(error));
@@ -470,7 +469,6 @@ const CommentContainer = ({
       };
     });
   };
-
   const currentUserId = userInfo.userId;
 
   // 댓글 삭제 [완료]
@@ -511,7 +509,6 @@ const CommentContainer = ({
     setShowReportCommentModal(true);
   };
 
-  
   // 댓글 신고 [완료]
   const clickReportCommentText = async (e) => {
     await axios
@@ -522,7 +519,6 @@ const CommentContainer = ({
       .then((res) => {
         console.log(res);
         alert('신고가 완료되었습니다. 운영진이 검토후 처리될 예정입니다.');
-
       })
       .catch((err) => {
         console.log('댓글 신고 에러 : ', err);
@@ -530,23 +526,22 @@ const CommentContainer = ({
       });
     setShowReportCommentModal(false);
   };
-  
+
   // const navigate = useNavigate('');
   // navigate(`/board/${commentId}`);
 
   // 댓글 좋아요 버튼 클릭시
   const [isLikeComment, setIsLikeComment] = useState(false);
-        // setIsLikeComment (true)
-  
+  // setIsLikeComment (true)
+
   // const useLikeComment = ()=>{};
 
-  // 댓글 좋아요 처리 
+  // 댓글 좋아요 처리
   // useEffect(()=>{
   //   clickLikeComment()
   // },[])
 
   const clickLikeComment = async (e) => {
-
     await axios
       .post(`http://localhost:3001/board/comment/${commentId}/like`, {
         userId: currentUserId,
@@ -554,7 +549,7 @@ const CommentContainer = ({
       .then((res) => {
         console.log(res);
         alert('좋아요를 누르셨습니다.');
-        setIsLikeComment (true)
+        setIsLikeComment(true);
         // 좋아요 활성화
         // let newLike = isLikeComment;
         // newLike = true;
@@ -568,7 +563,7 @@ const CommentContainer = ({
 
   return (
     <>
-    {/* 이용자 이미지 컨테이너 */}
+      {/* 이용자 이미지 컨테이너 */}
       <div className="comment-container">
         <div className="cc01">
           <div className="cc01-img-container">
@@ -675,11 +670,8 @@ const CommentContainer = ({
   );
 };
 
-const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
-
-// , boardTitle,  추가 필요 위치  boardTitle,
-
-
+const PostBackground = ({ postList, loadingPostList, getPostList }) => {
+  // , boardTitle,  추가 필요 위치  boardTitle,
 
   useEffect(
     () => {
@@ -690,14 +682,12 @@ const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
   );
 
   // [서성조 추가] 작업 필요함
-  
+
   // const [postModal, setpostModal] = useState('');
 
   // useEffect(() => {
   //   setpostModal(boardTitle);
   // }, [boardTitle]);
-
-
 
   const [showUploadFormModal, setShowUploadFormModal] = useState(false);
   const [boardTitle, setBoardTitle] = useState('');
@@ -768,28 +758,25 @@ const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
     setShowUploadFormModal(!showUploadFormModal);
   };
 
-
-  const textInput = useRef('')
+  const textInput = useRef('');
   // 게시물 검색 API
   const searchPost = (e) => {
-    axios.get('http://localhost:3001/board/',)
+    axios
+      .get('http://localhost:3001/board/')
       .then((res) => {
         console.log(res);
         // alert('검색 끝 test');
       })
       .catch((error) => {
         console.log(error);
-        alert(
-          '오류가 발생했습니다. 잠시후 다시 시도해주세요.',
-        );
+        alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
       });
   };
-
 
   // 게시물 내용 수정
   const clickPostModify = (e) => {
     axios
-      .put('http://localhost:3001/board/post',)
+      .put('http://localhost:3001/board/post')
       .then((res) => {
         if (res.status == 200) {
           alert('게시글이 업로드 되었습니다.');
@@ -822,9 +809,6 @@ const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
   //   setShowReportCommentModal(false);
   // };
 
-
-
-
   return (
     <>
       <div className="post-background">
@@ -845,7 +829,6 @@ const PostBackground = ({ postList, loadingPostList, getPostList,}) => {
             </form>
           </div>
         </div>
-
 
         <div className="upload-post-div" ref={uploadDiv}>
           <div>게시물 올리기</div>

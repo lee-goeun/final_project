@@ -225,6 +225,37 @@
   color: red;
 }
 
+/* 비밀번호 변경 */
+.pw-change-box {
+  width: 200px;
+  padding: 20px;
+  height: fit-content;
+  background-color: var(--bgcolor-dark);
+  box-shadow: 3px 3px 10px var(--shadow-default);
+}
+.pw-change-box > input {
+  width: 100%;
+  margin: 5px 0;
+}
+.certification-pw-cont > input {
+  width: 100%;
+  margin: 5px 0;
+}
+.change-pw-btn {
+  display: block;
+  width: 100%;
+  height: 40px;
+  border: 1px solid var(--accent-default);
+  color: var(--accent-default);
+  background-color: white;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+.change-pw-btn:hover {
+  background-color: var(--accent-default);
+  color: white;
+}
+
 /* 회원가입 */
 .join-container {
   margin: 100px auto;
