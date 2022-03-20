@@ -758,15 +758,10 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     setShowUploadFormModal(!showUploadFormModal);
   };
 
-<<<<<<< HEAD
 
   const textInput = useRef('')
 
   // 게시물 검색 API가 뭐징
-=======
-  const textInput = useRef('');
-  // 게시물 검색 API
->>>>>>> 2e8db72a186bdd63d3cb1f064b26a8419f54d1f1
   const searchPost = (e) => {
     axios
       .get('http://localhost:3001/board/')
