@@ -37,10 +37,9 @@ const ChattingPageStyle = styled.div`
   }
 `;
 
-const socket = io.connect('localhost:3002', { transports: ['websocket'] } );
+const socket = io.connect('localhost:3002', { transports: ['websocket'] });
 socket.emit('msg', { name: '홍길동', message: '테스트' });
 const Chatting = ({ userInfo }) => {
-
   const [chatUserList, setChatUserList] = useState([]);
   const [chatMsgList, setChatMsgList] = useState([]);
   const [charArr, setCharArr] = useState([]);
@@ -48,29 +47,35 @@ const Chatting = ({ userInfo }) => {
   const [isChatOn, setIsChatOn] = useState(false);
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/chat/list/${userInfo.userId}`).then((res) => {
-      setChatUserList(res.data);
-    });
+    axios
+      .get(`http://localhost:3001/chat/list/${userInfo.userId}`)
+      .then((res) => {
+        setChatUserList(res.data);
+      });
   }, []);
 
   useEffect(() => {
     return () => {
       socket.close();
     };
-  },[]);
-
-  useEffect(() => {
-    socket.on("receiveMsg", (msg) => {
-      console.log('msg', msg);
-      setCharArr((chatArr) => chatArr.concat(msg));
-    }); 
   }, []);
 
-  console.log('charArrcharArrcharArrcharArr',charArr); 
+  useEffect(() => {
+    socket.on('receiveMsg', (msg) => {
+      console.log('msg', msg);
+      setCharArr((chatArr) => chatArr.concat(msg));
+    });
+  }, []);
+
+  console.log('charArrcharArrcharArrcharArr', charArr);
 
   const msgClick = (e) => {
-    if (e.code == 'Enter') {
-      socket.emit('sendMsg', { chatroomId:whichChatroom, name: userInfo.userNick , message: e.target.value });
+    if (e.code === 'Enter') {
+      socket.emit('sendMsg', {
+        chatroomId: whichChatroom,
+        name: userInfo.userNick,
+        message: e.target.value,
+      });
       e.target.value = '';
     }
   };
@@ -82,10 +87,9 @@ const Chatting = ({ userInfo }) => {
     //   setChatMsgList(res.data);
     // });
 
-    socket.emit('joinRoom', {roomName : chat.chatroomId});
+    socket.emit('joinRoom', { roomName: chat.chatroomId });
     setWhichChatroom(chat.chatroomId);
-    
-  }
+  };
   console.log('user', chatUserList, chatMsgList, whichChatroom);
 
   return (
@@ -97,7 +101,7 @@ const Chatting = ({ userInfo }) => {
             {chatUserList.map((chat) => (
               <div onClick={() => showMsg(chat)}>
                 <ChattingUserContainers
-                  userInfo = {userInfo}
+                  userInfo={userInfo}
                   key={chat.userId}
                   userImg={chat.userImg}
                   userNick={chat.userNick}
@@ -109,25 +113,41 @@ const Chatting = ({ userInfo }) => {
             ))}
           </div>
           <div className="cl-right">
-            {!isChatOn ? 
-            <div className="cl-icon-box">
-              <FontAwesomeIcon icon={faTelegram} className="b-message-icon" />
-              <p>친구들과 채팅을 시작해 보세요!</p>
-              
-            </div> : 
-            <div className="chat-room">
+            {!isChatOn ? (
+              <div className="cl-icon-box">
+                <FontAwesomeIcon icon={faTelegram} className="b-message-icon" />
+                <p>친구들과 채팅을 시작해 보세요!</p>
+              </div>
+            ) : (
+              <div className="chat-room">
                 <div className="croom01">
-                  {chatMsgList.map((ele) => (
-                    userInfo.userNick == ele.name ? 
-                    <RightChatBalloon userNick={ele.name} message={ele.message}/> : 
-                    <LeftChatBalloon  userNick={ele.name} message={ele.message}/>
-                  ))}
+                  {chatMsgList.map((ele) =>
+                    userInfo.userNick === ele.name ? (
+                      <RightChatBalloon
+                        userNick={ele.name}
+                        message={ele.message}
+                      />
+                    ) : (
+                      <LeftChatBalloon
+                        userNick={ele.name}
+                        message={ele.message}
+                      />
+                    ),
+                  )}
 
-                  {charArr.map((ele) => (
-                    userInfo.userNick == ele.name ? 
-                    <RightChatBalloon userNick={ele.name} message={ele.message}/> : 
-                    <LeftChatBalloon  userNick={ele.name} message={ele.message}/>
-                  ))}
+                  {charArr.map((ele) =>
+                    userInfo.userNick === ele.name ? (
+                      <RightChatBalloon
+                        userNick={ele.name}
+                        message={ele.message}
+                      />
+                    ) : (
+                      <LeftChatBalloon
+                        userNick={ele.name}
+                        message={ele.message}
+                      />
+                    ),
+                  )}
                 </div>
                 <div className="croom02">
                   <div>
@@ -139,8 +159,8 @@ const Chatting = ({ userInfo }) => {
                     />
                   </div>
                 </div>
-              </div> 
-           }
+              </div>
+            )}
           </div>
         </div>
       </ChattingPageStyle>

@@ -1,6 +1,5 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
 import { upload } from '../../redux/modules/profileImgHandler';
 import AProfileFileInput from './AProfileFileInput';
 

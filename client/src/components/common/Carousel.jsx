@@ -99,13 +99,13 @@ const Carousel = ({ type, userInfo }) => {
   var nowTime = new Date().getTime();
   const getTimeoutList = async () => {
     let res;
-    if (type == 'matching') {
+    if (type === 'matching') {
       res = await axios.get('http://localhost:3001/match/listLimit1');
       const data = res.data;
       for (let i = 0; i < data.length; i++) {
         if (
-          data[i].region1 == userInfo.region1 &&
-          data[i].region2 == userInfo.region2
+          data[i].region1 === userInfo.region1 &&
+          data[i].region2 === userInfo.region2
         ) {
           setTimeoutList(data);
         }
@@ -135,7 +135,7 @@ const Carousel = ({ type, userInfo }) => {
   return (
     <StyledSlider {...settings}>
       {timeoutList.map((timeout) => {
-        return type == 'matching' ? (
+        return type === 'matching' ? (
           <StyledLink
             to={'/match/detail/' + timeout.matchId}
             key={timeout.matchId}

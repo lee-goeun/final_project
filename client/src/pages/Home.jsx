@@ -1,38 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 
-// 아이콘
-import {
-  faHeart,
-  faEllipsisVertical,
-  faPen,
-  faX,
-  faBullhorn,
-  faBookmark as fullBookmark,
-  faSearch,
-  faImage,
-  faTrashCan,
-} from '@fortawesome/free-solid-svg-icons';
-// 폰트?
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// 작은 아이콘
-import {
-  faHeart as borderHeart,
-  faComment as borderComment,
-  faEye as borderEye,
-  faBookmark,
-  faSquarePlus,
-  faClone,
-} from '@fortawesome/free-regular-svg-icons';
-
-import {
-  ReportPostModal,
-  ModifyPostModal,
-  DeletePostModal,
-} from '../components/common/Modal';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const MainPageFooterStyle = styled.div`
@@ -95,12 +65,19 @@ const MainPageFooterStyle = styled.div`
       justify-content: space-around;
     }
     .hs05 {
+      display: block;
       transform: translateX(-100px);
       width: 400px;
       transition: 0.3s;
+      z-index: 2;
       :hover {
         transform: translate(-100px, -10px);
       }
+    }
+    .dogcat {
+      display: block;
+      width: 100px;
+      z-index: 1;
     }
     .hs02__p {
       text-align: right;
@@ -173,6 +150,11 @@ const Home = () => {
               <img
                 className="hs05"
                 src={process.env.PUBLIC_URL + '/img/home_sam05.png'}
+                alt="홈이미지"
+              />
+              <img
+                className="dogcat"
+                src={process.env.PUBLIC_URL + '/img/dogcat.png'}
                 alt="홈이미지"
               />
             </div>
