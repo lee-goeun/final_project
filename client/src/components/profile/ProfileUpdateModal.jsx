@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ModalWrapper } from '../common/Modal';
 import DaumPostHook from '../common/DaumPostHook';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileUpdateModalStyle = styled.div`
   .inner__cont {
@@ -66,7 +68,16 @@ const AddrInputStyle = styled.div`
 `;
 
 // 프로필 작업 해야하는 곳
-const ProfileUpdateModal = ({ clickCancel }) => {
+const ProfileUpdateModal = ({
+  clickCancel,
+  nameContent,
+  nickContent,
+  emailContent,
+  phoneContent,
+  userPwContent,
+  infoContent,
+  deatilJusoContent,
+}) => {
   const [userAddrInfo, setUserAddrInfo] = useState({
     address: '',
     zonecode: '',
@@ -77,50 +88,139 @@ const ProfileUpdateModal = ({ clickCancel }) => {
     extraAddress: '',
     buildingName: '',
   });
+  
+
+  // 유저 정보 호출 시작
+  useEffect(() => {
+    getAuth();
+  });
+
+  const [userInfo, setUserInfo] = useState({
+    auth: false,
+    userId: '',
+    userNick: '',
+    userEmail: '',
+    userName: '',
+    region1: '',
+    region2: '',
+    region3: '',
+    userImg: '',
+  });
+
+  const getAuth = async () => {
+    try {
+      const tokenValidationResponse = await axios({
+        url: 'http://localhost:3001/auth/auth',
+        method: 'get',
+        headers: { 'x-access-token': localStorage.getItem('token') },
+      });
+      userInfoHandler(tokenValidationResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const userInfoHandler = ({ data }) => {
+    setUserInfo((prevState) => {
+      return {
+        ...prevState,
+        auth: data.auth,
+        userId: data.userId,
+        commentId: data.commentId,
+        userNick: data.userNick,
+        userName: data.userName,
+        region1: data.region1,
+        region2: data.region2,
+        region3: data.region3,
+        userImg: data.userImg,
+        //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
+      };
+    });
+  };
+  const currentUserId = userInfo.userId;
+
+  //유저 정보 닫기
+
+
+
 
   // 하드코딩 노가다 시작
 
+  // 이름, 닉네임, 이메일, 전화번호, 상세주소 값, 소개
+  const [nameModal, setNameModal] = useState('');
+  const [nickModal, setNickModal] = useState('');
+  const [emailModal, setEmailModal] = useState('');
+  const [phoneModal, setPhoneModal] = useState('');
+  const [infoModal, setInfoModal] = useState('');
+  const [userPwModal, setUserPwModal] = useState('');
+  const [deatilJusoDataModal, setdeatilJusoDataModal] = useState('');
+
+
+  // 노가다
   // 이름
-  // const [CommentModal, setCommentModal] = useState('');
-
-  // useEffect(() => {
-  //   setCommentModal(commentContent);
-  // }, [commentContent]);
-
+  useEffect(() => {
+    setNameModal(nameContent);
+  },[nameContent]);
 
   // 닉네임
-  // const [CommentModal, setCommentModal] = useState('');
-  // useEffect(() => {
-  //   setCommentModal(commentContent);
-  // }, [commentContent]);
-
+  useEffect(() => {
+    setNickModal(nickContent);
+  },[nickContent]);
 
   // 이메일
-  // const [CommentModal, setCommentModal] = useState('');
-  // useEffect(() => {
-  //   setCommentModal(commentContent);
-  // }, [commentContent]);
-  // const [CommentModal, setCommentModal] = useState('');
-
+  useEffect(() => {
+    setEmailModal(emailContent);
+  },[emailContent]);
 
   // 전화번호
-  // useEffect(() => {
-  //   setCommentModal(commentContent);
-  // }, [commentContent]);
-  // const [CommentModal, setCommentModal] = useState('');
+  useEffect(() => {
+    setPhoneModal(phoneContent);
+  },[phoneContent]);
 
-  // 상세 주소 값만
-  // useEffect(() => {
-  //   setCommentModal(commentContent);
-  // }, [commentContent]);
-  // const [CommentModal, setCommentModal] = useState('');
+  // 비밀번호
+  useEffect(() => {
+    setUserPwModal(userPwContent);
+  },[userPwContent]);
 
+  // 상세 주소
+  useEffect(() => {
+    setdeatilJusoDataModal(deatilJusoContent);
+  },[deatilJusoContent]);
 
   // 소개
+  useEffect(() => {
+    setInfoModal(infoContent);
+  },[infoContent]);
 
+  // 노가다 끝
 
+  const navigate = useNavigate('');
 
-
+  const clickUpdate = async (e) => {
+    e.preventDefault();
+    await axios.put('http://localhost:3001/user/userUpdate', {
+        userId: currentUserId,
+        userName: nameModal,
+        userNick: nickModal,
+        userEmail: nickModal,
+        userPhone: phoneModal,
+        zonecode: zonecode,
+        address: address,
+        detailAddress: deatilJusoDataModal,
+        userPw:userPwModal,
+        info: infoModal,
+      })
+      .then((res) => {
+        console.log(res);
+        alert('회원 정보가 수정 되었습니다. 다시 로그인해주세요')
+        localStorage.removeItem('token');
+        alert('로그아웃 되었습니다.');
+        navigate('/login');
+      })
+      .catch((err) => {
+        console.log('계정 수정 에러 : ', err);
+        alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
+      });
+  };
 
 
 
@@ -149,16 +249,28 @@ const ProfileUpdateModal = ({ clickCancel }) => {
           <div className="inner__cont">
             <h3>프로필 수정</h3>
             <label>이름 </label>
-            <input type="text" />
-            <br />
+            <input type="text"
+             onChange={(e) => setNameModal(e.target.value)}
+             value={nameModal}
+            />
+            <br /> 
             <label>닉네임</label>
-            <input type="text" />
+            <input type="text"
+              onChange={(e) => setNickModal(e.target.value)}
+              value={nickModal}
+            />
             <br/>
             <label>이메일</label>
-            <input type="text" />
+            <input type="text"
+              onChange={(e) => setEmailModal(e.target.value)}
+              value={emailModal}
+            />
             <br />
             <label>전화번호</label>
-            <input type="text" />
+            <input type="text"
+              onChange={(e) => setPhoneModal(e.target.value)}
+              value={phoneModal}
+            />
             <br />
             <label className="addr__label">주소</label>
             <AddrInputStyle>
@@ -168,22 +280,31 @@ const ProfileUpdateModal = ({ clickCancel }) => {
                 address={address}
                 detailAddress={detailAddress}
               />
-              <input type="text"
-              />
             </AddrInputStyle>
             <br/>
+              <input type="text"
+              onChange={(e) => setdeatilJusoDataModal(e.target.value)}
+              value={deatilJusoDataModal}
+              />
+            <br/>
             <label>비밀번호</label>
-            <input type="text" />
+            <input type="password"
+              onChange={(e) => setUserPwModal(e.target.value)}
+              value={userPwModal}
+            />
             <br/>
             <label>소개</label>
-            <input type="text" />
+            <input type="text"
+              onChange={(e) => setInfoModal(e.target.value)}
+              value={infoModal}
+            />
             <br />
             <div className="btn-cont">
               <button onClick={clickCancel} className="btn__style">
                 취소
               </button>
               {/* 이파트에 온클릭 들어감 */}
-              <button className="btn__style">수정</button>
+              <button onClick={clickUpdate} className="btn__style">수정</button>
             </div>
           </div>
         </ProfileUpdateModalStyle>
