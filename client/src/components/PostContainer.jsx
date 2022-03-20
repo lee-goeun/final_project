@@ -38,8 +38,8 @@ const PostContainer = () => {
 
             {/* 수정/삭제 모달창 */}
             <div className="menu-modal-container">
+              <p>신고하기</p>
               <p>수정하기</p>
-              <p>삭제하기</p>
             </div>
           </div>
           <div className="pr04">본문내용</div>

@@ -18,7 +18,7 @@ const upload = multer({ dest: 'profile/' });
 //   userId.profileImage = filename
 // }
 
-// 유저 정보 갱신 순차 시작
+// 유저 정보 갱신 순차 시작 [이미지 제외하고 작업하기 우선]
 exports.userUpdate = (req, res) => {
   try {
     // 입력되는 값 없으면 갱신 없이 처리하기 [미완]
@@ -44,7 +44,7 @@ exports.userUpdate = (req, res) => {
       }
 
       // 조건문 들어가는 곳
-      // 구현 예정 코드 -> 값 입력과 DB값 비교 없으면 db값을 입력받지 못한 defined값에 대입
+      // 구현 예정 코드 -> 값 입력과 DB값 비교 없으면 db값을 입력받지 못한 defined값에 대입 [프론트에서 잡아줘도 될듯]
 
       // if(res.userImg==userImg){
 
@@ -83,7 +83,7 @@ exports.userUpdate = (req, res) => {
       );
     });
     // 끝나고 반환 코드 달아줄 곳
-    res.send('update');
+    return res.json('update');
   } catch (err) {
     console.log(err);
   }

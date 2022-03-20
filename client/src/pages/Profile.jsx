@@ -137,15 +137,15 @@ const Profile = ({ userInfoProps }) => {
             <li className={`${styles.item} ${styles.center}`}></li>
             <li className={styles.item}></li>
             <li className={styles.item}>
-              <button
+              <Button
                 type="button"
                 onClick={() => {
                   setShowUpdateModal(true);
                 }}
               >
-                수정하기 모달
-              </button>
-              <Button name="submitChangeInfo">정보수정</Button>
+                수정하기
+              </Button>
+              {/* <Button name="submitChangeInfo">정보수정</Button> */}
               <Button onClick={clickDeleteBtn} name="submitChangeInfo">
                 회원탈퇴
               </Button>

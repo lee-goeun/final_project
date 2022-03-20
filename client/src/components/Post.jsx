@@ -289,6 +289,7 @@ const PostContainer = ({
             <h3>{boardTitle}</h3>
             {boardContent}
           </div>
+          {/* 보드 좋아요 */}
           <div className="pr05">
             <p>
               {postLikeSection}
@@ -539,7 +540,7 @@ const CommentContainer = ({
   
   // const useLikeComment = ()=>{};
 
-  // 댓글 좋아요 처리 [완료]
+  // 댓글 좋아요 처리 
   // useEffect(()=>{
   //   clickLikeComment()
   // },[])
@@ -567,6 +568,7 @@ const CommentContainer = ({
 
   return (
     <>
+    {/* 이용자 이미지 컨테이너 */}
       <div className="comment-container">
         <div className="cc01">
           <div className="cc01-img-container">
@@ -577,7 +579,6 @@ const CommentContainer = ({
           <h4>{userNick}</h4>
           <p></p>
         </div>
-        {/* 수정 남음 */}
         <div className="cc03">
           <FontAwesomeIcon
             icon={faPen}

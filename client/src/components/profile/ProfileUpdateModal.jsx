@@ -65,9 +65,9 @@ const AddrInputStyle = styled.div`
   }
 `;
 
+// 프로필 작업 해야하는 곳
 const ProfileUpdateModal = ({ clickCancel }) => {
   const [userAddrInfo, setUserAddrInfo] = useState({
-    // 여기에 기존 주소값 불러와서 넣으면 될거같습니다.
     address: '',
     zonecode: '',
     detailAddress: '',
@@ -131,8 +131,10 @@ const ProfileUpdateModal = ({ clickCancel }) => {
                 address={address}
                 detailAddress={detailAddress}
               />
+              <input type="text"
+              />
             </AddrInputStyle>
-            <br />
+            <br/>
             <label>소개</label>
             <input type="text" />
             <br />

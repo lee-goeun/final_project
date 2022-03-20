@@ -204,7 +204,7 @@ exports.newPw = (req, res) => {
         }
       }
     });
-    res.send('test');
+    return res.json('okey');
     // 반환
     // res.json(sucess)
   } catch (err) {

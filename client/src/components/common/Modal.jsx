@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useRef, useState, useEffect } from 'react';
 // import { getPostList, post } from '../redux/modules/post';
 import axios from 'axios';
+import { getPost } from '../../lib/api';
 
 const ModalWrapperStyle = styled.div`
   .mwapper {
@@ -52,8 +53,31 @@ export const ReportPostModal = ({
 };
 
 // 일반게시물 수정 모달창
-export const ModifyPostModal = ({ clickModifyPostCancel, boardId }) => {
-  // 로그인 임시 추가
+export const ModifyPostModal = ({
+  clickModifyPostCancel,
+  categoryIndex,
+  boardTitle,
+  boardContent,
+  boardId,
+  userNick,
+  userId,
+}) => {
+
+  const [postModifyModal, setPostModifyModal] = useState('');
+
+  useEffect(() => {
+    getPost(boardId);
+    axios.get(`http://localhost:3001/board/post/${boardId}`, {
+      params: { userId: userInfo.userId },
+    })
+    .then((res) => {
+      console.log('따로aixos 찍어본것', res);
+    })
+    .catch((e) => console.log(e));
+    setPostModifyModal(boardContent);
+  }, [boardContent]);
+
+  // 임시 추가
   useEffect(() => {
     getAuth();
   }, []);
@@ -77,7 +101,6 @@ export const ModifyPostModal = ({ clickModifyPostCancel, boardId }) => {
         method: 'get',
         headers: { 'x-access-token': localStorage.getItem('token') },
       });
-      // console.log(tokenValidationResponse, 'tokenValidResponse');
       userInfoHandler(tokenValidationResponse);
     } catch (error) {
       console.log(error);
@@ -99,24 +122,29 @@ export const ModifyPostModal = ({ clickModifyPostCancel, boardId }) => {
       };
     });
   };
-
   const currentUserId = userInfo.userId;
 
-  // 로그인 임시 추가
+  // 임시 추가
 
-  // 게시글 수정 :postId
-  const boardModify = async (e) => {
+
+  const postModify= async(e)=>{
+    console.log(boardId)
     await axios
-      .post(`http://localhost:3001/board/edit/${boardId}`, {})
-      .then((res) => {
-        console.log(res);
-        alert('수정되셨습니다.');
-      })
-      .catch((err) => {
-        console.log('게시글 수정 에러 : ', err);
-        alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
-      });
+    .put(`http://localhost:3001/board/edit/${boardId}`, {
+      userId:currentUserId,
+      boardContent:postModifyModal,
+    })
+    .then((res) => {
+      console.log(res);
+      alert('수정되셨습니다.');
+    })
+    .catch((err) => {
+      console.log('게시글 수정 에러 : ', err);
+      alert('오류가 발생했습니다. 잠시후 다시 시도해주세요.');
+    });
   };
+  
+
 
   return (
     <ModalWrapper
@@ -125,11 +153,13 @@ export const ModifyPostModal = ({ clickModifyPostCancel, boardId }) => {
           {/* 게시물 제목 */}
           <input type="text">{}</input>
           {/* 게시물 텍스트 들어갈 곳 표기 */}
-          <textarea>기존 텍스트</textarea>
+          <textarea
+          onChange = {(e)=> setPostModifyModal(e.target.value)}
+          value={postModifyModal}></textarea>
           <button className="edit-post-cancel" onClick={clickModifyPostCancel}>
             취소
           </button>
-          <button className="edit-post-confirm" onClick={boardModify}>
+          <button className="edit-post-confirm" onClick={postModify}>
             수정
           </button>
         </div>
@@ -137,6 +167,8 @@ export const ModifyPostModal = ({ clickModifyPostCancel, boardId }) => {
     />
   );
 };
+
+
 
 // 일반게시물 삭제 모달창
 export const DeletePostModal = ({

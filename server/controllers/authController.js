@@ -152,6 +152,7 @@ exports.login = (req, res) => {
         region2,
         region3,
         info,
+        deleted,
       }) => {
         res.send({
           auth: true,
@@ -169,6 +170,7 @@ exports.login = (req, res) => {
           region2,
           region3,
           info,
+          deleted,
         });
       }
     )
@@ -187,7 +189,7 @@ const createToken = ({ userId }) => {
   return accessToken;
 };
 
-const postLoginModel = (req) => {
+const postLoginModel = (req, callback) => {
   const { userId, userPw } = req.body;
   const query = 'SELECT * FROM usertbl WHERE userId = ?';
 
@@ -197,7 +199,7 @@ const postLoginModel = (req) => {
         throw error;
       }
 
-      if (result.length > 0) {
+      if (result.length > 0 && result[0].deleted != 1) {
         bcrypt.compare(userPw, result[0].userPw, (err, match) => {
           if (match) {
             const {
@@ -214,6 +216,7 @@ const postLoginModel = (req) => {
               region2,
               region3,
               info,
+              deleted,
             } = result[0];
             const accessToken = createToken({
               userId,
@@ -234,6 +237,7 @@ const postLoginModel = (req) => {
               region2,
               region3,
               info,
+              deleted,
             });
           } else {
             reject(new Error('Wrong password'));
@@ -262,7 +266,7 @@ exports.idCheck = async (req, res, callback) => {
       }
       await callback(idCheck);
     });
-    console.log(idCheck);
+    console.log(!!idCheck);
 
     if (idCheck === false) {
       return res.json(true);

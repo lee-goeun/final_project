@@ -17,7 +17,7 @@ const Login = ({ userInfoHandler }) => {
   const [userName, setUserName] = useState();
   const [userEmail, setUserEmail] = useState();
 
-  const [showInput, setShowInput] = useState(false);
+  const [showInput, setShowInput] = useState();
 
   const onChangeIdInput = (e) => {
     setUserId(e.target.value);
@@ -84,9 +84,11 @@ const Login = ({ userInfoHandler }) => {
   const userIdInput = useRef('');
   const pwEmailInput = useRef('');
   // 인증번호를 활용한 계정 값 변경
-  const userIdReInput =useRef('');
+  const userIdReInput =useRef(''); // 임시 킵
   const pwEmailReInput = useRef('');
-
+  const certificationInput = useRef(''); // 인증 번호
+  const newPasswordInput = useRef(''); // 새로운 비밀번호
+  const checkPasswordInput = useRef(''); // 비밀번호 체크
 
   const [showFindIdModal, setShowFindIdModal] = useState(false);
 
@@ -111,6 +113,10 @@ const Login = ({ userInfoHandler }) => {
       .then((res) => {
         console.log(res);
         alert('메일로 아이디를 보내드렸습니다.');
+      })
+      .catch((err)=>{
+        console.log( '다음의 에러가 발생했습니다.'+ err);
+        alert('없는 정보를 입력하셨습니다.');
       });
   };
 
@@ -128,6 +134,10 @@ const Login = ({ userInfoHandler }) => {
         console.log(res);
         alert('메일로 인증번호를 보내드렸습니다.');
         setShowInput(true);
+      })
+      .catch((err)=>{
+        console.log( '다음의 에러가 발생했습니다.'+ err);
+        alert('없는 정보를 입력하셨습니다.');
       });
   };
   
@@ -135,18 +145,25 @@ const Login = ({ userInfoHandler }) => {
   // 비밀번호 찾기 변경 이벤트 처리
   const clickDuplicateCheckBtn3 = async (e) => {
     e.preventDefault();
-    console.log(userIdReInput);
-
+    console.log(userIdInput);
     await axios
-      .put('http://localhost:3001/find/PwRe', {
+      .put(`http://localhost:3001/find/PwRe`, {
         userId: userIdReInput.current.value,
         userEmail: pwEmailReInput.current.value,
+        pwAuth: certificationInput.current.value,
+        userPw: newPasswordInput.current.value,
+        PwCheck: checkPasswordInput.current.value,
       })
       .then((res) => {
-        console.log(res);
-        alert('메일로 인증번호를 보내드렸습니다.');
-        setShowInput(true);
+        if(res.data){
+          console.log(res);
+          alert('비밀번호가 변경됐습니다.');
+        }
+      })
+      .catch((err)=>{
+        console.log( '다음의 에러가 발생했습니다.'+ err);
       });
+
   };
 
 
@@ -241,23 +258,50 @@ const Login = ({ userInfoHandler }) => {
                     ref={pwEmailInput}
                     placeholder="이메일을 입력하세요"
                   />
-                  {showInput ? (
-                    <div className="certification-cont">
-                      <input
-                        className="certification-input"
-                        type="text"
-                        ref={pwEmailReInput}
-                        placeholder="인증번호 8자리"
-                      />{' '}
-                      <button className="certification-btn">확인</button>
-                    </div>
-                  ) : null}
                   {/* 디자인 수정 필요 */}
                   <button onClick={clickDuplicateCheckBtn2} className="btn__st">
                     비밀번호 찾기
                   </button>
                 </div>
               </div>
+              {/* 확인 버튼 */}
+              
+                    <div className = "idbox">
+                      <input
+                        type="text"
+                        className="certification-input"
+                        ref={userIdReInput}
+                        placeholder="아이디 확인"
+                      />
+                      <input
+                        type="email"
+                        className="certification-input"
+                        ref={pwEmailReInput}
+                        placeholder="이메일 확인"
+                      />
+                      <div className="certification-cont">
+                      <input
+                        className="certification-input"
+                        type="text"
+                        ref={certificationInput}
+                        placeholder="인증번호 8자리"
+                      />
+                      <br/>
+                      <input
+                        type="password"
+                        className="certification-input"
+                        ref={newPasswordInput}
+                        placeholder="새로운 비밀번호"
+                      />
+                      <input
+                        type="password"
+                        className="certification-input"
+                        ref={checkPasswordInput}
+                        placeholder="비밀번호 확인"
+                      />
+                      <button onClick={clickDuplicateCheckBtn3} className="certification-btn">변경</button>
+                    </div>
+                    </div>
             </div>
             <button
               className="off-modal-btn"
@@ -276,19 +320,3 @@ const Login = ({ userInfoHandler }) => {
 };
 
 export default Login;
-
-// useEffect(() => {
-//   idInput.current.focus();
-
-//   if (
-//     idInput.current.value === undefined ||
-//     pwInput.current.value === undefined
-//   ) {
-//     loginBtn.current.disabled = true;
-//   } else if (
-//     idInput.current.value.length >= 6 &&
-//     pwInput.current.value.length >= 8
-//   ) {
-//     loginBtn.current.disabled = false;
-//   }
-// }, []);
