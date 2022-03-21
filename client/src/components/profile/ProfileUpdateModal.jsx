@@ -83,9 +83,9 @@ const ProfileUpdateModal = ({
     address: userInfoProps.address,
     zonecode: userInfoProps.zonecode,
     detailAddress: userInfoProps.detailAddress, //userInfoProps.detailAddress
-    region1: '',
-    region2: '',
-    region3: '',
+    region1:  userInfoProps.region1,
+    region2:  userInfoProps.region2,
+    region3: userInfoProps.region3,
     extraAddress: '',
     buildingName: '',
   });
@@ -154,6 +154,9 @@ const ProfileUpdateModal = ({
   const [nickModal, setNickModal] = useState(userInfoProps.userNick);
   const [emailModal, setEmailModal] = useState(userInfoProps.userEmail);
   const [phoneModal, setPhoneModal] = useState(userInfoProps.userPhone);
+  // const [region1, setRegion1] = useState(userInfoProps.region1);
+  // const [region2, setRegion2] = useState(userInfoProps.region2);
+  // const [region3, setRegion3] = useState(userInfoProps.region3);
   const [infoModal, setInfoModal] = useState('');
   const [userPwModal, setUserPwModal] = useState('');
   const [deatilJusoDataModal, setdeatilJusoDataModal] = useState('');
@@ -209,6 +212,9 @@ const ProfileUpdateModal = ({
       userPhone: phoneModal,
       zonecode: zonecode,
       address: address,
+      region1: region1,
+      region2:region2,
+      region3:region3,
       detailAddress: deatilJusoDataModal,
       userPw:userPwModal,
       info: infoModal,
@@ -233,7 +239,7 @@ const ProfileUpdateModal = ({
 
   // 하드 코딩 노가다 종료
 
-  const { zonecode, address, detailAddress } = userAddrInfo;
+  const { zonecode, address, detailAddress, region1, region2, region3 } = userAddrInfo;
 
   const savingAddressInput = (input) => {
     setUserAddrInfo(() => ({
@@ -245,7 +251,10 @@ const ProfileUpdateModal = ({
       region3: input.bname,
       extraAddress: input.jibunAddress,
     }));
-    console.log(input);
+    console.log("input",input);
+    // setRegion1(input.sido);
+    // setRegion2(input.sigungu);
+    // setRegion3(input.bname);
   };
 
   return (

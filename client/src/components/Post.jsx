@@ -808,17 +808,17 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
         {/* <div className="pf-left"></div> */}
         {/* 게시물 페이지 검색 값 갖고 오는 곳 */}
         <div>
-          <form className="post-search-form">
+          {/* <form className="post-search-form">
             <FontAwesomeIcon icon={faSearch} className="post-search-icon" />
             <input
               className="post-search-input"
               type="text"
-              // her={textInput}
+              her={textInput}
               placeholder="검색하기.."
               onChange={searchPost}
-              // value={CommentModal}
+              value={CommentModal}
             />
-          </form>
+          </form> */}
         </div>
       </div>
       <div className="post-background">
