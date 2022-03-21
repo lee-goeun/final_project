@@ -6,7 +6,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import moment from 'moment';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getMatchList, getMatchPost } from '../../redux/modules/matching';
+import { getMatchList} from '../../redux/modules/matching';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMap, faMapPin } from '@fortawesome/free-solid-svg-icons';
 
@@ -22,7 +22,7 @@ const Post = ({ post }) => {
 
   console.log('img', post);
   const korTime = new Date(post.matchTime);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   // dispatch(getMatchPost(post.matchId), [dispatch]);
 

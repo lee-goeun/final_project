@@ -65,6 +65,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
         setCollectStatus(res.data.collectStatus);
       })
       .catch((e) => console.log(e));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getPost]);
 
   const userId = userInfo.userId;
@@ -91,6 +92,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
         console.log(boardId, '번 게시물 좋아요 클릭', res);
       })
       .catch((error) => console.log('좋아요 에러 :', error));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 

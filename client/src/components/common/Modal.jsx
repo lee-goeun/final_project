@@ -79,12 +79,13 @@ export const ModifyPostModal = ({
     })
     .catch((e) => console.log(e));
     
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [boardTitle, boardContent]);
 
   // 임시 추가
   useEffect(() => {
     getAuth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [userInfo, setUserInfo] = useState({

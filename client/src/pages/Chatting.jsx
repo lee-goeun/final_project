@@ -41,7 +41,7 @@ const socket = io.connect('localhost:3002', { transports: ['websocket'] });
 socket.emit('msg', { name: '홍길동', message: '테스트' });
 const Chatting = ({ userInfo }) => {
   const [chatUserList, setChatUserList] = useState([]);
-  const [chatMsgList, setChatMsgList] = useState([]);
+  const [chatMsgList] = useState([]);
   const [charArr, setCharArr] = useState([]);
   const [whichChatroom, setWhichChatroom] = useState({});
   const [isChatOn, setIsChatOn] = useState(false);
@@ -52,6 +52,7 @@ const Chatting = ({ userInfo }) => {
       .then((res) => {
         setChatUserList(res.data);
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

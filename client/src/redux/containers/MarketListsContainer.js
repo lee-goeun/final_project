@@ -19,6 +19,7 @@ const MarketListsContainer = ({ getMarketList, list, loadingList, userInfo }) =>
       }
     };
     fn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getMarketList]);
 
   return <MarketLists list={list} loadingList={loadingList} userInfo={userInfo} />;

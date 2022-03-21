@@ -189,6 +189,7 @@ const MyPostCard = ({ type, userInfo }) => {
     dispatch(getMyMarketList(userInfo.userId));
     dispatch(getMyMatchingList(userInfo.userId));
     dispatch(getMyPostList(userInfo.userId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
   const myMarketList = useSelector((state) => state.mypage.marketList);
   const myMatchingList = useSelector((state) => state.mypage.matchList);

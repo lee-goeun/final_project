@@ -187,6 +187,7 @@ const MyLikePostCard = ({ type, userInfo }) => {
   useEffect(() => {
     dispatch(getMyLikeMarketList(userInfo.userId));
     dispatch(getMyCollectPostList(userInfo.userId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
   const myLikeMarketList = useSelector((state) => state.mypage.marketLikeList);
   const myCollectPostList = useSelector(

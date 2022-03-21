@@ -17,6 +17,7 @@ const MarketPostContainer = ({ getMarketPost, post, loadingPost, userInfo }) => 
       }
     };
     fn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getMarketPost]);
 
   return <MarketPost post={post} loadingPost={loadingPost} userInfo={userInfo}/>;

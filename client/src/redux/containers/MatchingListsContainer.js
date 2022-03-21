@@ -17,6 +17,7 @@ const MatchingListsContainer = ({ getMatchList, list, loadingList, userInfo }) =
       }
     };
     fn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getMatchList]);
 
   return <MatchingLists list={list} loadingList={loadingList} userInfo={userInfo} />;

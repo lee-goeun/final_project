@@ -225,6 +225,7 @@ const Join = () => {
       setIdRegErrorText('올바른 형식의 아이디입니다. 중복을 확인 해주세요.');
       idRegErrorStyle.current.style.color = '#25d039';
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputId]);
 
   // 비밀번호 / 비밀번호 재확인 유효성 검사
@@ -251,6 +252,7 @@ const Join = () => {
       setReCheckPwRegErrorText('비밀번호가 일치합니다.');
       reCheckPwRegErrorStyle.current.style.color = '#25d039';
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputPw, reInputPw]);
 
   // 닉네임 유효성 검사
@@ -269,6 +271,7 @@ const Join = () => {
       setNickRegErrorText('올바른 형식의 닉네임입니다. 중복을 확인 해주세요.');
       nickRegErrorStyle.current.style.color = '#25d039';
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputNick]);
 
   // 이메일 유효성 검사
@@ -287,6 +290,7 @@ const Join = () => {
       setEmailRegErrorText('올바른 형식의 이메일입니다. 중복을 확인 해주세요.');
       emailRegErrorStyle.current.style.color = '#25d039';
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputEmail]);
 
   // 약관보기 1창 show/hide

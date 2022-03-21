@@ -22,7 +22,7 @@ const PostPage = () => {
       <Header />
       <ImgContStyle>
         <div>
-          <img src={process.env.PUBLIC_URL + '/img/pets.jpg'} />
+          <img src={process.env.PUBLIC_URL + '/img/pets.jpg'} alt='pets' />
         </div>
       </ImgContStyle>
       <PostBackground />

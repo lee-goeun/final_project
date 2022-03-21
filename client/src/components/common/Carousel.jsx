@@ -130,6 +130,7 @@ const Carousel = ({ type, userInfo }) => {
 
   useEffect(() => {
     getTimeoutList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

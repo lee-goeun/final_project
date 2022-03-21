@@ -17,6 +17,7 @@ const MatchingPostContainer = ({ getMatchPost, post, loadingPost, userInfo }) =>
       }
     };
     fn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getMatchPost]);
 
   return <MatchingPost post={post} loadingPost={loadingPost} userInfo={userInfo}/>;
