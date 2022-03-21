@@ -6,11 +6,11 @@ import MyLikePostCard from '../components/post/MyLikePostCard';
 
 const InterestedPost = ({ userInfo }) => {
   const postCon = useRef();
-  const matchCon = useRef();
+  // const matchCon = useRef();
   const usedCon = useRef();
 
   const [isPostFold, setIsPostFold] = useState(true);
-  const [isMatchFold, setIsMatchFold] = useState(true);
+  // const [isMatchFold, setIsMatchFold] = useState(true);
   const [isUsedFold, setIsUsedFold] = useState(true);
 
   const clickShowPost = (e) => {
@@ -20,13 +20,13 @@ const InterestedPost = ({ userInfo }) => {
       postCon.current.style.height = '';
     }
   };
-  const clickShowMatch = (e) => {
-    setIsMatchFold(!isMatchFold);
-    matchCon.current.style.height = '900px';
-    if (!isMatchFold) {
-      matchCon.current.style.height = '';
-    }
-  };
+  // const clickShowMatch = (e) => {
+  //   setIsMatchFold(!isMatchFold);
+  //   matchCon.current.style.height = '900px';
+  //   if (!isMatchFold) {
+  //     matchCon.current.style.height = '';
+  //   }
+  // };
   const clickShowUsed = (e) => {
     setIsUsedFold(!isUsedFold);
     usedCon.current.style.height = '900px';
@@ -40,11 +40,11 @@ const InterestedPost = ({ userInfo }) => {
   ) : (
     <FontAwesomeIcon icon={faAngleUp} className="fold-toggle-btn" />
   );
-  const matchFoldBtn = isMatchFold ? (
-    <FontAwesomeIcon icon={faAngleDown} className="fold-toggle-btn" />
-  ) : (
-    <FontAwesomeIcon icon={faAngleUp} className="fold-toggle-btn" />
-  );
+  // const matchFoldBtn = isMatchFold ? (
+  //   <FontAwesomeIcon icon={faAngleDown} className="fold-toggle-btn" />
+  // ) : (
+  //   <FontAwesomeIcon icon={faAngleUp} className="fold-toggle-btn" />
+  // );
   const usedFoldBtn = isUsedFold ? (
     <FontAwesomeIcon icon={faAngleDown} className="fold-toggle-btn" />
   ) : (

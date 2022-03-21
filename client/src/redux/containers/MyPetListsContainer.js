@@ -16,6 +16,7 @@ const MyPetListsContainer = ({ getMyPetList, list, loadingList, userInfo }) => {
       }
     };
     fn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getMyPetList]);
 
   return <PetContainer list={list} loadingList={loadingList} userInfo={userInfo} />;

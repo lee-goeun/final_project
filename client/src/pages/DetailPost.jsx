@@ -52,7 +52,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
     console.log(`${boardId}번 게시물 상세보기 렌더링`);
     getPost(boardId);
     axios
-      .get(`http://localhost:3001/board/post/${boardId}`, {
+      .get(`http://118.67.142.229:3001/board/post/${boardId}`, {
         params: { userId: userInfo.userId },
       })
       .then((res) => {
@@ -65,6 +65,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
         setCollectStatus(res.data.collectStatus);
       })
       .catch((e) => console.log(e));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getPost]);
 
   const userId = userInfo.userId;
@@ -83,7 +84,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
   const clickLikePost = useCallback(() => {
     console.log(userId, boardId);
     axios
-      .post(`http://localhost:3001/board/post/${boardId}/like`, {
+      .post(`http://118.67.142.229:3001/board/post/${boardId}/like`, {
         boardId,
         userId: localStorage.getItem('token'),
       })
@@ -91,6 +92,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
         console.log(boardId, '번 게시물 좋아요 클릭', res);
       })
       .catch((error) => console.log('좋아요 에러 :', error));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
@@ -111,7 +113,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
                       <div key={i}>
                         <img
                           src={
-                            'http://localhost:3001/board/download?boardImgName=' +
+                            'http://118.67.142.229:3001/board/download?boardImgName=' +
                             img
                           }
                           alt="이미지"
@@ -216,7 +218,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
           clickReportPostConfirm={() => {
             console.log(userInfo.userId);
             axios
-              .post(`http://localhost:3001/board/post/${boardId}/report`, {
+              .post(`http://118.67.142.229:3001/board/post/${boardId}/report`, {
                 userId: userInfo.userId,
                 reportedUserId: post.userId,
               })
@@ -248,7 +250,7 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
           }}
           clickDeletePostConfirm={() => {
             axios
-              .delete(`http://localhost:3001/board/post/${boardId}`)
+              .delete(`http://118.67.142.229:3001/board/post/${boardId}`)
               .then((res) => {
                 console.log(res);
                 if (res.status === 200) {

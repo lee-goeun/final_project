@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { getMatchPost, deleteMatchPost } from '../../redux/modules/matching';
+import { deleteMatchPost } from '../../redux/modules/matching';
 import { useNavigate } from 'react-router-dom';
 import { setOriginalPost } from '../../redux/modules/matching';
 

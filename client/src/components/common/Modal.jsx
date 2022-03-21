@@ -69,7 +69,7 @@ export const ModifyPostModal = ({
   console.log('post',post, clickModifyPostCancel);
   useEffect(() => {
     getPost(boardId);
-    axios.get(`http://localhost:3001/board/post/${post.boardId}`, {
+    axios.get(`http://118.67.142.229:3001/board/post/${post.boardId}`, {
       params: { userId: userInfo.userId },
     })
     .then((res) => {
@@ -79,12 +79,13 @@ export const ModifyPostModal = ({
     })
     .catch((e) => console.log(e));
     
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [boardTitle, boardContent]);
 
   // 임시 추가
   useEffect(() => {
     getAuth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [userInfo, setUserInfo] = useState({
@@ -102,7 +103,7 @@ export const ModifyPostModal = ({
   const getAuth = async () => {
     try {
       const tokenValidationResponse = await axios({
-        url: 'http://localhost:3001/auth/auth',
+        url: 'http://118.67.142.229:3001/auth/auth',
         method: 'get',
         headers: { 'x-access-token': localStorage.getItem('token') },
       });
@@ -142,7 +143,7 @@ export const ModifyPostModal = ({
     };
     console.log('param', param);
     await axios
-    .put(`http://localhost:3001/board/post/edit/${post.boardId}`, param)
+    .put(`http://118.67.142.229:3001/board/post/edit/${post.boardId}`, param)
     .then((res) => {
       console.log(res);
       alert('수정되었습니다.');

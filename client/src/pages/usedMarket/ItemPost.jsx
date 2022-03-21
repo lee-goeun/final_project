@@ -124,7 +124,7 @@ const ItemPost = ({ post, loadingPost, userInfo }) => {
           </div>
           <div className="img-con">
             <ImgWrapper
-              src={`http://localhost:3001/market/download?marketId=${post[0].marketId}&marketImgName=${post[0].marketImgName}`}
+              src={`http://118.67.142.229:3001/market/download?marketId=${post[0].marketId}&marketImgName=${post[0].marketImgName}`}
             />
           </div>
           <div className="cont">

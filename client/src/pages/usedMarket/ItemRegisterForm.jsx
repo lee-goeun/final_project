@@ -56,6 +56,7 @@ const ItemRegisterForm = () => {
     return () => {
       dispatch(unloadPost());
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[dispatch]);
 
   //write/update후처리

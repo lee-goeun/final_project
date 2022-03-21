@@ -77,11 +77,12 @@ const ProfileUpdateModal = ({
   userPwContent,
   infoContent,
   deatilJusoContent,
+  userInfoProps
 }) => {
   const [userAddrInfo, setUserAddrInfo] = useState({
-    address: '',
-    zonecode: '',
-    detailAddress: '',
+    address: userInfoProps.address,
+    zonecode: userInfoProps.zonecode,
+    detailAddress: userInfoProps.detailAddress,
     region1: '',
     region2: '',
     region3: '',
@@ -110,7 +111,7 @@ const ProfileUpdateModal = ({
   const getAuth = async () => {
     try {
       const tokenValidationResponse = await axios({
-        url: 'http://localhost:3001/auth/auth',
+        url: 'http://118.67.142.229:3001/auth/auth',
         method: 'get',
         headers: { 'x-access-token': localStorage.getItem('token') },
       });
@@ -146,11 +147,11 @@ const ProfileUpdateModal = ({
   // 하드코딩 노가다 시작
 
   // 이름, 닉네임, 이메일, 전화번호, 상세주소 값, 소개
-  const [nameModal, setNameModal] = useState('');
-  const [nickModal, setNickModal] = useState('');
-  const [emailModal, setEmailModal] = useState('');
-  const [phoneModal, setPhoneModal] = useState('');
-  const [infoModal, setInfoModal] = useState('');
+  const [nameModal, setNameModal] = useState(userInfoProps.userName);
+  const [nickModal, setNickModal] = useState(userInfoProps.userNick);
+  const [emailModal, setEmailModal] = useState(userInfoProps.userEmail);
+  const [phoneModal, setPhoneModal] = useState(userInfoProps.userPhone);
+  const [infoModal, setInfoModal] = useState(userInfoProps.info);
   const [userPwModal, setUserPwModal] = useState('');
   const [deatilJusoDataModal, setdeatilJusoDataModal] = useState('');
 
@@ -197,7 +198,7 @@ const ProfileUpdateModal = ({
 
   const clickUpdate = async (e) => {
     e.preventDefault();
-    await axios.put('http://localhost:3001/user/userUpdate', {
+    await axios.put('http://118.67.142.229:3001/user/userUpdate', {
         userId: currentUserId,
         userName: nameModal,
         userNick: nickModal,

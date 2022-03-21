@@ -31,7 +31,7 @@ const ImageViewer = ({ post, imageUrl }) => {
           <ImageWrapper
             //db에 있어야 name으로 불러올수가 있음
             //얘를 state에 url로 넣어서 url로 처리를 하자.
-            src={`http://localhost:3001/match/download?matchId=${post.matchId}&matchImgName=${post.matchImgName}`}
+            src={`http://118.67.142.229:3001/match/download?matchId=${post.matchId}&matchImgName=${post.matchImgName}`}
             alt="업로드 이미지"
           />
         )
@@ -40,7 +40,7 @@ const ImageViewer = ({ post, imageUrl }) => {
           <ImageWrapper
             //db에 있어야 name으로 불러올수가 있음
             //얘를 state에 url로 넣어서 url로 처리를 하자.
-            src={`http://localhost:3001/market/download?marketId=${post.marketId}&marketImgName=${post.marketImgName}`}
+            src={`http://118.67.142.229:3001/market/download?marketId=${post.marketId}&marketImgName=${post.marketImgName}`}
             alt="업로드 이미지"
           />
         )

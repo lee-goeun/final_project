@@ -189,6 +189,7 @@ const MyPostCard = ({ type, userInfo }) => {
     dispatch(getMyMarketList(userInfo.userId));
     dispatch(getMyMatchingList(userInfo.userId));
     dispatch(getMyPostList(userInfo.userId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
   const myMarketList = useSelector((state) => state.mypage.marketList);
   const myMatchingList = useSelector((state) => state.mypage.matchList);
@@ -226,7 +227,7 @@ const MyPostCard = ({ type, userInfo }) => {
                   <Slider {...settings}>
                     <div className="slider-wrapper">
                       <img
-                        src={`http://localhost:3001/market/download?marketId=${item.marketId}&marketImgName=${item.marketImgName}`}
+                        src={`http://118.67.142.229:3001/market/download?marketId=${item.marketId}&marketImgName=${item.marketImgName}`}
                         alt="이미지"
                       />
                     </div>
@@ -265,7 +266,7 @@ const MyPostCard = ({ type, userInfo }) => {
                   <Slider {...settings}>
                     <div className="slider-wrapper">
                       <img
-                        src={`http://localhost:3001/match/download?matchId=${item.matchId}&matchImgName=${item.matchImgName}`}
+                        src={`http://118.67.142.229:3001/match/download?matchId=${item.matchId}&matchImgName=${item.matchImgName}`}
                         alt="이미지"
                       />
                     </div>
@@ -304,7 +305,7 @@ const MyPostCard = ({ type, userInfo }) => {
                           <div className="slider-wrapper">
                             <img
                               src={
-                                'http://localhost:3001/board/download?boardImgName=' +
+                                'http://118.67.142.229:3001/board/download?boardImgName=' +
                                 v
                               }
                               alt="이미지"

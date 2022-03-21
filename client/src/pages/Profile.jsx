@@ -8,6 +8,7 @@ import axios from 'axios';
 import ProfileUpdateModal from '../components/profile/ProfileUpdateModal';
 
 const Profile = ({ userInfoProps }) => {
+  console.log('userInfoProps',userInfoProps);
   const {
     userId,
     userName,
@@ -31,7 +32,7 @@ const Profile = ({ userInfoProps }) => {
   const clickDeleteBtn = async (e) => {
     e.preventDefault();
     await axios
-      .put('http://localhost:3001/user/userDelete', {
+      .put('http://118.67.142.229:3001/user/userDelete', {
         userId: userId,
       })
       .then((res) => {
@@ -156,6 +157,7 @@ const Profile = ({ userInfoProps }) => {
           clickCancel={() => {
             setShowUpdateModal(false);
           }}
+          userInfoProps={userInfoProps}
         />
       ) : null}
     </div>

@@ -187,6 +187,7 @@ const MyLikePostCard = ({ type, userInfo }) => {
   useEffect(() => {
     dispatch(getMyLikeMarketList(userInfo.userId));
     dispatch(getMyCollectPostList(userInfo.userId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
   const myLikeMarketList = useSelector((state) => state.mypage.marketLikeList);
   const myCollectPostList = useSelector(
@@ -228,7 +229,7 @@ const MyLikePostCard = ({ type, userInfo }) => {
                     {/* 무슨 경로지.. */}
                     <div className="slider-wrapper">
                       <img
-                        src={`http://localhost:3001/market/download?marketId=${item.marketId}&marketImgName=${item.marketImgName}`}
+                        src={`http://118.67.142.229:3001/market/download?marketId=${item.marketId}&marketImgName=${item.marketImgName}`}
                         alt="이미지"
                       />
                     </div>
@@ -267,7 +268,7 @@ const MyLikePostCard = ({ type, userInfo }) => {
                           <div className="slider-wrapper">
                             <img
                               src={
-                                'http://localhost:3001/board/download?boardImgName=' +
+                                'http://118.67.142.229:3001/board/download?boardImgName=' +
                                 v
                               }
                               alt="이미지"
