@@ -56,7 +56,7 @@ const App = () => {
   useEffect(() => {
     getAuth();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); //
+  }); //
 
   const getAuth = async () => {
     try {
