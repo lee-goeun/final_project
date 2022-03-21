@@ -15,7 +15,8 @@ import axios from 'axios';
 
 const HeaderStyle = Styled.div`
   .header-container {
-  width: 800px;
+    width: 100%;
+  max-width: 800px;
   height: 50px;
   line-height: 50px;
   background-color: #ffffff;
