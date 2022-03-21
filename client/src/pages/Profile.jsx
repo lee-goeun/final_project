@@ -8,6 +8,7 @@ import axios from 'axios';
 import ProfileUpdateModal from '../components/profile/ProfileUpdateModal';
 
 const Profile = ({ userInfoProps }) => {
+  console.log('userInfoProps',userInfoProps);
   const {
     userId,
     userName,
@@ -156,6 +157,7 @@ const Profile = ({ userInfoProps }) => {
           clickCancel={() => {
             setShowUpdateModal(false);
           }}
+          userInfoProps={userInfoProps}
         />
       ) : null}
     </div>
