@@ -9,7 +9,7 @@ const StyledInput = styled.input`
 const AImageFIleInput = (props) => {
   if (props.post.matchId) {
     console.log(props.post, '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
-    props.post.imageUrl = `http://localhost:3001/match/download?matchId=${props.post.matchId}&matchImgName=${props.post.matchImgName}`;
+    props.post.imageUrl = `http://118.67.142.229:3001/match/download?matchId=${props.post.matchId}&matchImgName=${props.post.matchImgName}`;
   }
 
   const inputRef = useRef();

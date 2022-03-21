@@ -100,7 +100,7 @@ const Carousel = ({ type, userInfo }) => {
   const getTimeoutList = async () => {
     let res;
     if (type === 'matching') {
-      res = await axios.get('http://localhost:3001/match/listLimit1');
+      res = await axios.get('http://118.67.142.229:3001/match/listLimit1');
       const data = res.data;
       for (let i = 0; i < data.length; i++) {
         if (
@@ -111,7 +111,7 @@ const Carousel = ({ type, userInfo }) => {
         }
       }
     } else {
-      res = await axios.get('http://localhost:3001/market/viewCountList');
+      res = await axios.get('http://118.67.142.229:3001/market/viewCountList');
       setTimeoutList(res.data);
     }
   };
@@ -145,7 +145,7 @@ const Carousel = ({ type, userInfo }) => {
             <div className="iw">
               <Image
                 src={
-                  'http://localhost:3001/match/download?matchId=' +
+                  'http://118.67.142.229:3001/match/download?matchId=' +
                   timeout.matchId +
                   '&matchImgName=' +
                   timeout.matchImgName
@@ -166,7 +166,7 @@ const Carousel = ({ type, userInfo }) => {
             {timeout.id}
             <Image
               src={
-                'http://localhost:3001/market/download?marketId=' +
+                'http://118.67.142.229:3001/market/download?marketId=' +
                 timeout.marketId +
                 '&marketImgName=' +
                 timeout.marketImgName

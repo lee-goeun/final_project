@@ -330,7 +330,7 @@ const Join = () => {
     e.preventDefault();
     console.log(idInput);
     await axios
-      .post(`http://localhost:3001/auth/join/idCheck`, {
+      .post(`http://118.67.142.229:3001/auth/join/idCheck`, {
         userId: idInput.current.value,
       })
       .then((res) => {
@@ -351,7 +351,7 @@ const Join = () => {
     console.log(nickInput);
 
     await axios
-      .post(`http://localhost:3001/auth/join/nickCheck`, {
+      .post(`http://118.67.142.229:3001/auth/join/nickCheck`, {
         userNick: nickInput.current.value,
       })
       .then((res) => {
@@ -372,7 +372,7 @@ const Join = () => {
     e.preventDefault();
     console.log(emailInput);
     await axios
-      .post(`http://localhost:3001/auth/join/emailCheck`, {
+      .post(`http://118.67.142.229:3001/auth/join/emailCheck`, {
         userEmail: emailInput.current.value,
       })
       .then((res) => {
@@ -418,7 +418,7 @@ const Join = () => {
     ) {
     }
     axios
-      .post('http://localhost:3001/auth/join', {
+      .post('http://118.67.142.229:3001/auth/join', {
         userId: inputId,
         userEmail: inputEmail,
         userPhone: inputPhone,

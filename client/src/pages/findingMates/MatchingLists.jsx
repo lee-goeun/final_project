@@ -32,7 +32,7 @@ const Post = ({ post }) => {
         {post.matchImgName != null ? (
           <ImgInner
             src={
-              'http://localhost:3001/match/download?matchId=' +
+              'http://118.67.142.229:3001/match/download?matchId=' +
               post.matchId +
               '&matchImgName=' +
               post.matchImgName
