@@ -77,12 +77,12 @@ const ProfileUpdateModal = ({
   userPwContent,
   infoContent,
   deatilJusoContent,
-  userInfoProps
+  // userInfoProps
 }) => {
   const [userAddrInfo, setUserAddrInfo] = useState({
-    address: userInfoProps.address,
-    zonecode: userInfoProps.zonecode,
-    detailAddress: userInfoProps.detailAddress,
+    address: '',
+    zonecode: '',
+    detailAddress: '', //userInfoProps.detailAddress
     region1: '',
     region2: '',
     region3: '',
@@ -129,6 +129,7 @@ const ProfileUpdateModal = ({
         commentId: data.commentId,
         userNick: data.userNick,
         userName: data.userName,
+        // userEmail: data.userEmail,
         region1: data.region1,
         region2: data.region2,
         region3: data.region3,
@@ -144,14 +145,14 @@ const ProfileUpdateModal = ({
 
 
 
-  // 하드코딩 노가다 시작
+  // 하드코딩 노가다 시작 userInfoProps.userName
 
   // 이름, 닉네임, 이메일, 전화번호, 상세주소 값, 소개
-  const [nameModal, setNameModal] = useState(userInfoProps.userName);
-  const [nickModal, setNickModal] = useState(userInfoProps.userNick);
-  const [emailModal, setEmailModal] = useState(userInfoProps.userEmail);
-  const [phoneModal, setPhoneModal] = useState(userInfoProps.userPhone);
-  const [infoModal, setInfoModal] = useState(userInfoProps.info);
+  const [nameModal, setNameModal] = useState('');
+  const [nickModal, setNickModal] = useState('');
+  const [emailModal, setEmailModal] = useState('');
+  const [phoneModal, setPhoneModal] = useState('');
+  const [infoModal, setInfoModal] = useState('');
   const [userPwModal, setUserPwModal] = useState('');
   const [deatilJusoDataModal, setdeatilJusoDataModal] = useState('');
 
@@ -262,7 +263,7 @@ const ProfileUpdateModal = ({
             />
             <br/>
             <label>이메일</label>
-            <input type="email"
+            <input type="text"
               onChange={(e) => setEmailModal(e.target.value)}
               value={emailModal}
             />

@@ -26,15 +26,12 @@ exports.userUpdate = (req, res) => {
     } = req.body;
     // ID 확인 쿼리
 
-    const update = new Date();
-    console.log(update);
-    const query = 'UPDATE usertbl SET update=? WHERE userId = ?;';
-    db.query(query, [update, userId], async (err, res) => {
+    const query = 'SELECT * FROM usertbl WHERE userId = ?';
+    db.query(query, [userId], async (err, res) => {
       if (err) {
         console.log(err);
       }
       const hashedPasword = await bcrypt.hash(userPw, 8);
-
       const query =
         'UPDATE usertbl SET userPw=?, userEmail=?, userPhone=?, userName=?, userNick=?, zonecode=?, address=?, detailAddress=?, info=? WHERE userId=?;';
       db.query(
