@@ -108,11 +108,7 @@ const AddPetForm = ({ clickAddCancel, userInfo }) => {
     form: mypet.write,
   }));
 
-  const {
-    petName,
-    petTypeDetail,
-    petBirth,
-  } = form;
+  const { petName, petTypeDetail, petBirth } = form;
 
   useEffect(() => {
     if (!post.petId) dispatch(initializeForm('write'));
@@ -164,20 +160,20 @@ const AddPetForm = ({ clickAddCancel, userInfo }) => {
   const clickAddConfirm = async (e) => {
     e.preventDefault();
     console.log('sssss', content);
-    if(content === ''){
-      alert('반려동물 사진을 넣어주세요.')
+    if (content === '') {
+      alert('반려동물 사진을 넣어주세요.');
       return false;
     }
-    if(contents.petName === ''){
+    if (contents.petName === '') {
       alert('반려동물 이름을 작성해주세요');
       return false;
     }
 
-    if(contents.petBirth === ''){
+    if (contents.petBirth === '') {
       alert('반려동물 생년월일을 작성해주세요');
       return false;
     }
-    
+
     if (!post.petId) {
       for (const [key, value] of Object.entries(contents)) {
         if (`${key}` === 'petImgName') {
@@ -195,17 +191,14 @@ const AddPetForm = ({ clickAddCancel, userInfo }) => {
         }
       }
     }
-    for(var pair of formData.entries()){
-      console.log('ssssss' ,pair[0], pair[1]);
+    for (var pair of formData.entries()) {
+      console.log('ssssss', pair[0], pair[1]);
     }
 
     formData.append('userId', userInfo.userId);
     console.log('formData', formData);
     if (!post.petId) dispatch(writeMyPetPost(formData), [dispatch]);
     else dispatch(updateMyPetPost(formData), [dispatch]);
-
-    
-    
   };
 
   const imgText = useRef();
