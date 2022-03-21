@@ -19,6 +19,9 @@ exports.userUpdate = (req, res) => {
       userPhone,
       userName,
       userNick,
+      region1,
+      region2,
+      region3,
       zonecode,
       address,
       detailAddress,
@@ -33,7 +36,7 @@ exports.userUpdate = (req, res) => {
       }
       const hashedPasword = await bcrypt.hash(userPw, 8);
       const query =
-        'UPDATE usertbl SET userPw=?, userEmail=?, userPhone=?, userName=?, userNick=?, zonecode=?, address=?, detailAddress=?, info=? WHERE userId=?;';
+        'UPDATE usertbl SET userPw=?, userEmail=?, userPhone=?, userName=?, userNick=?, region1=?,region2=?,region3=?,zonecode=?, address=?, detailAddress=?, info=? WHERE userId=?;';
       db.query(
         query,
         [
@@ -42,6 +45,9 @@ exports.userUpdate = (req, res) => {
           userPhone,
           userName,
           userNick,
+          region1,
+          region2,
+          region3,
           zonecode,
           address,
           detailAddress,
