@@ -227,7 +227,7 @@ const MyPostCard = ({ type, userInfo }) => {
                   <Slider {...settings}>
                     <div className="slider-wrapper">
                       <img
-                        src={`http://118.67.142.229:3001/market/download?marketId=${item.marketId}&marketImgName=${item.marketImgName}`}
+                        src={`http://localhost:3001/market/download?marketId=${item.marketId}&marketImgName=${item.marketImgName}`}
                         alt="이미지"
                       />
                     </div>
@@ -266,7 +266,7 @@ const MyPostCard = ({ type, userInfo }) => {
                   <Slider {...settings}>
                     <div className="slider-wrapper">
                       <img
-                        src={`http://118.67.142.229:3001/match/download?matchId=${item.matchId}&matchImgName=${item.matchImgName}`}
+                        src={`http://localhost:3001/match/download?matchId=${item.matchId}&matchImgName=${item.matchImgName}`}
                         alt="이미지"
                       />
                     </div>
@@ -305,7 +305,7 @@ const MyPostCard = ({ type, userInfo }) => {
                           <div className="slider-wrapper">
                             <img
                               src={
-                                'http://118.67.142.229:3001/board/download?boardImgName=' +
+                                'http://localhost:3001/board/download?boardImgName=' +
                                 v
                               }
                               alt="이미지"

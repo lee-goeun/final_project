@@ -98,7 +98,7 @@ const PetContainer = ({ post, userInfo }) => {
         <div className="pet01">
           <img
             src={
-              'http://118.67.142.229:3001/mypage/petDownload?petId=' +
+              'http://localhost:3001/mypage/petDownload?petId=' +
               post.petId +
               '&petImgName=' +
               post.petImgName

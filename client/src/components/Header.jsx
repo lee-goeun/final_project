@@ -138,7 +138,7 @@ const Header = () => {
   const getAuth = async () => {
     try {
       const tokenValidationResponse = await axios({
-        url: 'http://118.67.142.229:3001/auth/auth',
+        url: 'http://localhost:3001/auth/auth',
         method: 'get',
         headers: { 'x-access-token': localStorage.getItem('token') },
       });

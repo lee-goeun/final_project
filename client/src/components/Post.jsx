@@ -179,7 +179,7 @@ const PostContainer = ({
   const getAuth = async () => {
     try {
       const tokenValidationResponse = await axios({
-        url: 'http://118.67.142.229:3001/auth/auth',
+        url: 'http://localhost:3001/auth/auth',
         method: 'get',
         headers: { 'x-access-token': localStorage.getItem('token') },
       });
@@ -224,7 +224,7 @@ const PostContainer = ({
   const [isFavoritePost, setIsFavoritePost] = useState(false);
   const clickFavoritePost = () => {
     axios
-      .post(`http://118.67.142.229:3001/board/post/${boardId}/collect`, {
+      .post(`http://localhost:3001/board/post/${boardId}/collect`, {
         boardId,
         userId: currentUserId,
       })
@@ -241,7 +241,7 @@ const PostContainer = ({
   // 댓글 작성 ENTER 버튼 클릭시
   const clickCommentEnter = (e) => {
     axios
-      .post(`http://118.67.142.229:3001/board/comment/${boardId}`, {
+      .post(`http://localhost:3001/board/comment/${boardId}`, {
         boardId,
         userId: currentUserId,
         commentContent,
@@ -370,7 +370,7 @@ const MiniPostContainer = ({ postList, loadingPostList }) => {
                 <div className="mpimg-container">
                   <img
                     src={
-                      'http://118.67.142.229:3001/board/download?boardImgName=' +
+                      'http://localhost:3001/board/download?boardImgName=' +
                       post.boardImgList[0]
                     }
                     alt="이미지"
@@ -446,7 +446,7 @@ const CommentContainer = ({
   const getAuth = async () => {
     try {
       const tokenValidationResponse = await axios({
-        url: 'http://118.67.142.229:3001/auth/auth',
+        url: 'http://localhost:3001/auth/auth',
         method: 'get',
         headers: { 'x-access-token': localStorage.getItem('token') },
       });
@@ -477,7 +477,7 @@ const CommentContainer = ({
   // 댓글 삭제 [완료]
   const clickDeleteComment = async (e) => {
     await axios
-      .delete(`http://118.67.142.229:3001/board/comment/${commentId}`, {})
+      .delete(`http://localhost:3001/board/comment/${commentId}`, {})
       .then((res) => {
         console.log(res);
         alert('댓글이 삭제되었습니다.');
@@ -491,7 +491,7 @@ const CommentContainer = ({
   // 댓글 수정 [값 전달까지는 가능 commentContent값]
   const clickModifyCommentText = async (e) => {
     await axios
-      .put(`http://118.67.142.229:3001/board/comment/edit/${commentId}`, {
+      .put(`http://localhost:3001/board/comment/edit/${commentId}`, {
         userId: currentUserId,
         commentContent: CommentModal,
       })
@@ -515,7 +515,7 @@ const CommentContainer = ({
   // 댓글 신고 [완료]
   const clickReportCommentText = async (e) => {
     await axios
-      .post(`http://118.67.142.229:3001/board/comment/${reportedUserId}/report`, {
+      .post(`http://localhost:3001/board/comment/${reportedUserId}/report`, {
         userId: currentUserId,
         commentId,
       })
@@ -546,7 +546,7 @@ const CommentContainer = ({
 
   const clickLikeComment = async (e) => {
     await axios
-      .post(`http://118.67.142.229:3001/board/comment/${commentId}/like`, {
+      .post(`http://localhost:3001/board/comment/${commentId}/like`, {
         userId: currentUserId,
       })
       .then((res) => {
@@ -737,7 +737,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     formData.append('categoryIndex', 2);
     formData.append('token', localStorage.getItem('token'));
     axios
-      .post('http://118.67.142.229:3001/board/post', formData)
+      .post('http://localhost:3001/board/post', formData)
       .then((res) => {
         if (res.status === 200) {
           alert('게시글이 업로드 되었습니다.');
@@ -766,7 +766,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
   // 게시물 검색 API가 뭐징
   const searchPost = (e) => {
     axios
-      .get('http://118.67.142.229:3001/board/')
+      .get('http://localhost:3001/board/')
       .then((res) => {
         console.log(res);
         // alert('검색 끝 test');
@@ -780,7 +780,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
   // 게시물 내용 수정
   // const clickPostModify = (e) => {
   //   axios
-  //     .put('http://118.67.142.229:3001/board/post')
+  //     .put('http://localhost:3001/board/post')
   //     .then((res) => {
   //       if (res.status == 200) {
   //         alert('게시글이 업로드 되었습니다.');
@@ -797,7 +797,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
 
   // 참조 자료
   //   await axios
-  //     .post(`http://118.67.142.229:3001/board/comment/${reportedUserId}/report`, {
+  //     .post(`http://localhost:3001/board/comment/${reportedUserId}/report`, {
   //       userId: currentUserId,
   //       commentId,
   //     })

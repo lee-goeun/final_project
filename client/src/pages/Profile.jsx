@@ -32,7 +32,7 @@ const Profile = ({ userInfoProps }) => {
   const clickDeleteBtn = async (e) => {
     e.preventDefault();
     await axios
-      .put('http://118.67.142.229:3001/user/userDelete', {
+      .put('http://localhost:3001/user/userDelete', {
         userId: userId,
       })
       .then((res) => {

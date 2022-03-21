@@ -95,7 +95,7 @@ const MatchingPost = ({ post, loadingPost, userInfo }) => {
 
   const addChat = () => {
     axios
-      .post('http://118.67.142.229:3001/chat/add', {
+      .post('http://localhost:3001/chat/add', {
         matchId: post[0].matchId,
         userId: post[0].userId,
         participant: userInfo.userId,
@@ -128,7 +128,7 @@ const MatchingPost = ({ post, loadingPost, userInfo }) => {
           </div>
           <div className="imcoo">
             <ImgWrapper
-              src={`http://118.67.142.229:3001/match/download?matchId=${post[0].matchId}&matchImgName=${post[0].matchImgName}`}
+              src={`http://localhost:3001/match/download?matchId=${post[0].matchId}&matchImgName=${post[0].matchImgName}`}
             />
           </div>
           <div className="mmmcccont">

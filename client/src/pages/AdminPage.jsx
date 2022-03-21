@@ -129,7 +129,7 @@ const AdminPage = ({ userInfoProps }) => {
   const [deliveryArr, setDeliveryArr] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://118.67.142.229:3001/market/delivery`).then((res) => {
+    axios.get(`http://localhost:3001/market/delivery`).then((res) => {
       setDeliveryArr(res.data);
     });
   }, []);

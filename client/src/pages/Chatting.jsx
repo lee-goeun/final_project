@@ -37,7 +37,7 @@ const ChattingPageStyle = styled.div`
   }
 `;
 
-const socket = io.connect('118.67.142.229:3002', { transports: ['websocket'] });
+const socket = io.connect('localhost:3002', { transports: ['websocket'] });
 socket.emit('msg', { name: '홍길동', message: '테스트' });
 const Chatting = ({ userInfo }) => {
   const [chatUserList, setChatUserList] = useState([]);
@@ -48,7 +48,7 @@ const Chatting = ({ userInfo }) => {
 
   useEffect(() => {
     axios
-      .get(`http://118.67.142.229:3001/chat/list/${userInfo.userId}`)
+      .get(`http://localhost:3001/chat/list/${userInfo.userId}`)
       .then((res) => {
         setChatUserList(res.data);
       });
@@ -84,7 +84,7 @@ const Chatting = ({ userInfo }) => {
   const showMsg = (chat) => {
     setIsChatOn(true);
 
-    // axios.get(`http://118.67.142.229:3001/chat/detail/${chat.chatroomId}`).then((res) => {
+    // axios.get(`http://localhost:3001/chat/detail/${chat.chatroomId}`).then((res) => {
     //   setChatMsgList(res.data);
     // });
 

@@ -111,7 +111,7 @@ const ProfileUpdateModal = ({
   const getAuth = async () => {
     try {
       const tokenValidationResponse = await axios({
-        url: 'http://118.67.142.229:3001/auth/auth',
+        url: 'http://localhost:3001/auth/auth',
         method: 'get',
         headers: { 'x-access-token': localStorage.getItem('token') },
       });
@@ -198,7 +198,7 @@ const ProfileUpdateModal = ({
 
   const clickUpdate = async (e) => {
     e.preventDefault();
-    await axios.put('http://118.67.142.229:3001/user/userUpdate', {
+    await axios.put('http://localhost:3001/user/userUpdate', {
         userId: currentUserId,
         userName: nameModal,
         userNick: nickModal,

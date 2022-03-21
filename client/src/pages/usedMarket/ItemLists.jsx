@@ -42,7 +42,7 @@ const Post = ({ post, userInfo }) => {
         <DisplayWrapper>
           <ImgInner
             src={
-              'http://118.67.142.229:3001/market/download?marketId=' +
+              'http://localhost:3001/market/download?marketId=' +
               post.marketId +
               '&marketImgName=' +
               post.marketImgName

@@ -54,7 +54,7 @@ const Login = ({ userInfoHandler }) => {
 
   const clickLoginBtn = async (e) => {
     try {
-      const res = await axios.post(`http://118.67.142.229:3001/auth/login`, {
+      const res = await axios.post(`http://localhost:3001/auth/login`, {
         userId,
         userPw,
       });
@@ -106,7 +106,7 @@ const Login = ({ userInfoHandler }) => {
     e.preventDefault();
     console.log(nameInput);
     await axios
-      .post('http://118.67.142.229:3001/find/findId', {
+      .post('http://localhost:3001/find/findId', {
         userName: nameInput.current.value,
         userEmail: idEmailInput.current.value,
       })
@@ -126,7 +126,7 @@ const Login = ({ userInfoHandler }) => {
     console.log(userIdInput);
 
     await axios
-      .post('http://118.67.142.229:3001/find/findPw', {
+      .post('http://localhost:3001/find/findPw', {
         userId: userIdInput.current.value,
         userEmail: pwEmailInput.current.value,
       })
@@ -147,7 +147,7 @@ const Login = ({ userInfoHandler }) => {
     e.preventDefault();
     console.log(userIdInput);
     await axios
-      .put(`http://118.67.142.229:3001/find/PwRe`, {
+      .put(`http://localhost:3001/find/PwRe`, {
         userId: userIdReInput.current.value,
         userEmail: pwEmailReInput.current.value,
         pwAuth: certificationInput.current.value,

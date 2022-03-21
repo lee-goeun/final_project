@@ -78,7 +78,7 @@ const MiniPostCard = ({ postList, loadingPostList }) => {
                     <div className="mpimg-container">
                       <img
                         src={
-                          'http://118.67.142.229:3001/board/download?boardImgName=' +
+                          'http://localhost:3001/board/download?boardImgName=' +
                           post.boardImgList[0]
                         }
                         alt="이미지"

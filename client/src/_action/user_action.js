@@ -3,7 +3,7 @@ import { AUTH_USER, SIGNIN_USER, SIGNUP_USER } from './types';
 
 export function signinUser(dataToSubmit) {
   const request = axios
-    .post('http://118.67.142.229:3001/auth/login', dataToSubmit)
+    .post('http://localhost:3001/auth/login', dataToSubmit)
     .then((response) => response.data);
   console.log('req', request);
 
@@ -15,7 +15,7 @@ export function signinUser(dataToSubmit) {
 
 export function auth() {
   const request = axios
-    .get('http://118.67.142.229:3001/auth/auth')
+    .get('http://localhost:3001/auth/auth')
     .then((response) => response.data);
   return {
     type: AUTH_USER,
