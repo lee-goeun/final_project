@@ -150,6 +150,7 @@ const HeaderImgStyle = styled.div`
       object-fit: cover;
     }
     h1 {
+      display: inline-block;
       color: white;
       position: relative;
       bottom: 300px;

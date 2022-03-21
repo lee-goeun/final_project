@@ -20,8 +20,8 @@ const MainPageFooterStyle = styled.div`
       justify-content: space-around;
     }
     .left-fm {
-      overflow: visible;
       z-index: 1;
+      min-width: 550px;
     }
     .fm1 {
       color: var(--font-dark);
