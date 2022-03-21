@@ -272,7 +272,7 @@ const Home = () => {
               중고장터를 통해 반려인들 끼리 편하게 거래를 시작하세요!
             </p>
             <Link to="market/list">
-              <p className="hs04__p">물건 구매하러 가기 ＞</p>
+              <p className="hs04__p">물건 거래하러 가기 ＞</p>
             </Link>
           </div>
         </div>

@@ -13,6 +13,12 @@ const ImgContStyle = styled.div`
       height: 100%;
       object-fit: cover;
     }
+    h1 {
+      color: white;
+      position: relative;
+      bottom: 300px;
+      left: 20%;
+    }
   }
 `;
 
@@ -22,7 +28,11 @@ const PostPage = () => {
       <Header />
       <ImgContStyle>
         <div>
-          <img src={process.env.PUBLIC_URL + '/img/pets.jpg'} />
+          <img
+            src={process.env.PUBLIC_URL + '/img/pets.jpg'}
+            alt="페이지 이미지"
+          />
+          <h1>반려인들과 즐거운 소통을 나눠보세요</h1>
         </div>
       </ImgContStyle>
       <PostBackground />

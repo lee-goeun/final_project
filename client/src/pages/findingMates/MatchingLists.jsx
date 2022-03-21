@@ -138,6 +138,25 @@ const MatchingListWrapper = styled.section`
   margin: 20px auto;
   grid-template-columns: 1fr 1fr 1fr;
 `;
+const HeaderImgStyle = styled.div`
+  div {
+    width: 100%;
+    height: 500px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    h1 {
+      color: white;
+      position: relative;
+      bottom: 300px;
+      left: 20%;
+    }
+  }
+`;
 
 const MatchingLists = ({ loadingList, list, userInfo }) => {
   console.log('user', list, userInfo);
@@ -161,6 +180,15 @@ const MatchingLists = ({ loadingList, list, userInfo }) => {
   };
   return (
     <>
+      <HeaderImgStyle>
+        <div>
+          <img
+            src={process.env.PUBLIC_URL + '/img/dogs_walking.jpg'}
+            alt="페이지이미지"
+          />
+          <h1>오늘 같이 산책할 동네 친구를 찾아보세요</h1>
+        </div>
+      </HeaderImgStyle>
       <section>
         <h4 style={style1}>시간이 얼마 안남았어요!</h4>
         <h6 style={style2}>1시간 이내 남은 게시물 노출</h6>

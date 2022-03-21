@@ -8,7 +8,7 @@ const FooterStyle = styled.div`
   background-color: rgb(50, 50, 50);
   text-align: center;
   padding: 50px 0;
-  h3 {
+  p:first-child {
     margin-bottom: 20px;
   }
 `;
@@ -17,7 +17,7 @@ const Footer = () => {
   return (
     <FooterStyle>
       <div className="footer">
-        <h3>ⓒ PET＆PET ALL RIGHTS RESERVED</h3>
+        <p>ⓒ PET＆PET ALL RIGHTS RESERVED</p>
         <p>반려인들을 위한 온라인 커뮤니티</p>
       </div>
     </FooterStyle>

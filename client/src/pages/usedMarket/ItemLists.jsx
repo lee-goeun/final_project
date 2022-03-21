@@ -190,6 +190,26 @@ const ItemListWrapper = styled.section`
   grid-template-columns: 1fr 1fr 1fr;
 `;
 
+const HeaderImgStyle = styled.div`
+  div {
+    width: 100%;
+    height: 500px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    h1 {
+      color: white;
+      position: relative;
+      bottom: 300px;
+      left: 20%;
+    }
+  }
+`;
+
 const ItemLists = ({ loadingList, list, userInfo }) => {
   const dispatch = useDispatch();
   const [keyword, setKeyword] = useState('');
@@ -222,6 +242,16 @@ const ItemLists = ({ loadingList, list, userInfo }) => {
   // };
   return (
     <>
+      <HeaderImgStyle>
+        <div>
+          <img
+            src={process.env.PUBLIC_URL + '/img/used.jpg'}
+            alt="페이지이미지"
+          />
+          <h1>동네 주민과 따뜻한 거래를 시작해보세요</h1>
+        </div>
+      </HeaderImgStyle>
+
       <section>
         <h4 style={style1}>지금 가장 🔥 HOT한 중고물품</h4>
         <Carousel type="market" />
