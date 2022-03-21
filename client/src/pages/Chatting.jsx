@@ -52,7 +52,7 @@ const Chatting = ({ userInfo }) => {
       .then((res) => {
         setChatUserList(res.data);
       });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -118,6 +118,7 @@ const Chatting = ({ userInfo }) => {
               <div className="cl-icon-box">
                 <FontAwesomeIcon icon={faTelegram} className="b-message-icon" />
                 <p>친구들과 채팅을 시작해 보세요!</p>
+                <p>서비스 준비 중입니다.</p>
               </div>
             ) : (
               <div className="chat-room">
