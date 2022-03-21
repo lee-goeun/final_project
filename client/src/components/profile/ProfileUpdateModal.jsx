@@ -57,6 +57,9 @@ const ProfileUpdateModalStyle = styled.div`
       margin: 20px auto 0 auto;
     }
   }
+  .new-input {
+    margin-left: 70px;
+  }
 `;
 
 const AddrInputStyle = styled.div`
@@ -77,19 +80,18 @@ const ProfileUpdateModal = ({
   userPwContent,
   infoContent,
   deatilJusoContent,
-  userInfoProps
+  userInfoProps,
 }) => {
   const [userAddrInfo, setUserAddrInfo] = useState({
     address: userInfoProps.address,
     zonecode: userInfoProps.zonecode,
     detailAddress: userInfoProps.detailAddress, //userInfoProps.detailAddress
-    region1:  userInfoProps.region1,
-    region2:  userInfoProps.region2,
+    region1: userInfoProps.region1,
+    region2: userInfoProps.region2,
     region3: userInfoProps.region3,
     extraAddress: '',
     buildingName: '',
   });
-  
 
   // 유저 정보 호출 시작
   useEffect(() => {
@@ -144,9 +146,6 @@ const ProfileUpdateModal = ({
 
   //유저 정보 닫기
 
-
-
-
   // 하드코딩 노가다 시작 userInfoProps.userName
 
   // 이름, 닉네임, 이메일, 전화번호, 상세주소 값, 소개
@@ -160,7 +159,6 @@ const ProfileUpdateModal = ({
   const [infoModal, setInfoModal] = useState('');
   const [userPwModal, setUserPwModal] = useState('');
   const [deatilJusoDataModal, setdeatilJusoDataModal] = useState('');
-
 
   // 노가다
   // 이름
@@ -186,17 +184,17 @@ const ProfileUpdateModal = ({
   // 비밀번호
   useEffect(() => {
     setUserPwModal(userPwContent);
-  },[userPwContent]);
+  }, [userPwContent]);
 
   // 상세 주소
   useEffect(() => {
     setdeatilJusoDataModal(deatilJusoContent);
-  },[deatilJusoContent]);
+  }, [deatilJusoContent]);
 
   // 소개
   useEffect(() => {
     setInfoModal(infoContent);
-  },[infoContent]);
+  }, [infoContent]);
 
   // 노가다 끝
 
@@ -213,17 +211,18 @@ const ProfileUpdateModal = ({
       zonecode: zonecode,
       address: address,
       region1: region1,
-      region2:region2,
-      region3:region3,
+      region2: region2,
+      region3: region3,
       detailAddress: deatilJusoDataModal,
-      userPw:userPwModal,
+      userPw: userPwModal,
       info: infoModal,
-    }
-    console.log('param',param);
-    await axios.put('http://localhost:3001/user/userUpdate', param)
+    };
+    console.log('param', param);
+    await axios
+      .put('http://localhost:3001/user/userUpdate', param)
       .then((res) => {
         console.log(res);
-        alert('회원 정보가 수정 되었습니다. 다시 로그인해주세요')
+        alert('회원 정보가 수정 되었습니다. 다시 로그인해주세요');
         localStorage.removeItem('token');
         alert('로그아웃 되었습니다.');
         navigate('/login');
@@ -234,12 +233,10 @@ const ProfileUpdateModal = ({
       });
   };
 
-
-
-
   // 하드 코딩 노가다 종료
 
-  const { zonecode, address, detailAddress, region1, region2, region3 } = userAddrInfo;
+  const { zonecode, address, detailAddress, region1, region2, region3 } =
+    userAddrInfo;
 
   const savingAddressInput = (input) => {
     setUserAddrInfo(() => ({
@@ -251,7 +248,7 @@ const ProfileUpdateModal = ({
       region3: input.bname,
       extraAddress: input.jibunAddress,
     }));
-    console.log("input",input);
+    console.log('input', input);
     // setRegion1(input.sido);
     // setRegion2(input.sigungu);
     // setRegion3(input.bname);
@@ -264,25 +261,29 @@ const ProfileUpdateModal = ({
           <div className="inner__cont">
             <h3>프로필 수정</h3>
             <label>이름 </label>
-            <input type="text"
-             onChange={(e) => setNameModal(e.target.value)}
-             value={nameModal}
+            <input
+              type="text"
+              onChange={(e) => setNameModal(e.target.value)}
+              value={nameModal}
             />
-            <br /> 
+            <br />
             <label>닉네임</label>
-            <input type="text"
+            <input
+              type="text"
               onChange={(e) => setNickModal(e.target.value)}
               value={nickModal}
             />
-            <br/>
+            <br />
             <label>이메일</label>
-            <input type="text"
+            <input
+              type="text"
               onChange={(e) => setEmailModal(e.target.value)}
               value={emailModal}
             />
             <br />
             <label>전화번호</label>
-            <input type="text"
+            <input
+              type="text"
               onChange={(e) => setPhoneModal(e.target.value)}
               value={phoneModal}
             />
@@ -296,20 +297,24 @@ const ProfileUpdateModal = ({
                 detailAddress={detailAddress}
               />
             </AddrInputStyle>
-            <br/>
-              <input type="text"
+            <br />
+            <input
+              className="new-input"
+              type="text"
               onChange={(e) => setdeatilJusoDataModal(e.target.value)}
               value={deatilJusoDataModal}
-              />
-            <br/>
+            />
+            <br />
             <label>비밀번호</label>
-            <input type="password"
+            <input
+              type="password"
               onChange={(e) => setUserPwModal(e.target.value)}
               value={userPwModal}
             />
-            <br/>
+            <br />
             <label>소개</label>
-            <input type="text"
+            <input
+              type="text"
               onChange={(e) => setInfoModal(e.target.value)}
               value={infoModal}
             />
@@ -319,7 +324,9 @@ const ProfileUpdateModal = ({
                 취소
               </button>
               {/* 이파트에 온클릭 들어감 */}
-              <button onClick={clickUpdate} className="btn__style">수정</button>
+              <button onClick={clickUpdate} className="btn__style">
+                수정
+              </button>
             </div>
           </div>
         </ProfileUpdateModalStyle>
