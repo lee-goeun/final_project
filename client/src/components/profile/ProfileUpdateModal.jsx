@@ -77,12 +77,12 @@ const ProfileUpdateModal = ({
   userPwContent,
   infoContent,
   deatilJusoContent,
-  // userInfoProps
+  userInfoProps
 }) => {
   const [userAddrInfo, setUserAddrInfo] = useState({
-    address: '',
-    zonecode: '',
-    detailAddress: '', //userInfoProps.detailAddress
+    address: userInfoProps.address,
+    zonecode: userInfoProps.zonecode,
+    detailAddress: userInfoProps.detailAddress, //userInfoProps.detailAddress
     region1: '',
     region2: '',
     region3: '',
@@ -107,6 +107,8 @@ const ProfileUpdateModal = ({
     region3: '',
     userImg: '',
   });
+
+  // console.log('userInfoProps',userInfoProps)
 
   const getAuth = async () => {
     try {
@@ -148,10 +150,10 @@ const ProfileUpdateModal = ({
   // 하드코딩 노가다 시작 userInfoProps.userName
 
   // 이름, 닉네임, 이메일, 전화번호, 상세주소 값, 소개
-  const [nameModal, setNameModal] = useState('');
-  const [nickModal, setNickModal] = useState('');
-  const [emailModal, setEmailModal] = useState('');
-  const [phoneModal, setPhoneModal] = useState('');
+  const [nameModal, setNameModal] = useState(userInfoProps.userName);
+  const [nickModal, setNickModal] = useState(userInfoProps.userNick);
+  const [emailModal, setEmailModal] = useState(userInfoProps.userEmail);
+  const [phoneModal, setPhoneModal] = useState(userInfoProps.userPhone);
   const [infoModal, setInfoModal] = useState('');
   const [userPwModal, setUserPwModal] = useState('');
   const [deatilJusoDataModal, setdeatilJusoDataModal] = useState('');
@@ -159,24 +161,24 @@ const ProfileUpdateModal = ({
 
   // 노가다
   // 이름
-  useEffect(() => {
-    setNameModal(nameContent);
-  },[nameContent]);
+  // useEffect(() => {
+  //   setNameModal(nameContent);
+  // },[nameContent]);
 
   // 닉네임
-  useEffect(() => {
-    setNickModal(nickContent);
-  },[nickContent]);
+  // useEffect(() => {
+  //   setNickModal(nickContent);
+  // },[nickContent]);
 
   // 이메일
-  useEffect(() => {
-    setEmailModal(emailContent);
-  },[emailContent]);
+  // useEffect(() => {
+  //   setEmailModal(emailContent);
+  // },[emailContent]);
 
   // 전화번호
-  useEffect(() => {
-    setPhoneModal(phoneContent);
-  },[phoneContent]);
+  // useEffect(() => {
+  //   setPhoneModal(phoneContent);
+  // },[phoneContent]);
 
   // 비밀번호
   useEffect(() => {
@@ -199,18 +201,20 @@ const ProfileUpdateModal = ({
 
   const clickUpdate = async (e) => {
     e.preventDefault();
-    await axios.put('http://localhost:3001/user/userUpdate', {
-        userId: currentUserId,
-        userName: nameModal,
-        userNick: nickModal,
-        userEmail: emailModal,
-        userPhone: phoneModal,
-        zonecode: zonecode,
-        address: address,
-        detailAddress: deatilJusoDataModal,
-        userPw:userPwModal,
-        info: infoModal,
-      })
+    const param = {
+      userId: currentUserId,
+      userName: nameModal,
+      userNick: nickModal,
+      userEmail: emailModal,
+      userPhone: phoneModal,
+      zonecode: zonecode,
+      address: address,
+      detailAddress: deatilJusoDataModal,
+      userPw:userPwModal,
+      info: infoModal,
+    }
+    console.log('param',param);
+    await axios.put('http://localhost:3001/user/userUpdate', param)
       .then((res) => {
         console.log(res);
         alert('회원 정보가 수정 되었습니다. 다시 로그인해주세요')
