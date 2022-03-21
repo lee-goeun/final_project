@@ -6,7 +6,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import moment from 'moment';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getMatchList} from '../../redux/modules/matching';
+import { getMatchList } from '../../redux/modules/matching';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMap, faMapPin } from '@fortawesome/free-solid-svg-icons';
 
@@ -88,7 +88,7 @@ const DisplayWrapper = styled.section`
 const ImgInner = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 `;
 
 const MiddleSectionWrapper = styled.section`
