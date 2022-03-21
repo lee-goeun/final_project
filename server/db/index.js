@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 
 var con = mysql.createConnection({
-  host:"localhost",
+  host:"118.67.142.229",
   user:"root",
   password:"1234",
   database:"papdb",
