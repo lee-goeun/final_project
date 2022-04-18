@@ -2,7 +2,7 @@
 <br/><br/><br/>
 
 ### Introduce
-- PaP(Pet and Pet) 프로젝트는 반려동물을 키우는 사람들을 위한 커뮤니티 서비스입니다.
+- <bold>PaP(Pet and Pet)</bold> 프로젝트는 반려동물을 키우는 사람들을 위한 커뮤니티 서비스입니다.
 
 #
 ### Skill Point (icon 추가예정)
@@ -10,7 +10,7 @@
 - Discord
 - MySQL
 - Figma
-<br/><br/><br/>
+
 
 #
 서비스 기획 및 UI 디자인<Br/>
