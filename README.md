@@ -2,7 +2,7 @@
 <br/><br/><br/>
 
 ### Introduce
-- <bold>PaP(Pet and Pet)</bold> 프로젝트는 반려동물을 키우는 사람들을 위한 커뮤니티 서비스입니다.
+- **PaP(Pet and Pet)** 프로젝트는 반려동물을 키우는 사람들을 위한 커뮤니티 서비스입니다.
 
 #
 ### Skill Point (icon 추가예정)
