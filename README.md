@@ -1,70 +1,44 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![image](https://user-images.githubusercontent.com/67176549/166202880-9ad96462-4f96-4233-9078-e21464c94401.png)
 
-## Available Scripts
+## **Introduce**
+- **PaP(Pet and Pet)** 프로젝트는 반려동물을 키우는 사람들을 위한 커뮤니티 서비스입니다.
 
-In the project directory, you can run:
 
-### `npm start`
+**Team**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![icons8-source-frontend-development-code-64](https://user-images.githubusercontent.com/67176549/166202738-ac8ce8b7-27da-4878-9d44-ee851648137f.png) 👈 **Frontend**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![image](https://user-images.githubusercontent.com/67176549/166205547-e995952c-b38e-4133-bcb2-93bf34698fbf.png)
 
-### `npm test`
+![icons8-backend-development-64](https://user-images.githubusercontent.com/67176549/166202753-704cfe7f-a3a1-4d0b-8886-fe4a210c0a23.png) 👈 **Backend**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![image](https://user-images.githubusercontent.com/67176549/166205647-2be7d6d0-2f9b-42af-93bf-117528b03089.png)
 
-### `npm run build`
+#
+### **Teamwork Point**
+- 🌱 새로운 배움을 얻기 두려워하지 않는 **팀**
+- 👯 끝까지 포기하지 않고 완주하는 **팀**
+- 💬 서로가 벽을 느끼지 않고 소통할 수 있는 **팀**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#
+### **Skill Point**
+**Frontend**
+- <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white" alt="React">
+**Backend**
+- <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=Node.js&logoColor=white" alt="Node.js">
+- <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white" alt="MySQL">
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Tool**
+- <img src="https://img.shields.io/badge/Discord-5865F2?style=flat-square&logo=Discord&logoColor=white" alt="Discord">
+- <img src="https://img.shields.io/badge/figma-F24E1E?style=flat-square&logo=figma&logoColor=white" alt="figma">
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+#
+**서비스 기획 및 UI 디자인**
+- <img src="https://img.shields.io/badge/figma-F24E1E?style=flat-square&logo=figma&logoColor=white" alt="figma"> : https://www.figma.com/file/uTjiNGTzd47NSYUJzpO9pG/final_project?node-id=0%3A1
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
