@@ -9,7 +9,7 @@
   }
 }
 
-/* my post */
+/** my post */
 .mypost-container {
   margin-left: 30px;
   margin-top: 5px;
@@ -50,7 +50,7 @@
   transition: 0.4s;
 }
 
-/* my pet */
+/** my pet */
 .mypet-container {
   margin-left: 30px;
   margin-top: 5px;

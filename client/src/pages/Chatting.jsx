@@ -52,7 +52,6 @@ const Chatting = ({ userInfo }) => {
       .then((res) => {
         setChatUserList(res.data);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -83,10 +82,6 @@ const Chatting = ({ userInfo }) => {
 
   const showMsg = (chat) => {
     setIsChatOn(true);
-
-    // axios.get(`http://localhost:3001/chat/detail/${chat.chatroomId}`).then((res) => {
-    //   setChatMsgList(res.data);
-    // });
 
     socket.emit('joinRoom', { roomName: chat.chatroomId });
     setWhichChatroom(chat.chatroomId);

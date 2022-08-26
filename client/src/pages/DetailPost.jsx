@@ -46,7 +46,6 @@ const DetailStyle = styled.div`
 
 const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
   console.log(post); // 게시물 정리할 때 참조 콘솔 값
-  // console.log(commentList) //댓글 정리할 때 사용했음
 
   useEffect(() => {
     console.log(`${boardId}번 게시물 상세보기 렌더링`);
@@ -65,7 +64,6 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
         setCollectStatus(res.data.collectStatus);
       })
       .catch((e) => console.log(e));
-      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getPost]);
 
   const userId = userInfo.userId;
@@ -92,7 +90,6 @@ const DetailPost = ({ userInfo, getPost, post, commentList, loadingPost }) => {
         console.log(boardId, '번 게시물 좋아요 클릭', res);
       })
       .catch((error) => console.log('좋아요 에러 :', error));
-      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
@@ -277,7 +274,4 @@ export default connect(
     getPost,
     likePost,
   },
-)(DetailPost);
-
-// clickDeleteComment={null}
-// clickLikeComment={likeComment}
+)(DetailPost); 

@@ -58,7 +58,6 @@ const Profile = ({ userInfoProps }) => {
       });
   };
 
-  // 급하게 만든 디자인 페이지 디테일한 부분은 필요합니다
   return (
     <BoxStyle>
       <div id="boxboxbox" className={styles.register}>
