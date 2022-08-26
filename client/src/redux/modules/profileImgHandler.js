@@ -3,7 +3,6 @@ const UPLOAD = 'profileImgHandler/UPLOAD';
 const REMOVE = 'profileImgHandler/REMOVE';
 
 //action creator
-// export const upload = (input) => ({ type: UPLOAD, input });
 export const upload = (imgUrl) => ({ type: UPLOAD, payload: imgUrl });
 export const remove = () => ({ type: REMOVE });
 

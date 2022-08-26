@@ -4,7 +4,7 @@ import * as api from '../../lib/api';
 import createRequestThunk from '../../lib/createRequestThunk';
 import moment from 'moment';
 
-//action type
+/** action type */
 const CHANGE_INPUT = 'mypet/CHANGE_INPUT';
 const CHANGE_INPUT_TIME = 'mypet/CHANGE_INPUT_TIME';
 const CHANGE_INPUT_IMAGE = 'mypet/CHANGE_INPUT_IMAGE';
@@ -12,7 +12,7 @@ const INITIALIZE_FORM = 'mypet/INITIALIZE_FORM';
 
 const WRITE_POST = 'mypet/WRITE_POST';
 const WRITE_POST_SUCCESS = 'mypet/WRITE_POST_SUCCESS';
-//작성된포스트불러오기
+/** 작성된포스트불러오기 */
 const SET_ORIGINAL_POST = 'mypet/SET_ORIGINAL_POST';
 const UPDATE_POST = 'mypet/UPDATE_POST';
 const UPDATE_POST_SUCCESS = 'mypet/UPDATE_POST_SUCCESS';
@@ -27,7 +27,7 @@ const UNLOAD_POST = 'mypet/UNLOAD_POST';
 const DELETE_POST = 'mypet/DELETE_POST';
 const DELETE_POST_SUCCESS = 'mypet/DELETE_POST_SUCCESS';
 
-//action creator
+/** action creator */
 export const changeInput = createAction(
   CHANGE_INPUT,
   ({ form, name, value }) => ({
@@ -62,7 +62,7 @@ export const deleteMyPetPost = createRequestThunk(
   api.delMyPetPost,
 );
 
-//init state
+/** init state */
 const initialState = {
   loading: {
     GET_LIST: false,
@@ -82,7 +82,7 @@ const initialState = {
     petType: '',
     petBirth: '',
     petSex: '',
-    petImgName:''
+    petImgName: '',
   },
 
   update: {
@@ -91,8 +91,8 @@ const initialState = {
     petType: '',
     petBirth: '',
     petSex: '',
-    petImgName:'',
-    petId:''
+    petImgName: '',
+    petId: '',
   },
 };
 
@@ -118,10 +118,10 @@ const mypet = handleActions(
       update: {
         petName: post.petName,
         petTypeDetail: post.petTypeDetail,
-        petType : post.petType,
+        petType: post.petType,
         petBirth: moment(post.petBirth).format('YYYY-MM-DD'),
         petImgName: post.petImgName,
-        petSex : post.petSex,
+        petSex: post.petSex,
         petId: post.petId,
       },
     }),
