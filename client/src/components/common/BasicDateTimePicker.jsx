@@ -14,7 +14,7 @@ const StyledTextField = styled(TextField)`
 `;
 
 const BasicDateTimePicker = ({ post, matchTime }) => {
-  //기존포스트가 있는 경우:post전달 기존 포스트가 없는 경우:matchTime만 전달
+  /** 기존포스트가 있는 경우:post전달 기존 포스트가 없는 경우:matchTime만 전달 */
   const dispatch = useDispatch();
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -27,7 +27,7 @@ const BasicDateTimePicker = ({ post, matchTime }) => {
             dispatch(
               changeInputTime({
                 form: 'update',
-                // time: moment(newValue).format('YYYY-MM-DD HH:mm'),
+                /** time: moment(newValue).format('YYYY-MM-DD HH:mm'), */
                 time: newValue,
               }),
               [dispatch],

@@ -70,7 +70,7 @@ const AddrInputStyle = styled.div`
   }
 `;
 
-// 프로필 작업 해야하는 곳
+/** 프로필 작업 해야하는 곳  */
 const ProfileUpdateModal = ({
   clickCancel,
   nameContent,
@@ -85,7 +85,7 @@ const ProfileUpdateModal = ({
   const [userAddrInfo, setUserAddrInfo] = useState({
     address: userInfoProps.address,
     zonecode: userInfoProps.zonecode,
-    detailAddress: userInfoProps.detailAddress, //userInfoProps.detailAddress
+    detailAddress: userInfoProps.detailAddress, 
     region1: userInfoProps.region1,
     region2: userInfoProps.region2,
     region3: userInfoProps.region3,
@@ -93,7 +93,7 @@ const ProfileUpdateModal = ({
     buildingName: '',
   });
 
-  // 유저 정보 호출 시작
+  /** 유저 정보 호출 시작  */
   useEffect(() => {
     getAuth();
   });
@@ -110,7 +110,6 @@ const ProfileUpdateModal = ({
     userImg: '',
   });
 
-  // console.log('userInfoProps',userInfoProps)
 
   const getAuth = async () => {
     try {
@@ -144,59 +143,31 @@ const ProfileUpdateModal = ({
   };
   const currentUserId = userInfo.userId;
 
-  //유저 정보 닫기
+  /** 유저 정보 닫기  */
 
-  // 하드코딩 노가다 시작 userInfoProps.userName
-
-  // 이름, 닉네임, 이메일, 전화번호, 상세주소 값, 소개
+  /** 이름, 닉네임, 이메일, 전화번호, 상세주소 값, 소개  */
   const [nameModal, setNameModal] = useState(userInfoProps.userName);
   const [nickModal, setNickModal] = useState(userInfoProps.userNick);
   const [emailModal, setEmailModal] = useState(userInfoProps.userEmail);
   const [phoneModal, setPhoneModal] = useState(userInfoProps.userPhone);
-  // const [region1, setRegion1] = useState(userInfoProps.region1);
-  // const [region2, setRegion2] = useState(userInfoProps.region2);
-  // const [region3, setRegion3] = useState(userInfoProps.region3);
   const [infoModal, setInfoModal] = useState('');
   const [userPwModal, setUserPwModal] = useState('');
   const [deatilJusoDataModal, setdeatilJusoDataModal] = useState('');
 
-  // 노가다
-  // 이름
-  // useEffect(() => {
-  //   setNameModal(nameContent);
-  // },[nameContent]);
-
-  // 닉네임
-  // useEffect(() => {
-  //   setNickModal(nickContent);
-  // },[nickContent]);
-
-  // 이메일
-  // useEffect(() => {
-  //   setEmailModal(emailContent);
-  // },[emailContent]);
-
-  // 전화번호
-  // useEffect(() => {
-  //   setPhoneModal(phoneContent);
-  // },[phoneContent]);
-
-  // 비밀번호
+  /** 비밀번호 */
   useEffect(() => {
     setUserPwModal(userPwContent);
   }, [userPwContent]);
 
-  // 상세 주소
+  /** 상세 주소 */
   useEffect(() => {
     setdeatilJusoDataModal(deatilJusoContent);
   }, [deatilJusoContent]);
 
-  // 소개
+  /** 소개 */
   useEffect(() => {
     setInfoModal(infoContent);
   }, [infoContent]);
-
-  // 노가다 끝
 
   const navigate = useNavigate('');
 
@@ -233,8 +204,6 @@ const ProfileUpdateModal = ({
       });
   };
 
-  // 하드 코딩 노가다 종료
-
   const { zonecode, address, detailAddress, region1, region2, region3 } =
     userAddrInfo;
 
@@ -249,9 +218,6 @@ const ProfileUpdateModal = ({
       extraAddress: input.jibunAddress,
     }));
     console.log('input', input);
-    // setRegion1(input.sido);
-    // setRegion2(input.sigungu);
-    // setRegion3(input.bname);
   };
 
   return (
@@ -323,7 +289,6 @@ const ProfileUpdateModal = ({
               <button onClick={clickCancel} className="btn__style">
                 취소
               </button>
-              {/* 이파트에 온클릭 들어감 */}
               <button onClick={clickUpdate} className="btn__style">
                 수정
               </button>

@@ -1,4 +1,3 @@
-// import { height } from '@mui/system';
 import React from 'react';
 import ReactDaumPost from 'react-daumpost-hook';
 
@@ -9,7 +8,6 @@ const DaumPostHook = ({
   zonecode,
   detailAddress,
 }) => {
-  // const ref = useRef(null);
   const postConfig = {
     onComplete: (data) => {
       savingAddressInput(data);

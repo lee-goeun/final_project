@@ -174,7 +174,6 @@ const PostContainer = ({
     userImg: '',
   });
 
-  // console.log('boardImgListboardImgList', boardImgList);
 
   const getAuth = async () => {
     try {
@@ -183,7 +182,6 @@ const PostContainer = ({
         method: 'get',
         headers: { 'x-access-token': localStorage.getItem('token') },
       });
-      // console.log(tokenValidationResponse, 'tokenValidResponse');
       userInfoHandler(tokenValidationResponse);
     } catch (error) {
       console.log(error);
@@ -209,18 +207,15 @@ const PostContainer = ({
   const currentUserId = userInfo.userId;
 
   const [showPostMenu, setShowPostMenu] = useState(false);
-  // const [isLike, setIsLike] = useState(false);
   const [commentContent, setCommentContent] = useState();
 
   const commentInput = useRef();
-
-  // const navigate = useNavigate();
 
   const clickGoToCommnet = (e) => {
     commentInput.current.focus();
   };
 
-  // 관심게시물 등록 버튼 클릭시
+  /** 관심게시물 등록 버튼 클릭시 */
   const [isFavoritePost, setIsFavoritePost] = useState(false);
   const clickFavoritePost = () => {
     axios
@@ -238,7 +233,7 @@ const PostContainer = ({
     setIsFavoritePost(!isFavoritePost);
   };
 
-  // 댓글 작성 ENTER 버튼 클릭시
+  /** 댓글 작성 ENTER 버튼 클릭시 */
   const clickCommentEnter = (e) => {
     axios
       .post(`http://localhost:3001/board/comment/${boardId}`, {
@@ -249,7 +244,6 @@ const PostContainer = ({
       .then((res) => {
         console.log(res);
         commentInput.current.value = '';
-        // window.location.replace(`/board/${boardId}`);
       })
       .catch((error) => {
         console.log('댓글작성 에러 : ', error);
@@ -282,7 +276,7 @@ const PostContainer = ({
                 setShowPostMenu(!showPostMenu);
               }}
             />
-            {/* 수정/삭제 모달창 */}
+            {/** 수정/삭제 모달창 */}
             {showPostMenu && (
               <div className="menu-modal-container">{postMenuSection}</div>
             )}
@@ -291,7 +285,7 @@ const PostContainer = ({
             <h3>{boardTitle}</h3>
             {boardContent}
           </div>
-          {/* 보드 좋아요 */}
+          {/** 보드 좋아요 */}
           <div className="pr05">
             <p>
               {postLikeSection}
@@ -403,7 +397,7 @@ const MiniPostContainer = ({ postList, loadingPostList }) => {
   );
 };
 
-// 댓글 API 종합
+/** 댓글 API 종합  */
 const CommentContainer = ({
   userNick,
   userImg = 'https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-user-icon-png-image_1796659.jpg',
@@ -468,13 +462,13 @@ const CommentContainer = ({
         region2: data.region2,
         region3: data.region3,
         userImg: data.userImg,
-        //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
+        /** 필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)  */
       };
     });
   };
   const currentUserId = userInfo.userId;
 
-  // 댓글 삭제 [완료]
+  /** 댓글 삭제 [완료]  */
   const clickDeleteComment = async (e) => {
     await axios
       .delete(`http://localhost:3001/board/comment/${commentId}`, {})
@@ -488,7 +482,7 @@ const CommentContainer = ({
       });
   };
 
-  // 댓글 수정 [값 전달까지는 가능 commentContent값]
+  /** 댓글 수정 [값 전달까지는 가능 commentContent값]  */
   const clickModifyCommentText = async (e) => {
     await axios
       .put(`http://localhost:3001/board/comment/edit/${commentId}`, {
@@ -505,14 +499,14 @@ const CommentContainer = ({
       });
   };
 
-  // 댓글 신고 버튼
+  /** 댓글 신고 버튼  */
   const [showReportCommentModal, setShowReportCommentModal] = useState(false);
 
   const clickReportComment = (e) => {
     setShowReportCommentModal(true);
   };
 
-  // 댓글 신고 [완료]
+  /** 댓글 신고 [완료] */
   const clickReportCommentText = async (e) => {
     await axios
       .post(`http://localhost:3001/board/comment/${reportedUserId}/report`, {
@@ -530,19 +524,12 @@ const CommentContainer = ({
     setShowReportCommentModal(false);
   };
 
-  // const navigate = useNavigate('');
-  // navigate(`/board/${commentId}`);
-
-  // 댓글 좋아요 버튼 클릭시
+  /** 댓글 좋아요 버튼 클릭시 */
   const [isLikeComment, setIsLikeComment] = useState(false);
-  // setIsLikeComment (true)
+  /** setIsLikeComment (true) */
 
-  // const useLikeComment = ()=>{};
 
-  // 댓글 좋아요 처리
-  // useEffect(()=>{
-  //   clickLikeComment()
-  // },[])
+  /** 댓글 좋아요 처리 */
 
   const clickLikeComment = async (e) => {
     await axios
@@ -566,7 +553,7 @@ const CommentContainer = ({
 
   return (
     <>
-      {/* 이용자 이미지 컨테이너 */}
+      {/** 이용자 이미지 컨테이너 */}
       <div className="comment-container">
         <div className="cc01">
           <div className="cc01-img-container">
@@ -643,7 +630,7 @@ const CommentContainer = ({
           </button>
         </div>
       ) : null}
-      {/* 텍스트 값 갖고 오는 곳 */}
+      {/** 텍스트 값 갖고 오는 곳 */}
       {showmodifyCommentModal && (
         <div className="comment-modal--modify">
           <textarea
@@ -674,7 +661,6 @@ const CommentContainer = ({
 };
 
 const PostBackground = ({ postList, loadingPostList, getPostList }) => {
-  // , boardTitle,  추가 필요 위치  boardTitle,
 
   useEffect(
     () => {
@@ -684,13 +670,6 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     [postList],
   );
 
-  // [서성조 추가] 작업 필요함
-
-  // const [postModal, setpostModal] = useState('');
-
-  // useEffect(() => {
-  //   setpostModal(boardTitle);
-  // }, [boardTitle]);
 
   const [showUploadFormModal, setShowUploadFormModal] = useState(false);
   const [boardTitle, setBoardTitle] = useState('');
@@ -707,7 +686,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     uploadDiv.current.style.height = '50px';
   };
 
-  // 게시물 업로드 [정상 완료]
+  /** 게시물 업로드 [정상 완료] */
   const handleChangeFile = (e) => {
     setImgFiles(e.target.files);
     const imageLists = e.target.files;
@@ -724,7 +703,7 @@ const PostBackground = ({ postList, loadingPostList, getPostList }) => {
     setShowImages(imageUrlLists);
   };
 
-  // 게시물 작성시 [정상 완료]
+  /** 게시물 작성시 [정상 완료] */
   const clickPostWrite = (e) => {
     const formData = new FormData();
 

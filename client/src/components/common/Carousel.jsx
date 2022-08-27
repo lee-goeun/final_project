@@ -115,7 +115,7 @@ const Carousel = ({ type, userInfo }) => {
       setTimeoutList(res.data);
     }
   };
-  // timeoutList.length > 5
+  /** timeoutList.length > 5  */
   const settings = {
     dots: false,
     infinite: timeoutList.length > 5,
@@ -175,16 +175,6 @@ const Carousel = ({ type, userInfo }) => {
           </StyledLink>
         );
       })}
-      {/* 레이아웃 체크용 */}
-      {/* {items.map((item) => {
-        return (
-          <ImageContainer>
-            {item.id}
-            <Image src={item.url} />
-            {'남은시간'}
-          </ImageContainer>
-        );
-      })} */}
     </StyledSlider>
   );
 };

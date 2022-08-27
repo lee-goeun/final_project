@@ -197,7 +197,7 @@ const MyLikePostCard = ({ type, userInfo }) => {
   console.log('marektssssssssss', myLikeMarketList);
   console.log('나의 관심게시물 ///', myCollectPostList);
 
-  // 캐로셀 세팅
+  /** 캐로셀 세팅  */
   const settings = {
     slide: 'div',
     dots: true,

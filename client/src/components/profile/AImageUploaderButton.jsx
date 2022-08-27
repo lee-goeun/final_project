@@ -5,7 +5,7 @@ import AProfileFileInput from './AProfileFileInput';
 
 const AImageUploaderButton = () => {
   const dispatch = useDispatch();
-  //이미지 서버 or 백엔드 이미지 처리 라우터로 사
+  // 이미지 서버 or 백엔드 이미지 처리 라우터로 사
   // 진전송 / 비동기처리;
   // const uploadImg = async (event) => {
   //   console.log(event);

@@ -6,16 +6,14 @@ import axios from 'axios';
 const Login = ({ userInfoHandler }) => {
   const navigate = useNavigate();
 
-  const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
-  const userPWRegExp = /^(?=.*[a-zA-Z])(?=.*[#?!@$%^&*-])(?=.*[0-9]).{8,16}$/; // 비밀번호 정규표현식
+  const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; /** 아이디 정규표현식  */
+  const userPWRegExp = /^(?=.*[a-zA-Z])(?=.*[#?!@$%^&*-])(?=.*[0-9]).{8,16}$/; /** 비밀번호 정규표현식  */
 
   const errorText = '올바른 형식이 아닙니다.';
   const [isErrorId, setIsErrorId] = useState(false);
   const [isErrorPw, setIsErrorPw] = useState(false);
   const [userId, setUserId] = useState();
   const [userPw, setUserPw] = useState();
-  // const [userName, setUserName] = useState();
-  // const [userEmail, setUserEmail] = useState();
 
   const [showInput, setShowInput] = useState();
 
@@ -76,19 +74,18 @@ const Login = ({ userInfoHandler }) => {
   const pwInput = useRef();
   const loginBtn = useRef();
 
-  // 이메일 보낼 때 필요한 값
-  // ID 찾기
+  /** ID 찾기  */
   const nameInput = useRef('');
   const idEmailInput = useRef('');
-  // 비밀번호 찾기
+  /** 비밀번호 찾기  */
   const userIdInput = useRef('');
   const pwEmailInput = useRef('');
-  // 인증번호를 활용한 계정 값 변경
-  const userIdReInput = useRef(''); // 임시 킵
+  /** 인증번호를 활용한 계정 값 변경  */
+  const userIdReInput = useRef(''); /** 임시  */
   const pwEmailReInput = useRef('');
-  const certificationInput = useRef(''); // 인증 번호
-  const newPasswordInput = useRef(''); // 새로운 비밀번호
-  const checkPasswordInput = useRef(''); // 비밀번호 체크
+  const certificationInput = useRef(''); /** 인증 번호  */
+  const newPasswordInput = useRef(''); /** 새로운 비밀번호 */
+  const checkPasswordInput = useRef(''); /** 비밀번호 체크 */
 
   const [showFindIdModal, setShowFindIdModal] = useState(false);
 
@@ -101,7 +98,7 @@ const Login = ({ userInfoHandler }) => {
     clickLoginBtn();
   };
 
-  // 아이디 찾기 버튼 클릭시 이벤트 처리
+  /** 아이디 찾기 버튼 클릭시 이벤트 처리  */
   const clickDuplicateCheckBtn1 = async (e) => {
     e.preventDefault();
     console.log(nameInput);
@@ -120,7 +117,7 @@ const Login = ({ userInfoHandler }) => {
       });
   };
 
-  // 비밀번호 찾기 버튼 클릭시 이벤트 처리
+  /** 비밀번호 찾기 버튼 클릭시 이벤트 처리 */
   const clickDuplicateCheckBtn2 = async (e) => {
     e.preventDefault();
     console.log(userIdInput);
@@ -141,8 +138,7 @@ const Login = ({ userInfoHandler }) => {
       });
   };
 
-  // newPw
-  // 비밀번호 찾기 변경 이벤트 처리
+  /** 비밀번호 찾기 변경 이벤트 처리 */
   const clickDuplicateCheckBtn3 = async (e) => {
     e.preventDefault();
     console.log(userIdInput);
@@ -237,7 +233,7 @@ const Login = ({ userInfoHandler }) => {
                     ref={idEmailInput}
                     placeholder="이메일을 입력하세요"
                   />
-                  {/* 디자인 수정 필요 */}
+                  {/** 디자인 수정 필요 */}
                   <button onClick={clickDuplicateCheckBtn1} className="btn__st">
                     아이디 찾기
                   </button>
@@ -256,7 +252,7 @@ const Login = ({ userInfoHandler }) => {
                     ref={pwEmailInput}
                     placeholder="이메일을 입력하세요"
                   />
-                  {/* 디자인 수정 필요 */}
+                  {/** 디자인 수정 필요 */}
                   <button onClick={clickDuplicateCheckBtn2} className="btn__st">
                     비밀번호 찾기
                   </button>
@@ -264,9 +260,9 @@ const Login = ({ userInfoHandler }) => {
               </div>
             </div>
 
-            {/* 비밀번호 찾기 클릭시 나타나는 비번 변경 영역 */}
+            {/** 비밀번호 찾기 클릭시 나타나는 비번 변경 영역 */}
             <div className="pw-change-div">
-              {/* 확인 버튼 */}
+              {/** 확인 버튼 */}
               {showInput ? (
                 <>
                   <p>비밀번호 변경하기</p>

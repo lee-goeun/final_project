@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-// import { getPostList, post } from '../redux/modules/post';
 import axios from 'axios';
 import { getPost } from '../../lib/api';
 
@@ -15,7 +14,7 @@ const ModalWrapperStyle = styled.div`
   }
 `;
 
-// 모달창 배경 (불투명 검은 바탕)
+/** 모달창 배경 (불투명 검은 바탕)  */
 export const ModalWrapper = ({ innerModal }) => {
   return (
     <ModalWrapperStyle>
@@ -24,7 +23,7 @@ export const ModalWrapper = ({ innerModal }) => {
   );
 };
 
-// 일반게시물 신고 모달창
+/** 일반게시물 신고 모달창  */
 export const ReportPostModal = ({
   clickReportPostCancel,
   clickReportPostConfirm,
@@ -52,7 +51,7 @@ export const ReportPostModal = ({
   );
 };
 
-// 일반게시물 수정 모달창
+/** 일반게시물 수정 모달창  */
 export const ModifyPostModal = ({
   clickModifyPostCancel,
   categoryIndex,
@@ -82,7 +81,7 @@ export const ModifyPostModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [boardTitle, boardContent]);
 
-  // 임시 추가
+  /** 임시 추가  */
   useEffect(() => {
     getAuth();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -124,14 +123,13 @@ export const ModifyPostModal = ({
         region2: data.region2,
         region3: data.region3,
         userImg: data.userImg,
-        //필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)
+        /** 필요한 유저 정보 이곳에다가 추가(백엔드 authController에서도 추가해야함)  */
       };
     });
   };
   const currentUserId = userInfo.userId;
 
   // 임시 추가
-
 
   const postModify= async(e)=>{
     console.log(boardId)
@@ -181,7 +179,7 @@ export const ModifyPostModal = ({
 
 
 
-// 일반게시물 삭제 모달창
+/** 일반게시물 삭제 모달창  */
 export const DeletePostModal = ({
   clickDeletePostCancel,
   clickDeletePostConfirm,
@@ -202,13 +200,3 @@ export const DeletePostModal = ({
     />
   );
 };
-
-// export default connect(
-//   ({ post }) => ({
-//     postList: post.postList,
-//     loadingPostList: post.loading.GET_POST_LIST,
-//   }),
-//   {
-//     getPostList,
-//   },
-// )

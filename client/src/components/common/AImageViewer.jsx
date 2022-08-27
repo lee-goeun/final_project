@@ -1,12 +1,5 @@
 import styled from 'styled-components';
 
-// const ImageWrapper = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   max-width: 20rem;
-//   max-height: 20rem;
-// `;
-
 const ImageWrapper = styled.img`
   display: flex;
   align-items: center;

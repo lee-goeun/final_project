@@ -58,7 +58,7 @@ const Join = () => {
 
   const { zonecode, address, detailAddress } = userInfo;
 
-  // 아이디, 비밀번호, 비밀번호 재입력 input의 value값 저장
+  /** 아이디, 비밀번호, 비밀번호 재입력 input의 value값 저장  */
   const [inputId, setInputId] = useState();
   const [inputPw, setInputPw] = useState();
   const [reInputPw, setReInputPw] = useState();
@@ -70,12 +70,12 @@ const Join = () => {
   const [inputSex, setInputSex] = useState();
   const [deatilJusoData, setInputJusoData] = useState('');
 
-  const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; // 아이디 정규표현식
-  const pwRegex = /^(?=.*[a-zA-Z])(?=.*[#?!@$%^&*-])(?=.*[0-9]).{8,16}$/; // 비밀번호 정규표현식
+  const idRegex = /^[a-z][a-zA-Z0-9]{5,15}$/; /** 아이디 정규표현식  */
+  const pwRegex = /^(?=.*[a-zA-Z])(?=.*[#?!@$%^&*-])(?=.*[0-9]).{8,16}$/; /** 비밀번호 정규표현식  */
   const nickRegex = /[가-힣a-zA-Z0-9].{2,12}$/;
   const emailRegex = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
 
-  // 아이디, 비밀번호, 비밀번호 재입력 별 유효성 검사 에러문
+  /** 아이디, 비밀번호, 비밀번호 재입력 별 유효성 검사 에러문 */
   const [idRegErrorText, setIdRegErrorText] = useState(
     '영문자(소문자)로 시작하는 영문자 + 숫자 6~16자리',
   );
@@ -94,16 +94,14 @@ const Join = () => {
 
   const [reCheckPwRegErrorText, setReCheckPwRegErrorText] = useState('');
 
-  // 각 유효성 검사 에러문 텍스트 컬러 변경
+  /** 각 유효성 검사 에러문 텍스트 컬러 변경  */
   const idRegErrorStyle = useRef();
   const pwRegErrorStyle = useRef();
   const reCheckPwRegErrorStyle = useRef();
   const nickRegErrorStyle = useRef();
   const emailRegErrorStyle = useRef();
 
-  // 유효성 시작
-
-  // userId [유저 아이디] <-완료
+  /** userId [유저 아이디] <-완료  */
   const checkUserId = (userId) => {
     const idRegExp = /^[a-z]{1}[a-z0-9]{5,15}$/;
     if (!idRegExp.test(userId)) {
@@ -113,43 +111,42 @@ const Join = () => {
       userId.focus();
       return false;
     }
-    return true; //확인이 완료되었을 때
+    return true;
   };
 
-  // userPw [비밀번호 확인] <- 완료
+  /** userPw [비밀번호 확인] <- 완료 */
   const checkUserPw = (userId, userPw, checkPw) => {
-    // 숫자, 영문자, 특수문자 포함한 8~16자리 유효성 순서 상관없음
+    /** 숫자, 영문자, 특수문자 포함한 8~16자리 유효성 순서 상관없음 */
     const userPWRegExp = /^(?=.*[a-zA-Z])(?=.*[#?!@$%^&*-])(?=.*[0-9]).{8,16}$/;
     if (!userPWRegExp.test(userPw)) {
       alert('숫자, 영문(소·대문자), 특수문자를 포함한 8~16자리를 입력하세요!');
       userPw.focus();
       return false;
     }
-    //비밀번호와 비밀번호 확인이 맞지 않다면.
+    /** 비밀번호와 비밀번호 확인이 맞지 않다면. */
     if (userPw !== checkPw) {
       alert('두 비밀번호가 맞지 않습니다.');
       checkPw.focus();
       return false;
     }
-    //아이디와 비밀번호가 같을 때.
+    /** 아이디와 비밀번호가 같을 때. */
     if (userId === userPw) {
       alert('아이디와 비밀번호는 같을 수 없습니다!');
       checkPw.focus();
       return false;
     }
-    return true; //확인이 완료되었을 때
+    return true;
   };
 
-  // userName [이름 입력 확인] <-완료
+  /**  userName [이름 입력 확인] <-완료 */
   const checkName = (userName) => {
-    // 2~6글자 한글 또는 영문 대소문자 이름
     const nameRegExp = /^[가-힣a-zA-Z]{2,12}$/;
     if (!nameRegExp.test(userName)) {
       alert('한글, 대소문자, 숫자를 조합한 2~12자리로 입력하세요!');
       userName.focus();
       return false;
     }
-    return true; //확인이 완료되었을 때
+    return true;
   };
 
   // userNick [유저 닉네임] <- 완료
@@ -161,7 +158,7 @@ const Join = () => {
       userNick.focus();
       return false;
     }
-    return true; //확인이 완료되었을 때
+    return true;
   };
 
   // userEamil [이메일 입력 확인] <-완료
@@ -173,43 +170,8 @@ const Join = () => {
       userEmail.focus();
       return false;
     }
-    return true; //확인이 완료되었을 때
+    return true;
   };
-
-  // userPhone [핸드폰 번호] <-완료
-  // const checUserPhone = (userPhone) => {
-  //   //핸드폰 번호가 제대로 입력되었는지 확인하기
-  //   const userPhoneRegExp = /^[0-9]{3}[0-9]{4}[0-9]{4}$/;
-  //   if (!userPhoneRegExp.test(userPhone)) {
-  //     alert('핸드폰 번호를 -과 공백 없이 입력해야 합니다!');
-  //     userPhone.focus();
-  //     return false;
-  //   }
-  //   return true; //확인이 완료되었을 때
-  // };
-
-  // address [주소]
-  // const checAddress = (address) => {
-  //   const AddressRegExp = /^[가-힣a-zA-z0-9]{1,20}$/;
-  //   if (!AddressRegExp.test(address)) {
-  //     alert('주소를 입력해야합니다!');
-  //     address.focus();
-  //     return false;
-  //   }
-  //   return true; //확인이 완료되었을 때
-  // };
-
-  // extraAddress [상세주소]
-  // const checExtarAddress = (extraAddress) => {
-  //   const ExtarAddressRegExp =
-  //     /^[가-힣a-zA-z0-9]{2,11}-[가-힣a-zA-z0-9]{2,11}$/;
-  //   if (!ExtarAddressRegExp.test(extraAddress)) {
-  //     alert('상세 주소를 입력해야합니다!');
-  //     extraAddress.focus();
-  //     return false;
-  //   }
-  //   return true; //확인이 완료되었을 때
-  // };
 
   // 유효성 끝
 
@@ -228,7 +190,7 @@ const Join = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputId]);
 
-  // 비밀번호 / 비밀번호 재확인 유효성 검사
+  /**  비밀번호 and 비밀번호 재확인 유효성 검사 */
   useEffect(() => {
     if (inputPw === '' || inputPw === undefined) {
       setPwRegErrorText('숫자, 영문(소·대문자), 특수문자를 포함한 8~16자리');
@@ -241,7 +203,7 @@ const Join = () => {
       pwRegErrorStyle.current.style.color = '#25d039';
     }
 
-    // 비밀번호 재확인
+    /** 비밀번호 재확인 */
     if (reInputPw === '' || reInputPw === undefined) {
       setReCheckPwRegErrorText('');
       reCheckPwRegErrorStyle.current.style.color = '#494949';
@@ -255,7 +217,7 @@ const Join = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputPw, reInputPw]);
 
-  // 닉네임 유효성 검사
+  /** 닉네임 유효성 검사  */
   useEffect(() => {
     if (inputNick === '' || inputNick === undefined) {
       setNickRegErrorText(
@@ -274,7 +236,7 @@ const Join = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputNick]);
 
-  // 이메일 유효성 검사
+  /** 이메일 유효성 검사  */
   useEffect(() => {
     if (inputEmail === '' || inputEmail === undefined) {
       setEmailRegErrorText(
@@ -293,15 +255,15 @@ const Join = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputEmail]);
 
-  // 약관보기 1창 show/hide
+  /** 약관보기 1창 show/hide */
   const [showTou, setShowTou] = useState(false);
 
-  // 약관 동의 체크 버튼
+  /** 약관 동의 체크 버튼 */
   const allTouCheck = useRef();
   const tou1 = useRef();
   const tou2 = useRef();
 
-  // 약관 전체 동의 클릭
+  /** 약관 전체 동의 클릭 */
   const clickAllTouCheck = (e) => {
     if (tou1.current.checked === false || tou2.current.checked === false) {
       tou1.current.checked = true;
@@ -325,7 +287,7 @@ const Join = () => {
     }
   };
 
-  // 아이디 중복확인 버튼
+  /** 아이디 중복확인 버튼  */
   const clickDuplicateCheckBtn1 = async (e) => {
     e.preventDefault();
     console.log(idInput);
@@ -345,7 +307,7 @@ const Join = () => {
       });
   };
 
-  // 닉네임 중복확인 버튼
+  /** 닉네임 중복확인 버튼 */
   const clickDuplicateCheckBtn2 = async (e) => {
     e.preventDefault();
     console.log(nickInput);
@@ -366,9 +328,8 @@ const Join = () => {
       });
   };
 
-  // 이메일 중복확인 버튼
+  /** 이메일 중복확인 버튼  */
   const clickDuplicateCheckBtn3 = async (e) => {
-    // alert('이메일 중복확인');
     e.preventDefault();
     console.log(emailInput);
     await axios
@@ -387,7 +348,7 @@ const Join = () => {
       });
   };
 
-  // 회원가입 동작
+  /** 회원가입 동작  */
   const joinBtn = useRef();
   const clickSubmitBtn = (e) => {
     if (
@@ -404,17 +365,13 @@ const Join = () => {
     ) {
       alert('빈칸이 존재합니다. 빠짐없이 입력해주세요.');
     }
-    // join 유효성 검사
+    /** join 유효성 검사  */
     if (
       checkUserId(inputId) &&
       checkUserPw(inputId, inputPw, reInputPw) &&
       checkName(inputName) &&
       checkNick(inputNick) &&
       checkEmail(inputEmail)
-      // 주소 값 전달 미완
-      // checUserPhone(inputPhone)&&
-      // checAddress(address)&&
-      // checExtarAddress(detailAddress)
     ) {
     }
     axios
@@ -558,7 +515,7 @@ const Join = () => {
           }}
         />
 
-        {/* deatilJusoData */}
+        {/** deatilJusoData */}
         <p>주소</p>
         <DaumPostStyle>
           <DaumPostHook
@@ -675,7 +632,7 @@ const Join = () => {
         </button>
       </div>
 
-      {/* 이용 약관 모달창 */}
+      {/** 이용 약관 모달창 */}
       {showTou ? (
         <div className="tou-modal-wrapper">
           <div ref={touModal} className="tou-modal-container">

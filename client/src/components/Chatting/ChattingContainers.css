@@ -1,4 +1,4 @@
-/* ChattingUserContainers */
+/** ChattingUserContainers */
 .chat-user-list-container {
   width: 300px;
   height: 80px;
@@ -73,7 +73,7 @@
   transform: translateY(-60%);
 }
 
-/* ChattingRoom */
+/** ChattingRoom */
 .chat-room {
   width: 100%;
   height: 100%;
@@ -100,7 +100,7 @@
   border: 1px solid var(--bordercolor-default);
 }
 
-/* ChatBalloon */
+/** ChatBalloon */
 .left-chat-balloon {
   margin: 0px 15px;
   min-width: fit-content;

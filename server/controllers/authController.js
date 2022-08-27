@@ -1,4 +1,4 @@
-var mysql = require('mysql');
+const mysql = require('mysql');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 const { sign, verify } = require('jsonwebtoken');
@@ -127,7 +127,7 @@ exports.auth = (req, res) => {
 
 exports.login = (req, res) => {
   postLoginModel(req)
-    // 여기에 값 넣어야함
+    /** 여기에 값 넣어야함  */
     .then(
       ({
         accessToken,

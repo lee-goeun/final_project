@@ -196,7 +196,7 @@ const MyPostCard = ({ type, userInfo }) => {
   const myPostList = useSelector((state) => state.mypage.postList);
 
   console.log('marektssssssssss', myMarketList, myMatchingList, myPostList);
-  // 캐로셀 세팅
+  /** 캐로셀 세팅  */
   const settings = {
     slide: 'div',
     dots: true,

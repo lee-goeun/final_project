@@ -96,10 +96,10 @@ const initialState = {
   },
 };
 
-//reducer
+/** reducer */
 const mypet = handleActions(
   {
-    //form change write/update
+    /** form change write/update */
     [CHANGE_INPUT]: (state, { payload: { form, name, value } }) =>
       produce(state, (draft) => {
         draft[form][name] = value;
@@ -125,7 +125,7 @@ const mypet = handleActions(
         petId: post.petId,
       },
     }),
-    //api request
+    /** api request */
     [WRITE_POST_SUCCESS]: (state, action) => ({
       ...state,
       loading: {
